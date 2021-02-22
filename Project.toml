@@ -1,0 +1,4 @@
+name = "TRAQUER"
+uuid = "a4b9e496-2cf0-4ec7-bb30-a304f27207c3"
+authors = ["Vincent Laugier <vincent.laugier@gmail.com>"]
+version = "0.1.0"
