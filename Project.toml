@@ -2,3 +2,10 @@ name = "TRAQUER"
 uuid = "a4b9e496-2cf0-4ec7-bb30-a304f27207c3"
 authors = ["Vincent Laugier <vincent.laugier@gmail.com>"]
 version = "0.1.0"
+
+[deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+LibPQ = "194296ae-ab2e-5f79-8cd4-7183a0a5a0d1"
+PostgresqlDAO = "9f278218-a07e-11e9-18c7-113e7cd19c36"
+TimeZones = "f269a46b-ccf7-5d73-abea-4c690281aa53"
