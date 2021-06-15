@@ -1,0 +1,11 @@
+- Aux lignes 49 et 785 sur la colonne R il y a un point-virgule dans la phrase :
+
+"Hospitalisation USIC pour dlr / dyspnée et; recherche facteur favorisant I cardiaque: FA?"
+
+ce qui décale la colonne, il faudrait donc le retirer ou le mettre entre guillemets
+
+
+- Il nous faudrait si possible un format UTF-8
+
+
+- Au numéro d'identifiant 2809348 la DATE_SORTIE_SEJOUR est vide
