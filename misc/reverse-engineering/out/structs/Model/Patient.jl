@@ -1,31 +1,43 @@
 mutable struct Patient <: IPatient 
 
+  patientNameCrypt::Union{Missing,Model.IPatientNameCrypt}
+  patientRefCrypt::Union{Missing,Model.IPatientRefCrypt}
+  patientBirthdateCrypt::Union{Missing,Model.IPatientBirthdateCrypt}
   id::Union{Missing,String}
-  surname::Union{Missing,String}
-  firstname::Union{Missing,String}
+  traquerRef::Union{Missing,Int32}
   gender::Union{Missing,Gender.GENDER}
-  birthdate::Union{Missing,Date}
-  labAnalysiss::Union{Missing,Vector{Model.ILabAnalysis}}
-  fctUnitStaies::Union{Missing,Vector{Model.IFctUnitStay}}
+  infectiousStatuses::Union{Missing,Vector{Model.IInfectiousStatus}}
+  stays::Union{Missing,Vector{Model.IStay}}
+  analyses::Union{Missing,Vector{Model.IAnalysis}}
+  contactContactExposures::Union{Missing,Vector{Model.IContactExposure}}
+  carrierContactExposures::Union{Missing,Vector{Model.IContactExposure}}
 
   Patient(args::NamedTuple) = Patient(;args...)
   Patient(;
+    patientNameCrypt = missing,
+    patientRefCrypt = missing,
+    patientBirthdateCrypt = missing,
     id = missing,
-    surname = missing,
-    firstname = missing,
+    traquerRef = missing,
     gender = missing,
-    birthdate = missing,
-    labAnalysiss = missing,
-    fctUnitStaies = missing,
+    infectiousStatuses = missing,
+    stays = missing,
+    analyses = missing,
+    contactContactExposures = missing,
+    carrierContactExposures = missing,
   ) = (
-    x = new(missing,missing,missing,missing,missing,missing,missing,);
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,);
+    x.patientNameCrypt = patientNameCrypt;
+    x.patientRefCrypt = patientRefCrypt;
+    x.patientBirthdateCrypt = patientBirthdateCrypt;
     x.id = id;
-    x.surname = surname;
-    x.firstname = firstname;
+    x.traquerRef = traquerRef;
     x.gender = gender;
-    x.birthdate = birthdate;
-    x.labAnalysiss = labAnalysiss;
-    x.fctUnitStaies = fctUnitStaies;
+    x.infectiousStatuses = infectiousStatuses;
+    x.stays = stays;
+    x.analyses = analyses;
+    x.contactContactExposures = contactContactExposures;
+    x.carrierContactExposures = carrierContactExposures;
     return x
   )
 

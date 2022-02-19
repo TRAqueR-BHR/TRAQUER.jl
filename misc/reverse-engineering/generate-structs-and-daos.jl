@@ -1,4 +1,10 @@
-using PostgresqlDAO
+using Pkg
+Pkg.activate(".")
+
+# Ajout du chemin vers PostgresORM dans le path de julia
+push!(LOAD_PATH, ENV["PostgresORM_PATH"])
+
+using PostgresORM
 using LibPQ
 
 
@@ -7,7 +13,7 @@ dbconn = begin
    user = "traquer"
    host = "127.0.0.1"
    port = "5432"
-   password = "Root95"
+   password = "toto90"
 
    conn = LibPQ.Connection("host=$(host)
                             port=$(port)
@@ -16,7 +22,7 @@ dbconn = begin
                             password=$(password)
                             "; throw_error=true)
 end
-outdir = "/home/root95/Documents/Traquer/TRAQUER.jl/misc/reverse-engineering/out"
-PostgresqlDAO.Tool.generate_julia_code(dbconn, outdir
-                                       ;module_name_for_all_schemas = "Model")
+out_dir = (@__DIR__) * "/out"
+PostgresORM.Tool.generate_julia_code(dbconn, out_dir
+                                    ;module_name_for_all_schemas = "Model")
 close(dbconn)

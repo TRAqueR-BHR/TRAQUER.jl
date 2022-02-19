@@ -1,0 +1,4 @@
+function createStayIfNotExist end
+function retrieveOneStay end
+function createStay end
+function retrieveOneStayContainingDate end

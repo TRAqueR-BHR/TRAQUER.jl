@@ -1,0 +1,4 @@
+function generateCarrierStatusesForEPC end
+function createInfectiousStatusIfNotExist end
+function generateContactExposures end
+function getInfectiousStatusForListing end

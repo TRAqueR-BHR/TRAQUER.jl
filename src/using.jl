@@ -1,0 +1,16 @@
+@everywhere using TRAQUER
+@everywhere using TRAQUER.TRAQUERUtil
+@everywhere using TRAQUER.Model
+@everywhere using TRAQUER.Enum
+@everywhere using TRAQUER.Controller
+@everywhere using TRAQUER.Controller.PatientCtrl
+@everywhere using TRAQUER.Controller.ETLCtrl
+@everywhere using TRAQUER.Controller.StayCtrl
+@everywhere using TRAQUER.Controller.AnalysisTypeCtrl
+@everywhere using TRAQUER.Controller.AnalysisCtrl
+@everywhere using TRAQUER.Controller.InfectiousStatusCtrl
+@everywhere using TRAQUER.Controller.AppuserCtrl
+@everywhere using TRAQUER.Enum.AppuserType
+@everywhere using TRAQUER.Enum.RoleCodeName
+@everywhere using TRAQUER.Enum.Gender
+@everywhere using TRAQUER.Enum.CarrierContact
