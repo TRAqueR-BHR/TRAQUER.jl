@@ -1,0 +1,8 @@
+misc/reverse-engineering/out/*
+csv/*
+
+logs/*
+!logs/.gitkeep
+
+conf/*
+!conf/.gitkeep
