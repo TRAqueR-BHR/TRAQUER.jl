@@ -17,16 +17,16 @@ mutable struct AppuserRoleAsso <: IAppuserRoleAsso
     id = missing,
     updateTime = missing,
     creationTime = missing,
-  ) = (
-    x = new(missing,missing,missing,missing,missing,missing,missing,);
-    x.lastEditor = lastEditor;
-    x.role = role;
-    x.appuser = appuser;
-    x.creator = creator;
-    x.id = id;
-    x.updateTime = updateTime;
-    x.creationTime = creationTime;
+  ) = begin
+    x = new(missing,missing,missing,missing,missing,missing,missing,)
+    x.lastEditor = lastEditor
+    x.role = role
+    x.appuser = appuser
+    x.creator = creator
+    x.id = id
+    x.updateTime = updateTime
+    x.creationTime = creationTime
     return x
-  )
+  end
 
 end 

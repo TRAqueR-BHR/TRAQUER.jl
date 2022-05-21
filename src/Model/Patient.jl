@@ -1,5 +1,6 @@
 mutable struct Patient <: IPatient 
 
+  currentStatus::Union{Missing,Model.IPatientCurrentStatus}
   patientNameCrypt::Union{Missing,Model.IPatientNameCrypt}
   patientRefCrypt::Union{Missing,Model.IPatientRefCrypt}
   patientBirthdateCrypt::Union{Missing,Model.IPatientBirthdateCrypt}
@@ -14,6 +15,7 @@ mutable struct Patient <: IPatient
 
   Patient(args::NamedTuple) = Patient(;args...)
   Patient(;
+    currentStatus = missing,
     patientNameCrypt = missing,
     patientRefCrypt = missing,
     patientBirthdateCrypt = missing,
@@ -25,20 +27,21 @@ mutable struct Patient <: IPatient
     analyses = missing,
     contactContactExposures = missing,
     carrierContactExposures = missing,
-  ) = (
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,);
-    x.patientNameCrypt = patientNameCrypt;
-    x.patientRefCrypt = patientRefCrypt;
-    x.patientBirthdateCrypt = patientBirthdateCrypt;
-    x.id = id;
-    x.traquerRef = traquerRef;
-    x.gender = gender;
-    x.infectiousStatuses = infectiousStatuses;
-    x.stays = stays;
-    x.analyses = analyses;
-    x.contactContactExposures = contactContactExposures;
-    x.carrierContactExposures = carrierContactExposures;
+  ) = begin
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
+    x.currentStatus = currentStatus
+    x.patientNameCrypt = patientNameCrypt
+    x.patientRefCrypt = patientRefCrypt
+    x.patientBirthdateCrypt = patientBirthdateCrypt
+    x.id = id
+    x.traquerRef = traquerRef
+    x.gender = gender
+    x.infectiousStatuses = infectiousStatuses
+    x.stays = stays
+    x.analyses = analyses
+    x.contactContactExposures = contactContactExposures
+    x.carrierContactExposures = carrierContactExposures
     return x
-  )
+  end
 
 end 

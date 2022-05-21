@@ -4,6 +4,7 @@
 @everywhere using TRAQUER.Enum
 @everywhere using TRAQUER.Controller
 @everywhere using TRAQUER.Controller.PatientCtrl
+@everywhere using TRAQUER.Controller.UnitCtrl
 @everywhere using TRAQUER.Controller.ETLCtrl
 @everywhere using TRAQUER.Controller.StayCtrl
 @everywhere using TRAQUER.Controller.AnalysisTypeCtrl

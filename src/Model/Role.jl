@@ -21,18 +21,18 @@ mutable struct Role <: IRole
     appuserRoleAssoes = missing,
     handlerRoleRoleRoleAssoes = missing,
     handledRoleRoleRoleAssoes = missing,
-  ) = (
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,);
-    x.id = id;
-    x.composed = composed;
-    x.nameFr = nameFr;
-    x.codeName = codeName;
-    x.nameEn = nameEn;
-    x.restrictedToAppuserType = restrictedToAppuserType;
-    x.appuserRoleAssoes = appuserRoleAssoes;
-    x.handlerRoleRoleRoleAssoes = handlerRoleRoleRoleAssoes;
-    x.handledRoleRoleRoleAssoes = handledRoleRoleRoleAssoes;
+  ) = begin
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,)
+    x.id = id
+    x.composed = composed
+    x.nameFr = nameFr
+    x.codeName = codeName
+    x.nameEn = nameEn
+    x.restrictedToAppuserType = restrictedToAppuserType
+    x.appuserRoleAssoes = appuserRoleAssoes
+    x.handlerRoleRoleRoleAssoes = handlerRoleRoleRoleAssoes
+    x.handledRoleRoleRoleAssoes = handledRoleRoleRoleAssoes
     return x
-  )
+  end
 
 end 

@@ -19,17 +19,17 @@ mutable struct Stay <: IStay
     outDateTime = missing,
     inDateTime = missing,
     analyses = missing,
-  ) = (
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,);
-    x.patient = patient;
-    x.unit = unit;
-    x.id = id;
-    x.inDate = inDate;
-    x.hospitalizationDate = hospitalizationDate;
-    x.outDateTime = outDateTime;
-    x.inDateTime = inDateTime;
-    x.analyses = analyses;
+  ) = begin
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,)
+    x.patient = patient
+    x.unit = unit
+    x.id = id
+    x.inDate = inDate
+    x.hospitalizationDate = hospitalizationDate
+    x.outDateTime = outDateTime
+    x.inDateTime = inDateTime
+    x.analyses = analyses
     return x
-  )
+  end
 
 end 

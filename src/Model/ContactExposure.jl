@@ -19,17 +19,17 @@ mutable struct ContactExposure <: IContactExposure
     startTime = missing,
     endTime = missing,
     endDate = missing,
-  ) = (
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,);
-    x.unit = unit;
-    x.contact = contact;
-    x.carrier = carrier;
-    x.id = id;
-    x.startDate = startDate;
-    x.startTime = startTime;
-    x.endTime = endTime;
-    x.endDate = endDate;
+  ) = begin
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,)
+    x.unit = unit
+    x.contact = contact
+    x.carrier = carrier
+    x.id = id
+    x.startDate = startDate
+    x.startTime = startTime
+    x.endTime = endTime
+    x.endDate = endDate
     return x
-  )
+  end
 
 end 

@@ -8,6 +8,7 @@ get_table_name() = "patient"
 # Declare the mapping between the properties and the database columns
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
+  :currentStatus => "current_status_id", 
   :patientNameCrypt => ["name_crypt_id", "lastname_first_letter"], 
   :patientRefCrypt => ["ref_crypt_id", "ref_one_char"], 
   :patientBirthdateCrypt => ["birthdate_crypt_id", "birth_year"], 
@@ -54,6 +55,7 @@ const onetomany_counterparts = Dict(
 # Override the abstract types 
 get_types_override() = return types_override
 const types_override = Dict(
+  :currentStatus => Model.PatientCurrentStatus, 
   :patientNameCrypt => Model.PatientNameCrypt, 
   :patientRefCrypt => Model.PatientRefCrypt, 
   :patientBirthdateCrypt => Model.PatientBirthdateCrypt, 

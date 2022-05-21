@@ -11,13 +11,13 @@ mutable struct AnalysisType <: IAnalysisType
     name = missing,
     codeName = missing,
     analyses = missing,
-  ) = (
-    x = new(missing,missing,missing,missing,);
-    x.id = id;
-    x.name = name;
-    x.codeName = codeName;
-    x.analyses = analyses;
+  ) = begin
+    x = new(missing,missing,missing,missing,)
+    x.id = id
+    x.name = name
+    x.codeName = codeName
+    x.analyses = analyses
     return x
-  )
+  end
 
 end 

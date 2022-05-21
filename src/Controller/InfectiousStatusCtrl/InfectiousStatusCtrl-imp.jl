@@ -26,18 +26,18 @@ function InfectiousStatusCtrl.generateCarrierStatusesForEPC(startDate::Date,
                                                     false, # complex props
                                                     dbconn)
 
-        infectiousStatusType = PostgresORM.retrieve_one_entity(
-            InfectiousStatusType(codeName = "ARB_CPE"),
+        infectionType = PostgresORM.retrieve_one_entity(
+            InfectionType(codeName = "ARB_CPE"),
             false,
             dbconn)
-        if ismissing(infectiousStatusType)
-            error("Missing an entry in table infectious_status_type for ARB_CPE")
+        if ismissing(infectionType)
+            error("Missing an entry in table infection_type for ARB_CPE")
         end
 
         for a in analyses
             infectiousStatusFilter =
                 InfectiousStatus(patient = a.patient,
-                                 type = infectiousStatusType,
+                                 type = infectionType,
                                  carrierContact = CarrierContact.carrier,
                                  refTime = a.requestDateTime)
             existingInfectiousStatus =
@@ -167,7 +167,7 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
         FROM public.infectious_status _is
         INNER JOIN patient p
           ON p.id = _is.patient_id
-        INNER JOIN infectious_status_type ist
+        INNER JOIN infection_type ist
           ON ist.id = _is.type_id
     "
 
@@ -300,14 +300,15 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
                   p.birthdate_crypt_id AS birth_year,
                   _is.ref_time AS ref_time,
                   _is.carrier_contact AS carrier_contact,
-                  ist.code_name AS infectious_status_type_code_name,
-                  ist.name_fr AS infectious_status_type_name_fr,
-                  ist.name_en AS infectious_status_type_name_en")
+                  ist.code_name AS infection_type_code_name,
+                  ist.name_fr AS infection_type_name_fr,
+                  ist.name_en AS infection_type_name_en")
 
     # Add some columns for the decrypted values
     if !ismissing(cryptPwd)
         queryString *= "
-            ,pgp_sym_decrypt(pbc.birthdate_crypt, \$1) AS birth_date
+            ,pgp_sym_decrypt(pbc.birthdate_crypt, \$1) AS birthdate
+            ,pgp_sym_decrypt(pnc.firstname_crypt, \$1) AS firstname
             ,pgp_sym_decrypt(pnc.lastname_crypt, \$1) AS lastname
         "
     end

@@ -1,19 +1,17 @@
 
-data_type = Model.InfectiousStatus
-PostgresORM.get_orm(x::Model.InfectiousStatus) = return(ORM.InfectiousStatusORM)
+data_type = Model.Outbreak
+PostgresORM.get_orm(x::Model.Outbreak) = return(ORM.OutbreakORM)
 get_schema_name() = "public"
-get_table_name() = "infectious_status"
+get_table_name() = "outbreak"
 
 
 # Declare the mapping between the properties and the database columns
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
-  :patient => "patient_id", 
   :id => "id", 
-  :creationTime => "creation_time", 
-  :infectiousStatusType => "infectious_status_type", 
-  :refTime => "ref_time", 
-  :infectiousAgent => "infectious_agent", 
+  :name => "name", 
+  :startDate => "start_date", 
+  :endDate => "end_date", 
 )
 
 
@@ -26,7 +24,7 @@ const onetomany_counterparts = Dict(
 
   :outbreakInfectiousStatusAssoes => (
     data_type = Model.OutbreakInfectiousStatusAsso, # The struct where the associated manytoone property is
-    property = :infectiousStatus, # The name of the associated manytoone property
+    property = :outbreak, # The name of the associated manytoone property
     action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
 
 )
@@ -34,7 +32,6 @@ const onetomany_counterparts = Dict(
 # Override the abstract types 
 get_types_override() = return types_override
 const types_override = Dict(
-  :patient => Model.Patient, 
   :outbreakInfectiousStatusAssoes => Vector{Model.OutbreakInfectiousStatusAsso}, 
 
 )

@@ -1,15 +1,15 @@
 module TRAQUER
 
 """
-  greet() 
+  greet()
 
 A function that says hello
 """
-function greet() 
+function greet()
   @info "Hello"
 end
 
-function greet(str::String) 
+function greet(str::String)
   @info "Hello $str"
 end
 
@@ -29,10 +29,11 @@ end # module TRAQUERUtil
 module Model
     export Patient, Unit, Stay, Analysis, PatientBirthdateCrypt,
            PatientNameCrypt, AnalysisType, PatientRefCrypt, AnalysisRefCrypt,
-           InfectiousStatus,InfectiousStatusType, Appuser, Role, AppuserRoleAsso,
-           RoleRoleAsso
+           InfectiousStatus,InfectionType, Appuser, Role, AppuserRoleAsso,
+           RoleRoleAsso, Outbreak, OutbreakInfectiousStatusAsso
     using PostgresORM,TimeZones,..Enum.Gender, ..Enum.CarrierContact,
-          ..Enum.AppuserType, ..Enum.RoleCodeName
+          ..Enum.AppuserType, ..Enum.RoleCodeName, ..Enum.InfectiousStatusType,
+          ..Enum.HospitalizationStatusType, ..Enum.InfectiousAgentCodeName
     include("Model/abstract-types.jl")
     include("Model/Unit.jl")
     include("Model/Stay.jl")
@@ -44,15 +45,18 @@ module Model
     include("Model/PatientRefCrypt.jl")
     include("Model/Patient.jl")
     include("Model/InfectiousStatus.jl")
-    include("Model/InfectiousStatusType.jl")
+    include("Model/InfectionType.jl")
     include("Model/Patient.jl")
     include("Model/InfectiousStatus.jl")
-    include("Model/InfectiousStatusType.jl")
+    include("Model/InfectionType.jl")
     include("Model/ContactExposure.jl")
     include("Model-protected/Appuser.jl")
     include("Model/Role.jl")
     include("Model/AppuserRoleAsso.jl")
     include("Model/RoleRoleAsso.jl")
+    include("Model/Outbreak.jl")
+    include("Model/PatientCurrentStatus.jl")
+    include("Model/OutbreakInfectiousStatusAsso.jl")
 end  # module Model
 
 module ORM
@@ -102,15 +106,20 @@ module ORM
     using PostgresORM
     include("./ORM/PatientORM.jl")
   end
+  module PatientCurrentStatusORM
+    using ..ORM, ...Model
+    using PostgresORM
+    include("./ORM/PatientCurrentStatusORM.jl")
+  end
   module InfectiousStatusORM
     using ..ORM, ...Model
     using PostgresORM
     include("./ORM/InfectiousStatusORM.jl")
   end
-  module InfectiousStatusTypeORM
+  module InfectionTypeORM
     using ..ORM, ...Model
     using PostgresORM
-    include("./ORM/InfectiousStatusTypeORM.jl")
+    include("./ORM/InfectionTypeORM.jl")
   end
   module ContactExposureORM
     using ..ORM, ...Model
@@ -137,6 +146,16 @@ module ORM
     using ..ORM, ...Model
     using PostgresORM
     include("./ORM/RoleRoleAssoORM.jl")
+  end
+  module OutbreakORM
+    using ..ORM, ...Model
+    using PostgresORM
+    include("./ORM/OutbreakORM.jl")
+  end
+  module OutbreakInfectiousStatusAssoORM
+    using ..ORM, ...Model
+    using PostgresORM
+    include("./ORM/OutbreakInfectiousStatusAssoORM.jl")
   end
 
 end  # module ORM
@@ -196,6 +215,7 @@ include("Controller/default-crud-imp.jl")
 include("TRAQUERUtil/util-imp.jl")
 include("TRAQUERUtil/util-imp-partition.jl")
 include("TRAQUERUtil/utils-impl-ref-generation.jl")
+include("TRAQUERUtil/do-functions.jl")
 
 # AppuserCtrl
 include("Controller/AppuserCtrl/AppuserCtrl-imp.jl")

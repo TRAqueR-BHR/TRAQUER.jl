@@ -62,48 +62,42 @@ end
 
 with_logger(to_file_and_console_logger) do
 
-  @show "test log"
+    @show "test log"
 
-  # Reference:
-  # https://github.com/JuliaWeb/JuliaWebAPI.jl/issues/73
+    # Reference:
+    # https://github.com/JuliaWeb/JuliaWebAPI.jl/issues/73
 
-  # Source the following file when it has been changed or that something in the
-  #   module used by the API has changed.
-  # NOTE: Do not restart Mux.serve()
+    # Source the following file when it has been changed or that something in the
+    #   module used by the API has changed.
+    # NOTE: Do not restart Mux.serve()
 
-  @everywhere include("web-api-definition.jl")
+    @everywhere include("web-api-definition.jl")
 
-  # WebSocket server
-  @everywhere function websocket_example(x)
-      sock = x[:socket]
-      while !eof(sock)
-          str = String(read(sock))
-          println("Received data: " * str)
-          write(sock, "Hey, I've received " * str)
-      end
-  end
+    # WebSocket server
+    @everywhere function websocket_example(x)
+        sock = x[:socket]
+        while !eof(sock)
+            str = String(read(sock))
+            println("Received data: " * str)
+            write(sock, "Hey, I've received " * str)
+        end
+    end
 
-  @app w = (
-    Mux.wdefaults,
-    route("/ws_io", websocket_example),
-    Mux.wclose,
-    Mux.notfound()
-  );
+    @app w = (
+        Mux.wdefaults,
+        route("/ws_io", websocket_example),
+        Mux.wclose,
+        Mux.notfound()
+    );
 
-  for i in 1:nprocs()
-    # Start the server (only once per julia session)
-    @spawnat i Mux.serve(web_api,w, Mux.localhost, 8093
-             ;reuseaddr = true)
-  end
 
-  # Mux.serve(web_api, Mux.localhost, 8082
-  #          ;reuseaddr = true)
+    Mux.serve(web_api,w, Mux.localhost, 8093 ;reuseaddr = true)
 
-  # Mux.serve(web_api, 8084)
-  # Mux.serve(Merchm  gt.WebApi.web_api, 8082) # works but Revise does not work on it
+    # Mux.serve(web_api, 8084)
+    # Mux.serve(Merchm  gt.WebApi.web_api, 8082) # works but Revise does not work on it
 
-  # The following is commented out because we want to have access to the REPL
-  # Base.JLOptions().isinteractive == 0 && wait()
+    # The following is commented out because we want to have access to the REPL
+    # Base.JLOptions().isinteractive == 0 && wait()
 
 end # with_logger
 

@@ -13,14 +13,14 @@ mutable struct Unit <: IUnit
     codeName = missing,
     stays = missing,
     contactExposures = missing,
-  ) = (
-    x = new(missing,missing,missing,missing,missing,);
-    x.id = id;
-    x.name = name;
-    x.codeName = codeName;
-    x.stays = stays;
-    x.contactExposures = contactExposures;
+  ) = begin
+    x = new(missing,missing,missing,missing,missing,)
+    x.id = id
+    x.name = name
+    x.codeName = codeName
+    x.stays = stays
+    x.contactExposures = contactExposures
     return x
-  )
+  end
 
 end 

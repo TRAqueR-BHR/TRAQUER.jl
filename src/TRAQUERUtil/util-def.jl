@@ -30,6 +30,7 @@ function removeDoubleSpaces end
 function removeDoubleLineReturns end
 function formatExceptionAndStackTrace end
 function formatExceptionAndStackTraceCore end
+function updateConf end
 function getTimezone end
 function getTimezoneAsStr end
 function string2enum end
@@ -42,3 +43,7 @@ function getCurrentFrontendVersion end
 function json2Entity end
 
 function extractCryptPwdFromHTTPRequest end
+
+function createDBConnAndExecute end
+function createDBConnAndExecuteWithTransaction end
+function executeOnWorkerTwoOrHigher end

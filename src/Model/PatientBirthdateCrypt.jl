@@ -11,13 +11,13 @@ mutable struct PatientBirthdateCrypt <: IPatientBirthdateCrypt
     year = missing,
     birthdateCrypt = missing,
     patients = missing,
-  ) = (
-    x = new(missing,missing,missing,missing,);
-    x.id = id;
-    x.year = year;
-    x.birthdateCrypt = birthdateCrypt;
-    x.patients = patients;
+  ) = begin
+    x = new(missing,missing,missing,missing,)
+    x.id = id
+    x.year = year
+    x.birthdateCrypt = birthdateCrypt
+    x.patients = patients
     return x
-  )
+  end
 
 end 

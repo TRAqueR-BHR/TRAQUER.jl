@@ -19,17 +19,17 @@ mutable struct Analysis <: IAnalysis
     requestDateTime = missing,
     sampleType = missing,
     resultValue = missing,
-  ) = (
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,);
-    x.patient = patient;
-    x.stay = stay;
-    x.analysisRefCrypt = analysisRefCrypt;
-    x.analysisType = analysisType;
-    x.id = id;
-    x.requestDateTime = requestDateTime;
-    x.sampleType = sampleType;
-    x.resultValue = resultValue;
+  ) = begin
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,)
+    x.patient = patient
+    x.stay = stay
+    x.analysisRefCrypt = analysisRefCrypt
+    x.analysisType = analysisType
+    x.id = id
+    x.requestDateTime = requestDateTime
+    x.sampleType = sampleType
+    x.resultValue = resultValue
     return x
-  )
+  end
 
 end 

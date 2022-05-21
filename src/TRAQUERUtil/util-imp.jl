@@ -37,6 +37,22 @@ function TRAQUERUtil.getTimezone()
     TimeZones.TimeZone(TRAQUERUtil.getTimezoneAsStr())
 end
 
+"""
+
+    updateConf()::Bool
+
+Update Medilegist.translation singleton
+
+"""
+function TRAQUERUtil.updateConf()::Bool
+
+    # NOTE: It would be easier to do `parse_conf!(Medilegist.translation)` but this errors
+    #        with SystemError: seek: Illegal seek
+    conf = TRAQUERUtil.loadConf()
+    ConfParser.merge!(TRAQUER.config,conf)
+
+end
+
 function TRAQUERUtil.openDBConn()
     database = TRAQUERUtil.getConf("database","database")
     user = TRAQUERUtil.getConf("database","user")

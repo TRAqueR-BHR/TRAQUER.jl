@@ -11,13 +11,13 @@ mutable struct AnalysisRefCrypt <: IAnalysisRefCrypt
     oneChar = missing,
     refCrypt = missing,
     analyses = missing,
-  ) = (
-    x = new(missing,missing,missing,missing,);
-    x.id = id;
-    x.oneChar = oneChar;
-    x.refCrypt = refCrypt;
-    x.analyses = analyses;
+  ) = begin
+    x = new(missing,missing,missing,missing,)
+    x.id = id
+    x.oneChar = oneChar
+    x.refCrypt = refCrypt
+    x.analyses = analyses
     return x
-  )
+  end
 
 end 

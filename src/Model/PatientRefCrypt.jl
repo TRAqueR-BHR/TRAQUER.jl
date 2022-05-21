@@ -11,13 +11,13 @@ mutable struct PatientRefCrypt <: IPatientRefCrypt
     oneChar = missing,
     refCrypt = missing,
     patients = missing,
-  ) = (
-    x = new(missing,missing,missing,missing,);
-    x.id = id;
-    x.oneChar = oneChar;
-    x.refCrypt = refCrypt;
-    x.patients = patients;
+  ) = begin
+    x = new(missing,missing,missing,missing,)
+    x.id = id
+    x.oneChar = oneChar
+    x.refCrypt = refCrypt
+    x.patients = patients
     return x
-  )
+  end
 
 end 

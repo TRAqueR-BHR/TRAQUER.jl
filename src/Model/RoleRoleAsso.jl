@@ -9,12 +9,12 @@ mutable struct RoleRoleAsso <: IRoleRoleAsso
     handlerRole = missing,
     handledRole = missing,
     id = missing,
-  ) = (
-    x = new(missing,missing,missing,);
-    x.handlerRole = handlerRole;
-    x.handledRole = handledRole;
-    x.id = id;
+  ) = begin
+    x = new(missing,missing,missing,)
+    x.handlerRole = handlerRole
+    x.handledRole = handledRole
+    x.id = id
     return x
-  )
+  end
 
 end 

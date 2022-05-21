@@ -1,29 +1,32 @@
 mutable struct InfectiousStatus <: IInfectiousStatus 
 
   patient::Union{Missing,Model.IPatient}
-  type::Union{Missing,Model.IInfectiousStatusType}
   id::Union{Missing,String}
   creationTime::Union{Missing,ZonedDateTime}
-  carrierContact::Union{Missing,CarrierContact.CARRIER_CONTACT}
+  infectiousStatusType::Union{Missing,InfectiousStatusType.INFECTIOUS_STATUS_TYPE}
   refTime::Union{Missing,ZonedDateTime}
+  infectiousAgent::Union{Missing,InfectiousAgentCodeName.INFECTIOUS_AGENT_CODE_NAME}
+  outbreakInfectiousStatusAssoes::Union{Missing,Vector{Model.IOutbreakInfectiousStatusAsso}}
 
   InfectiousStatus(args::NamedTuple) = InfectiousStatus(;args...)
   InfectiousStatus(;
     patient = missing,
-    type = missing,
     id = missing,
     creationTime = missing,
-    carrierContact = missing,
+    infectiousStatusType = missing,
     refTime = missing,
-  ) = (
-    x = new(missing,missing,missing,missing,missing,missing,);
-    x.patient = patient;
-    x.type = type;
-    x.id = id;
-    x.creationTime = creationTime;
-    x.carrierContact = carrierContact;
-    x.refTime = refTime;
+    infectiousAgent = missing,
+    outbreakInfectiousStatusAssoes = missing,
+  ) = begin
+    x = new(missing,missing,missing,missing,missing,missing,missing,)
+    x.patient = patient
+    x.id = id
+    x.creationTime = creationTime
+    x.infectiousStatusType = infectiousStatusType
+    x.refTime = refTime
+    x.infectiousAgent = infectiousAgent
+    x.outbreakInfectiousStatusAssoes = outbreakInfectiousStatusAssoes
     return x
-  )
+  end
 
 end 

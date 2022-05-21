@@ -9,12 +9,12 @@ mutable struct FrontendVersion <: IFrontendVersion
     id = missing,
     name = missing,
     forceReloadIfDifferentVersion = missing,
-  ) = (
-    x = new(missing,missing,missing,);
-    x.id = id;
-    x.name = name;
-    x.forceReloadIfDifferentVersion = forceReloadIfDifferentVersion;
+  ) = begin
+    x = new(missing,missing,missing,)
+    x.id = id
+    x.name = name
+    x.forceReloadIfDifferentVersion = forceReloadIfDifferentVersion
     return x
-  )
+  end
 
 end 

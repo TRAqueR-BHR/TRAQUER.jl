@@ -17,16 +17,16 @@ mutable struct PatientNameCrypt <: IPatientNameCrypt
     firstnameForCpCrypt = missing,
     lastnameCrypt = missing,
     patients = missing,
-  ) = (
-    x = new(missing,missing,missing,missing,missing,missing,missing,);
-    x.id = id;
-    x.lastnameFirstLetter = lastnameFirstLetter;
-    x.firstnameCrypt = firstnameCrypt;
-    x.lastnameForCpCrypt = lastnameForCpCrypt;
-    x.firstnameForCpCrypt = firstnameForCpCrypt;
-    x.lastnameCrypt = lastnameCrypt;
-    x.patients = patients;
+  ) = begin
+    x = new(missing,missing,missing,missing,missing,missing,missing,)
+    x.id = id
+    x.lastnameFirstLetter = lastnameFirstLetter
+    x.firstnameCrypt = firstnameCrypt
+    x.lastnameForCpCrypt = lastnameForCpCrypt
+    x.firstnameForCpCrypt = firstnameForCpCrypt
+    x.lastnameCrypt = lastnameCrypt
+    x.patients = patients
     return x
-  )
+  end
 
 end 

@@ -30,19 +30,25 @@ ETLCtrl.importAnalyses(df,getDefaultEncryptionStr())
 # ######### #
 
 # Stays
-dfStays = DataFrame(XLSX.readtable("csv/prod/dxcare.xlsx",
-                              1)...)
-minimum(dfStays.DATE_ENTREE_MVT) # "01/07/2021"
-maximum(dfStays.DATE_ENTREE_MVT) # "31/10/2021"
+dfStays = DataFrame(XLSX.readtable("csv/prod/dxcare-2022-02-24.xlsx",
+1)...)
+dfStays.DATE_ENTREE_MVT = Date.(dfStays.DATE_ENTREE_MVT,DateFormat("d/m/y"))
+minimum(dfStays.DATE_ENTREE_MVT) # "2021-06-21"
+maximum(dfStays.DATE_ENTREE_MVT) # "2022-02-24"
+
 
 # ETLCtrl.importStays(dfStays[20300:end,:],getDefaultEncryptionStr())
 
 
 # Analyses
-dfAnalyses = DataFrame(XLSX.readtable("csv/prod/inlog.xlsx",
+dfAnalyses = DataFrame(XLSX.readtable("csv/prod/inlog-2022-02-24.xlsx",
                               1)...)
-minimum(dfAnalyses.DATE_DEMANDE) # "01/01/2020"
-maximum(dfAnalyses.DATE_DEMANDE) # "31/12/2020"
+println(names(dfAnalyses))
+dfAnalyses.DATE_DEMANDE = Date.(dfAnalyses.DATE_DEMANDE,DateFormat("d/m/y"))
+minimum(dfAnalyses.DATE_DEMANDE) # 2020-01-01
+maximum(dfAnalyses.DATE_DEMANDE) # 2022-02-24
+
+unique(dfAnalyses.BILAN) # "ATB2", "PREPC", "PRVRE"
 
 ETLCtrl.importAnalyses(dfAnalyses,
     getDefaultEncryptionStr()
