@@ -1,4 +1,4 @@
-misc/reverse-engineering/out/*
+scripts/reverse-engineering/*
 csv/*
 
 logs/*
@@ -6,3 +6,6 @@ logs/*
 
 conf/*
 !conf/.gitkeep
+
+docs/build/*
+

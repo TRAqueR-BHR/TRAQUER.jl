@@ -1,7 +1,10 @@
-delete from analysis;
-delete from stay;
-delete from patient;
-delete from patient_birthdate_crypt;
-delete from patient_name_crypt;
-delete from patient_ref_crypt;
-delete from analysis_ref_crypt;
+DELETE FROM analysis_result;
+DELETE FROM infectious_status;
+DELETE FROM stay;
+DELETE FROM patient;
+DELETE FROM patient_birthdate_crypt;
+DELETE FROM patient_name_crypt;
+DELETE FROM patient_ref_crypt;
+DELETE FROM analysis_ref_crypt;
+DELETE FROM unit;
+DELETE FROM contact_exposure;
