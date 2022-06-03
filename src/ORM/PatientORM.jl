@@ -25,6 +25,11 @@ get_id_props() = return [:id,]
 get_onetomany_counterparts() = return onetomany_counterparts
 const onetomany_counterparts = Dict(
 
+  :analysisResults => (
+    data_type = Model.AnalysisResult, # The struct where the associated manytoone property is
+    property = :patient, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
+
   :infectiousStatuses => (
     data_type = Model.InfectiousStatus, # The struct where the associated manytoone property is
     property = :patient, # The name of the associated manytoone property
@@ -32,11 +37,6 @@ const onetomany_counterparts = Dict(
 
   :stays => (
     data_type = Model.Stay, # The struct where the associated manytoone property is
-    property = :patient, # The name of the associated manytoone property
-    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
-
-  :analyses => (
-    data_type = Model.Analysis, # The struct where the associated manytoone property is
     property = :patient, # The name of the associated manytoone property
     action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
 
@@ -59,9 +59,9 @@ const types_override = Dict(
   :patientNameCrypt => Model.PatientNameCrypt, 
   :patientRefCrypt => Model.PatientRefCrypt, 
   :patientBirthdateCrypt => Model.PatientBirthdateCrypt, 
+  :analysisResults => Vector{Model.AnalysisResult}, 
   :infectiousStatuses => Vector{Model.InfectiousStatus}, 
   :stays => Vector{Model.Stay}, 
-  :analyses => Vector{Model.Analysis}, 
   :contactContactExposures => Vector{Model.ContactExposure}, 
   :carrierContactExposures => Vector{Model.ContactExposure}, 
 

@@ -12,15 +12,13 @@ const columns_selection_and_mapping = Dict(
   :contact => "contact_id", 
   :carrier => "carrier_id", 
   :id => "id", 
-  :startDate => "start_date", 
   :startTime => "start_time", 
   :endTime => "end_time", 
-  :endDate => "end_date", 
 )
 
 
 # Declare which properties are used to uniquely identify an object
-get_id_props() = return [:id,:startDate,]
+get_id_props() = return [:id,:startTime,]
 
 # Associate the onetomany properties to the corresponding manytoone peroperties in the other classes 
 get_onetomany_counterparts() = return onetomany_counterparts

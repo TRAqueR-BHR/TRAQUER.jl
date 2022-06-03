@@ -2,7 +2,7 @@
 using PostgresORM,  LibPQ, TimeZones, Dates, ConfParser, Unicode, StringCases
 using ..TRAQUER, ..TRAQUERUtil
 using Base.StackTraces
-using ..Controller.AnalysisCtrl,..Controller.StayCtrl,
+using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
       ..Controller.PatientCtrl, ..Controller.InfectiousStatusCtrl
 using DataFrames
 using ..Controller.ETLCtrl,..Controller.StayCtrl
@@ -15,12 +15,15 @@ using ..Controller.UnitCtrl
 using PostgresORM,  LibPQ, TimeZones, Dates, ConfParser, Unicode, StringCases
 using ..TRAQUER, ..TRAQUERUtil
 using Base.StackTraces
-using ..Controller.AnalysisCtrl,..Controller.StayCtrl,
-      ..Controller.PatientCtrl, ..Controller.AnalysisTypeCtrl,
+using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
+      ..Controller.PatientCtrl,
       ..Controller.InfectiousStatusCtrl, ..Controller.AppuserCtrl,
+      ..Controller.ContactExposureCtrl,
       ..Model
 using DataFrames
-using ..Enum.CarrierContact, ..Enum.AppuserType, ..Enum.RoleCodeName
+using ..Enum.AnalysisResultValueType, ..Enum.AppuserType, ..Enum.AnalysisRequestType,
+      ..Enum.Gender, ..Enum.HospitalizationStatusType, ..Enum.SampleMaterialType,
+      ..Enum.InfectiousStatusType, ..Enum.InfectiousAgentCategory, ..Enum.RoleCodeName
 using JWTs
 using Missings
 using Distributed

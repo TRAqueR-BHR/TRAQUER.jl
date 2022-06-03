@@ -15,7 +15,8 @@ function createPartitionPatientBirthdateIfNotExist end
 function createPartitionPatientNameIfNotExist end
 function createPartitionAnalysisRefIfNotExist end
 function createPartitionStayIfNotExist end
-function createPartitionAnalysisIfNotExist end
+function createPartitionAnalysisResultIfNotExist end
+function createPartitionContactExposureIfNotExist end
 function getTablePartitionNameOnYearMonth end
 function createTablePartitionOnYearMonth end
 function createTablePartitionsOnYearMonthForGivenYear end
@@ -47,3 +48,6 @@ function extractCryptPwdFromHTTPRequest end
 function createDBConnAndExecute end
 function createDBConnAndExecuteWithTransaction end
 function executeOnWorkerTwoOrHigher end
+
+function getOrganizationCustomModuleName end
+function getOrganizationCustomModule end

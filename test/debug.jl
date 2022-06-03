@@ -124,8 +124,8 @@ str="23:59"
 Time(str, DateFormat("HH:MM"))
 
 
-query = "select * from fct_unit_stay where between fct_unit_stay.in_date_time
-         and fct_unit_stay.out_date_time =\$1"
+query = "select * from fct_unit_stay where between fct_unit_stay.in_time
+         and fct_unit_stay.out_time =\$1"
 args = [dateHeureDemande]
 
 PostgresORM.Controller.execute_query_and_handle_result(query,Patient, args,
@@ -158,7 +158,7 @@ unit = PostgresORM.retrieve_one_entity(Unit(id = "0d1311c9-f950-4d5b-b601-ca1631
                                           dbconn)
 stay = Stay(patient = patient, unit = unit,
             inDate = Date("2021-01-01"),
-            inDateTime = ZonedDateTime(DateTime("2021-01-01T08:00:00"),tz"Europe/Paris") )
+            inTime = ZonedDateTime(DateTime("2021-01-01T08:00:00"),tz"Europe/Paris") )
 PostgresORM.create_entity!(stay,dbconn)
 
 analysis = Analysis(stay = stay, patient = patient,
@@ -241,3 +241,6 @@ PatientCtrl.createCryptedPatientName(
     "TOKOTOKO",
     getDefaultEncryptionStr(),
     dbconn)
+
+
+    intersect

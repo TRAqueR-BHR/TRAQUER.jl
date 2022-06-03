@@ -2,27 +2,30 @@ mutable struct InfectiousStatus <: IInfectiousStatus
 
   patient::Union{Missing,Model.IPatient}
   id::Union{Missing,String}
-  creationTime::Union{Missing,ZonedDateTime}
-  infectiousStatusType::Union{Missing,InfectiousStatusType.INFECTIOUS_STATUS_TYPE}
+  isCurrent::Union{Missing,Bool}
+  infectiousStatus::Union{Missing,InfectiousStatusType.INFECTIOUS_STATUS_TYPE}
+  isConfirmed::Union{Missing,Bool}
   refTime::Union{Missing,ZonedDateTime}
-  infectiousAgent::Union{Missing,InfectiousAgentCodeName.INFECTIOUS_AGENT_CODE_NAME}
+  infectiousAgent::Union{Missing,InfectiousAgentCategory.INFECTIOUS_AGENT_CATEGORY}
   outbreakInfectiousStatusAssoes::Union{Missing,Vector{Model.IOutbreakInfectiousStatusAsso}}
 
   InfectiousStatus(args::NamedTuple) = InfectiousStatus(;args...)
   InfectiousStatus(;
     patient = missing,
     id = missing,
-    creationTime = missing,
-    infectiousStatusType = missing,
+    isCurrent = missing,
+    infectiousStatus = missing,
+    isConfirmed = missing,
     refTime = missing,
     infectiousAgent = missing,
     outbreakInfectiousStatusAssoes = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,)
     x.patient = patient
     x.id = id
-    x.creationTime = creationTime
-    x.infectiousStatusType = infectiousStatusType
+    x.isCurrent = isCurrent
+    x.infectiousStatus = infectiousStatus
+    x.isConfirmed = isConfirmed
     x.refTime = refTime
     x.infectiousAgent = infectiousAgent
     x.outbreakInfectiousStatusAssoes = outbreakInfectiousStatusAssoes

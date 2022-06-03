@@ -37,6 +37,24 @@ function TRAQUERUtil.getTimezone()
     TimeZones.TimeZone(TRAQUERUtil.getTimezoneAsStr())
 end
 
+function TRAQUERUtil.getOrganizationCustomModuleName()
+    TRAQUERUtil.getConf("custom","module_name")
+end
+
+function TRAQUERUtil.getOrganizationCustomModule()
+    moduleName = TRAQUERUtil.getOrganizationCustomModuleName()
+    if moduleName == "CHTNoumea"
+        return Custom.CHTNoumea
+    elseif moduleName == "CHUBrest"
+        return Custom.CHUBrest
+    elseif moduleName == "Demo"
+        return Custom.Demo
+    else
+        error("Missing module[$moduleName]")
+    end
+end
+
+
 """
 
     updateConf()::Bool
@@ -265,6 +283,11 @@ end
 function TRAQUERUtil.string2enum(enumType::DataType, str::String)
     PostgresORM.PostgresORMUtil.string2enum(enumType, str)
 end
+
+function TRAQUERUtil.string2enum(enumType::DataType, str::Missing)
+    return missing
+end
+
 
 function TRAQUERUtil.initialize_http_response_status_code(req)
     # The status code is by default 200 and we look if a filter wants

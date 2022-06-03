@@ -92,7 +92,7 @@ function PatientCtrl.createCryptedPatientName(firstname::String,
                          firstname,
                          firstname_forCp,
                          ]
-     @info insertQueryArgs
+
       patientNameCrypt =
           PostgresORM.execute_query_and_handle_result(insertQueryStr,
                                                       PatientNameCrypt,
@@ -302,6 +302,8 @@ function PatientCtrl.retrievePatientsFromRef(ref::String,
     queryArgs = [encryptionStr,
                  ref,
                  refOneChar]
+
+    @info queryArgs
     patients = PostgresORM.execute_query_and_handle_result(
             queryString, Patient, queryArgs,
             false, # complex props

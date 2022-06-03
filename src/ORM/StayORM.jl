@@ -12,9 +12,11 @@ const columns_selection_and_mapping = Dict(
   :unit => "unit_id", 
   :id => "id", 
   :inDate => "in_date", 
-  :hospitalizationDate => "hospitalization_date", 
-  :outDateTime => "out_date_time", 
-  :inDateTime => "in_date_time", 
+  :hospitalizationOutTime => "hospitalization_out_time", 
+  :inTime => "in_time", 
+  :outTime => "out_time", 
+  :hospitalizationInTime => "hospitalization_in_time", 
+  :room => "room", 
 )
 
 
@@ -25,8 +27,8 @@ get_id_props() = return [:id,:inDate,]
 get_onetomany_counterparts() = return onetomany_counterparts
 const onetomany_counterparts = Dict(
 
-  :analyses => (
-    data_type = Model.Analysis, # The struct where the associated manytoone property is
+  :analysisResults => (
+    data_type = Model.AnalysisResult, # The struct where the associated manytoone property is
     property = :stay, # The name of the associated manytoone property
     action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
 
@@ -37,7 +39,7 @@ get_types_override() = return types_override
 const types_override = Dict(
   :patient => Model.Patient, 
   :unit => Model.Unit, 
-  :analyses => Vector{Model.Analysis}, 
+  :analysisResults => Vector{Model.AnalysisResult}, 
 
 )
 

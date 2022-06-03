@@ -97,7 +97,7 @@ for r in eachrow(dxcare)
 
    fct_unit_stay =
    PostgresORM.Controller.retrieve_one_entity(
-      FctUnitStay(inDateTime = entreeMouvement,outDateTime = sortieMouvement,
+      FctUnitStay(inTime = entreeMouvement,outTime = sortieMouvement,
       patient = patient,fctUnit = fct_unit),false,dbconn)
 
    @info fct_unit_stay
@@ -105,7 +105,7 @@ for r in eachrow(dxcare)
 
    if ismissing(fct_unit_stay)
       fct_unit_stay =
-         FctUnitStay(inDateTime = entreeMouvement,outDateTime = sortieMouvement,
+         FctUnitStay(inTime = entreeMouvement,outTime = sortieMouvement,
                      patient = patient,fctUnit = fct_unit)
       PostgresORM.create_entity!(fct_unit_stay,dbconn)
    end
@@ -170,7 +170,7 @@ let
 
 
       query_fct_unit_stay = "select * from fct_unit_stay s where \$1 between(
-               s.in_date_time and s.out_date_time) and s.patient_id = \$2 "
+               s.in_time and s.out_time) and s.patient_id = \$2 "
 
       args = [dateHeureDemande,patient.id]
 

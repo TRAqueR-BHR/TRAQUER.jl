@@ -9,9 +9,6 @@ get_table_name() = "patient_current_status"
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
   :id => "id", 
-  :infectiousStatus => "infectious_status", 
-  :contactFor => "contact_for", 
-  :carrierFor => "carrier_for", 
   :hospitalizationStatus => "hospitalization_status", 
 )
 

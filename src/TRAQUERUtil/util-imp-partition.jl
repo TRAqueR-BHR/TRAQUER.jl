@@ -221,13 +221,28 @@ function TRAQUERUtil.createPartitionStayIfNotExist(stay::Stay,
 
 end
 
-function TRAQUERUtil.createPartitionAnalysisIfNotExist(analysis::Analysis,
+function TRAQUERUtil.createPartitionAnalysisResultIfNotExist(analysisResult::AnalysisResult,
                                                        dbconn::LibPQ.Connection)
 
     schemaName = "public"
-    tableName = "analysis"
-    year = Dates.year(analysis.stay.inDate)
-    month = Dates.month(analysis.stay.inDate)
+    tableName = "analysis_result"
+    year = Dates.year(analysisResult.stay.inDate)
+    month = Dates.month(analysisResult.stay.inDate)
+    TRAQUERUtil.createTablePartitionOnYearMonth(schemaName,
+                                                tableName,
+                                                year,
+                                                month,
+                                                dbconn)
+
+end
+
+function TRAQUERUtil.createPartitionContactExposureIfNotExist(
+    contactExposure::ContactExposure, dbconn::LibPQ.Connection)
+
+    schemaName = "public"
+    tableName = "contact_exposure"
+    year = Dates.year(contactExposure.startTime)
+    month = Dates.month(contactExposure.startTime)
     TRAQUERUtil.createTablePartitionOnYearMonth(schemaName,
                                                 tableName,
                                                 year,
@@ -242,7 +257,7 @@ function TRAQUERUtil.createPartitionAnalysisRefIfNotExist(ref::String,
         #
         # Create partition for 'analyses_ref_crypt'
         #
-        oneChar = AnalysisCtrl.getRefOneChar(ref)
+        oneChar = AnalysisResultCtrl.getRefOneChar(ref)
         partitionedTable = "analysis_ref_crypt"
         partitionName = "$(partitionedTable)_$(oneChar)"
         schema = "public"

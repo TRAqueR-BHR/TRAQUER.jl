@@ -1,0 +1,6 @@
+function createAnalysisResultIfNotExist end
+function retrieveOneAnalysisResult end
+function retrieveAnalysesResultsFromRef end
+function createAnalysisResult end
+function getRefOneChar end
+function createCryptedAnalysisRef end

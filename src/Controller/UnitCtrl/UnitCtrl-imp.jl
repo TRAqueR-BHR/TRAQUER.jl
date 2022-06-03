@@ -1,4 +1,4 @@
-function UnitCtrl.createUnitIfNotExist(unitCodeName::String,
+function UnitCtrl.createUnitIfNotExists(unitCodeName::String,
                                        unitName::String,
                                        dbconn::LibPQ.Connection)
 

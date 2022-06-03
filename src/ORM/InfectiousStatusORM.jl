@@ -10,8 +10,9 @@ get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
   :patient => "patient_id", 
   :id => "id", 
-  :creationTime => "creation_time", 
-  :infectiousStatusType => "infectious_status_type", 
+  :isCurrent => "is_current", 
+  :infectiousStatus => "infectious_status", 
+  :isConfirmed => "is_confirmed", 
   :refTime => "ref_time", 
   :infectiousAgent => "infectious_agent", 
 )
