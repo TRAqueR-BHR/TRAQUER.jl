@@ -9,6 +9,7 @@ get_table_name() = "outbreak_config"
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
   :id => "id", 
+  :sameRoomOnly => "same_room_only", 
 )
 
 
@@ -24,12 +25,18 @@ const onetomany_counterparts = Dict(
     property = :outbreakConfig, # The name of the associated manytoone property
     action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
 
+  :outbreaks => (
+    data_type = Model.Outbreak, # The struct where the associated manytoone property is
+    property = :config, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
+
 )
 
 # Override the abstract types 
 get_types_override() = return types_override
 const types_override = Dict(
   :outbreakConfigUnitAssoes => Vector{Model.OutbreakConfigUnitAsso}, 
+  :outbreaks => Vector{Model.Outbreak}, 
 
 )
 

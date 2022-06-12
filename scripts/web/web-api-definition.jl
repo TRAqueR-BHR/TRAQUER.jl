@@ -23,18 +23,22 @@ apis_paths_wo_jwt = [
 # Initialize the tuple of routes
 api_routes = ()
 mux_filters = ()
-# Loop over the files in "/src/web/" to populate the  api routes and the mux filters
-folderFor_web_src = joinpath(pwd(),"scripts/web/api-def")
+# Loop over the files in "/scripts/web/api-def/" to populate the  api routes and the mux filters
+folderFor_web_src = pwd() * "/scripts/web/api-def/"
 for f in filter(x -> occursin(r".jl$", x),
-                readdir(folderFor_web_src))
-  include(joinpath(folderFor_web_src),f)
+                readdir(pwd() * "/scripts/web/api-def"))
+  # println(f)
+  include(folderFor_web_src * f)
 end
 
 function respFor_OPTIONS_req()
 
   accessControlAllowHeaders = "origin, content-type, accept, authorization"
-  accessControlAllowHeaders *=
-    ", $(TRAQUERUtil.getCryptPwdHttpHeaderKey())"
+  accessControlAllowHeaders *= ", $(TRAQUERUtil.getCryptPwdHttpHeaderKey())"
+  accessControlAllowHeaders *= ", browser-timezone"
+  accessControlAllowHeaders *= ", file_name"
+  accessControlAllowHeaders *= ", exam_id"
+  accessControlAllowHeaders *= ", exam_year"
 
 
   Dict(

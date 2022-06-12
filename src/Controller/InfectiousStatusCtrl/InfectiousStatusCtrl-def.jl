@@ -23,9 +23,25 @@ External or manual input:                   car
                                              │
 Analyses:                  neg     neg       │    pos        neg        neg
                             ▼                ▼                           ▼
-Infectious status:         nor              car                         nor
+Infectious status:         nar              car                         nar
 ```
 """
 function generateCarrierStatusesFromAnalyses end
-function generateCarrierStatusesForEPC end
 function getInfectiousStatusForListing end
+
+"""
+An infectious status for a given infectious agent is tagged current status if
+it is the last or the last confirmed.
+
+This means we can be in the following scenario:
+    - Infectious status for carba bacteria,
+        Ref time = 2022-03-22 13:00:00, status = carrier, isConfirmed = true, isCurrent = true
+    - Infectious status for carba bacteria,
+        Ref time 2022-03-28 13:00:00, status = not_at_risk, isConfirmed = false, isCurrent = true
+"""
+function updateCurrentStatus end
+
+
+function generateContactStatusesFromContactExposures end
+
+function upsert! end

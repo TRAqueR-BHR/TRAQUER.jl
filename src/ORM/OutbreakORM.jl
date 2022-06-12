@@ -8,10 +8,10 @@ get_table_name() = "outbreak"
 # Declare the mapping between the properties and the database columns
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
+  :config => "config_id", 
   :id => "id", 
   :name => "name", 
-  :startDate => "start_date", 
-  :endDate => "end_date", 
+  :infectiousAgent => "infectious_agent", 
 )
 
 
@@ -21,6 +21,11 @@ get_id_props() = return [:id,]
 # Associate the onetomany properties to the corresponding manytoone peroperties in the other classes 
 get_onetomany_counterparts() = return onetomany_counterparts
 const onetomany_counterparts = Dict(
+
+  :contactExposures => (
+    data_type = Model.ContactExposure, # The struct where the associated manytoone property is
+    property = :outbreak, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
 
   :outbreakInfectiousStatusAssoes => (
     data_type = Model.OutbreakInfectiousStatusAsso, # The struct where the associated manytoone property is
@@ -32,6 +37,8 @@ const onetomany_counterparts = Dict(
 # Override the abstract types 
 get_types_override() = return types_override
 const types_override = Dict(
+  :config => Model.OutbreakConfig, 
+  :contactExposures => Vector{Model.ContactExposure}, 
   :outbreakInfectiousStatusAssoes => Vector{Model.OutbreakInfectiousStatusAsso}, 
 
 )

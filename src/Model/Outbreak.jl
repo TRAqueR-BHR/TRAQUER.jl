@@ -1,24 +1,27 @@
 mutable struct Outbreak <: IOutbreak 
 
+  config::Union{Missing,Model.IOutbreakConfig}
   id::Union{Missing,String}
   name::Union{Missing,String}
-  startDate::Union{Missing,Date}
-  endDate::Union{Missing,Date}
+  infectiousAgent::Union{Missing,InfectiousAgentCategory.INFECTIOUS_AGENT_CATEGORY}
+  contactExposures::Union{Missing,Vector{Model.IContactExposure}}
   outbreakInfectiousStatusAssoes::Union{Missing,Vector{Model.IOutbreakInfectiousStatusAsso}}
 
   Outbreak(args::NamedTuple) = Outbreak(;args...)
   Outbreak(;
+    config = missing,
     id = missing,
     name = missing,
-    startDate = missing,
-    endDate = missing,
+    infectiousAgent = missing,
+    contactExposures = missing,
     outbreakInfectiousStatusAssoes = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,)
+    x.config = config
     x.id = id
     x.name = name
-    x.startDate = startDate
-    x.endDate = endDate
+    x.infectiousAgent = infectiousAgent
+    x.contactExposures = contactExposures
     x.outbreakInfectiousStatusAssoes = outbreakInfectiousStatusAssoes
     return x
   end

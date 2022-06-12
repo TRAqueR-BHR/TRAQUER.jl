@@ -50,7 +50,7 @@ end
     Mux.notfound()
 )
 
-Mux.serve(web_api, web_socket, Mux.localhost, 8095
+Mux.serve(web_api, web_socket, Mux.localhost, 8093
             ;reuseaddr = true)
 
 # https://richardanaya.medium.com/how-to-create-a-multi-threaded-http-server-in-julia-ca12dca09c35

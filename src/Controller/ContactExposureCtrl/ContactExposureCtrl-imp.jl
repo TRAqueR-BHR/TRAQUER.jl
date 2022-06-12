@@ -1,1 +1,5 @@
 include("generateContactExposures.jl")
+include("generateAdditionalContactExposures.jl")
+include("canGenerateContactExposures.jl")
+include("getExactOverlap.jl")
+include("upsert.jl")

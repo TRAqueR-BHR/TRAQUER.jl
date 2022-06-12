@@ -35,6 +35,7 @@ function updateConf end
 function getTimezone end
 function getTimezoneAsStr end
 function string2enum end
+function string2date end
 
 function generateHumanReadableUniqueRef end
 function retrieveSequenceNextval end

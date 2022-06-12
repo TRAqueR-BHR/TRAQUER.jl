@@ -11,6 +11,7 @@ const columns_selection_and_mapping = Dict(
   :unit => "unit_id", 
   :contact => "contact_id", 
   :carrier => "carrier_id", 
+  :outbreak => "outbreak_id", 
   :id => "id", 
   :startTime => "start_time", 
   :endTime => "end_time", 
@@ -32,6 +33,7 @@ const types_override = Dict(
   :unit => Model.Unit, 
   :contact => Model.Patient, 
   :carrier => Model.Patient, 
+  :outbreak => Model.Outbreak, 
 
 )
 

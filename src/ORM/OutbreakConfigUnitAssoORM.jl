@@ -11,7 +11,6 @@ const columns_selection_and_mapping = Dict(
   :unit => "unit_id", 
   :outbreakConfig => "outbreak_config_id", 
   :id => "id", 
-  :sameRoomOnly => "same_room_only", 
   :startDate => "start_date", 
   :endDate => "end_date", 
 )

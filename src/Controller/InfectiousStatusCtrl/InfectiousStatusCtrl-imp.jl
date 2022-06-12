@@ -1,3 +1,5 @@
 include("getInfectiousStatusForListing.jl")
 include("generateCarrierStatuses.jl")
 include("generateContactStatuses.jl")
+include("updateCurrentStatus.jl")
+include("upsert.jl")

@@ -288,6 +288,16 @@ function TRAQUERUtil.string2enum(enumType::DataType, str::Missing)
     return missing
 end
 
+"""
+    string2date(str::String)
+
+"2019-07-24T00:41:49.732Z" becomes "2019-07-24"
+"""
+function TRAQUERUtil.string2date(str::String)
+    dateMatch = match(r"^([0-9]{4}-[0-9]{2}-[0-9]{2})",str)
+    Date(dateMatch.match)
+end
+
 
 function TRAQUERUtil.initialize_http_response_status_code(req)
     # The status code is by default 200 and we look if a filter wants

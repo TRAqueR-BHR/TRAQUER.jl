@@ -1,5 +1,6 @@
 # 'using' calls for the implementations
-using PostgresORM,  LibPQ, TimeZones, Dates, ConfParser, Unicode, StringCases
+using PostgresORM,  LibPQ, TimeZones, Dates, ConfParser, Unicode, StringCases, Mocking,
+      SplitApplyCombine
 using ..TRAQUER, ..TRAQUERUtil
 using Base.StackTraces
 using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,

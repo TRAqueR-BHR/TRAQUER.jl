@@ -31,7 +31,7 @@ module Model
            FrontendVersion, InfectiousStatus, Modification, Outbreak,
            OutbreakInfectiousStatusAsso, Patient, PatientBirthdateCrypt,
            PatientCurrentStatus, PatientNameCrypt, PatientRefCrypt, Role, RoleRoleAsso,
-           Stay, Unit
+           Stay, Unit, OutbreakConfig, OutbreakConfigUnitAsso
     export Appuser
     using PostgresORM,TimeZones
     using ..Enum.AnalysisResultValueType, ..Enum.AppuserType, ..Enum.AnalysisRequestType,
@@ -47,6 +47,8 @@ module Model
     include("Model/Modification.jl")
     include("Model/Outbreak.jl")
     include("Model/OutbreakInfectiousStatusAsso.jl")
+    include("Model/OutbreakConfig.jl")
+    include("Model/OutbreakConfigUnitAsso.jl")
     include("Model/Patient.jl")
     include("Model/PatientBirthdateCrypt.jl")
     include("Model/PatientCurrentStatus.jl")
@@ -100,6 +102,16 @@ module ORM
         using ..ORM, ...Model
         using PostgresORM
         include("./ORM/OutbreakORM.jl")
+    end
+    module OutbreakConfigORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/OutbreakConfigORM.jl")
+    end
+    module OutbreakConfigUnitAssoORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/OutbreakConfigUnitAssoORM.jl")
     end
     module OutbreakInfectiousStatusAssoORM
         using ..ORM, ...Model

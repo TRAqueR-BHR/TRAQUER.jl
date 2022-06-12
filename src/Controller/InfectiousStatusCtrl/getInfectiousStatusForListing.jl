@@ -24,11 +24,13 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
     end
 
     queryStringShared = "
-        FROM public.infectious_status _is
+        FROM public.infectious_status ist
         INNER JOIN patient p
-          ON p.id = _is.patient_id
-        INNER JOIN infection_type ist
-          ON ist.id = _is.type_id
+          ON p.id = ist.patient_id
+        LEFT JOIN outbreak_infectious_status_asso oisa
+          ON ist.id = oisa.infectious_status_id
+        LEFT JOIN outbreak o
+          ON oisa.outbreak_id = o.id
     "
 
     if !ismissing(cryptPwd)
@@ -43,7 +45,7 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
     end
 
     queryStringShared *= "
-    WHERE _is.id IS NOT NULL -- for convenience
+    WHERE 1 = 1 -- for convenience
     "
 
     args_counter = length(queryArgs)
@@ -158,11 +160,10 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
                   p.traquer_ref AS traquer_ref,
                   p.birthdate_crypt_id AS birthdate_crypt_id,
                   p.birthdate_crypt_id AS birth_year,
-                  _is.ref_time AS ref_time,
-                  _is.carrier_contact AS carrier_contact,
-                  ist.code_name AS infection_type_code_name,
-                  ist.name_fr AS infection_type_name_fr,
-                  ist.name_en AS infection_type_name_en")
+                  ist.ref_time AS ref_time,
+                  ist.infectious_status,
+                  ist.infectious_agent
+                  ")
 
     # Add some columns for the decrypted values
     if !ismissing(cryptPwd)
@@ -195,14 +196,19 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
 
     dbconn = TRAQUERUtil.openDBConn()
     try
+
         objects = execute_plain_query(queryString,
                                      [queryArgs...,pageSize,offset], # queryArgs
                                       dbconn)
 
-        # Add some columns for the non crypted values
-        if !ismissing(cryptPwd)
-
-        end
+        # ##################################### #
+        # Transform the columns that need to be #
+        # ##################################### #
+        objects.birthdate = passmissing(TRAQUERUtil.string2date).(objects.birthdate)
+        objects.infectious_status = passmissing(TRAQUERUtil.string2enum).(
+            INFECTIOUS_STATUS_TYPE, objects.infectious_status)
+        objects.infectious_agent = passmissing(TRAQUERUtil.string2enum).(
+            INFECTIOUS_AGENT_CATEGORY, objects.infectious_agent)
 
     catch e
         rethrow(e)
