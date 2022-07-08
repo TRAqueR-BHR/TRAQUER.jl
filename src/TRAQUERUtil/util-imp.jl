@@ -117,6 +117,19 @@ function TRAQUERUtil.getInstanceCodeName()
     TRAQUERUtil.getConf("default","instance_code_name")
 end
 
+function TRAQUERUtil.getCarrierWaitingPeriod()
+    parse(Int,TRAQUERUtil.getConf("rules_parameters","carrier_waiting_period_in_months")) |>
+    Month
+end
+
+function TRAQUERUtil.getNumberOfNegativeTestsForCarrierExclusion()
+    parse(Int, TRAQUERUtil.getConf("rules_parameters","number_of_negative_tests_for_carrier_exclusion"))
+end
+
+function TRAQUERUtil.getNumberOfNegativeTestsForContactExclusion()
+    parse(Int, TRAQUERUtil.getConf("rules_parameters","number_of_negative_tests_for_contact_exclusion"))
+end
+
 function TRAQUERUtil.getCryptPwdHttpHeaderKey()
     return "crypt_pwd"
 end

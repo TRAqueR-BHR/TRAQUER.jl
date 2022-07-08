@@ -2,6 +2,12 @@ function Custom.importStays(df::DataFrame,
                              encryptionStr::String
                             ;randomData::Bool = false)
 
+    @info (
+          "\n# ################################## #"
+        * "\n# Starting the integration of stays #"
+        * "\n# ################################## #"
+        )
+
     dbconn = TRAQUERUtil.openDBConn()
     _tz = TRAQUERUtil.getTimezone()
 

@@ -22,9 +22,18 @@ using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
       ..Controller.ContactExposureCtrl,
       ..Model
 using DataFrames
-using ..Enum.AnalysisResultValueType, ..Enum.AppuserType, ..Enum.AnalysisRequestType,
-      ..Enum.Gender, ..Enum.HospitalizationStatusType, ..Enum.SampleMaterialType,
-      ..Enum.InfectiousStatusType, ..Enum.InfectiousAgentCategory, ..Enum.RoleCodeName
+using ..Enum.AnalysisRequestStatusType,
+      ..Enum.AnalysisResultValueType,
+      ..Enum.AppuserType,
+      ..Enum.AnalysisRequestType,
+      ..Enum.Gender,
+      ..Enum.HospitalizationStatusType,
+      ..Enum.InfectiousAgentCategory,
+      ..Enum.InfectiousStatusType,
+      ..Enum.InfectiousStatusEventType,
+      ..Enum.InfectiousStatusEventResponseType,
+      ..Enum.RoleCodeName,
+      ..Enum.SampleMaterialType
 using JWTs
 using Missings
 using Distributed

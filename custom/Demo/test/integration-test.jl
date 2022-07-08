@@ -3,6 +3,12 @@ include("../../../test/runtests-prerequisite.jl")
 # Cleaning
 TRAQUERUtil.createDBConnAndExecute() do dbconn
 
+    "DELETE FROM stay" |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
+    "DELETE FROM analysis_result" |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
     "DELETE FROM infectious_status" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
@@ -132,7 +138,11 @@ TRAQUERUtil.createDBConnAndExecute() do dbconn
 
     for patient in patients
 
-        # TODO
+        InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
+            patient,
+            (Date("2020-01-01"), today()), # forAnalysesRequestsBetween::Tuple{Date,Date},
+            dbconn
+        )
 
     end
 

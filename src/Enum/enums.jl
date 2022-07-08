@@ -1,45 +1,3 @@
-module AnalysisResultValueType
-  export ANALYSIS_RESULT_VALUE_TYPE
-  @enum ANALYSIS_RESULT_VALUE_TYPE begin
-    positive = 1 
-    negative = 2 
-  end
-end
-
-module AppuserType
-  export APPUSER_TYPE
-  @enum APPUSER_TYPE begin
-    healthcare_professional = 1 
-  end
-end
-
-module AnalysisRequestType
-  export ANALYSIS_REQUEST_TYPE
-  @enum ANALYSIS_REQUEST_TYPE begin
-    molecular_analysis_carbapenemase_producing_enterobacteriaceae = 1 
-    bacterial_culture_carbapenemase_producing_enterobacteriaceae = 2 
-    molecular_analysis_vancomycin_resistant_enterococcus = 3 
-    bacterial_culture_vancomycin_resistant_enterococcus = 4 
-  end
-end
-
-module Gender
-  export GENDER
-  @enum GENDER begin
-    male = 1 
-    female = 2 
-  end
-end
-
-module HospitalizationStatusType
-  export HOSPITALIZATION_STATUS_TYPE
-  @enum HOSPITALIZATION_STATUS_TYPE begin
-    in = 1 
-    out = 2 
-    forthcoming = 3 
-  end
-end
-
 module SampleMaterialType
   export SAMPLE_MATERIAL_TYPE
   @enum SAMPLE_MATERIAL_TYPE begin
@@ -84,6 +42,33 @@ module SampleMaterialType
   end
 end
 
+module AnalysisRequestStatusType
+  export ANALYSIS_REQUEST_STATUS_TYPE
+  @enum ANALYSIS_REQUEST_STATUS_TYPE begin
+    requested = 1 
+    in_progress = 2 
+    done = 3 
+  end
+end
+
+module AnalysisRequestType
+  export ANALYSIS_REQUEST_TYPE
+  @enum ANALYSIS_REQUEST_TYPE begin
+    molecular_analysis_carbapenemase_producing_enterobacteriaceae = 1 
+    bacterial_culture_carbapenemase_producing_enterobacteriaceae = 2 
+    molecular_analysis_vancomycin_resistant_enterococcus = 3 
+    bacterial_culture_vancomycin_resistant_enterococcus = 4 
+  end
+end
+
+module InfectiousAgentCategory
+  export INFECTIOUS_AGENT_CATEGORY
+  @enum INFECTIOUS_AGENT_CATEGORY begin
+    carbapenemase_producing_enterobacteriaceae = 1 
+    vancomycin_resistant_enterococcus = 2 
+  end
+end
+
 module InfectiousStatusType
   export INFECTIOUS_STATUS_TYPE
   @enum INFECTIOUS_STATUS_TYPE begin
@@ -93,11 +78,54 @@ module InfectiousStatusType
   end
 end
 
-module InfectiousAgentCategory
-  export INFECTIOUS_AGENT_CATEGORY
-  @enum INFECTIOUS_AGENT_CATEGORY begin
-    carbapenemase_producing_enterobacteriaceae = 1 
-    vancomycin_resistant_enterococcus = 2 
+module AnalysisResultValueType
+  export ANALYSIS_RESULT_VALUE_TYPE
+  @enum ANALYSIS_RESULT_VALUE_TYPE begin
+    positive = 1 
+    negative = 2 
+  end
+end
+
+module AppuserType
+  export APPUSER_TYPE
+  @enum APPUSER_TYPE begin
+    healthcare_professional = 1 
+  end
+end
+
+module Gender
+  export GENDER
+  @enum GENDER begin
+    male = 1 
+    female = 2 
+  end
+end
+
+module InfectiousStatusEventResponseType
+  export INFECTIOUS_STATUS_EVENT_RESPONSE_TYPE
+  @enum INFECTIOUS_STATUS_EVENT_RESPONSE_TYPE begin
+    acknowledge = 1 
+    confirm = 2 
+    request_analysis = 3 
+  end
+end
+
+module HospitalizationStatusType
+  export HOSPITALIZATION_STATUS_TYPE
+  @enum HOSPITALIZATION_STATUS_TYPE begin
+    in = 1 
+    out = 2 
+    forthcoming = 3 
+  end
+end
+
+module InfectiousStatusEventType
+  export INFECTIOUS_STATUS_EVENT_TYPE
+  @enum INFECTIOUS_STATUS_EVENT_TYPE begin
+    hospitalization = 1 
+    new_status = 2 
+    analysis_in_progress = 3 
+    analysis_done = 4 
   end
 end
 

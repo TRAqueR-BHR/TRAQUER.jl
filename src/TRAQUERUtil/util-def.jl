@@ -52,3 +52,11 @@ function executeOnWorkerTwoOrHigher end
 
 function getOrganizationCustomModuleName end
 function getOrganizationCustomModule end
+
+function getMappingAnalysisRequestType2InfectiousAgentCategory end
+function analysisRequestType2InfectiousAgentCategory end
+function infectiousAgentCategory2AnalysisRequestTypes end
+
+function getCarrierWaitingPeriod end
+function getNumberOfNegativeTestsForCarrierExclusion end
+function getNumberOfNegativeTestsForContactExclusion end

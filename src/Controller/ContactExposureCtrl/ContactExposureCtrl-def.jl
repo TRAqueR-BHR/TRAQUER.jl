@@ -86,26 +86,26 @@ The stays of the carrier that are used to generate the contact exposures are the
 
 # Cases where there is no 'not_at_risk' status after the 'carrier' status:
 ```
-Infectious status:                              💣
+Infectious status:                              🍎
 Stay:                           [======][==========][=====][=========================
 Generate contact exposures? :       0         1        1           1
 
-Infectious status:                              💣
+Infectious status:                              🍎
 Stay:                           [======][============================================
 Generate contact exposures? :       0                     1
 ```
 
 # Cases where there is a 'not_at_risk' status after the 'carrier' status
 ```
-Infectious status:                              💣           👍
+Infectious status:                              🍎             🍏
 Stay:                           [======][==========][=====][==========][========]
 Generate contact exposures? :       0         1        1         1          0
 
-Infectious status:                              💣                         👍
+Infectious status:                              🍎                         🍏
 Stay:                           [======][==========][=====][=========================
 Generate contact exposures? :       0         1        1              1
 
-Infectious status:                              💣     👍
+Infectious status:                              🍎     🍏
 Stay:                           [======][==========][=====][=========================
 Generate contact exposures? :       0         1        1              0
 ````

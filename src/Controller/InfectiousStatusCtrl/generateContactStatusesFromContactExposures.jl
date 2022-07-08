@@ -32,9 +32,10 @@ function InfectiousStatusCtrl.generateContactStatusesFromContactExposures(
         INFECTIOUS_AGENT_CATEGORY, exposuresDF.infectious_agent)
     exposuresDF.contact = map(x -> Patient(id = x), exposuresDF.contact_id)
 
+    patientInfectiousStatuses = InfectiousStatusCtrl.getInfectiousStatuses(patient, dbconn)
+
     for exposureRow in eachrow(exposuresDF)
 
-        # Upsert
         infectiousStatus = InfectiousStatus(
             patient = exposureRow.contact,
             infectiousAgent = exposureRow.infectious_agent,
@@ -42,6 +43,45 @@ function InfectiousStatusCtrl.generateContactStatusesFromContactExposures(
             refTime = exposureRow.exposure_start_time,
             isConfirmed = false,
         )
+
+        # Check that the patient is not already a carrier for this infectious agent,
+        #   i.e. That the status just before it (<=) is not a carrier
+        # Eg.
+        #
+        # Existing statuses:     🍎
+        # New contact status:             🍋
+        # Insert new contact?:          false
+        #
+        # Existing statuses:              🍎
+        # New contact status:             🍋
+        # Insert new contact?:          false
+        #
+        # Existing statuses:                     🍎
+        # New contact status:             🍋
+        # Insert new contact?:           true
+
+        # Existing statuses:      🍋
+        # New contact status:             🍋
+        # Insert new contact?:           true
+
+        statusJustBefore =
+            patientInfectiousStatuses |>
+            n -> filter(
+                x -> (
+                    x.infectiousAgent == infectiousStatus.infectiousAgent
+                    && x.refTime <= infectiousStatus.refTime
+                    ),
+                n
+            ) |> n -> if isempty(n) missing else last(n) end
+
+        if (
+            !ismissing(statusJustBefore)
+            && statusJustBefore.infectiousStatus == InfectiousStatusType.carrier
+            )
+            continue
+        end
+
+        # Upsert
         InfectiousStatusCtrl.upsert!(infectiousStatus, dbconn)
 
     end

@@ -31,6 +31,8 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
           ON ist.id = oisa.infectious_status_id
         LEFT JOIN outbreak o
           ON oisa.outbreak_id = o.id
+        LEFT JOIN unit patient_current_unit
+          ON  p.current_unit_id = patient_current_unit.id
     "
 
     if !ismissing(cryptPwd)
@@ -160,9 +162,14 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
                   p.traquer_ref AS traquer_ref,
                   p.birthdate_crypt_id AS birthdate_crypt_id,
                   p.birthdate_crypt_id AS birth_year,
+                  p.is_hospitalized AS patient_is_hospitalized,
                   ist.ref_time AS ref_time,
                   ist.infectious_status,
-                  ist.infectious_agent
+                  ist.infectious_agent,
+                  ist.is_confirmed,
+                  ist.is_current,
+                  patient_current_unit.code_name AS current_unit_code_name,
+                  patient_current_unit.name AS current_unit_name
                   ")
 
     # Add some columns for the decrypted values

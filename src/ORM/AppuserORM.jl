@@ -33,6 +33,21 @@ get_id_props() = return [:id,]
 get_onetomany_counterparts() = return onetomany_counterparts
 const onetomany_counterparts = Dict(
 
+  :eventRequiringAttentions => (
+    data_type = Model.EventRequiringAttention, # The struct where the associated manytoone property is
+    property = :responseUser, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
+
+  :creatorAnalysisRequests => (
+    data_type = Model.AnalysisRequest, # The struct where the associated manytoone property is
+    property = :creator, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
+
+  :lastEditorAnalysisRequests => (
+    data_type = Model.AnalysisRequest, # The struct where the associated manytoone property is
+    property = :lastEditor, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
+
   :lastEditorAppuserRoleAssoes => (
     data_type = Model.AppuserRoleAsso, # The struct where the associated manytoone property is
     property = :lastEditor, # The name of the associated manytoone property
@@ -65,6 +80,9 @@ get_types_override() = return types_override
 const types_override = Dict(
   :creator => Model.Appuser, 
   :lastEditor => Model.Appuser, 
+  :eventRequiringAttentions => Vector{Model.EventRequiringAttention}, 
+  :creatorAnalysisRequests => Vector{Model.AnalysisRequest}, 
+  :lastEditorAnalysisRequests => Vector{Model.AnalysisRequest}, 
   :lastEditorAppuserRoleAssoes => Vector{Model.AppuserRoleAsso}, 
   :appuserAppuserRoleAssoes => Vector{Model.AppuserRoleAsso}, 
   :creatorAppuserRoleAssoes => Vector{Model.AppuserRoleAsso}, 

@@ -1,16 +1,22 @@
 
-data_type = Model.AnalysisTypeDeprecated
-PostgresORM.get_orm(x::Model.AnalysisTypeDeprecated) = return(ORM.AnalysisTypeDeprecatedORM)
+data_type = Model.EventRequiringAttention
+PostgresORM.get_orm(x::Model.EventRequiringAttention) = return(ORM.EventRequiringAttentionORM)
 get_schema_name() = "public"
-get_table_name() = "analysis_type_deprecated"
+get_table_name() = "event_requiring_attention"
 
 
 # Declare the mapping between the properties and the database columns
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
+  :responseUser => "response_user_id", 
+  :infectiousStatus => "infectious_status_id", 
   :id => "id", 
-  :name => "name", 
-  :codeName => "code_name", 
+  :response => "response", 
+  :responseTime => "response_time", 
+  :responseComment => "response_comment", 
+  :pending => "pending", 
+  :eventType => "event_type", 
+  :refTime => "ref_time", 
 )
 
 
@@ -26,6 +32,8 @@ const onetomany_counterparts = Dict(
 # Override the abstract types 
 get_types_override() = return types_override
 const types_override = Dict(
+  :responseUser => Model.Appuser, 
+  :infectiousStatus => Model.InfectiousStatus, 
 
 )
 

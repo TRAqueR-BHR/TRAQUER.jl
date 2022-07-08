@@ -1,17 +1,20 @@
 
-data_type = Model.InfectionTypeDeprecated
-PostgresORM.get_orm(x::Model.InfectionTypeDeprecated) = return(ORM.InfectionTypeDeprecatedORM)
+data_type = Model.AnalysisRequest
+PostgresORM.get_orm(x::Model.AnalysisRequest) = return(ORM.AnalysisRequestORM)
 get_schema_name() = "public"
-get_table_name() = "infection_type_deprecated"
+get_table_name() = "analysis_request"
 
 
 # Declare the mapping between the properties and the database columns
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
+  :creator => "creator_id", 
+  :lastEditor => "last_editor_id", 
   :id => "id", 
-  :nameFr => "name_fr", 
-  :codeName => "code_name", 
-  :nameEn => "name_en", 
+  :requestType => "request_type", 
+  :creationTime => "creation_time", 
+  :lastUpdateTime => "last_update_time", 
+  :statusType => "status_type", 
 )
 
 
@@ -27,6 +30,8 @@ const onetomany_counterparts = Dict(
 # Override the abstract types 
 get_types_override() = return types_override
 const types_override = Dict(
+  :creator => Model.Appuser, 
+  :lastEditor => Model.Appuser, 
 
 )
 

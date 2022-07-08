@@ -27,23 +27,35 @@ module TRAQUERUtil
 end # module TRAQUERUtil
 
 module Model
-    export AnalysisRefCrypt, AnalysisResult, AppuserRoleAsso, ContactExposure,
-           FrontendVersion, InfectiousStatus, Modification, Outbreak,
+    export AnalysisRefCrypt, AnalysisRequest, AnalysisResult, AppuserRoleAsso,
+           ContactExposure, FrontendVersion, InfectiousStatus,
+           EventRequiringAttention, Modification, Outbreak,
            OutbreakInfectiousStatusAsso, Patient, PatientBirthdateCrypt,
            PatientCurrentStatus, PatientNameCrypt, PatientRefCrypt, Role, RoleRoleAsso,
            Stay, Unit, OutbreakConfig, OutbreakConfigUnitAsso
     export Appuser
     using PostgresORM,TimeZones
-    using ..Enum.AnalysisResultValueType, ..Enum.AppuserType, ..Enum.AnalysisRequestType,
-          ..Enum.Gender, ..Enum.HospitalizationStatusType, ..Enum.SampleMaterialType,
-          ..Enum.InfectiousStatusType, ..Enum.InfectiousAgentCategory, ..Enum.RoleCodeName
+    using ..Enum.AnalysisRequestStatusType,
+          ..Enum.AnalysisResultValueType,
+          ..Enum.AppuserType,
+          ..Enum.AnalysisRequestType,
+          ..Enum.Gender,
+          ..Enum.HospitalizationStatusType,
+          ..Enum.InfectiousAgentCategory,
+          ..Enum.InfectiousStatusEventResponseType,
+          ..Enum.InfectiousStatusEventType,
+          ..Enum.InfectiousStatusType,
+          ..Enum.RoleCodeName,
+          ..Enum.SampleMaterialType
     include("Model/abstract-types.jl")
     include("Model/AnalysisRefCrypt.jl")
+    include("Model/AnalysisRequest.jl")
     include("Model/AnalysisResult.jl")
     include("Model/AppuserRoleAsso.jl")
     include("Model/ContactExposure.jl")
     include("Model/FrontendVersion.jl")
     include("Model/InfectiousStatus.jl")
+    include("Model/EventRequiringAttention.jl")
     include("Model/Modification.jl")
     include("Model/Outbreak.jl")
     include("Model/OutbreakInfectiousStatusAsso.jl")
@@ -67,6 +79,11 @@ module ORM
         using ..ORM, ...Model
         using PostgresORM
         include("./ORM/AnalysisRefCryptORM.jl")
+    end
+    module AnalysisRequestORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/AnalysisRequestORM.jl")
     end
     module AnalysisResultORM
         using ..ORM, ...Model
@@ -92,6 +109,11 @@ module ORM
         using ..ORM, ...Model
         using PostgresORM
         include("./ORM/InfectiousStatusORM.jl")
+    end
+    module EventRequiringAttentionORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/EventRequiringAttentionORM.jl")
     end
     # module ModificationORM
     #     using ..ORM, ...Model
@@ -204,6 +226,10 @@ module Controller
     include("Controller/InfectiousStatusCtrl/InfectiousStatusCtrl-def.jl")
   end
 
+  module EventRequiringAttentionCtrl
+    include("Controller/EventRequiringAttentionCtrl/EventRequiringAttentionCtrl-def.jl")
+  end
+
   module ContactExposureCtrl
     include("Controller/ContactExposureCtrl/ContactExposureCtrl-def.jl")
   end
@@ -229,6 +255,9 @@ include("TRAQUERUtil/util-imp.jl")
 include("TRAQUERUtil/util-imp-partition.jl")
 include("TRAQUERUtil/utils-impl-ref-generation.jl")
 include("TRAQUERUtil/do-functions.jl")
+include("TRAQUERUtil/getMappingAnalysisRequestType2InfectiousAgentCategory.jl")
+include("TRAQUERUtil/analysisRequestType2InfectiousAgentCategory.jl")
+include("TRAQUERUtil/infectiousAgentCategory2AnalysisRequestTypes.jl")
 
 # AppuserCtrl
 include("Controller/AppuserCtrl/AppuserCtrl-imp.jl")
@@ -247,6 +276,9 @@ include("Controller/ETLCtrl/ETLCtrl-imp.jl")
 
 # InfectiousStatusCtrl
 include("Controller/InfectiousStatusCtrl/InfectiousStatusCtrl-imp.jl")
+
+# EventRequiringAttentionCtrl
+include("Controller/EventRequiringAttentionCtrl/EventRequiringAttentionCtrl-imp.jl")
 
 # ContactExposureCtrl
 include("Controller/ContactExposureCtrl/ContactExposureCtrl-imp.jl")

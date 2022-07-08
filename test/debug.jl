@@ -243,4 +243,30 @@ PatientCtrl.createCryptedPatientName(
     dbconn)
 
 
-    intersect
+result = [1,2] |>
+    n -> filter( x -> x > 1, n) |>
+    n -> begin
+        if isempty(n)
+        else
+            return 999 # this exits the chain of pipes
+        end
+    end |>
+    n -> return n + 1
+
+
+a = [11,12,13,14,15,16]
+for (i, n) in enumerate(a)
+    @info n isodd(n)
+    if isodd(n)
+        filter!(x -> !isodd(x), a)
+    end
+end
+
+a = [11,12,13,14,15,16]
+# filter!(x -> !isodd(x), a)
+for (i,n) in enumerate(a)
+    @info n isodd(n) "index[$i]"
+    if isodd(n)
+        filter!(x -> !isodd(x), a)
+    end
+end

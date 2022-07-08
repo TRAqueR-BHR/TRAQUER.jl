@@ -8,12 +8,12 @@ abstract type IPatientCurrentStatus <: IEntity end
 abstract type IStay <: IEntity end
 abstract type IOutbreakConfig <: IEntity end
 abstract type IContactExposure <: IEntity end
-abstract type IInfectionTypeDeprecated <: IEntity end
 abstract type IOutbreakInfectiousStatusAsso <: IEntity end
-abstract type IAnalysisTypeDeprecated <: IEntity end
+abstract type IEventRequiringAttention <: IEntity end
 abstract type IAnalysisRefCrypt <: IEntity end
 abstract type IPatient <: IEntity end
 abstract type IPatientNameCrypt <: IEntity end
+abstract type IAnalysisRequest <: IEntity end
 abstract type IUnit <: IEntity end
 abstract type IModification <: IEntity end
 abstract type IFrontendVersion <: IEntity end

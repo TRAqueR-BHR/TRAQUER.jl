@@ -27,7 +27,14 @@ Infectious status:         nar              car                         nar
 ```
 """
 function generateCarrierStatusesFromAnalyses end
+
+function generateNotAtRiskStatusesFromAnalyses end
+
+function generateContactStatusesFromContactExposures end
+
 function getInfectiousStatusForListing end
+
+function getInfectiousStatuses end
 
 """
 An infectious status for a given infectious agent is tagged current status if
@@ -41,7 +48,6 @@ This means we can be in the following scenario:
 """
 function updateCurrentStatus end
 
-
-function generateContactStatusesFromContactExposures end
+function defaultCheckIfNotAtRiskAnymore end
 
 function upsert! end

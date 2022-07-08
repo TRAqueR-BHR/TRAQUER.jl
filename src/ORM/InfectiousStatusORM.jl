@@ -12,6 +12,7 @@ const columns_selection_and_mapping = Dict(
   :id => "id", 
   :isCurrent => "is_current", 
   :infectiousStatus => "infectious_status", 
+  :analysisRequestStatus => "analysis_request_status", 
   :isConfirmed => "is_confirmed", 
   :refTime => "ref_time", 
   :infectiousAgent => "infectious_agent", 
@@ -30,6 +31,11 @@ const onetomany_counterparts = Dict(
     property = :infectiousStatus, # The name of the associated manytoone property
     action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
 
+  :eventRequiringAttentions => (
+    data_type = Model.EventRequiringAttention, # The struct where the associated manytoone property is
+    property = :infectiousStatus, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
+
 )
 
 # Override the abstract types 
@@ -37,6 +43,7 @@ get_types_override() = return types_override
 const types_override = Dict(
   :patient => Model.Patient, 
   :outbreakInfectiousStatusAssoes => Vector{Model.OutbreakInfectiousStatusAsso}, 
+  :eventRequiringAttentions => Vector{Model.EventRequiringAttention}, 
 
 )
 
