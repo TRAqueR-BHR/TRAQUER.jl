@@ -12,6 +12,7 @@
 @everywhere using TRAQUER.Controller.ContactExposureCtrl
 @everywhere using TRAQUER.Controller.AppuserCtrl
 
+@everywhere using TRAQUER.Enum.AnalysisRequestStatusType
 @everywhere using TRAQUER.Enum.AnalysisResultValueType
 @everywhere using TRAQUER.Enum.AppuserType
 @everywhere using TRAQUER.Enum.AnalysisRequestType
