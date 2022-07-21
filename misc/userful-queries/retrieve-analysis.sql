@@ -31,3 +31,9 @@ INNER JOIN patient p
 INNER JOIN patient_name_crypt pnc
   ON  p.name_crypt_id = pnc.id
 WHERE s.in_date >= '2021-12-10'
+
+-- Patients names
+SELECT p.id,pgp_sym_decrypt(pnc.lastname_crypt, 'aaaaaaaxxxxxcccccc') as lastname        
+FROM patient p
+INNER JOIN patient_name_crypt pnc
+  ON  p.name_crypt_id = pnc.id

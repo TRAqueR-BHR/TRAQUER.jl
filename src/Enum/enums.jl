@@ -126,6 +126,7 @@ module InfectiousStatusEventType
     new_status = 2 
     analysis_in_progress = 3 
     analysis_done = 4 
+    analysis_late = 5 
   end
 end
 
