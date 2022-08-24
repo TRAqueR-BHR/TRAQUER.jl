@@ -42,8 +42,8 @@ module Model
           ..Enum.Gender,
           ..Enum.HospitalizationStatusType,
           ..Enum.InfectiousAgentCategory,
-          ..Enum.InfectiousStatusEventResponseType,
-          ..Enum.InfectiousStatusEventType,
+          ..Enum.UserResponseType,
+          ..Enum.EventRequiringAttentionType,
           ..Enum.InfectiousStatusType,
           ..Enum.RoleCodeName,
           ..Enum.SampleMaterialType
@@ -252,12 +252,6 @@ include("Controller/default-crud-imp.jl")
 # TRAQUERUtil
 # include("TRAQUERUtil/using.jl")
 include("TRAQUERUtil/util-imp.jl")
-include("TRAQUERUtil/util-imp-partition.jl")
-include("TRAQUERUtil/utils-impl-ref-generation.jl")
-include("TRAQUERUtil/do-functions.jl")
-include("TRAQUERUtil/getMappingAnalysisRequestType2InfectiousAgentCategory.jl")
-include("TRAQUERUtil/analysisRequestType2InfectiousAgentCategory.jl")
-include("TRAQUERUtil/infectiousAgentCategory2AnalysisRequestTypes.jl")
 
 # AppuserCtrl
 include("Controller/AppuserCtrl/AppuserCtrl-imp.jl")

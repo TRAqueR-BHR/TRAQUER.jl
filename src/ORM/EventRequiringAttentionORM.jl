@@ -14,7 +14,7 @@ const columns_selection_and_mapping = Dict(
   :response => "response", 
   :responseTime => "response_time", 
   :responseComment => "response_comment", 
-  :pending => "pending", 
+  :isPending => "is_pending", 
   :eventType => "event_type", 
   :refTime => "ref_time", 
 )

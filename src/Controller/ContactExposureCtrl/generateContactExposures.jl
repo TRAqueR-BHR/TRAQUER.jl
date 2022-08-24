@@ -19,6 +19,16 @@ function ContactExposureCtrl.generateContactExposures(
 
 end
 
+"""
+    generateContactExposures(outbreak::Outbreak, dbconn::LibPQ.Connection)
+
+Create the contact exposures of an outbreak.
+
+- First, create the contact cases for patients in the same unit.
+- Second, create the additional contact cases based on the OutbreakConfigUnitAssos (usually
+specified by the user)
+
+"""
 function ContactExposureCtrl.generateContactExposures(
     outbreak::Outbreak,
     dbconn::LibPQ.Connection)

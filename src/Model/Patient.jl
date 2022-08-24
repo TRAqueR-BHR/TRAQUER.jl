@@ -10,7 +10,7 @@ mutable struct Patient <: IPatient
   gender::Union{Missing,Gender.GENDER}
   analysisResults::Union{Missing,Vector{Model.IAnalysisResult}}
   infectiousStatuses::Union{Missing,Vector{Model.IInfectiousStatus}}
-  stays::Union{Missing,Vector{Model.IStay}}
+  staies::Union{Missing,Vector{Model.IStay}}
   contactContactExposures::Union{Missing,Vector{Model.IContactExposure}}
   carrierContactExposures::Union{Missing,Vector{Model.IContactExposure}}
 
@@ -26,7 +26,7 @@ mutable struct Patient <: IPatient
     gender = missing,
     analysisResults = missing,
     infectiousStatuses = missing,
-    stays = missing,
+    staies = missing,
     contactContactExposures = missing,
     carrierContactExposures = missing,
   ) = begin
@@ -41,7 +41,7 @@ mutable struct Patient <: IPatient
     x.gender = gender
     x.analysisResults = analysisResults
     x.infectiousStatuses = infectiousStatuses
-    x.stays = stays
+    x.staies = staies
     x.contactContactExposures = contactContactExposures
     x.carrierContactExposures = carrierContactExposures
     return x

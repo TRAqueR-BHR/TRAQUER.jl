@@ -69,6 +69,15 @@ module InfectiousAgentCategory
   end
 end
 
+module UserResponseType
+  export USER_RESPONSE_TYPE
+  @enum USER_RESPONSE_TYPE begin
+    acknowledge = 1 
+    confirm = 2 
+    request_analysis = 3 
+  end
+end
+
 module InfectiousStatusType
   export INFECTIOUS_STATUS_TYPE
   @enum INFECTIOUS_STATUS_TYPE begin
@@ -101,15 +110,6 @@ module Gender
   end
 end
 
-module InfectiousStatusEventResponseType
-  export INFECTIOUS_STATUS_EVENT_RESPONSE_TYPE
-  @enum INFECTIOUS_STATUS_EVENT_RESPONSE_TYPE begin
-    acknowledge = 1 
-    confirm = 2 
-    request_analysis = 3 
-  end
-end
-
 module HospitalizationStatusType
   export HOSPITALIZATION_STATUS_TYPE
   @enum HOSPITALIZATION_STATUS_TYPE begin
@@ -119,23 +119,23 @@ module HospitalizationStatusType
   end
 end
 
-module InfectiousStatusEventType
-  export INFECTIOUS_STATUS_EVENT_TYPE
-  @enum INFECTIOUS_STATUS_EVENT_TYPE begin
-    hospitalization = 1 
-    new_status = 2 
-    analysis_in_progress = 3 
-    analysis_done = 4 
-    analysis_late = 5 
-  end
-end
-
 module RoleCodeName
   export ROLE_CODE_NAME
   @enum ROLE_CODE_NAME begin
     healthcare_professional = 1 
     can_modify_user = 2 
     doctor = 3 
+  end
+end
+
+module EventRequiringAttentionType
+  export EVENT_REQUIRING_ATTENTION_TYPE
+  @enum EVENT_REQUIRING_ATTENTION_TYPE begin
+    hospitalization = 1 
+    new_status = 2 
+    analysis_in_progress = 3 
+    analysis_done = 4 
+    analysis_late = 5 
   end
 end
 

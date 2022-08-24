@@ -16,8 +16,8 @@ function InfectiousStatusCtrl.upsert!(infectiousStatus::InfectiousStatus, dbconn
         # Create the event requiring attention
         eventRequiringAttention = EventRequiringAttention(
             infectiousStatus = infectiousStatus,
-            pending = true,
-            eventType = InfectiousStatusEventType.new_status,
+            is_pending = true,
+            eventType = EventRequiringAttentionType.new_status,
             refTime = infectiousStatus.refTime
         )
         EventRequiringAttentionCtrl.upsert!(eventRequiringAttention, dbconn)

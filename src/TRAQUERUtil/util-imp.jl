@@ -1,3 +1,11 @@
+include("utils-type2type.jl")
+include("util-imp-partition.jl")
+include("utils-impl-ref-generation.jl")
+include("do-functions.jl")
+include("getMappingAnalysisRequestType2InfectiousAgentCategory.jl")
+include("analysisRequestType2InfectiousAgentCategory.jl")
+include("infectiousAgentCategory2AnalysisRequestTypes.jl")
+
 # see ~/.julia/config/startup.jl for setting the environment variable
 function TRAQUERUtil.loadConf()::ConfParse
 

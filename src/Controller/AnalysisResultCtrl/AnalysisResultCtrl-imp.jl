@@ -135,7 +135,6 @@ function AnalysisResultCtrl.createAnalysisResult(
         resultTime = resultTime
         )
 
-     TRAQUERUtil.createPartitionAnalysisResultIfNotExist(analysisResult, dbconn)
      PostgresORM.create_entity!(analysisResult,dbconn)
 
      return analysisResult

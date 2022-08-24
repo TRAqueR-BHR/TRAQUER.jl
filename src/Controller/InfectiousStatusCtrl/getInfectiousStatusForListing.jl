@@ -24,7 +24,9 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
     end
 
     queryStringShared = "
-        FROM public.infectious_status ist
+        FROM infectious_status ist
+        INNER JOIN event_requiring_attention era
+          ON era.infectious_status_id = ist.id
         INNER JOIN patient p
           ON p.id = ist.patient_id
         LEFT JOIN outbreak_infectious_status_asso oisa
@@ -116,8 +118,14 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
                 queryStringShared *= " AND $nameInWhereClause = ANY(\$$(args_counter += 1)) "
                 if isa(filterValue, String)
                     push!(queryArgs, [filterValue])
-                else
+                elseif isa(filterValue, Vector{String})
                     push!(queryArgs, unique(filterValue))
+                elseif isa(filterValue, Integer)
+                    @info "paramsDict[\"enumType\"][$(paramsDict["enumType"])]"
+                    enumType = TRAQUERUtil.string2type(paramsDict["enumType"])
+                    push!(queryArgs, [TRAQUERUtil.int2enum(enumType,filterValue)])
+                elseif isa(filterValue, Vector{Integer})
+                    # TODO
                 end
             else
                 queryStringShared *= " AND $nameInWhereClause = \$$(args_counter += 1) "
@@ -163,13 +171,23 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
                   p.birthdate_crypt_id AS birthdate_crypt_id,
                   p.birthdate_crypt_id AS birth_year,
                   p.is_hospitalized AS patient_is_hospitalized,
+                  ist.id AS infectious_status_id,
                   ist.ref_time AS ref_time,
                   ist.infectious_status,
                   ist.infectious_agent,
                   ist.is_confirmed,
                   ist.is_current,
+                  era.id AS event_id,
+                  era.response_time AS event_response_time,
+                  era.response_user_id AS event_response_user_id,
+                  era.response_comment AS event_response_comment,
+                  era.response AS event_response,
+                  era.event_type AS event_type,
+                  era.ref_time AS event_ref_time,
+                  era.is_pending AS event_is_pending,
                   patient_current_unit.code_name AS current_unit_code_name,
-                  patient_current_unit.name AS current_unit_name
+                  patient_current_unit.name AS current_unit_name,
+                  o.name AS outbreak_name
                   ")
 
     # Add some columns for the decrypted values
@@ -226,7 +244,7 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
     totalRecords = typemax(Int64)
 
     if length(dfSortings) > 0
-            sort!(analyse,dfSortings)
+            sort!(objects,dfSortings)
     end
 
     result = Dict(:rows => objects,

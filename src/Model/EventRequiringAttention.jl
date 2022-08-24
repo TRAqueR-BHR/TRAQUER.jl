@@ -3,11 +3,11 @@ mutable struct EventRequiringAttention <: IEventRequiringAttention
   responseUser::Union{Missing,Model.IAppuser}
   infectiousStatus::Union{Missing,Model.IInfectiousStatus}
   id::Union{Missing,String}
-  response::Union{Missing,InfectiousStatusEventResponseType.INFECTIOUS_STATUS_EVENT_RESPONSE_TYPE}
+  response::Union{Missing,UserResponseType.USER_RESPONSE_TYPE}
   responseTime::Union{Missing,ZonedDateTime}
   responseComment::Union{Missing,String}
-  pending::Union{Missing,Bool}
-  eventType::Union{Missing,InfectiousStatusEventType.INFECTIOUS_STATUS_EVENT_TYPE}
+  isPending::Union{Missing,Bool}
+  eventType::Union{Missing,EventRequiringAttentionType.EVENT_REQUIRING_ATTENTION_TYPE}
   refTime::Union{Missing,ZonedDateTime}
 
   EventRequiringAttention(args::NamedTuple) = EventRequiringAttention(;args...)
@@ -18,7 +18,7 @@ mutable struct EventRequiringAttention <: IEventRequiringAttention
     response = missing,
     responseTime = missing,
     responseComment = missing,
-    pending = missing,
+    isPending = missing,
     eventType = missing,
     refTime = missing,
   ) = begin
@@ -29,7 +29,7 @@ mutable struct EventRequiringAttention <: IEventRequiringAttention
     x.response = response
     x.responseTime = responseTime
     x.responseComment = responseComment
-    x.pending = pending
+    x.isPending = isPending
     x.eventType = eventType
     x.refTime = refTime
     return x

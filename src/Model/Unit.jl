@@ -4,7 +4,7 @@ mutable struct Unit <: IUnit
   name::Union{Missing,String}
   codeName::Union{Missing,String}
   outbreakConfigUnitAssoes::Union{Missing,Vector{Model.IOutbreakConfigUnitAsso}}
-  stays::Union{Missing,Vector{Model.IStay}}
+  staies::Union{Missing,Vector{Model.IStay}}
   contactExposures::Union{Missing,Vector{Model.IContactExposure}}
   patients::Union{Missing,Vector{Model.IPatient}}
 
@@ -14,7 +14,7 @@ mutable struct Unit <: IUnit
     name = missing,
     codeName = missing,
     outbreakConfigUnitAssoes = missing,
-    stays = missing,
+    staies = missing,
     contactExposures = missing,
     patients = missing,
   ) = begin
@@ -23,7 +23,7 @@ mutable struct Unit <: IUnit
     x.name = name
     x.codeName = codeName
     x.outbreakConfigUnitAssoes = outbreakConfigUnitAssoes
-    x.stays = stays
+    x.staies = staies
     x.contactExposures = contactExposures
     x.patients = patients
     return x

@@ -15,8 +15,8 @@ function createPartitionPatientBirthdateIfNotExist end
 function createPartitionPatientNameIfNotExist end
 function createPartitionAnalysisRefIfNotExist end
 function createPartitionStayIfNotExist end
-function createPartitionAnalysisResultIfNotExist end
 function createPartitionContactExposureIfNotExist end
+function createPartitionAnalysisResultIfNotExist end
 function getTablePartitionNameOnYearMonth end
 function createTablePartitionOnYearMonth end
 function createTablePartitionsOnYearMonthForGivenYear end
@@ -60,3 +60,12 @@ function infectiousAgentCategory2AnalysisRequestTypes end
 function getCarrierWaitingPeriod end
 function getNumberOfNegativeTestsForCarrierExclusion end
 function getNumberOfNegativeTestsForContactExclusion end
+
+function string2enum end
+function string2enum end
+function int2enum end
+function int2enum end
+function string2number end
+function string2number end
+function string2type end
+function string2bool end

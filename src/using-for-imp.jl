@@ -19,7 +19,7 @@ using Base.StackTraces
 using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
       ..Controller.PatientCtrl,
       ..Controller.InfectiousStatusCtrl, ..Controller.AppuserCtrl,
-      ..Controller.ContactExposureCtrl,
+      ..Controller.ContactExposureCtrl, ..Controller.EventRequiringAttentionCtrl,
       ..Model
 using DataFrames
 using ..Enum.AnalysisRequestStatusType,
@@ -30,8 +30,8 @@ using ..Enum.AnalysisRequestStatusType,
       ..Enum.HospitalizationStatusType,
       ..Enum.InfectiousAgentCategory,
       ..Enum.InfectiousStatusType,
-      ..Enum.InfectiousStatusEventType,
-      ..Enum.InfectiousStatusEventResponseType,
+      ..Enum.EventRequiringAttentionType,
+      ..Enum.UserResponseType,
       ..Enum.RoleCodeName,
       ..Enum.SampleMaterialType
 using JWTs
