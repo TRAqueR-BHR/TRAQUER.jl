@@ -75,6 +75,8 @@ module UserResponseType
     acknowledge = 1 
     confirm = 2 
     request_analysis = 3 
+    confirm_and_request_analysis = 4 
+    send_a_reminder = 5 
   end
 end
 
