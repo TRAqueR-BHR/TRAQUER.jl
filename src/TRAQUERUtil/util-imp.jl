@@ -5,6 +5,7 @@ include("do-functions.jl")
 include("getMappingAnalysisRequestType2InfectiousAgentCategory.jl")
 include("analysisRequestType2InfectiousAgentCategory.jl")
 include("infectiousAgentCategory2AnalysisRequestTypes.jl")
+include("json2entity.jl")
 
 # see ~/.julia/config/startup.jl for setting the environment variable
 function TRAQUERUtil.loadConf()::ConfParse

@@ -1,7 +1,7 @@
 #
 # Listing of infectious status
 #
-new_route = route("/infectious-status/listing", req -> begin
+new_route = route("/api/infectious-status/listing", req -> begin
 
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
     if req[:method] == "OPTIONS"

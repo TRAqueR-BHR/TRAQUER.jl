@@ -49,6 +49,7 @@ function extractCryptPwdFromHTTPRequest end
 function createDBConnAndExecute end
 function createDBConnAndExecuteWithTransaction end
 function executeOnWorkerTwoOrHigher end
+function executeOnBgThread end
 
 function getOrganizationCustomModuleName end
 function getOrganizationCustomModule end
@@ -69,3 +70,4 @@ function string2number end
 function string2number end
 function string2type end
 function string2bool end
+function json2entity end

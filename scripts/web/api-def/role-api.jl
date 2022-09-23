@@ -1,7 +1,7 @@
 #
 # Get all the composed roles handled by current user for given Appuser Type
 #
-new_route = route("/role/all-composed-roles/:appuser_type", req -> begin
+new_route = route("/api/role/all-composed-roles/:appuser_type", req -> begin
 
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
     if req[:method] == "OPTIONS"
@@ -84,7 +84,7 @@ api_routes = (api_routes..., new_route) # append the route
 #
 # Get all the composed roles handled by current user
 #
-new_route = route("/role/all-composed-roles", req -> begin
+new_route = route("/api/role/all-composed-roles", req -> begin
 
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
     if req[:method] == "OPTIONS"
@@ -164,7 +164,7 @@ api_routes = (api_routes..., new_route) # append the route
 #
 # Get all composed roles for listing
 #
-new_route = route("/role/composed-roles-for-listing", req -> begin
+new_route = route("/api/role/composed-roles-for-listing", req -> begin
 
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
     if req[:method] == "OPTIONS"

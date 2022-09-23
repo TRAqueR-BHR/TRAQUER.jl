@@ -34,24 +34,29 @@ include("../prerequisite.jl")
 @everywhere include("web-api-definition.jl")
 
 # WebSocket server
-@everywhere function websocket_example(x)
-    sock = x[:socket]
-    while !eof(sock)
-        str = String(read(sock))
-        println("Received data: " * str)
-        write(sock, "Hey, I've received " * str)
-    end
-end
+# @everywhere function websocket_example(x)
+#     sock = x[:socket]
+#     while !eof(sock)
+#         str = String(read(sock))
+#         println("Received data: " * str)
+#         write(sock, "Hey, I've received " * str)c
+#     end
+# end
 
-@app web_socket = (
-    Mux.wdefaults,
-    route("/ws_io", websocket_example),
-    Mux.wclose,
-    Mux.notfound()
+# @app web_socket = (
+#     Mux.defaults,
+#     route("/ws_io", websocket_example),
+#     Mux.wclose,
+#     Mux.notfound()
+# )
+
+# server = Mux.serve(web_api, web_socket, Mux.localhost, 8093
+#             ;reuseaddr = true)
+
+Mux.serve(
+    web_api, Mux.localhost, 8093
+    ;reuseaddr = false
 )
-
-Mux.serve(web_api, web_socket, Mux.localhost, 8093
-            ;reuseaddr = true)
 
 # https://richardanaya.medium.com/how-to-create-a-multi-threaded-http-server-in-julia-ca12dca09c35
 # Starting an HTTP server on several worker doesnt do anything (apart from creating warn messages )

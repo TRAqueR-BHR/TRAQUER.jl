@@ -20,7 +20,8 @@ using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
       ..Controller.PatientCtrl,
       ..Controller.InfectiousStatusCtrl, ..Controller.AppuserCtrl,
       ..Controller.ContactExposureCtrl, ..Controller.EventRequiringAttentionCtrl,
-      ..Model
+      ..Controller.OutbreakCtrl
+using ..Model
 using DataFrames
 using ..Enum.AnalysisRequestStatusType,
       ..Enum.AnalysisResultValueType,
@@ -37,3 +38,4 @@ using ..Enum.AnalysisRequestStatusType,
 using JWTs
 using Missings
 using Distributed
+using ThreadPools

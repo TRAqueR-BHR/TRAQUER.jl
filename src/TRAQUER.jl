@@ -21,7 +21,7 @@ end  # module Enum
 module TRAQUERUtil
     export openDBConn,openDBConnAndBeginTransaction,beginDBTransaction,
            commitDBTransaction,rollbackDBTransaction,closeDBConn,
-           getConf, formatExceptionAndStackTrace, json2Entity, getTimezone
+           getConf, formatExceptionAndStackTrace, json2entity, getTimezone
     include("./TRAQUERUtil/util-def.jl")
 
 end # module TRAQUERUtil
@@ -221,9 +221,12 @@ module Controller
     include("Controller/AnalysisResultCtrl/AnalysisResultCtrl-def.jl")
   end
 
-  "Un super module"
   module InfectiousStatusCtrl
     include("Controller/InfectiousStatusCtrl/InfectiousStatusCtrl-def.jl")
+  end
+
+  module OutbreakCtrl
+    include("Controller/OutbreakCtrl/OutbreakCtrl-def.jl")
   end
 
   module EventRequiringAttentionCtrl
@@ -270,6 +273,9 @@ include("Controller/ETLCtrl/ETLCtrl-imp.jl")
 
 # InfectiousStatusCtrl
 include("Controller/InfectiousStatusCtrl/InfectiousStatusCtrl-imp.jl")
+
+# OutbreakCtrl
+include("Controller/OutbreakCtrl/OutbreakCtrl-imp.jl")
 
 # EventRequiringAttentionCtrl
 include("Controller/EventRequiringAttentionCtrl/EventRequiringAttentionCtrl-imp.jl")

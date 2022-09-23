@@ -1,5 +1,5 @@
 # curl -d '{"login":"mylogin", "password":"mypassword"}' -H "Content-Type: application/json" -X POST http://localhost:8082/createAppuser/
-new_route = route("/authenticate", req -> begin
+new_route = route("/api/authenticate", req -> begin
 
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
     if req[:method] == "OPTIONS"
@@ -58,7 +58,7 @@ api_routes = (api_routes..., new_route) # append the route
 #
 # Retrieve one appUser
 #
-new_route = route("/appuser/retrieve-user-from-id", req -> begin
+new_route = route("/api/appuser/retrieve-user-from-id", req -> begin
 
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
     if req[:method] == "OPTIONS"
@@ -144,7 +144,7 @@ api_routes = (api_routes..., new_route) # append the route
 #
 # Create/Update a appUser
 #
-new_route = route("/appuser/save", req -> begin
+new_route = route("/api/appuser/save", req -> begin
 
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
     if req[:method] == "OPTIONS"
@@ -238,7 +238,7 @@ api_routes = (api_routes..., new_route) # append the route
 #
 # Retrieve all users
 #
-new_route = route("/appuser/get-all-users", req -> begin
+new_route = route("/api/appuser/get-all-users", req -> begin
 
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
     if req[:method] == "OPTIONS"

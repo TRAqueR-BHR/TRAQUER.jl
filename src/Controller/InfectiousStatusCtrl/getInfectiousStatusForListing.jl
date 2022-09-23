@@ -181,7 +181,7 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
                   era.response_time AS event_response_time,
                   era.response_user_id AS event_response_user_id,
                   era.response_comment AS event_response_comment,
-                  era.response AS event_response,
+                  era.responses_types AS event_responses_types,
                   era.event_type AS event_type,
                   era.ref_time AS event_ref_time,
                   era.is_pending AS event_is_pending,
@@ -234,6 +234,8 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
             INFECTIOUS_STATUS_TYPE, objects.infectious_status)
         objects.infectious_agent = passmissing(TRAQUERUtil.string2enum).(
             INFECTIOUS_AGENT_CATEGORY, objects.infectious_agent)
+        objects.event_type = passmissing(TRAQUERUtil.string2enum).(
+            EVENT_REQUIRING_ATTENTION_TYPE, objects.event_type)
 
     catch e
         rethrow(e)
@@ -244,11 +246,10 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
     totalRecords = typemax(Int64)
 
     if length(dfSortings) > 0
-            sort!(objects,dfSortings)
+        sort!(objects,dfSortings)
     end
 
-    result = Dict(:rows => objects,
-                  :totalRecords => totalRecords)
+    result = Dict(:rows => objects, :totalRecords => totalRecords)
 
     return result
 

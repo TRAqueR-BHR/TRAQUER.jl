@@ -1,5 +1,6 @@
 # curl -d '{"login":"mylogin", "password":"mypassword"}' -H "Content-Type: application/json" -X POST http://localhost:8082/createAppuser/
-new_route = route("/misc/get-current-frontend-version", req -> begin
+# curl -d '{}' -H "Content-Type: application/json" -X POST http://localhost:8083/misc/get-current-frontend-version/
+new_route = route("/api/misc/get-current-frontend-version", req -> begin
 
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
     if req[:method] == "OPTIONS"

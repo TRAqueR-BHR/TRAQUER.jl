@@ -55,3 +55,19 @@ function TRAQUERUtil.executeOnWorkerTwoOrHigher(fct::Function,args...;kwargs...)
 
     return res
 end
+
+# Reference: https://github.com/JuliaWeb/HTTP.jl/issues/798#issuecomment-1019969735
+function TRAQUERUtil.executeOnBgThread(fct::Function,args...;kwargs...)
+
+    t = ThreadPools.spawnbg() do
+        fct(args...;kwargs...)
+    end
+    res = fetch(t)
+
+    if res isa CapturedException
+        throw(res)
+    end
+
+    return res
+
+end

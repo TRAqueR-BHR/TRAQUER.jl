@@ -1,5 +1,5 @@
 # curl -d '{"login":"mylogin", "password":"mypassword"}' -H "Content-Type: application/json" -X POST http://localhost:8082/createAppuser/
-new_route = route("/misc/name-of-dataset-password-header-for-http-request", req -> begin
+new_route = route("/api/misc/name-of-dataset-password-header-for-http-request", req -> begin
 
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
     if req[:method] == "OPTIONS"
