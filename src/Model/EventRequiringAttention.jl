@@ -8,7 +8,7 @@ mutable struct EventRequiringAttention <: IEventRequiringAttention
   isPending::Union{Missing,Bool}
   eventType::Union{Missing,EventRequiringAttentionType.EVENT_REQUIRING_ATTENTION_TYPE}
   refTime::Union{Missing,ZonedDateTime}
-  responsesTypes::Union{Missing,Vector{UserResponseType.USER_RESPONSE_TYPE}}
+  responsesTypes::Union{Missing,Vector{ResponseType.RESPONSE_TYPE}}
 
   EventRequiringAttention(args::NamedTuple) = EventRequiringAttention(;args...)
   EventRequiringAttention(;

@@ -10,6 +10,7 @@ get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
   :creator => "creator_id", 
   :lastEditor => "last_editor_id", 
+  :unit => "unit_id", 
   :id => "id", 
   :requestType => "request_type", 
   :creationTime => "creation_time", 
@@ -32,6 +33,7 @@ get_types_override() = return types_override
 const types_override = Dict(
   :creator => Model.Appuser, 
   :lastEditor => Model.Appuser, 
+  :unit => Model.Unit, 
 
 )
 

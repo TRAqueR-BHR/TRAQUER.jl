@@ -2,6 +2,7 @@ mutable struct AnalysisRequest <: IAnalysisRequest
 
   creator::Union{Missing,Model.IAppuser}
   lastEditor::Union{Missing,Model.IAppuser}
+  unit::Union{Missing,Model.IUnit}
   id::Union{Missing,String}
   requestType::Union{Missing,AnalysisRequestType.ANALYSIS_REQUEST_TYPE}
   creationTime::Union{Missing,ZonedDateTime}
@@ -12,15 +13,17 @@ mutable struct AnalysisRequest <: IAnalysisRequest
   AnalysisRequest(;
     creator = missing,
     lastEditor = missing,
+    unit = missing,
     id = missing,
     requestType = missing,
     creationTime = missing,
     lastUpdateTime = missing,
     statusType = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,)
     x.creator = creator
     x.lastEditor = lastEditor
+    x.unit = unit
     x.id = id
     x.requestType = requestType
     x.creationTime = creationTime

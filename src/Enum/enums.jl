@@ -61,23 +61,24 @@ module AnalysisRequestType
   end
 end
 
+module ResponseType
+  export RESPONSE_TYPE
+  @enum RESPONSE_TYPE begin
+    acknowledge = 1 
+    confirm = 2 
+    request_analysis = 3 
+    send_a_reminder = 4 
+    declare_outbreak = 5 
+    isolation_in_same_unit = 6 
+    isolation_in_special_unit = 7 
+  end
+end
+
 module InfectiousAgentCategory
   export INFECTIOUS_AGENT_CATEGORY
   @enum INFECTIOUS_AGENT_CATEGORY begin
     carbapenemase_producing_enterobacteriaceae = 1 
     vancomycin_resistant_enterococcus = 2 
-  end
-end
-
-module UserResponseType
-  export USER_RESPONSE_TYPE
-  @enum USER_RESPONSE_TYPE begin
-    acknowledge = 1 
-    confirm = 2 
-    request_analysis = 3 
-    send_a_reminder = 4 
-    take_precautionary_measures = 5 
-    declare_outbreak = 6 
   end
 end
 
