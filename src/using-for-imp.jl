@@ -32,7 +32,7 @@ using ..Enum.AnalysisRequestStatusType,
       ..Enum.InfectiousAgentCategory,
       ..Enum.InfectiousStatusType,
       ..Enum.EventRequiringAttentionType,
-      ..Enum.UserResponseType,
+      ..Enum.ResponseType,
       ..Enum.RoleCodeName,
       ..Enum.SampleMaterialType
 using JWTs

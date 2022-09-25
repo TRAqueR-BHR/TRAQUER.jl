@@ -9,3 +9,6 @@ conf/*
 
 docs/build/*
 
+debug-scripts/*
+!debug-scripts/.gitkeep
+

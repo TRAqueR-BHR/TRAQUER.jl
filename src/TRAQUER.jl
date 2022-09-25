@@ -42,7 +42,7 @@ module Model
           ..Enum.Gender,
           ..Enum.HospitalizationStatusType,
           ..Enum.InfectiousAgentCategory,
-          ..Enum.UserResponseType,
+          ..Enum.ResponseType,
           ..Enum.EventRequiringAttentionType,
           ..Enum.InfectiousStatusType,
           ..Enum.RoleCodeName,
