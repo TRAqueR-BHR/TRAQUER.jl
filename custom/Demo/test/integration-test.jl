@@ -110,6 +110,18 @@ outbreakPatient2 = TRAQUERUtil.createDBConnAndExecute() do dbconn
 
 end
 
+# Generate the default associations between the outbreak and the units
+outbreakConfigUnitAssos = TRAQUERUtil.createDBConnAndExecute() do dbconn
+
+    OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
+        outbreakPatient2,
+        false, # simulate::Bool,
+        dbconn
+        ;cleanExisting = true
+    )
+
+end
+
 # Generate the exposures for the outbreak of patient2
 exposures = TRAQUERUtil.createDBConnAndExecute() do dbconn
     ContactExposureCtrl.generateContactExposures(
