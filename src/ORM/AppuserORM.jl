@@ -33,6 +33,16 @@ get_id_props() = return [:id,]
 get_onetomany_counterparts() = return onetomany_counterparts
 const onetomany_counterparts = Dict(
 
+  :outbreakConfigUnitAssoes => (
+    data_type = Model.OutbreakConfigUnitAsso, # The struct where the associated manytoone property is
+    property = :creator, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
+
+  :outbreaks => (
+    data_type = Model.Outbreak, # The struct where the associated manytoone property is
+    property = :creator, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
+
   :eventRequiringAttentions => (
     data_type = Model.EventRequiringAttention, # The struct where the associated manytoone property is
     property = :responseUser, # The name of the associated manytoone property
@@ -80,6 +90,8 @@ get_types_override() = return types_override
 const types_override = Dict(
   :creator => Model.Appuser, 
   :lastEditor => Model.Appuser, 
+  :outbreakConfigUnitAssoes => Vector{Model.OutbreakConfigUnitAsso}, 
+  :outbreaks => Vector{Model.Outbreak}, 
   :eventRequiringAttentions => Vector{Model.EventRequiringAttention}, 
   :creatorAnalysisRequests => Vector{Model.AnalysisRequest}, 
   :lastEditorAnalysisRequests => Vector{Model.AnalysisRequest}, 

@@ -32,7 +32,7 @@ module Model
            EventRequiringAttention, Modification, Outbreak,
            OutbreakInfectiousStatusAsso, Patient, PatientBirthdateCrypt,
            PatientCurrentStatus, PatientNameCrypt, PatientRefCrypt, Role, RoleRoleAsso,
-           Stay, Unit, OutbreakConfig, OutbreakConfigUnitAsso
+           Stay, Unit, OutbreakConfig, OutbreakConfigUnitAsso, PatientDecrypt
     export Appuser
     using PostgresORM,TimeZones
     using ..Enum.AnalysisRequestStatusType,
@@ -48,6 +48,7 @@ module Model
           ..Enum.RoleCodeName,
           ..Enum.SampleMaterialType
     include("Model/abstract-types.jl")
+    include("Model-protected/abstract-types.jl")
     include("Model/AnalysisRefCrypt.jl")
     include("Model/AnalysisRequest.jl")
     include("Model/AnalysisResult.jl")
@@ -71,6 +72,7 @@ module Model
     include("Model/Stay.jl")
     include("Model/Unit.jl")
     include("Model-protected/Appuser.jl")
+    include("Model-protected/PatientDecrypt.jl")
 end  # module Model
 
 module ORM
@@ -192,6 +194,12 @@ module ORM
         include("./ORM/AppuserORM.jl")
         include("./ORM-tracking/AppuserORM-tracking.jl")
     end
+    module PatientDecryptORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM-tracking/PatientDecryptORM.jl")
+    end
+
 
 end  # module ORM
 
@@ -227,6 +235,10 @@ module Controller
 
   module OutbreakCtrl
     include("Controller/OutbreakCtrl/OutbreakCtrl-def.jl")
+  end
+
+  module OutbreakConfigCtrl
+    include("Controller/OutbreakConfigCtrl/OutbreakConfigCtrl-def.jl")
   end
 
   module EventRequiringAttentionCtrl
@@ -285,6 +297,9 @@ include("Controller/ContactExposureCtrl/ContactExposureCtrl-imp.jl")
 
 # UnitCtrl
 include("Controller/UnitCtrl/UnitCtrl-imp.jl")
+
+OutbreakConfigCtrl
+include("Controller/OutbreakConfigCtrl/OutbreakConfigCtrl-imp.jl")
 
 # Custom implementation
 include(ENV["TRAQUER_CUSTOM_MODULE_IMPLEMENTATION_FILE"])

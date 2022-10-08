@@ -8,11 +8,14 @@ get_table_name() = "outbreak_config_unit_asso"
 # Declare the mapping between the properties and the database columns
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
+  :creator => "creator_id", 
   :unit => "unit_id", 
   :outbreakConfig => "outbreak_config_id", 
   :id => "id", 
-  :startDate => "start_date", 
-  :endDate => "end_date", 
+  :startTime => "start_time", 
+  :endTime => "end_time", 
+  :isDefault => "is_default", 
+  :comment => "comment", 
 )
 
 
@@ -28,6 +31,7 @@ const onetomany_counterparts = Dict(
 # Override the abstract types 
 get_types_override() = return types_override
 const types_override = Dict(
+  :creator => Model.Appuser, 
   :unit => Model.Unit, 
   :outbreakConfig => Model.OutbreakConfig, 
 

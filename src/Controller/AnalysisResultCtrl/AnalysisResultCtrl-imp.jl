@@ -1,3 +1,5 @@
+include("getAnalyses.jl")
+
 function AnalysisResultCtrl.createAnalysisResultIfNotExist(
     patient::Patient,
     stay::Stay,

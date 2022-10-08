@@ -1,14 +1,14 @@
 #
-# Get an instance of Outbreak from an infectiousStatus
+# Get the carrier stays related to a OutbreakConfigUnitAsso
 #
-new_route = route("/api/outbreak/get-outbreak-from-infectious-status", req -> begin
+new_route = route("/api/stay/get-carriers-stays-from-outbreak-config-unit-asso", req -> begin
 
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
     if req[:method] == "OPTIONS"
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/outbreak/get-outbreak-from-infectious-status"
+    @info "API /api/stay/get-carriers-stays-from-outbreak-config-unit-asso"
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -28,10 +28,9 @@ new_route = route("/api/outbreak/get-outbreak-from-infectious-status", req -> be
 
     # Initialize results
     error = nothing
-    outbreak::Union{Outbreak,Missing} = missing
+    carrierStaysForlisting::Union{DataFrame,Missing} = missing
 
     status_code = try
-
 
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
 
@@ -40,14 +39,15 @@ new_route = route("/api/outbreak/get-outbreak-from-infectious-status", req -> be
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
 
         # Create the entity from the JSON Dict
-        infectiousStatus::InfectiousStatus = json2entity(InfectiousStatus, obj["infectiousStatus"])
-        includeComplexProperties::Bool = obj["includeComplexProperties"]
+        outbreakConfigUnitAsso::OutbreakConfigUnitAsso = json2entity(
+            OutbreakConfigUnitAsso, obj["outbreakConfigUnitAsso"]
+        )
 
-        outbreak = TRAQUERUtil.executeOnBgThread() do
+        carrierStaysForlisting = TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
-                OutbreakCtrl.getOutbreakFromInfectiousStatus(
-                    infectiousStatus,
-                    includeComplexProperties,
+                StayCtrl.getCarriersStaysForListing(
+                    outbreakConfigUnitAsso,
+                    cryptPwd,
                     dbconn
                 )
             end
@@ -71,7 +71,7 @@ new_route = route("/api/outbreak/get-outbreak-from-infectious-status", req -> be
     result::Union{Missing,String} = missing
     try
         if status_code == 200
-            result = String(JSON.json(outbreak)) # The client side doesn't really need the message
+            result = String(JSON.json(carrierStaysForlisting)) # The client side doesn't really need the message
         else
             result = String(JSON.json(string(error)))
         end

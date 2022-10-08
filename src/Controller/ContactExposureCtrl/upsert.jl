@@ -3,10 +3,10 @@ function ContactExposureCtrl.upsert!(contactExposure::ContactExposure, dbconn::L
     # Check whether an exposure already exists
     filterObject = ContactExposure(
         contact = contactExposure.contact,
-        carrier = contactExposure.carrier,
         outbreak = contactExposure.outbreak,
         unit = contactExposure.unit,
         startTime = contactExposure.startTime,
+        endTime = contactExposure.endTime,
     )
     existing = PostgresORM.retrieve_one_entity(filterObject, false, dbconn)
     if ismissing(existing)

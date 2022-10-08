@@ -1,3 +1,5 @@
+include("getPatientDecrypt.jl")
+
 function PatientCtrl.createPatientIfNoExist(firstname::String,
                                             lastname::String,
                                             birthdate::Date,

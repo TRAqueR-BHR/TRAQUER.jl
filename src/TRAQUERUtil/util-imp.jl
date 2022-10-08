@@ -131,6 +131,11 @@ function TRAQUERUtil.getCarrierWaitingPeriod()
     Month
 end
 
+function TRAQUERUtil.getCarrierRollbackPeriodForHospitalizationsAtRisk()
+    parse(Int,TRAQUERUtil.getConf("rules_parameters","rollback_for_hospitalizations_at_risk_of_carrier_in_months")) |>
+    Month
+end
+
 function TRAQUERUtil.getNumberOfNegativeTestsForCarrierExclusion()
     parse(Int, TRAQUERUtil.getConf("rules_parameters","number_of_negative_tests_for_carrier_exclusion"))
 end

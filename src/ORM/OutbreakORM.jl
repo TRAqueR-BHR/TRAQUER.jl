@@ -9,6 +9,7 @@ get_table_name() = "outbreak"
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
   :config => "config_id", 
+  :creator => "creator_id", 
   :id => "id", 
   :name => "name", 
   :infectiousAgent => "infectious_agent", 
@@ -38,6 +39,7 @@ const onetomany_counterparts = Dict(
 get_types_override() = return types_override
 const types_override = Dict(
   :config => Model.OutbreakConfig, 
+  :creator => Model.Appuser, 
   :contactExposures => Vector{Model.ContactExposure}, 
   :outbreakInfectiousStatusAssoes => Vector{Model.OutbreakInfectiousStatusAsso}, 
 

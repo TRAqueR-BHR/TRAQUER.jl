@@ -22,3 +22,9 @@ function retrieveOneStayContainingDateTime end
 function updateCurrentHospitalizationStatus end
 
 function getSortedPatientStays end
+
+function getStaysWherePatientAtRisk end
+
+function getCarriersStays end
+
+function getCarriersStaysForListing end

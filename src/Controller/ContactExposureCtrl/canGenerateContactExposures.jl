@@ -18,37 +18,22 @@ function ContactExposureCtrl.canGenerateContactExposures(
     notAtRiskStatusRefTime::Union{ZonedDateTime,Missing}
 )
 
-    if ismissing(notAtRiskStatusRefTime)
-        if ismissing(stay.outTime)
-            return true
-        elseif stay.outTime >= carrierStatusRefTime
-            return true
-        else
-            return false
-        end
+    rollbackForHospitalizationsAtRisk = TRAQUERUtil.getCarrierRollbackPeriodForHospitalizationsAtRisk()
 
-    # If not_at_risk ref time exists
-    else
-        if ismissing(stay.outTime)
-            if stay.inTime <= notAtRiskStatusRefTime
-                return true
-            else
-                return false
-            end
-        else
-            if (
-                (carrierStatusRefTime < stay.inTime < notAtRiskStatusRefTime)
-                ||
-                (carrierStatusRefTime < stay.outTime < notAtRiskStatusRefTime)
-            )
-                return true
-            else
-                return false
-            end
-
-        end
-
+    # Start by checking that the stay is not too old
+    if stay.hospitalizationInTime < carrierStatusRefTime - rollbackForHospitalizationsAtRisk
+        return false
     end
 
+    # If the patient has a 'not_at_risk' status then the stay must have ended before that date
+    #    to be considered at risk
+    if (!ismissing(notAtRiskStatusRefTime)
+        && !ismissing(stay.outTime)
+        && stay.outTime > notAtRiskStatusRefTime)
+        return false
+    end
+
+    # If not excluded by the previous test, then the stay can generate exposures
+    return true
 
 end

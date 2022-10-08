@@ -9,3 +9,4 @@ function retrievePatientsFromRef end
 function retrievePatients end
 function retrieveOnePatient end
 function getRefOneChar end
+function getPatientDecrypt end

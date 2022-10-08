@@ -1,6 +1,6 @@
 function StayCtrl.getSortedPatientStays(
     patient::Patient, dbconn::LibPQ.Connection
-)
+)::Vector{Stay}
 
     # Get the list of all the stays of this patient
     stays = "

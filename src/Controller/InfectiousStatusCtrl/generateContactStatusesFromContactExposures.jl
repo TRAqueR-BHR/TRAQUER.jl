@@ -17,7 +17,7 @@ function InfectiousStatusCtrl.generateContactStatusesFromContactExposures(
         WHERE p.id = \$1
           AND ce.start_time >= \$2
           AND ce.start_time <= \$3
-        " |>
+        ORDER BY ce.start_time" |>
         n -> PostgresORM.execute_plain_query(
             n,
             [

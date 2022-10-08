@@ -20,7 +20,7 @@ using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
       ..Controller.PatientCtrl,
       ..Controller.InfectiousStatusCtrl, ..Controller.AppuserCtrl,
       ..Controller.ContactExposureCtrl, ..Controller.EventRequiringAttentionCtrl,
-      ..Controller.OutbreakCtrl
+      ..Controller.OutbreakCtrl, ..Controller.OutbreakConfigCtrl
 using ..Model
 using DataFrames
 using ..Enum.AnalysisRequestStatusType,

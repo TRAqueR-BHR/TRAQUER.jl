@@ -59,17 +59,6 @@ function getExactOverlap end
 
 function generateContactExposures end
 
-"""
-    generateAdditionalContactExposures(
-        unit::Unit, startTime::ZonedDateTime, endTime::ZonedDateTime, dbconn::LibPQ.Connection
-    )
-
-Stay:                        : [==========================
-startTime/endTime of interest:        [==========]
-
-
-"""
-function generateAdditionalContactExposures end
 
 """
     canGenerateContactExposures(

@@ -1,161 +1,115 @@
 function ContactExposureCtrl.generateContactExposures(
-    startDate::Date,dbconn::LibPQ.Connection
+    outbreak::Outbreak, dbconn::LibPQ.Connection
 )
 
-    queryString = "
-        SELECT * FROM infectious_status i
-        WHERE i.infectious_status = ANY(\$1)
-        AND ref_time >= \$2
-        "
-    queryArgs = [[InfectiousStatusType.carrier], startDate]
-    infectiousStatuses = PostgresORM.execute_query_and_handle_result(
-            queryString, InfectiousStatus, queryArgs, false, dbconn)
-
-    for infectiousStatus in infectiousStatuses
-        ContactExposureCtrl.generateContactExposures(infectiousStatus, dbconn)
-    end
-
-    return infectiousStatuses
-
-end
-
-"""
-    generateContactExposures(outbreak::Outbreak, dbconn::LibPQ.Connection)
-
-Create the contact exposures of an outbreak.
-
-- First, create the contact cases for patients in the same unit.
-- Second, create the additional contact cases based on the OutbreakConfigUnitAssos (usually
-specified by the user)
-
-"""
-function ContactExposureCtrl.generateContactExposures(
-    outbreak::Outbreak,
-    dbconn::LibPQ.Connection)
-
-    # Get the confirmed carrier infectious status of the outbreak
-    queryString = "
-        SELECT ist.*
-        FROM outbreak
-        JOIN outbreak_infectious_status_asso oisa
-          ON  oisa.outbreak_id = outbreak.id
-        JOIN infectious_status ist
-          ON ist.id = oisa.infectious_status_id
-        WHERE ist.infectious_status = 'carrier'
-        AND ist.is_confirmed = 'true'
-        "
-    confirmedCarrierInfectiousStatuses = PostgresORM.execute_query_and_handle_result(
-        queryString,InfectiousStatus, missing, false , dbconn
-    )
-
-    @info "length(confirmedCarrierInfectiousStatuses)[$(length(confirmedCarrierInfectiousStatuses))]"
+    # Get the OutbreakConfigUnitAssos
+    outbreakConfigUnitAssos = "SELECT ocua.*
+        FROM outbreak o
+        JOIN outbreak_config oc
+        ON o.config_id = oc.id
+        JOIN outbreak_config_unit_asso ocua
+        ON ocua.outbreak_config_id = oc.id
+        JOIN unit
+        ON ocua.unit_id = unit.id
+        WHERE
+        o.id = \$1
+        " |> n -> PostgresORM.execute_query_and_handle_result(
+                n,
+                OutbreakConfigUnitAsso,
+                [outbreak.id],
+                false,
+                dbconn
+            )
 
     exposures = ContactExposure[]
-    # Generate the contact exposures for same unit or same room
-    for infectiousStatus in confirmedCarrierInfectiousStatuses
-        push!(
-            exposures,
-            ContactExposureCtrl.generateContactExposures(
-                outbreak,
-                infectiousStatus,
-                dbconn
-            )...
-        )
-    end
+    for asso in outbreakConfigUnitAssos
 
-    # Generate the additional exposures
-    push!(
-        exposures,
-        ContactExposureCtrl.generateAdditionalContactExposures(
-            outbreak, dbconn
-        )...
-    )
+        carrierStays = StayCtrl.getCarriersStays(asso, dbconn)
+
+        # 1. Create the exposures for the carriers stays
+        for carrierStay in carrierStays
+            push!(
+                exposures,
+                ContactExposureCtrl.generateContactExposures(
+                    outbreak, carrierStay, outbreak.config.sameRoomOnly, dbconn
+                )...
+            )
+        end
+
+        # 2. Create some additional exposures if the time boundaries are larger than the stays
+
+        # If there are no carrier stay in the (the asso is probably created from scratch
+        # by the user)
+        if isempty(carrierStays)
+            push!(
+                exposures,
+                ContactExposureCtrl.generateContactExposures(
+                    outbreak,
+                    asso.unit,
+                    asso.startTime,
+                    asso.endTime,
+                    dbconn
+                )...
+            )
+        # If there are some carrier stays only create additional exposures if the boudaries
+        # of the asso are larger than the ones of the stays
+        else
+
+            minInTimeCarrierStayInUnit = getproperty.(carrierStays, :inTime) |>
+                minimum # can return missing
+            maxOutTimeCarrierStayInUnit = filter(x -> !ismissing(x.outTime),carrierStays) |>
+                n -> if isempty(n) missing else map(x -> x.outTime,n) end |>
+                passmissing(maximum) # can return missing
+
+            if (
+                asso.startTime < minInTimeCarrierStayInUnit
+                || (
+                    !ismissing(maxOutTimeCarrierStayInUnit)
+                    && !ismissing(asso.endTime)
+                    && asso.endTime > maxOutTimeCarrierStayInUnit
+                )
+            )
+                push!(
+                    exposures,
+                    ContactExposureCtrl.generateContactExposures(
+                        outbreak,
+                        asso.unit,
+                        asso.startTime,
+                        asso.endTime,
+                        dbconn
+                    )...
+                )
+            end
+
+        end
+    end
 
     return exposures
 
 end
 
+"""
+"""
 function ContactExposureCtrl.generateContactExposures(
     outbreak::Outbreak,
-    carrierInfectiousStatus::InfectiousStatus,
+    unit::Unit,
+    startTime::ZonedDateTime,
+    endTime::ZonedDateTime,
     dbconn::LibPQ.Connection
 )
 
-    # Check that the infectiousStatus is a confirmed carrier
-    if (carrierInfectiousStatus.infectiousStatus !== InfectiousStatusType.carrier
-        || carrierInfectiousStatus.isConfirmed !== true)
-        return
-    end
-
-    # Get the configuration
-    outbreakConfig = PostgresORM.retrieve_one_entity(outbreak.config,false,dbconn)
-
-    # Look for an infectious status 'not_at_risk' after the 'carrier' ref. time for this
-    # same infectious agent. It will allow to exclude the stays that started after the
-    # ref. time of this 'not_at_risk' status
-    notAtRiskStatus = "
-        SELECT ist.*
-        FROM infectious_status ist
-        WHERE ist.patient_id = \$1
-            AND ist.infectious_agent = \$2
-            AND ist.infectious_status = 'not_at_risk'
-            AND ist.ref_time > \$3
-        ORDER BY ist.ref_time
-        LIMIT 1
-        " |>
-        n -> PostgresORM.execute_query_and_handle_result(
-                n,
-                InfectiousStatus,
-                [
-                    carrierInfectiousStatus.patient.id,
-                    carrierInfectiousStatus.infectiousAgent,
-                    carrierInfectiousStatus.refTime
-                ],
-                false,
-                dbconn
-            ) |> n -> if isempty(n) missing else first(1) end
-
-    # ################################################################################### #
-    # Get all stays of the carrier and keep the ones that can generate an exposure        #
-    # ################################################################################### #
-    queryString = "
-       SELECT s.*
-       FROM stay s
-       WHERE s.patient_id = \$1
-       ORDER BY s.in_time
-    "
-    queryArgs = [carrierInfectiousStatus.patient.id]
-    carrierStays = PostgresORM.execute_query_and_handle_result(
-        queryString,
-        Stay,
-        queryArgs,
-        false,
-        dbconn)
-
-    # Only keep the stays that can generate exposures
-    filter!(
-        stay -> ContactExposureCtrl.canGenerateContactExposures(
-                    stay,
-                    carrierInfectiousStatus,
-                    notAtRiskStatus
-                ),
-        carrierStays
+    return ContactExposureCtrl.generateContactExposures(
+        outbreak,
+        unit,
+        startTime,
+        endTime,
+        missing, # room
+        false, # sameRoomOnly::Bool,
+        dbconn
     )
 
-    # Generate the exposures
-    exposures = ContactExposure[]
-    @info "length(carrierStays)[$(length(carrierStays))]"
-    for carrierStay in carrierStays
-        push!(
-            exposures,
-            ContactExposureCtrl.generateContactExposures(
-                outbreak, carrierStay, outbreakConfig.sameRoomOnly, dbconn)...
-            )
-    end
-
-    exposures
-
 end
+
 
 function ContactExposureCtrl.generateContactExposures(
     outbreak::Outbreak,
@@ -277,7 +231,7 @@ function ContactExposureCtrl.generateContactExposures(
                 carrier = carrier,
                 startTime = overlapStart,
                 endTime = overlapEnd)
-            )
+        )
 
     end
 
