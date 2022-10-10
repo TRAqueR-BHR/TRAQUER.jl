@@ -171,18 +171,6 @@ function ContactExposureCtrl.generateContactExposures(
 
     carrierStays = StayCtrl.getCarriersStays(asso, dbconn)
 
-    # 1. Create the exposures for the carriers stays
-    for carrierStay in carrierStays
-        push!(
-            exposures,
-            ContactExposureCtrl.generateContactExposures(
-                outbreak, carrierStay, asso.sameRoomOnly, dbconn
-                ;simulate = simulate
-            )...
-        )
-    end
-
-    # 2. Create some additional exposures if the time boundaries are larger than the stays
 
     # If there are no carrier stay in the asso, the asso is probably created from scratch
     #   by the user
@@ -198,38 +186,50 @@ function ContactExposureCtrl.generateContactExposures(
                 ;simulate = simulate
             )...
         )
-    # If there are some carrier stays only create additional exposures if the boudaries
-    # of the asso are larger than the ones of the stays
     else
-
-        minInTimeCarrierStayInUnit = getproperty.(carrierStays, :inTime) |>
-            minimum # can return missing
-        maxOutTimeCarrierStayInUnit = filter(x -> !ismissing(x.outTime),carrierStays) |>
-            n -> if isempty(n) missing else map(x -> x.outTime,n) end |>
-            passmissing(maximum) # can return missing
-
-        if (
-            asso.startTime < minInTimeCarrierStayInUnit
-            || (
-                !ismissing(maxOutTimeCarrierStayInUnit)
-                && !ismissing(asso.endTime)
-                && asso.endTime > maxOutTimeCarrierStayInUnit
-            )
-        )
+        for carrierStay in carrierStays
             push!(
                 exposures,
                 ContactExposureCtrl.generateContactExposures(
-                    outbreak,
-                    asso.unit,
-                    asso.startTime,
-                    asso.endTime,
-                    dbconn
+                    outbreak, carrierStay, asso.sameRoomOnly, dbconn
                     ;simulate = simulate
                 )...
             )
         end
-
     end
+
+    # # If there are some carrier stays only create additional exposures if the boudaries
+    # # of the asso are larger than the ones of the stays
+    # else
+
+    #     minInTimeCarrierStayInUnit = getproperty.(carrierStays, :inTime) |>
+    #         minimum # can return missing
+    #     maxOutTimeCarrierStayInUnit = filter(x -> !ismissing(x.outTime),carrierStays) |>
+    #         n -> if isempty(n) missing else map(x -> x.outTime,n) end |>
+    #         passmissing(maximum) # can return missing
+
+    #     if (
+    #         asso.startTime < minInTimeCarrierStayInUnit
+    #         || (
+    #             !ismissing(maxOutTimeCarrierStayInUnit)
+    #             && !ismissing(asso.endTime)
+    #             && asso.endTime > maxOutTimeCarrierStayInUnit
+    #         )
+    #     )
+    #         push!(
+    #             exposures,
+    #             ContactExposureCtrl.generateContactExposures(
+    #                 outbreak,
+    #                 asso.unit,
+    #                 asso.startTime,
+    #                 asso.endTime,
+    #                 dbconn
+    #                 ;simulate = simulate
+    #             )...
+    #         )
+    #     end
+
+    # end
 
 
     return exposures
