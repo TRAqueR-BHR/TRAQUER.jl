@@ -27,9 +27,11 @@ function StayCtrl.getCarriersStays(
 
     stays = Stay[]
     for is in infectiousStatuses
+        staysWherePatientAtRisk = StayCtrl.getStaysWherePatientAtRisk(is, dbconn)
+        filter!(s -> s.unit.id == outbreakConfigUnitAsso.unit.id, staysWherePatientAtRisk)
         push!(
             stays,
-            StayCtrl.getStaysWherePatientAtRisk(is, dbconn)...
+            staysWherePatientAtRisk...
         )
     end
 

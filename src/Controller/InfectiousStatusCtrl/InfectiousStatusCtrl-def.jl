@@ -36,6 +36,8 @@ function getInfectiousStatusForListing end
 
 function getInfectiousStatuses end
 
+function checkIfPatientIsCarrierAtTime end
+
 """
 An infectious status for a given infectious agent is tagged current status if
 it is the last or the last confirmed.

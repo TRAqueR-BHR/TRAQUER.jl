@@ -12,6 +12,7 @@ function ContactExposureCtrl.canGenerateContactExposures(
 
 end
 
+
 function ContactExposureCtrl.canGenerateContactExposures(
     stay::Stay,
     carrierStatusRefTime::ZonedDateTime,
@@ -26,11 +27,18 @@ function ContactExposureCtrl.canGenerateContactExposures(
     end
 
     # If the patient has a 'not_at_risk' status then the stay must have ended before that date
-    #    to be considered at risk
-    if (!ismissing(notAtRiskStatusRefTime)
-        && !ismissing(stay.outTime)
-        && stay.outTime > notAtRiskStatusRefTime)
-        return false
+    #    or has started before that that date to be considered at risk
+    if !ismissing(notAtRiskStatusRefTime)
+
+        if (!ismissing(stay.outTime)
+            && stay.outTime > notAtRiskStatusRefTime)
+            return false
+        end
+
+        if stay.inTime > notAtRiskStatusRefTime
+            return false
+        end
+
     end
 
     # If not excluded by the previous test, then the stay can generate exposures

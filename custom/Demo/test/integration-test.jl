@@ -15,6 +15,9 @@ TRAQUERUtil.createDBConnAndExecute() do dbconn
     "DELETE FROM outbreak" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
+    "DELETE FROM outbreak_config" |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
     "DELETE FROM contact_exposure" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
@@ -71,8 +74,7 @@ outbreakPatient2 = TRAQUERUtil.createDBConnAndExecute() do dbconn
 
     outbreakPatient2Config =
         OutbreakConfig(
-            id = "520ab98c-e7e1-4289-ab69-21b2f7c2a605",
-            sameRoomOnly = false
+            id = "520ab98c-e7e1-4289-ab69-21b2f7c2a605"
         ) |>
         n -> if ismissing(PostgresORM.retrieve_one_entity(n,false,dbconn))
                 PostgresORM.create_entity!(n, dbconn)

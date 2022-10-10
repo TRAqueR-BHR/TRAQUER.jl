@@ -9,6 +9,7 @@ function StayCtrl.getCarriersStaysForListing(
         outbreakConfigUnitAsso,
         dbconn
     )
+    @info "length(stays)[$(length(stays))]"
 
     if isempty(stays)
         return DataFrame()
@@ -25,7 +26,10 @@ function StayCtrl.getCarriersStaysForListing(
             dbconn,
             true # Include missing values
         )
-        push!(staysDF, PostgresORM.PostgresORMUtil.dict2namedtuple(propsAsDict))
+        push!(
+            staysDF, PostgresORM.PostgresORMUtil.dict2namedtuple(propsAsDict)
+            ;promote = true
+        )
 
         # Get the corresponding patient decrypt data in a dataframe
         patientDecrypt::PatientDecrypt = PatientCtrl.getPatientDecrypt(
@@ -42,6 +46,7 @@ function StayCtrl.getCarriersStaysForListing(
                     true # Include missing values
                 ) |>
                 PostgresORM.PostgresORMUtil.dict2namedtuple
+            ;promote = true
         )
 
     end
@@ -49,6 +54,10 @@ function StayCtrl.getCarriersStaysForListing(
     # Underscore the column names
     DataFrames.rename!(patientDecryptDF, StringCases.underscore.(names(patientDecryptDF)))
     DataFrames.rename!(staysDF, StringCases.underscore.(names(staysDF)))
+
+    # Make the patients DF unique over the patient_id to avoid creating duplicates when
+    #   doing the innerjoin
+    unique!(patientDecryptDF,:patient_id)
 
     DataFrames.innerjoin(staysDF, patientDecryptDF, on = :patient_id)
 

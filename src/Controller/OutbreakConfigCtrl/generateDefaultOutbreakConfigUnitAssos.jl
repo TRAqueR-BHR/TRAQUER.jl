@@ -67,8 +67,6 @@ function OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
 
     for stay in atRiskStays
 
-        @info "stay.outTime[$(stay.outTime)]"
-
         # An asso may already exists, update it if needed, we dont want to create several
         # assos to the same unit
         existingAsso = PostgresORM.retrieve_one_entity(
@@ -118,6 +116,7 @@ function OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
                 outbreakConfig = outbreakConfig,
                 startTime = stay.inTime,
                 endTime = stay.outTime,
+                sameRoomOnly = true,
                 isDefault = true
             )
 
@@ -127,7 +126,7 @@ function OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
             )
 
             if !simulate
-                PostgresORM.create_entity!.(defaultAssos,dbconn)
+                PostgresORM.create_entity!(newAsso,dbconn)
             end
 
         end
