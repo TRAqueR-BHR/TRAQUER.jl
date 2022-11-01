@@ -1,7 +1,11 @@
-function InfectiousStatusCtrl.generateContactStatusesFromContactExposures(
-    patient::Patient,
-    forExposuresRefTimeBetween::Tuple{Date,Date},
+function InfectiousStatusCtrl.generateContactStatusFromExposure(
+    exposure::ContactExposure,
     dbconn::LibPQ.Connection)
+
+    # @info "exposure.id[$(exposure.id)]"
+    # if any(ismissing.(exposure.contact))
+        exposure = PostgresORM.retrieve_one_entity(ContactExposure(id = exposure.id), true, dbconn)
+    # end
 
     exposuresDF = "
         SELECT ce.contact_id,
@@ -14,17 +18,11 @@ function InfectiousStatusCtrl.generateContactStatusesFromContactExposures(
           ON ce.outbreak_id = o.id
         JOIN patient p
           ON ce.contact_id = p.id
-        WHERE p.id = \$1
-          AND ce.start_time >= \$2
-          AND ce.start_time <= \$3
+        WHERE ce.id = \$1
         ORDER BY ce.start_time" |>
         n -> PostgresORM.execute_plain_query(
             n,
-            [
-                patient.id,
-                first(forExposuresRefTimeBetween),
-                last(forExposuresRefTimeBetween),
-            ],
+            [exposure.id],
             dbconn)
 
     # convert some of the columns
@@ -32,7 +30,9 @@ function InfectiousStatusCtrl.generateContactStatusesFromContactExposures(
         INFECTIOUS_AGENT_CATEGORY, exposuresDF.infectious_agent)
     exposuresDF.contact = map(x -> Patient(id = x), exposuresDF.contact_id)
 
-    patientInfectiousStatuses = InfectiousStatusCtrl.getInfectiousStatuses(patient, dbconn)
+    patientInfectiousStatuses = InfectiousStatusCtrl.getInfectiousStatuses(
+        exposure.contact, dbconn
+    )
 
     for exposureRow in eachrow(exposuresDF)
 
@@ -94,7 +94,7 @@ function InfectiousStatusCtrl.generateContactStatusesFromContactExposures(
     end
 
      # As always, refresh the current status of the patient
-     InfectiousStatusCtrl.updateCurrentStatus(patient, dbconn)
+     InfectiousStatusCtrl.updateCurrentStatus(exposure.contact, dbconn)
 
      return nothing
 end

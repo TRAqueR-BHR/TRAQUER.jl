@@ -9,6 +9,7 @@ get_table_name() = "outbreak_config"
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
   :id => "id", 
+  :isEpidemic => "is_epidemic", 
 )
 
 

@@ -28,3 +28,28 @@ function InfectiousStatusCtrl.upsert!(infectiousStatus::InfectiousStatus, dbconn
     end
 
 end
+
+
+function InfectiousStatusCtrl.upsert!(asso::OutbreakInfectiousStatusAsso, dbconn::LibPQ.Connection)
+
+    if any(ismissing.([asso.outbreak, asso.infectiousStatus]))
+        @warn "OutbreakInfectiousStatusAsso is missing its outbreak or infectiousStatus"
+        return asso
+    end
+
+    # Check whether an existing OutbreakInfectiousStatusAsso
+    filterObject = OutbreakInfectiousStatusAsso(
+        outbreak = asso.outbreak,
+        infectiousStatus = asso.infectiousStatus,
+    )
+    existing = PostgresORM.retrieve_one_entity(filterObject, false, dbconn)
+    if ismissing(existing)
+
+        # Create the instance
+        PostgresORM.create_entity!(asso,dbconn)
+    else
+        asso.id = existing.id
+        PostgresORM.update_entity!(asso,dbconn)
+    end
+
+end

@@ -35,6 +35,10 @@ function OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
         queryString, InfectiousStatus, [outbreak.id], false, dbconn
     )
 
+    if isempty(confirmedCarrierInfectiousStatuses)
+        @warn "There are no confirmed carrier status for outbreak[$(outbreak.id)]"
+    end
+
     defaultAssos = OutbreakConfigUnitAsso[]
 
     # Generate the default associations of the outbreak to the units

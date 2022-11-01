@@ -1,1 +1,2 @@
 function getOutbreakFromInfectiousStatus end
+function initializeOutbreak end

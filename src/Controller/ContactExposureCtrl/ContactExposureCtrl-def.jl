@@ -103,3 +103,5 @@ Generate contact exposures? :       0         1        1              0
 function canGenerateContactExposures end
 
 function upsert! end
+
+function generateContactExposuresAndInfectiousStatuses end

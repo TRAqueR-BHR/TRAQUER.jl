@@ -32,6 +32,8 @@ function generateNotAtRiskStatusesFromAnalyses end
 
 function generateContactStatusesFromContactExposures end
 
+function generateContactStatusFromExposure end
+
 function getInfectiousStatusForListing end
 
 function getInfectiousStatuses end

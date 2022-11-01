@@ -160,8 +160,6 @@ function ContactExposureCtrl.generateContactExposures(
     ;simulate::Bool = false
 )
 
-    @warn "HERE1"
-
     outbreak = PostgresORM.retrieve_one_entity(
         Outbreak(config = OutbreakConfig(id = asso.outbreakConfig.id)),
         false,
@@ -197,40 +195,6 @@ function ContactExposureCtrl.generateContactExposures(
             )
         end
     end
-
-    # # If there are some carrier stays only create additional exposures if the boudaries
-    # # of the asso are larger than the ones of the stays
-    # else
-
-    #     minInTimeCarrierStayInUnit = getproperty.(carrierStays, :inTime) |>
-    #         minimum # can return missing
-    #     maxOutTimeCarrierStayInUnit = filter(x -> !ismissing(x.outTime),carrierStays) |>
-    #         n -> if isempty(n) missing else map(x -> x.outTime,n) end |>
-    #         passmissing(maximum) # can return missing
-
-    #     if (
-    #         asso.startTime < minInTimeCarrierStayInUnit
-    #         || (
-    #             !ismissing(maxOutTimeCarrierStayInUnit)
-    #             && !ismissing(asso.endTime)
-    #             && asso.endTime > maxOutTimeCarrierStayInUnit
-    #         )
-    #     )
-    #         push!(
-    #             exposures,
-    #             ContactExposureCtrl.generateContactExposures(
-    #                 outbreak,
-    #                 asso.unit,
-    #                 asso.startTime,
-    #                 asso.endTime,
-    #                 dbconn
-    #                 ;simulate = simulate
-    #             )...
-    #         )
-    #     end
-
-    # end
-
 
     return exposures
 

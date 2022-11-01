@@ -72,57 +72,65 @@ outbreakPatient2 = TRAQUERUtil.createDBConnAndExecute() do dbconn
     patient2CarrierStatus.isConfirmed = true
     PostgresORM.update_entity!(patient2CarrierStatus,dbconn)
 
-    outbreakPatient2Config =
-        OutbreakConfig(
-            id = "520ab98c-e7e1-4289-ab69-21b2f7c2a605"
-        ) |>
-        n -> if ismissing(PostgresORM.retrieve_one_entity(n,false,dbconn))
-                PostgresORM.create_entity!(n, dbconn)
-                return n
-            else
-                return n
-            end
 
-    outbreakPatient2 =
-        Outbreak(name = "outbreak patient2") |>
-        n -> if ismissing(PostgresORM.retrieve_one_entity(n, false, dbconn))
-                n.infectiousAgent = patient2CarrierStatus.infectiousAgent
-                n.config = outbreakPatient2Config
-                PostgresORM.create_entity!(n, dbconn)
-                return n
-            else
-                existingOutbreak = PostgresORM.retrieve_one_entity(n, false, dbconn)
-                existingOutbreak.infectiousAgent = existingOutbreak.infectiousAgent
-                existingOutbreak.config = outbreakPatient2Config
-                PostgresORM.update_entity!(existingOutbreak, dbconn)
-                return existingOutbreak
-            end
-
-    outbreakInfectiousStatusAsso = OutbreakInfectiousStatusAsso(
-        outbreak = outbreakPatient2,
-        infectiousStatus = patient2CarrierStatus
+    outbreakPatient2 = OutbreakCtrl.initializeOutbreak(
+        "outbreak patient2", # outbreakName::String,
+        patient2CarrierStatus, # firstInfectiousStatus::InfectiousStatus,
+        dbconn
     )
 
-    PostgresORM.retrieve_one_entity(outbreakInfectiousStatusAsso, false, dbconn) |>
-    n -> if ismissing(n)
-            PostgresORM.create_entity!(outbreakInfectiousStatusAsso, dbconn)
-        end
+
+    # outbreakPatient2Config =
+    #     OutbreakConfig(
+    #         id = "520ab98c-e7e1-4289-ab69-21b2f7c2a605"
+    #     ) |>
+    #     n -> if ismissing(PostgresORM.retrieve_one_entity(n,false,dbconn))
+    #             PostgresORM.create_entity!(n, dbconn)
+    #             return n
+    #         else
+    #             return n
+    #         end
+
+    # outbreakPatient2 =
+    #     Outbreak(name = "outbreak patient2") |>
+    #     n -> if ismissing(PostgresORM.retrieve_one_entity(n, false, dbconn))
+    #             n.infectiousAgent = patient2CarrierStatus.infectiousAgent
+    #             n.config = outbreakPatient2Config
+    #             PostgresORM.create_entity!(n, dbconn)
+    #             return n
+    #         else
+    #             existingOutbreak = PostgresORM.retrieve_one_entity(n, false, dbconn)
+    #             existingOutbreak.infectiousAgent = existingOutbreak.infectiousAgent
+    #             existingOutbreak.config = outbreakPatient2Config
+    #             PostgresORM.update_entity!(existingOutbreak, dbconn)
+    #             return existingOutbreak
+    #         end
+
+    # outbreakInfectiousStatusAsso = OutbreakInfectiousStatusAsso(
+    #     outbreak = outbreakPatient2,
+    #     infectiousStatus = patient2CarrierStatus
+    # )
+
+    # PostgresORM.retrieve_one_entity(outbreakInfectiousStatusAsso, false, dbconn) |>
+    #     n -> if ismissing(n)
+    #             PostgresORM.create_entity!(outbreakInfectiousStatusAsso, dbconn)
+    #         end
 
     return outbreakPatient2
 
 end
 
 # Generate the default associations between the outbreak and the units
-outbreakConfigUnitAssos = TRAQUERUtil.createDBConnAndExecute() do dbconn
+# outbreakConfigUnitAssos = TRAQUERUtil.createDBConnAndExecute() do dbconn
 
-    OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
-        outbreakPatient2,
-        false, # simulate::Bool,
-        dbconn
-        ;cleanExisting = true
-    )
+#     OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
+#         outbreakPatient2,
+#         false, # simulate::Bool,
+#         dbconn
+#         ;cleanExisting = true
+#     )
 
-end
+# end
 
 # Generate the exposures for the outbreak of patient2
 exposures = TRAQUERUtil.createDBConnAndExecute() do dbconn
