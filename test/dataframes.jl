@@ -4,7 +4,7 @@ Pkg.activate(".")
 using Revise
 using TRAQUER
 using TRAQUER.Model
-using TRAQUER.TRAQUERUtils
+using TRAQUER.TRAQUERUtil
 using PostgresORM
 using CSV
 using DataFrames
@@ -22,7 +22,7 @@ dxcare = CSV.read("csv/mouvements DXCARE 202009-202010 avril 2021.csv", DataFram
 
 let
 
-dbconn = TRAQUERUtils.opendbconn()
+dbconn = TRAQUERUtil.opendbconn()
 
 
 lineCounter = 0
@@ -85,13 +85,13 @@ for r in eachrow(dxcare)
 
 
    entreeMouvement =
-      TRAQUERUtils.convertStringToZonedDateTime(dateEntree,heureEntree,timeZone)
+      TRAQUERUtil.convertStringToZonedDateTime(dateEntree,heureEntree,timeZone)
 
 @info dateSortie
 @info "lineCounter[$lineCounter]"
 
    sortieMouvement =
-      TRAQUERUtils.convertStringToZonedDateTime(dateSortie,heureSortie,timeZone)
+      TRAQUERUtil.convertStringToZonedDateTime(dateSortie,heureSortie,timeZone)
 
 
 
@@ -113,7 +113,7 @@ for r in eachrow(dxcare)
 
 
 end
-TRAQUERUtils.closedbconn(dbconn)
+TRAQUERUtil.closedbconn(dbconn)
 end
 
 
@@ -129,7 +129,7 @@ inlog = DataFrame(XLSX.readtable("csv/mouvements INLOG 202009-202010 avril 2021 
 let
 
 
-   dbconn = TRAQUERUtils.opendbconn()
+   dbconn = TRAQUERUtil.opendbconn()
 
    lineCounter = 0
 
@@ -149,7 +149,7 @@ let
 
 
       dateHeureDemande =
-      TRAQUERUtils.convertStringToZonedDateTime(dateDemande,heureDemande,
+      TRAQUERUtil.convertStringToZonedDateTime(dateDemande,heureDemande,
       timeZone)
 
       prenomPatient = R.RANDOM_PRENOM
@@ -224,5 +224,5 @@ let
 
 
 end #end of let
-TRAQUERUtils.closedbconn(dbconn)
+TRAQUERUtil.closedbconn(dbconn)
    end #end of loop

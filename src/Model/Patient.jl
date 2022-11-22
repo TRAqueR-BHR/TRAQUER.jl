@@ -9,10 +9,10 @@ mutable struct Patient <: IPatient
   traquerRef::Union{Missing,Int32}
   gender::Union{Missing,Gender.GENDER}
   analysisResults::Union{Missing,Vector{Model.IAnalysisResult}}
-  infectiousStatuses::Union{Missing,Vector{Model.IInfectiousStatus}}
-  staies::Union{Missing,Vector{Model.IStay}}
   contactContactExposures::Union{Missing,Vector{Model.IContactExposure}}
   carrierContactExposures::Union{Missing,Vector{Model.IContactExposure}}
+  infectiousStatuses::Union{Missing,Vector{Model.IInfectiousStatus}}
+  staies::Union{Missing,Vector{Model.IStay}}
 
   Patient(args::NamedTuple) = Patient(;args...)
   Patient(;
@@ -25,10 +25,10 @@ mutable struct Patient <: IPatient
     traquerRef = missing,
     gender = missing,
     analysisResults = missing,
-    infectiousStatuses = missing,
-    staies = missing,
     contactContactExposures = missing,
     carrierContactExposures = missing,
+    infectiousStatuses = missing,
+    staies = missing,
   ) = begin
     x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
     x.currentUnit = currentUnit
@@ -40,10 +40,10 @@ mutable struct Patient <: IPatient
     x.traquerRef = traquerRef
     x.gender = gender
     x.analysisResults = analysisResults
-    x.infectiousStatuses = infectiousStatuses
-    x.staies = staies
     x.contactContactExposures = contactContactExposures
     x.carrierContactExposures = carrierContactExposures
+    x.infectiousStatuses = infectiousStatuses
+    x.staies = staies
     return x
   end
 

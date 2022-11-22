@@ -42,6 +42,15 @@ module SampleMaterialType
   end
 end
 
+module OutbreakCriticity
+  export OUTBREAK_CRITICITY
+  @enum OUTBREAK_CRITICITY begin
+    epidemic = 1 
+    non_epidemic = 2 
+    dont_know = 3 
+  end
+end
+
 module AnalysisRequestStatusType
   export ANALYSIS_REQUEST_STATUS_TYPE
   @enum ANALYSIS_REQUEST_STATUS_TYPE begin

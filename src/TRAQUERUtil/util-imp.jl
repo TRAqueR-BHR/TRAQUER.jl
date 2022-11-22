@@ -161,11 +161,44 @@ function TRAQUERUtil.extractCryptPwdFromHTTPRequest(req::Dict{Any,Any})
     return cryptPwd
 end
 
+# eg. "1970-01-01T12:35:00+01:00"
+function TRAQUERUtil.convertStringToZonedDateTime(str::String)
+
+    # Eg. "2021-12-21T23:39:40.000Z", "2021-12-21T23:39:40.000+01:00"
+    # => remove the milliseconds (the '[0-9]3' in the regexp)
+    dateMatch = match(
+        r"^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}).[0-9]{3}(.*)",
+        str)
+    if !isnothing(dateMatch)
+        _dateTime  = dateMatch.captures[1]
+        _tz = dateMatch.captures[2]
+        formatString = "yyyy-mm-ddTHH:MM:SSzzz"
+        return ZonedDateTime(string(_dateTime,_tz), formatString)
+    end
+
+    # yyyy-mm-dd ....
+    dateMatch = match(r"^([0-9]{4}-[0-9]{2}-[0-9]{2})", str)
+    if !isnothing(dateMatch)
+        formatString = "yyyy-mm-ddTHH:MM:SSzzz"
+        return ZonedDateTime(str, formatString)
+    end
+
+    # dd/mm/yyyy....
+    dateMatch = match(r"^([0-9]{2}/[0-9]{2}/[0-9]{4})", str)
+    if !isnothing(dateMatch)
+        formatString = "dd/mm/yyyy HH:MM:SS"
+        return ZonedDateTime(TRAQUERUtil.convertStringToDateTime(str),
+                             TRAQUERUtil.getTimeZone())
+    end
+
+end
 
 
-function TRAQUERUtil.convertStringToZonedDateTime(dateStr::String,
-                                    timeStr::String,
-                                    _tz::VariableTimeZone)
+
+function TRAQUERUtil.convertStringToZonedDateTime(
+    dateStr::String,
+    timeStr::String,
+    _tz::VariableTimeZone)
 
                dateDate = Date(dateStr,DateFormat("d/m/y"))
                timeTime = begin

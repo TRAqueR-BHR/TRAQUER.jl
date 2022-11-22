@@ -1,17 +1,32 @@
+"""
+    OutbreakCtrl.initializeOutbreak(
+        outbreakName::String,
+        firstInfectiousStatus::InfectiousStatus,
+        criticity::OUTBREAK_CRITICITY,
+        refTime::ZonedDateTime,
+        dbconn::LibPQ.Connection
+    )
+
+Initialize an outbreak and its associations. Note: `refTime` is passed as an argument (not
+derived from firstInfectiousStatus.refTime) because an infectious status can preexist an
+outbreak by several months, eg. when a carrier comes back to the hospital, the new outbreak
+corresponding to this new hospitalization should have a reference time that is the date of
+the new hospitalization
+"""
 function OutbreakCtrl.initializeOutbreak(
     outbreakName::String,
     firstInfectiousStatus::InfectiousStatus,
+    criticity::OUTBREAK_CRITICITY,
+    refTime::ZonedDateTime,
     dbconn::LibPQ.Connection
 )
-
-    outbreakConfig = OutbreakConfig(
-        id = string(UUIDs.uuid4())) |> # PostgresORM 0.5.3 does not support objects without properties
-        n ->  PostgresORM.create_entity!(n, dbconn)
 
     outbreak = Outbreak(
         name = outbreakName,
         infectiousAgent = firstInfectiousStatus.infectiousAgent,
-        config = outbreakConfig) |> n ->  PostgresORM.create_entity!(n, dbconn)
+        refTime = refTime,
+        criticity = criticity) |>
+        n ->  PostgresORM.create_entity!(n, dbconn)
 
     outbreakInfectiousStatusAsso = OutbreakInfectiousStatusAsso(
         outbreak = outbreak,
@@ -19,9 +34,9 @@ function OutbreakCtrl.initializeOutbreak(
 
 
     # Generate the default associations between the outbreak and the units
-    outbreakConfigUnitAssos = TRAQUERUtil.createDBConnAndExecute() do dbconn
+    outbreakUnitAssos = TRAQUERUtil.createDBConnAndExecute() do dbconn
 
-        OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
+        OutbreakCtrl.generateDefaultOutbreakUnitAssos(
             outbreak,
             false, # simulate::Bool,
             dbconn

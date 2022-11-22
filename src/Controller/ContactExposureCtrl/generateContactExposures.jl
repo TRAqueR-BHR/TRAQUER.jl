@@ -156,12 +156,12 @@ function ContactExposureCtrl.generateContactExposures(
 end
 
 function ContactExposureCtrl.generateContactExposures(
-    asso::OutbreakConfigUnitAsso, dbconn::LibPQ.Connection
+    asso::OutbreakUnitAsso, dbconn::LibPQ.Connection
     ;simulate::Bool = false
 )
 
     outbreak = PostgresORM.retrieve_one_entity(
-        Outbreak(config = OutbreakConfig(id = asso.outbreakConfig.id)),
+        Outbreak(id = asso.outbreak.id),
         false,
         dbconn)
 
@@ -205,27 +205,25 @@ function ContactExposureCtrl.generateContactExposures(
     ;simulate::Bool = false
 )
 
-    # Get the OutbreakConfigUnitAssos
-    outbreakConfigUnitAssos = "SELECT ocua.*
+    # Get the OutbreakUnitAssos
+    outbreakUnitAssos = "SELECT ocua.*
         FROM outbreak o
-        JOIN outbreak_config oc
-        ON o.config_id = oc.id
-        JOIN outbreak_config_unit_asso ocua
-        ON ocua.outbreak_config_id = oc.id
+        JOIN outbreak_unit_asso oua
+          ON oua.outbreak_id = o.id
         JOIN unit
-        ON ocua.unit_id = unit.id
+          ON oua.unit_id = unit.id
         WHERE
         o.id = \$1
         " |> n -> PostgresORM.execute_query_and_handle_result(
                 n,
-                OutbreakConfigUnitAsso,
+                OutbreakUnitAsso,
                 [outbreak.id],
                 false,
                 dbconn
             )
 
     exposures = ContactExposure[]
-    for asso in outbreakConfigUnitAssos
+    for asso in outbreakUnitAssos
         push!(
             exposures,
             ContactExposureCtrl.generateContactExposures(

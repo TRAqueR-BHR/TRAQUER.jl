@@ -1,8 +1,8 @@
-mutable struct OutbreakConfigUnitAsso <: IOutbreakConfigUnitAsso 
+mutable struct OutbreakUnitAsso <: IOutbreakUnitAsso 
 
-  creator::Union{Missing,Model.IAppuser}
   unit::Union{Missing,Model.IUnit}
-  outbreakConfig::Union{Missing,Model.IOutbreakConfig}
+  outbreak::Union{Missing,Model.IOutbreak}
+  creator::Union{Missing,Model.IAppuser}
   id::Union{Missing,String}
   startTime::Union{Missing,ZonedDateTime}
   endTime::Union{Missing,ZonedDateTime}
@@ -10,11 +10,11 @@ mutable struct OutbreakConfigUnitAsso <: IOutbreakConfigUnitAsso
   isDefault::Union{Missing,Bool}
   comment::Union{Missing,String}
 
-  OutbreakConfigUnitAsso(args::NamedTuple) = OutbreakConfigUnitAsso(;args...)
-  OutbreakConfigUnitAsso(;
-    creator = missing,
+  OutbreakUnitAsso(args::NamedTuple) = OutbreakUnitAsso(;args...)
+  OutbreakUnitAsso(;
     unit = missing,
-    outbreakConfig = missing,
+    outbreak = missing,
+    creator = missing,
     id = missing,
     startTime = missing,
     endTime = missing,
@@ -23,9 +23,9 @@ mutable struct OutbreakConfigUnitAsso <: IOutbreakConfigUnitAsso
     comment = missing,
   ) = begin
     x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,)
-    x.creator = creator
     x.unit = unit
-    x.outbreakConfig = outbreakConfig
+    x.outbreak = outbreak
+    x.creator = creator
     x.id = id
     x.startTime = startTime
     x.endTime = endTime

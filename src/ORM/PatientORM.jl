@@ -31,16 +31,6 @@ const onetomany_counterparts = Dict(
     property = :patient, # The name of the associated manytoone property
     action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
 
-  :infectiousStatuses => (
-    data_type = Model.InfectiousStatus, # The struct where the associated manytoone property is
-    property = :patient, # The name of the associated manytoone property
-    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
-
-  :staies => (
-    data_type = Model.Stay, # The struct where the associated manytoone property is
-    property = :patient, # The name of the associated manytoone property
-    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
-
   :contactContactExposures => (
     data_type = Model.ContactExposure, # The struct where the associated manytoone property is
     property = :contact, # The name of the associated manytoone property
@@ -49,6 +39,16 @@ const onetomany_counterparts = Dict(
   :carrierContactExposures => (
     data_type = Model.ContactExposure, # The struct where the associated manytoone property is
     property = :carrier, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
+
+  :infectiousStatuses => (
+    data_type = Model.InfectiousStatus, # The struct where the associated manytoone property is
+    property = :patient, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
+
+  :staies => (
+    data_type = Model.Stay, # The struct where the associated manytoone property is
+    property = :patient, # The name of the associated manytoone property
     action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
 
 )
@@ -61,10 +61,10 @@ const types_override = Dict(
   :patientRefCrypt => Model.PatientRefCrypt, 
   :patientBirthdateCrypt => Model.PatientBirthdateCrypt, 
   :analysisResults => Vector{Model.AnalysisResult}, 
-  :infectiousStatuses => Vector{Model.InfectiousStatus}, 
-  :staies => Vector{Model.Stay}, 
   :contactContactExposures => Vector{Model.ContactExposure}, 
   :carrierContactExposures => Vector{Model.ContactExposure}, 
+  :infectiousStatuses => Vector{Model.InfectiousStatus}, 
+  :staies => Vector{Model.Stay}, 
 
 )
 

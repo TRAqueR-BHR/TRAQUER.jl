@@ -32,7 +32,7 @@ module Model
            EventRequiringAttention, Modification, Outbreak,
            OutbreakInfectiousStatusAsso, Patient, PatientBirthdateCrypt,
            PatientCurrentStatus, PatientNameCrypt, PatientRefCrypt, Role, RoleRoleAsso,
-           Stay, Unit, OutbreakConfig, OutbreakConfigUnitAsso, PatientDecrypt
+           Stay, Unit, OutbreakUnitAsso, PatientDecrypt
     export Appuser
     using PostgresORM,TimeZones
     using ..Enum.AnalysisRequestStatusType,
@@ -46,7 +46,8 @@ module Model
           ..Enum.EventRequiringAttentionType,
           ..Enum.InfectiousStatusType,
           ..Enum.RoleCodeName,
-          ..Enum.SampleMaterialType
+          ..Enum.SampleMaterialType,
+          ..Enum.OutbreakCriticity
     include("Model/abstract-types.jl")
     include("Model-protected/abstract-types.jl")
     include("Model/AnalysisRefCrypt.jl")
@@ -60,8 +61,7 @@ module Model
     include("Model/Modification.jl")
     include("Model/Outbreak.jl")
     include("Model/OutbreakInfectiousStatusAsso.jl")
-    include("Model/OutbreakConfig.jl")
-    include("Model/OutbreakConfigUnitAsso.jl")
+    include("Model/OutbreakUnitAsso.jl")
     include("Model/Patient.jl")
     include("Model/PatientBirthdateCrypt.jl")
     include("Model/PatientCurrentStatus.jl")
@@ -127,15 +127,10 @@ module ORM
         using PostgresORM
         include("./ORM/OutbreakORM.jl")
     end
-    module OutbreakConfigORM
+    module OutbreakUnitAssoORM
         using ..ORM, ...Model
         using PostgresORM
-        include("./ORM/OutbreakConfigORM.jl")
-    end
-    module OutbreakConfigUnitAssoORM
-        using ..ORM, ...Model
-        using PostgresORM
-        include("./ORM/OutbreakConfigUnitAssoORM.jl")
+        include("./ORM/OutbreakUnitAssoORM.jl")
     end
     module OutbreakInfectiousStatusAssoORM
         using ..ORM, ...Model
@@ -237,10 +232,6 @@ module Controller
     include("Controller/OutbreakCtrl/OutbreakCtrl-def.jl")
   end
 
-  module OutbreakConfigCtrl
-    include("Controller/OutbreakConfigCtrl/OutbreakConfigCtrl-def.jl")
-  end
-
   module EventRequiringAttentionCtrl
     include("Controller/EventRequiringAttentionCtrl/EventRequiringAttentionCtrl-def.jl")
   end
@@ -298,11 +289,11 @@ include("Controller/ContactExposureCtrl/ContactExposureCtrl-imp.jl")
 # UnitCtrl
 include("Controller/UnitCtrl/UnitCtrl-imp.jl")
 
-OutbreakConfigCtrl
-include("Controller/OutbreakConfigCtrl/OutbreakConfigCtrl-imp.jl")
-
 # Custom implementation
 include(ENV["TRAQUER_CUSTOM_MODULE_IMPLEMENTATION_FILE"])
+
+# Overwrite of other modules
+include("Base/push.jl")
 
 PostgresORM.ModificationORM.get_schema_name() = "supervision"
 

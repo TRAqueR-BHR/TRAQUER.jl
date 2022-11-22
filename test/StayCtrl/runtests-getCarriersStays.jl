@@ -4,7 +4,7 @@ include("../runtests-prerequisite.jl")
 
     TRAQUERUtil.createDBConnAndExecute() do dbconn
         StayCtrl.getCarriersStays(
-            OutbreakConfigUnitAsso(id = "d5c0f714-b2bd-406b-b902-5cf20dacf06c"),
+            OutbreakUnitAsso(id = "d5c0f714-b2bd-406b-b902-5cf20dacf06c"),
             dbconn
         )
     end

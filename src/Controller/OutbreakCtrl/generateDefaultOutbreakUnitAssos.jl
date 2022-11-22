@@ -1,18 +1,15 @@
-function OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
+function OutbreakCtrl.generateDefaultOutbreakUnitAssos(
     outbreak::Outbreak,
     simulate::Bool,
     dbconn::LibPQ.Connection
     ;cleanExisting::Bool = true
-)::Vector{OutbreakConfigUnitAsso}
-
-    # Get the configuration
-    outbreakConfig = PostgresORM.retrieve_one_entity(outbreak.config,false,dbconn)
+)::Vector{OutbreakUnitAsso}
 
     # Clean previously generated default assos
     if cleanExisting
         PostgresORM.delete_entity_alike(
-            OutbreakConfigUnitAsso(
-                outbreakConfig = outbreakConfig,
+            OutbreakUnitAsso(
+                outbreak = outbreak,
                 isDefault = true
             ),
             dbconn
@@ -39,14 +36,14 @@ function OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
         @warn "There are no confirmed carrier status for outbreak[$(outbreak.id)]"
     end
 
-    defaultAssos = OutbreakConfigUnitAsso[]
+    defaultAssos = OutbreakUnitAsso[]
 
     # Generate the default associations of the outbreak to the units
     for carrierInfectiousStatus in confirmedCarrierInfectiousStatuses
         push!(
             defaultAssos,
-            OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
-                outbreakConfig,
+            OutbreakCtrl.generateDefaultOutbreakUnitAssos(
+                outbreak,
                 carrierInfectiousStatus,
                 simulate,
                 dbconn
@@ -58,25 +55,25 @@ function OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
 
 end
 
-function OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
-    outbreakConfig::OutbreakConfig,
+function OutbreakCtrl.generateDefaultOutbreakUnitAssos(
+    outbreak::Outbreak,
     carrierInfectiousStatus::InfectiousStatus,
     simulate::Bool,
     dbconn::LibPQ.Connection
-)::Vector{OutbreakConfigUnitAsso}
+)::Vector{OutbreakUnitAsso}
 
     atRiskStays = StayCtrl.getStaysWherePatientAtRisk(carrierInfectiousStatus, dbconn)
 
-    defaultAssos = OutbreakConfigUnitAsso[]
+    defaultAssos = OutbreakUnitAsso[]
 
     for stay in atRiskStays
 
         # An asso may already exists, update it if needed, we dont want to create several
         # assos to the same unit
         existingAsso = PostgresORM.retrieve_one_entity(
-            OutbreakConfigUnitAsso(
+            OutbreakUnitAsso(
                 unit = stay.unit,
-                outbreakConfig = outbreakConfig
+                outbreak = outbreak
             ),
             false,
             dbconn
@@ -115,9 +112,9 @@ function OutbreakConfigCtrl.generateDefaultOutbreakConfigUnitAssos(
 
         else
 
-            newAsso = OutbreakConfigUnitAsso(
+            newAsso = OutbreakUnitAsso(
                 unit = stay.unit,
-                outbreakConfig = outbreakConfig,
+                outbreak = outbreak,
                 startTime = stay.inTime,
                 endTime = stay.outTime,
                 sameRoomOnly = true,

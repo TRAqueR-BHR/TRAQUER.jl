@@ -1,19 +1,17 @@
 function StayCtrl.getCarriersStays(
-    outbreakConfigUnitAsso::OutbreakConfigUnitAsso,
+    outbreakUnitAsso::OutbreakUnitAsso,
     dbconn::LibPQ.Connection
 )::Vector{Stay}
 
     # Get the outbreak
     outbreak = "
         SELECT o.*
-        FROM outbreak_config_unit_asso ocua
-        JOIN outbreak_config oc
-          ON oc.id = ocua.outbreak_config_id
+        FROM outbreak_unit_asso oua
         JOIN outbreak o
-          ON o.config_id = oc.id
-        WHERE ocua.id = \$1" |>
+          ON o.id = oua.outbreak_id
+        WHERE oua.id = \$1" |>
             n -> PostgresORM.execute_query_and_handle_result(
-                n, Outbreak, [outbreakConfigUnitAsso.id], false, dbconn) |> first
+                n, Outbreak, [outbreakUnitAsso.id], false, dbconn) |> first
 
     # Select all the carrier infectious statuses of this outbreak
     infectiousStatuses = "
@@ -28,7 +26,7 @@ function StayCtrl.getCarriersStays(
     stays = Stay[]
     for is in infectiousStatuses
         staysWherePatientAtRisk = StayCtrl.getStaysWherePatientAtRisk(is, dbconn)
-        filter!(s -> s.unit.id == outbreakConfigUnitAsso.unit.id, staysWherePatientAtRisk)
+        filter!(s -> s.unit.id == outbreakUnitAsso.unit.id, staysWherePatientAtRisk)
         push!(
             stays,
             staysWherePatientAtRisk...

@@ -36,3 +36,36 @@ function TRAQUERUtil.string2bool(arg::String)
         error("Unable to convert[$arg] to Bool")
     end
 end
+
+"""
+
+Eg. For browserDateStr = "2022-03-20T23:00:00.000Z", timezone = tz"Europe/Paris"
+    => 2022-03-21
+"""
+function TRAQUERUtil.browserDateString2date(
+    browserDateStr::String, timezone::TimeZones.VariableTimeZone)
+
+    TRAQUERUtil.convertStringToZonedDateTime(browserDateStr) |>
+    n -> TimeZones.astimezone(n,timezone)|>
+    n -> Date(n)
+
+end
+
+"""
+
+Eg. For browserDateStr = "2022-03-20T23:00:00.000Z", timezone = tz"Europe/Paris"
+    => 2022-03-21
+"""
+function TRAQUERUtil.browserDateString2ZonedDateTime(
+    browserDateStr::String, timezone::TimeZones.VariableTimeZone)
+
+    TRAQUERUtil.convertStringToZonedDateTime(browserDateStr) |>
+    n -> TimeZones.astimezone(n,timezone)
+
+end
+
+function TRAQUERUtil.browserDateString2ZonedDateTime(browserDateStr::String)
+
+    TRAQUERUtil.browserDateString2ZonedDateTime(browserDateStr,getTimezone())
+
+end

@@ -1,5 +1,5 @@
 function ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(
-    asso::OutbreakConfigUnitAsso, dbconn::LibPQ.Connection)
+    asso::OutbreakUnitAsso, dbconn::LibPQ.Connection)
 
     PostgresORM.update_entity!(asso, dbconn)
 

@@ -4,7 +4,7 @@ include("../runtests-prerequisite.jl")
 
     TRAQUERUtil.createDBConnAndExecute() do dbconn
         asso = PostgresORM.retrieve_one_entity(
-            OutbreakConfigUnitAsso(id = "95254bd6-d3ac-443e-b37d-dd2151aef7d1"),
+            OutbreakUnitAsso(id = "95254bd6-d3ac-443e-b37d-dd2151aef7d1"),
             false,
             dbconn
         )

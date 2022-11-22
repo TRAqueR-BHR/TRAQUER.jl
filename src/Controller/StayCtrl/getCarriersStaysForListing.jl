@@ -1,12 +1,12 @@
 function StayCtrl.getCarriersStaysForListing(
-    outbreakConfigUnitAsso::OutbreakConfigUnitAsso,
+    outbreakUnitAsso::OutbreakUnitAsso,
     cryptStr::String,
     dbconn::LibPQ.Connection
 )
 # ::DataFrame
 
     stays::Vector{Stay} = StayCtrl.getCarriersStays(
-        outbreakConfigUnitAsso,
+        outbreakUnitAsso,
         dbconn
     )
     @info "length(stays)[$(length(stays))]"
@@ -20,34 +20,16 @@ function StayCtrl.getCarriersStaysForListing(
 
     for stay in stays
 
-        # Transform the stays to dataframe rows
-        propsAsDict = PostgresORM.Controller.util_get_entity_props_for_db_actions(
-            stay,
-            dbconn,
-            true # Include missing values
-        )
-        push!(
-            staysDF, PostgresORM.PostgresORMUtil.dict2namedtuple(propsAsDict)
-            ;promote = true
-        )
+        # Add row to the stays dataframe
+        Base.push!(staysDF, stay, dbconn)
 
-        # Get the corresponding patient decrypt data in a dataframe
+        # Add row to the patient decrypt dataframe
         patientDecrypt::PatientDecrypt = PatientCtrl.getPatientDecrypt(
             stay.patient,
             cryptStr,
             dbconn
         )
-        push!(
-            patientDecryptDF,
-            patientDecrypt |>
-                n -> PostgresORM.Controller.util_get_entity_props_for_db_actions(
-                    n,
-                    dbconn,
-                    true # Include missing values
-                ) |>
-                PostgresORM.PostgresORMUtil.dict2namedtuple
-            ;promote = true
-        )
+        Base.push!(patientDecryptDF, patientDecrypt, dbconn)
 
     end
 

@@ -72,3 +72,7 @@ function string2number end
 function string2type end
 function string2bool end
 function json2entity end
+function browserDateString2date end
+function browserDateString2ZonedDateTime end
+
+# function addDataFrameRow

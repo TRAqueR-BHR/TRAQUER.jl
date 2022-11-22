@@ -20,7 +20,7 @@ using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
       ..Controller.PatientCtrl,
       ..Controller.InfectiousStatusCtrl, ..Controller.AppuserCtrl,
       ..Controller.ContactExposureCtrl, ..Controller.EventRequiringAttentionCtrl,
-      ..Controller.OutbreakCtrl, ..Controller.OutbreakConfigCtrl
+      ..Controller.OutbreakCtrl
 using ..Model
 using DataFrames
 using ..Enum.AnalysisRequestStatusType,
@@ -34,7 +34,8 @@ using ..Enum.AnalysisRequestStatusType,
       ..Enum.EventRequiringAttentionType,
       ..Enum.ResponseType,
       ..Enum.RoleCodeName,
-      ..Enum.SampleMaterialType
+      ..Enum.SampleMaterialType,
+      ..Enum.OutbreakCriticity
 using JWTs
 using Missings
 using Distributed

@@ -1,16 +1,16 @@
 
-data_type = Model.OutbreakConfigUnitAsso
-PostgresORM.get_orm(x::Model.OutbreakConfigUnitAsso) = return(ORM.OutbreakConfigUnitAssoORM)
+data_type = Model.OutbreakUnitAsso
+PostgresORM.get_orm(x::Model.OutbreakUnitAsso) = return(ORM.OutbreakUnitAssoORM)
 get_schema_name() = "public"
-get_table_name() = "outbreak_config_unit_asso"
+get_table_name() = "outbreak_unit_asso"
 
 
 # Declare the mapping between the properties and the database columns
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
-  :creator => "creator_id", 
   :unit => "unit_id", 
-  :outbreakConfig => "outbreak_config_id", 
+  :outbreak => "outbreak_id", 
+  :creator => "creator_id", 
   :id => "id", 
   :startTime => "start_time", 
   :endTime => "end_time", 
@@ -32,9 +32,9 @@ const onetomany_counterparts = Dict(
 # Override the abstract types 
 get_types_override() = return types_override
 const types_override = Dict(
-  :creator => Model.Appuser, 
   :unit => Model.Unit, 
-  :outbreakConfig => Model.OutbreakConfig, 
+  :outbreak => Model.Outbreak, 
+  :creator => Model.Appuser, 
 
 )
 

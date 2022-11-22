@@ -4,7 +4,7 @@ Pkg.activate(".")
 using Revise
 using TRAQUER
 using TRAQUER.Model
-using TRAQUER.TRAQUERUtils
+using TRAQUER.TRAQUERUtil
 using TRAQUER.Controller
 using PostgresORM
 using CSV
@@ -41,12 +41,12 @@ using LibPQ
 
 
 dbconn=
-   TRAQUERUtils.opendbconn()
+   TRAQUERUtil.opendbconn()
 
 PostgresORM.Controller.create_entity!(patient1, dbconn)
 PostgresORM.Controller.update_entity!(patient2, dbconn)
 
-TRAQUERUtils.closedbconn(dbconn)
+TRAQUERUtil.closedbconn(dbconn)
 
 dxcare = CSV.read("csv/mouvements DXCARE 202009-202010.csv", DataFrame)
 
@@ -100,7 +100,7 @@ toto = 4
 
 query = "select * from patient where patient.birthdate = \$1"
 args = [Date("1969-08-28")]
-dbconn = TRAQUERUtils.opendbconn()
+dbconn = TRAQUERUtil.opendbconn()
 
 PostgresORM.Controller.execute_query_and_handle_result(query,Patient,args,false,dbconn)
 
@@ -118,7 +118,7 @@ heureDemande = string("000")
 timeZoned = tz"Europe/Paris"
 
 dateHeureDemandes =
-TRAQUERUtils.convertStringToZonedDateTime(dateDemande,heureDemande,
+TRAQUERUtil.convertStringToZonedDateTime(dateDemande,heureDemande,
                                              timeZone)
 str="23:59"
 Time(str, DateFormat("HH:MM"))
@@ -270,3 +270,18 @@ for (i,n) in enumerate(a)
         filter!(x -> !isodd(x), a)
     end
 end
+
+
+dbconn = TRAQUERUtil.openDBConn()
+
+outbreak = PostgresORM.retrieve_one_entity(
+    Outbreak(id = "aed16920-c13d-418e-b54c-cee7ff9d7fd4"), false, dbconn)
+
+OutbreakCtrl.generateDefaultOutbreakUnitAssos(
+    outbreak,
+    false , # simulate::Bool,
+    dbconn
+    ;cleanExisting = true
+)
+
+TRAQUERUtil.closeDBConn(dbconn)
