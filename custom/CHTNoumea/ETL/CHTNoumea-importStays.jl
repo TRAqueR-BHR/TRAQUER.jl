@@ -3,7 +3,7 @@ function Custom.importStays(df::DataFrame,
                             ;randomData::Bool = false)
 
     dbconn = TRAQUERUtil.openDBConn()
-    _tz = TRAQUERUtil.getTimezone()
+    _tz = TRAQUERUtil.getTimeZone()
 
     counter = 0 # for debug
     try
@@ -64,7 +64,7 @@ function Custom.importStays(df::DataFrame,
            end
 
            # Retrieve the stay
-           stay = StayCtrl.createStayIfNotExists(patient, unit,
+           stay = StayCtrl.upsert!(patient, unit,
                                                 inTime,
                                                 outTime,
                                                 hospitalizationDate,

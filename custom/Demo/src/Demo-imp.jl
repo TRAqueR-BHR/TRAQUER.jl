@@ -1,3 +1,4 @@
-include("Demo-importStays.jl")
-include("Demo-importAnalyses.jl")
-include("Demo-checkIfNotAtRiskAnymore.jl")
+include("importStays.jl")
+include("importAnalyses.jl")
+include("checkIfNotAtRiskAnymore.jl")
+include("resetData.jl")

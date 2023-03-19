@@ -10,7 +10,7 @@ function Custom.importAnalyses(
     )
 
     dbconn = TRAQUERUtil.openDBConn()
-    _tz = TRAQUERUtil.getTimezone()
+    _tz = TRAQUERUtil.getTimeZone()
 
     # Create an row number column so that we can go back to exact location in the source file
     df.sourceRowNumber = 1:nrow(df)
@@ -40,16 +40,27 @@ function Custom.importAnalyses(
 
             # Check if NIP_PATIENT is missing
             if ismissing(r.patient_ref)
-              continue
+               error("Error at line[$sourceRowNumber], patient_ref is missing")
+               continue
             end
 
-            patientRef = string(r.patient_ref)
-            analysisRef = string(r.analysis_ref)
+            # Check if analysys ref is missing
+            if ismissing(r.analysis_ref)
+               error("Error at line[$sourceRowNumber], analysis_ref is missing")
+               continue
+            end
+
+
+            patientRef = passmissing(string)(r.patient_ref)
+            analysisRef = passmissing(string)(r.analysis_ref)
             requestTime = ZonedDateTime(r.request_time,_tz)
             resultTime = ZonedDateTime(r.result_time,_tz)
-            sample = r.sample |> n -> TRAQUERUtil.string2enum(SAMPLE_MATERIAL_TYPE, n)
-            requestType = r.request_type |> n -> TRAQUERUtil.string2enum(ANALYSIS_REQUEST_TYPE, n)
-            result = r.result |> n -> TRAQUERUtil.string2enum(ANALYSIS_RESULT_VALUE_TYPE, n)
+            sample = passmissing(string)(r.sample) |>
+               n -> TRAQUERUtil.string2enum(SAMPLE_MATERIAL_TYPE, n)
+            requestType = passmissing(string)(r.request_type) |>
+               n -> TRAQUERUtil.string2enum(ANALYSIS_REQUEST_TYPE, n)
+            result = passmissing(string)(r.result) |>
+               n -> TRAQUERUtil.string2enum(ANALYSIS_RESULT_VALUE_TYPE, n)
 
             # Get a patient
             patient =
@@ -68,10 +79,11 @@ function Custom.importAnalyses(
 
             if ismissing(stay)
                 noStayErrorMsg = (
-                "Problem at line[$sourceRowNumber]."
+                "Problem at row[$sourceRowNumber] of dataframe "
+                *"(line[$(sourceRowNumber+1)] of xlsx)."
                 * " Unable to find a stay for patient.id[$(patient.id)]"
                 * " patient.ref[$(patientRef)]"
-                * " starting before the date of the analyis request[$requestDate].")
+                * " starting before the date of the analyis request[$requestTime].")
                 @warn noStayErrorMsg
                 continue
             end

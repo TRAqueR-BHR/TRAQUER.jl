@@ -9,7 +9,7 @@ function Custom.importStays(df::DataFrame,
         )
 
     dbconn = TRAQUERUtil.openDBConn()
-    _tz = TRAQUERUtil.getTimezone()
+    _tz = TRAQUERUtil.getTimeZone()
 
     counter = 0 # for debug
     try
@@ -30,12 +30,12 @@ function Custom.importStays(df::DataFrame,
             lastname = string(r.lastname)
             birthdate::Date = r.birthdate
 
-            inTime =  ZonedDateTime(r.unit_in_time, getTimezone())
-            outTime =  passmissing(ZonedDateTime)(r.unit_out_time, getTimezone())
+            inTime =  ZonedDateTime(r.unit_in_time, getTimeZone())
+            outTime =  passmissing(ZonedDateTime)(r.unit_out_time, getTimeZone())
 
-            hospitalizationInTime =  ZonedDateTime(r.hospitalization_in_time, getTimezone())
+            hospitalizationInTime =  ZonedDateTime(r.hospitalization_in_time, getTimeZone())
             hospitalizationOutTime =  passmissing(ZonedDateTime)(
-                r.hospitalization_out_time, getTimezone()
+                r.hospitalization_out_time, getTimeZone()
             )
 
             room = passmissing(string)(r.room)
@@ -59,16 +59,16 @@ function Custom.importStays(df::DataFrame,
             end
 
             # Retrieve the stay
-            stay = StayCtrl.createStayIfNotExists(
-                patient,
-                unit,
-                inTime,
-                outTime,
-                hospitalizationInTime,
-                hospitalizationOutTime,
-                room,
-                dbconn)
-
+            stay = Stay(
+                patient = patient,
+                unit = unit,
+                inTime = inTime,
+                outTime = outTime,
+                hospitalizationInTime = hospitalizationInTime,
+                hospitalizationOutTime = hospitalizationOutTime,
+                room = room
+            )
+            StayCtrl.upsert!(stay, dbconn)
 
         end # `for r in eachrow(df)`
 

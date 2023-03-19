@@ -9,7 +9,7 @@ function Custom.importAnalyses(df::DataFrame,
     )
 
     dbconn = TRAQUERUtil.openDBConn()
-    _tz = TRAQUERUtil.getTimezone()
+    _tz = TRAQUERUtil.getTimeZone()
 
     # Create an row number column so that we can go back to exact location in the source file
     df.sourceRowNumber = 1:nrow(df)

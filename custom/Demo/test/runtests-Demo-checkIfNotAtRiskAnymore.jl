@@ -4,22 +4,22 @@ include("../../../test/runtests-prerequisite.jl")
 
     # An infectious status
     infectiousStatus = InfectiousStatus(
-        refTime = ZonedDateTime(now(),getTimezone()),
+        refTime = TRAQUERUtil.nowInTargetTimeZone(),
         infectiousAgent = InfectiousAgentCategory.vancomycin_resistant_enterococcus
     )
 
     negAnalysisBeforeInfectiousStatus1 = AnalysisResult(
-        requestTime = ZonedDateTime(now() - Minute(20),getTimezone()),
+        requestTime = TRAQUERUtil.nowInTargetTimeZone() - Minute(20),
         result = AnalysisResultValueType.negative
     )
 
     negAnalysisAfterInfectiousStatus1 = AnalysisResult(
-        requestTime = ZonedDateTime(now() + Minute(1),getTimezone()),
+        requestTime = TRAQUERUtil.nowInTargetTimeZone() + Minute(1),
         result = AnalysisResultValueType.negative
     )
 
     negAnalysisAfterInfectiousStatus2 = AnalysisResult(
-        requestTime = ZonedDateTime(now() + Minute(1),getTimezone()),
+        requestTime = TRAQUERUtil.nowInTargetTimeZone() + Minute(1),
         result = AnalysisResultValueType.negative
     )
 
