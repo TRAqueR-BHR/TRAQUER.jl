@@ -7,35 +7,35 @@ include("../runtests-prerequisite.jl")
             id = "carba 1 => current = true",
             infectiousAgent = InfectiousAgentCategory.carbapenemase_producing_enterobacteriaceae,
             infectiousStatus = InfectiousStatusType.carrier,
-            refTime = ZonedDateTime(DateTime("2022-03-22T11:00:00"),TRAQUERUtil.getTimezone()),
+            refTime = ZonedDateTime(DateTime("2022-03-22T11:00:00"),TRAQUERUtil.getTimeZone()),
             isConfirmed = false
         ),
         InfectiousStatus(
             id = "vanco 1 => current = true",
             infectiousAgent = InfectiousAgentCategory.vancomycin_resistant_enterococcus,
             infectiousStatus = InfectiousStatusType.contact,
-            refTime = ZonedDateTime(DateTime("2022-03-22T10:00:00"),TRAQUERUtil.getTimezone()),
+            refTime = ZonedDateTime(DateTime("2022-03-22T10:00:00"),TRAQUERUtil.getTimeZone()),
             isConfirmed = true
         ),
         InfectiousStatus(
             id = "vanco 2 => current = false",
             infectiousAgent = InfectiousAgentCategory.vancomycin_resistant_enterococcus,
             infectiousStatus = InfectiousStatusType.contact,
-            refTime = ZonedDateTime(DateTime("2022-03-22T08:00:00"),TRAQUERUtil.getTimezone()),
+            refTime = ZonedDateTime(DateTime("2022-03-22T08:00:00"),TRAQUERUtil.getTimeZone()),
             isConfirmed = false
         ),
         InfectiousStatus(
             id = "carba 2 confirmed with carba 1 unconfirmed => current = true",
             infectiousAgent = InfectiousAgentCategory.carbapenemase_producing_enterobacteriaceae,
             infectiousStatus = InfectiousStatusType.contact,
-            refTime = ZonedDateTime(DateTime("2022-03-22T09:00:00"),TRAQUERUtil.getTimezone()),
+            refTime = ZonedDateTime(DateTime("2022-03-22T09:00:00"),TRAQUERUtil.getTimeZone()),
             isConfirmed = true,
         ),
         InfectiousStatus(
             id = "carba 3 => current = false",
             infectiousAgent = InfectiousAgentCategory.carbapenemase_producing_enterobacteriaceae,
             infectiousStatus = InfectiousStatusType.contact,
-            refTime = ZonedDateTime(DateTime("2022-03-22T04:00:00"),TRAQUERUtil.getTimezone()),
+            refTime = ZonedDateTime(DateTime("2022-03-22T04:00:00"),TRAQUERUtil.getTimeZone()),
             isConfirmed = true,
         ),
     ]

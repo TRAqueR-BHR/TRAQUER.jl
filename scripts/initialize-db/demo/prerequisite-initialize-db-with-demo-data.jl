@@ -1,6 +1,6 @@
 include("../../../test/runtests-prerequisite.jl")
 
-beginningOfTime = now(TRAQUERUtil.getTimezone()) - Day(2)
+beginningOfTime = now(TRAQUERUtil.getTimeZone()) - Day(2)
 rand(1:10)
 
 unitsDF = DataFrame(

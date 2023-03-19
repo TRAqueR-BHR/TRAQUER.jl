@@ -233,7 +233,7 @@ PostgresORM.Controller.ModificationORM.get_schema_name() = "supervision"
 
 
 TRAQUERUtil.time
-passmissing(TRAQUERUtil.convertStringToZonedDateTime)(missing,"",TRAQUERUtil.getTimezone())
+passmissing(TRAQUERUtil.convertStringToZonedDateTime)(missing,"",TRAQUERUtil.getTimeZone())
 
 dbconn = TRAQUERUtil.openDBConn()
 PatientCtrl.createCryptedPatientName(
@@ -284,4 +284,25 @@ OutbreakCtrl.generateDefaultOutbreakUnitAssos(
     ;cleanExisting = true
 )
 
+TRAQUERUtil.closeDBConn(dbconn)
+
+
+dbconn = TRAQUERUtil.openDBConn()
+ist = PostgresORM.retrieve_one_entity(
+    InfectiousStatus(id = "6d647032-dd98-47cd-b3f7-8f2ba2ff9c57"), false, dbconn)
+outbreak1 = PostgresORM.retrieve_one_entity(
+    Outbreak(name = "test vincent"),false,dbconn
+)
+outbreak1 = Outbreak(id = "f110e0a6-7b84-4de5-b1f2-c729ab917572")
+outbreak2 = PostgresORM.retrieve_one_entity(
+    Outbreak(name = "test 2"),false,dbconn
+)
+
+
+ist.outbreakInfectiousStatusAssoes = [
+    OutbreakInfectiousStatusAsso(outbreak = outbreak1),
+    # OutbreakInfectiousStatusAsso(outbreak = outbreak2)
+]
+
+PostgresORM.update_vector_property!(ist, :outbreakInfectiousStatusAssoes, dbconn)
 TRAQUERUtil.closeDBConn(dbconn)

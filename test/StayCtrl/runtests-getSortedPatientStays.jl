@@ -2,9 +2,9 @@ include("../runtests-prerequisite.jl")
 
 @testset "Test StayCtrl.getSortedPatientStays" begin
 
-    nowMinus1 = ZonedDateTime(now(),getTimezone()) - Minute(1)
-    nowMinus2 = ZonedDateTime(now(),getTimezone()) - Minute(2)
-    nowMinus3 = ZonedDateTime(now(),getTimezone()) - Minute(3)
+    nowMinus1 = TRAQUERUtil.nowInTargetTimeZone() - Minute(1)
+    nowMinus2 = TRAQUERUtil.nowInTargetTimeZone() - Minute(2)
+    nowMinus3 = TRAQUERUtil.nowInTargetTimeZone() - Minute(3)
 
     stay1 = Stay(
         id = "stay1",

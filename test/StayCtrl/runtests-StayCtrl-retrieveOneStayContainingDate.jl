@@ -17,17 +17,19 @@ include("../runtests-prerequisite.jl")
             getDefaultEncryptionStr(),
             dbconn)
 
-        stay = StayCtrl.createStayIfNotExists(
-            patient,
-            unit,
-            now(getTimezone()) - Day(2), # inTime::ZonedDateTime,
-            now(getTimezone()) + Day(2), # outTime::Union{Missing,ZonedDateTime},
-            now(getTimezone()) - Day(2), # hospitalizationInTime::Date,
-            missing, # hospitalizationOutTime::Date,
-            dbconn)
+        stay = Stay(
+            patient = patient,
+            unit = unit,
+            inTime = now(getTimeZone()) - Day(2), # inTime::ZonedDateTime,
+            outTime = now(getTimeZone()) + Day(2), # outTime::Union{Missing,ZonedDateTime},
+            hospitalizationInTime = now(getTimeZone()) - Day(2), # hospitalizationInTime::Date,
+            hospitalizationOutTime = missing, # hospitalizationOutTime::Date,
+        )
+        stay = StayCtrl.upsert!(stay, dbconn)
 
         stayFound = StayCtrl.retrieveOneStayContainingDateTime(
-            patient, now(getTimezone()), dbconn)
+            patient, now(getTimeZone()), dbconn
+        )
 
         @test stay.id == stayFound.id
 

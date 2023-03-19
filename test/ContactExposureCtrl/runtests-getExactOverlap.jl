@@ -3,9 +3,9 @@ include("../runtests-prerequisite.jl")
 @testset "Test getExactOverlap()" begin
 
     ContactExposureCtrl.getExactOverlap(
-        ZonedDateTime(now(),getTimezone()), # carrierStartTime::ZonedDateTime,
+        TRAQUERUtil.nowInTargetTimeZone(), # carrierStartTime::ZonedDateTime,
         missing, # carrierEndTime::Union{Missing, ZonedDateTime}
-        ZonedDateTime(now(),getTimezone()),# contactStartTime::ZonedDateTime,
+        TRAQUERUtil.nowInTargetTimeZone(),# contactStartTime::ZonedDateTime,
         missing, # ::Union{Missing, ZonedDateTime},
     ) |> first
 

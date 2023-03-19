@@ -7,7 +7,7 @@ include("../runtests-prerequisite.jl")
             id = "carba T1 carrier",
             infectiousAgent = InfectiousAgentCategory.carbapenemase_producing_enterobacteriaceae,
             infectiousStatus = InfectiousStatusType.carrier,
-            refTime = ZonedDateTime(DateTime("2022-03-22T11:00:00"),TRAQUERUtil.getTimezone()),
+            refTime = ZonedDateTime(DateTime("2022-03-22T11:00:00"),TRAQUERUtil.getTimeZone()),
             isConfirmed = false
     )
 
@@ -15,7 +15,7 @@ include("../runtests-prerequisite.jl")
         id = "carba T2 contact",
         infectiousAgent = InfectiousAgentCategory.carbapenemase_producing_enterobacteriaceae,
         infectiousStatus = InfectiousStatusType.contact,
-        refTime = ZonedDateTime(DateTime("2022-03-22T11:50:00"),TRAQUERUtil.getTimezone()),
+        refTime = ZonedDateTime(DateTime("2022-03-22T11:50:00"),TRAQUERUtil.getTimeZone()),
         isConfirmed = false
     )
 
@@ -23,19 +23,19 @@ include("../runtests-prerequisite.jl")
         id = "vanco T3 carrier",
         infectiousAgent = InfectiousAgentCategory.vancomycin_resistant_enterococcus,
         infectiousStatus = InfectiousStatusType.carrier,
-        refTime = ZonedDateTime(DateTime("2022-03-22T12:00:00"),TRAQUERUtil.getTimezone()),
+        refTime = ZonedDateTime(DateTime("2022-03-22T12:00:00"),TRAQUERUtil.getTimeZone()),
         isConfirmed = true
     )
 
     # Declare some analyses
     analysisCarbaT1Neg = AnalysisResult(
-        requestTime = ZonedDateTime(DateTime("2022-03-23T10:00:00"),TRAQUERUtil.getTimezone()),
+        requestTime = ZonedDateTime(DateTime("2022-03-23T10:00:00"),TRAQUERUtil.getTimeZone()),
         requestType = AnalysisRequestType.molecular_analysis_carbapenemase_producing_enterobacteriaceae,
         result = AnalysisResultValueType.negative
     )
 
     analysisCarbaT2Neg = AnalysisResult(
-        requestTime = ZonedDateTime(DateTime("2022-03-23T10:05:00"),TRAQUERUtil.getTimezone()),
+        requestTime = ZonedDateTime(DateTime("2022-03-23T10:05:00"),TRAQUERUtil.getTimeZone()),
         requestType = AnalysisRequestType.bacterial_culture_carbapenemase_producing_enterobacteriaceae,
         result = AnalysisResultValueType.negative
     )

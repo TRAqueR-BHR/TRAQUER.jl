@@ -30,12 +30,13 @@ end
     TRAQUERUtil.createDBConnAndExecuteWithTransaction() do dbconn
 
         outbreakUnitAsso = PostgresORM.retrieve_one_entity(
-            OutbreakUnitAsso(id = "5bbf4755-84b1-4be4-950d-6903573d96e4"),
+            OutbreakUnitAsso(id = "2a211a7e-5965-4a1f-b9bd-49d393bba0d0"),
             true, # complex props
             dbconn)
 
         contactExposures = ContactExposureCtrl.generateContactExposures(
-            outbreakUnitAsso, dbconn
+            outbreakUnitAsso,
+            dbconn
             ;simulate = true
         )
 

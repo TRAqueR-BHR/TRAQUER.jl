@@ -9,7 +9,7 @@ demoStays = Stay[]
 TRAQUERUtil.createDBConnAndExecuteWithTransaction() do dbconn
 
     for r in eachrow(staysDF)
-        StayCtrl.createStayIfNotExists(
+        StayCtrl.upsert!(
             demoPatients[r.patientRef],
             demoUnits[r.unitRef],
             r.inZDT,

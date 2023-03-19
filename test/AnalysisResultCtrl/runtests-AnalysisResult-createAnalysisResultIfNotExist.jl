@@ -17,20 +17,20 @@ include("../runtests-prerequisite.jl")
             getDefaultEncryptionStr(),
             dbconn)
 
-        stay = StayCtrl.createStayIfNotExists(
+        stay = StayCtrl.upsert!(
             patient,
             unit,
-            now(getTimezone()) - Day(2), # inTime::ZonedDateTime,
-            now(getTimezone()) + Day(2), # outTime::Union{Missing,ZonedDateTime},
-            now(getTimezone()), # hospitalizationInTime::ZonedDateTime,
-            now(getTimezone()), # hospitalizationOutTime::Union{Missing,ZonedDateTime},
+            now(getTimeZone()) - Day(2), # inTime::ZonedDateTime,
+            now(getTimeZone()) + Day(2), # outTime::Union{Missing,ZonedDateTime},
+            now(getTimeZone()), # hospitalizationInTime::ZonedDateTime,
+            now(getTimeZone()), # hospitalizationOutTime::Union{Missing,ZonedDateTime},
             dbconn)
 
         analysisResult = AnalysisResultCtrl.createAnalysisResultIfNotExist(
             patient,
             stay,
             AnalysisRequestType.molecular_analysis, # request::ANALYSIS_REQUEST_TYPE,
-            now(getTimezone()), # requestTime::ZonedDateTime,
+            now(getTimeZone()), # requestTime::ZonedDateTime,
             randstring(6), # ref::String,
             getDefaultEncryptionStr(),
             SampleMaterialType.faeces, # sample::Union{Missing,SAMPLE_MATERIAL_TYPE},

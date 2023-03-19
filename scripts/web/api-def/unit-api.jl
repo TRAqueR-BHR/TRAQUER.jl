@@ -1,14 +1,14 @@
 #
-# Get a vector of OutbreakConfigUnitAsso from an outbreakConfig
+# Get all units
 #
-new_route = route("/api/outbreak-config/get-outbreak-config-unit-assos-from-outbreak-config", req -> begin
+new_route = route("/api/unit/get-all-units", req -> begin
 
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
     if req[:method] == "OPTIONS"
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/outbreak-config/get-outbreak-config-unit-assos-from-outbreak-config"
+    @info "API /api/unit/get-all-units"
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -21,14 +21,13 @@ new_route = route("/api/outbreak-config/get-outbreak-config-unit-assos-from-outb
                      )
     end
 
-
     #
     # Heart of the API
     #
 
     # Initialize results
     error = nothing
-    assos::Union{Vector{OutbreakConfigUnitAsso},Missing} = missing
+    units::Union{Vector{Unit},Missing} = missing
 
     status_code = try
 
@@ -40,12 +39,16 @@ new_route = route("/api/outbreak-config/get-outbreak-config-unit-assos-from-outb
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
 
         # Create the entity from the JSON Dict
-        outbreakConfig::OutbreakConfig = json2entity(OutbreakConfig, obj["outbreakConfig"])
+        includeComplexProperties::Bool = obj["includeComplexProperties"]
 
-        assos = TRAQUERUtil.executeOnBgThread() do
+        units = TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
-                PostgresORM.retrieve_entity(
-                    OutbreakConfigUnitAsso(outbreakConfig = outbreakConfig), true, dbconn
+                PostgresORM.execute_query_and_handle_result(
+                    "SELECT * FROM unit",
+                    Unit,
+                    missing,
+                    includeComplexProperties, # complex props
+                    dbconn
                 )
             end
         end
@@ -68,7 +71,7 @@ new_route = route("/api/outbreak-config/get-outbreak-config-unit-assos-from-outb
     result::Union{Missing,String} = missing
     try
         if status_code == 200
-            result = String(JSON.json(assos)) # The client side doesn't really need the message
+            result = String(JSON.json(units)) # The client side doesn't really need the message
         else
             result = String(JSON.json(string(error)))
         end

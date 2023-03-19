@@ -4,7 +4,7 @@ include("../runtests-prerequisite.jl")
 
     df = TRAQUERUtil.createDBConnAndExecute() do dbconn
         ContactExposureCtrl.getPatientExposuresForListing(
-            Patient(id = "d538eb57-8c22-47bf-a9da-10b75da7b295"),
+            Patient(id = "a6e7a6c9-d77b-44a6-894d-94042d7e22e3"),
             getDefaultEncryptionStr(),
             dbconn
         )

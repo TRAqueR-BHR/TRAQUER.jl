@@ -1,6 +1,6 @@
 include("../runtests-prerequisite.jl")
 
-@testset "Test StayCtrl.createStayIfNotExists" begin
+@testset "Test StayCtrl.upsert!" begin
 
     TRAQUERUtil.createDBConnAndExecuteWithTransaction() do dbconn
 
@@ -17,14 +17,18 @@ include("../runtests-prerequisite.jl")
             getDefaultEncryptionStr(),
             dbconn)
 
-        stay = StayCtrl.createStayIfNotExists(
-            patient,
-            unit,
-            now(getTimezone()), # inTime::ZonedDateTime,
-            now(getTimezone()), # outTime::Union{Missing,ZonedDateTime},
-            now(getTimezone()), # hospitalizationInTime::ZonedDateTime,
-            now(getTimezone()), # hospitalizationOutTime::Union{Missing,ZonedDateTime},
-            dbconn)
+        stay = Stay(
+            patient = patient,
+            unit = unit,
+            inDate = Dates.Date(inTinow(getTimeZone())me),
+            now(getTimeZone()), # inTime::ZonedDateTime,
+            now(getTimeZone()), # outTime::Union{Missing,ZonedDateTime},
+            now(getTimeZone()), # hospitalizationInTime::ZonedDateTime,
+            now(getTimeZone()), # hospitalizationOutTime::Union{Missing,ZonedDateTime},
+            room = room
+        )
+
+        StayCtrl.upsert!(stay, dbconn)
 
         PostgresORM.delete_entity(stay, dbconn)
         PostgresORM.delete_entity(patient, dbconn)
