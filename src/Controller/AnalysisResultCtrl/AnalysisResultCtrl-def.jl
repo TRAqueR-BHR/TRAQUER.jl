@@ -5,3 +5,5 @@ function createAnalysisResult end
 function getRefOneChar end
 function createCryptedAnalysisRef end
 function getAnalyses end
+function upsert! end
+function getAnalysesResultsForListing end

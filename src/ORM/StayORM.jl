@@ -12,10 +12,12 @@ const columns_selection_and_mapping = Dict(
   :unit => "unit_id", 
   :id => "id", 
   :inDate => "in_date", 
+  :outTime => "out_time", 
+  :sysCreationTime => "sys_creation_time", 
   :hospitalizationOutTime => "hospitalization_out_time", 
   :inTime => "in_time", 
-  :outTime => "out_time", 
   :hospitalizationInTime => "hospitalization_in_time", 
+  :sysProcessingTime => "sys_processing_time", 
   :room => "room", 
 )
 

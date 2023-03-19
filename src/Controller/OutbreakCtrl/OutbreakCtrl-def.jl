@@ -1,3 +1,5 @@
 function getOutbreakFromEventRequiringAttention end
 function initializeOutbreak end
 function generateDefaultOutbreakUnitAssos end
+function getOutbreaksThatCanBeAssociated end
+function getOutbreakUnitAssosFromInfectiousStatus end

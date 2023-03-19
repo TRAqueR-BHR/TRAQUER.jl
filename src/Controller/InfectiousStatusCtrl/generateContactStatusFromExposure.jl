@@ -93,8 +93,8 @@ function InfectiousStatusCtrl.generateContactStatusFromExposure(
 
     end
 
-     # As always, refresh the current status of the patient
-     InfectiousStatusCtrl.updateCurrentStatus(exposure.contact, dbconn)
+    # As always, refresh the current status of the patient
+    InfectiousStatusCtrl.updateCurrentStatus(exposure.contact, dbconn)
 
-     return nothing
+    return nothing
 end

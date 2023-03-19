@@ -1,6 +1,6 @@
 # 'using' calls for the implementations
 using PostgresORM,  LibPQ, TimeZones, Dates, ConfParser, Unicode, StringCases, Mocking,
-      SplitApplyCombine, UUIDs
+      SplitApplyCombine, UUIDs, Serialization
 using ..TRAQUER, ..TRAQUERUtil
 using Base.StackTraces
 using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
@@ -20,7 +20,7 @@ using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
       ..Controller.PatientCtrl,
       ..Controller.InfectiousStatusCtrl, ..Controller.AppuserCtrl,
       ..Controller.ContactExposureCtrl, ..Controller.EventRequiringAttentionCtrl,
-      ..Controller.OutbreakCtrl
+      ..Controller.OutbreakCtrl, ..Controller.SchedulerCtrl
 using ..Model
 using DataFrames
 using ..Enum.AnalysisRequestStatusType,

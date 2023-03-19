@@ -121,11 +121,16 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
                 elseif isa(filterValue, Vector{String})
                     push!(queryArgs, unique(filterValue))
                 elseif isa(filterValue, Integer)
-                    @info "paramsDict[\"enumType\"][$(paramsDict["enumType"])]"
                     enumType = TRAQUERUtil.string2type(paramsDict["enumType"])
                     push!(queryArgs, [TRAQUERUtil.int2enum(enumType,filterValue)])
-                elseif isa(filterValue, Vector{Integer})
-                    # TODO
+                elseif isa(filterValue, Vector{<:Integer})
+                    enumType = TRAQUERUtil.string2type(paramsDict["enumType"])
+                    push!(queryArgs, TRAQUERUtil.int2enum.(enumType,filterValue))
+                else
+                    error(
+                        "Unsupported filterValue[$(typeof(filterValue))] "
+                        *"for enumType[$(enumType)]"
+                    )
                 end
             else
                 queryStringShared *= " AND $nameInWhereClause = \$$(args_counter += 1) "
@@ -229,7 +234,10 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
         # ##################################### #
         # Transform the columns that need to be #
         # ##################################### #
-        objects.birthdate = passmissing(TRAQUERUtil.string2date).(objects.birthdate)
+        @info "names(objects)" names(objects)
+        if !ismissing(cryptPwd)
+            objects.birthdate = passmissing(TRAQUERUtil.string2date).(objects.birthdate)
+        end
         objects.infectious_status = passmissing(TRAQUERUtil.string2enum).(
             INFECTIOUS_STATUS_TYPE, objects.infectious_status)
         objects.infectious_agent = passmissing(TRAQUERUtil.string2enum).(

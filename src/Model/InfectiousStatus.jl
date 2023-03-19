@@ -8,8 +8,8 @@ mutable struct InfectiousStatus <: IInfectiousStatus
   isConfirmed::Union{Missing,Bool}
   refTime::Union{Missing,ZonedDateTime}
   infectiousAgent::Union{Missing,InfectiousAgentCategory.INFECTIOUS_AGENT_CATEGORY}
-  eventRequiringAttentions::Union{Missing,Vector{Model.IEventRequiringAttention}}
   outbreakInfectiousStatusAssoes::Union{Missing,Vector{Model.IOutbreakInfectiousStatusAsso}}
+  eventRequiringAttentions::Union{Missing,Vector{Model.IEventRequiringAttention}}
 
   InfectiousStatus(args::NamedTuple) = InfectiousStatus(;args...)
   InfectiousStatus(;
@@ -21,8 +21,8 @@ mutable struct InfectiousStatus <: IInfectiousStatus
     isConfirmed = missing,
     refTime = missing,
     infectiousAgent = missing,
-    eventRequiringAttentions = missing,
     outbreakInfectiousStatusAssoes = missing,
+    eventRequiringAttentions = missing,
   ) = begin
     x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
     x.patient = patient
@@ -33,8 +33,8 @@ mutable struct InfectiousStatus <: IInfectiousStatus
     x.isConfirmed = isConfirmed
     x.refTime = refTime
     x.infectiousAgent = infectiousAgent
-    x.eventRequiringAttentions = eventRequiringAttentions
     x.outbreakInfectiousStatusAssoes = outbreakInfectiousStatusAssoes
+    x.eventRequiringAttentions = eventRequiringAttentions
     return x
   end
 

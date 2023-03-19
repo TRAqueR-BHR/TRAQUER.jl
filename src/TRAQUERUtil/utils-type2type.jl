@@ -66,6 +66,6 @@ end
 
 function TRAQUERUtil.browserDateString2ZonedDateTime(browserDateStr::String)
 
-    TRAQUERUtil.browserDateString2ZonedDateTime(browserDateStr,getTimezone())
+    TRAQUERUtil.browserDateString2ZonedDateTime(browserDateStr,getTimeZone())
 
 end

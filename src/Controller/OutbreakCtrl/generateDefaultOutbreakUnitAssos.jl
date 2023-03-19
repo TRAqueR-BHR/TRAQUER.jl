@@ -6,15 +6,15 @@ function OutbreakCtrl.generateDefaultOutbreakUnitAssos(
 )::Vector{OutbreakUnitAsso}
 
     # Clean previously generated default assos
-    if cleanExisting
-        PostgresORM.delete_entity_alike(
-            OutbreakUnitAsso(
-                outbreak = outbreak,
-                isDefault = true
-            ),
-            dbconn
-        )
-    end
+    # if cleanExisting
+    #     PostgresORM.delete_entity_alike(
+    #         OutbreakUnitAsso(
+    #             outbreak = outbreak,
+    #             isDefault = true
+    #         ),
+    #         dbconn
+    #     )
+    # end
 
     # Get the confirmed carrier infectious statuses of the outbreak
     queryString = "
@@ -66,6 +66,9 @@ function OutbreakCtrl.generateDefaultOutbreakUnitAssos(
 
     defaultAssos = OutbreakUnitAsso[]
 
+    # ################################################################### #
+    # Create or update the outbreak-unit assos based on the carrier stays #
+    # ################################################################### #
     for stay in atRiskStays
 
         # An asso may already exists, update it if needed, we dont want to create several
@@ -86,8 +89,8 @@ function OutbreakCtrl.generateDefaultOutbreakUnitAssos(
 
             existingAssoNeedsUpdate = false
             # 2. Extend the asso in the past if needed
-            if Date(stay.inTime) < existingAsso.startTime
-                existingAsso.startDate = stay.inTime
+            if stay.inTime < existingAsso.startTime
+                existingAsso.startTime = stay.inTime
                 existingAssoNeedsUpdate = true
             end
 
@@ -100,7 +103,7 @@ function OutbreakCtrl.generateDefaultOutbreakUnitAssos(
             # If the stay has an end that is after the end of the existing asso, update
             elseif (!ismissing(stay.outTime)
                 && !ismissing(existingAsso.endTime)
-                && Date(stay.outTime) > existingAsso.endTime)
+                && stay.outTime > existingAsso.endTime)
                 existingAsso.endTime = stay.outTime
                 existingAssoNeedsUpdate = true
             end
@@ -132,7 +135,13 @@ function OutbreakCtrl.generateDefaultOutbreakUnitAssos(
 
         end
 
+    end
 
+    # ################################################################## #
+    # Generate the contact exposures and the contact infectious statuses #
+    # ################################################################## #
+    for asso in defaultAssos
+        ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(asso, dbconn)
     end
 
     return defaultAssos

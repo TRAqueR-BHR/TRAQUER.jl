@@ -26,13 +26,13 @@ get_id_props() = return [:id,]
 get_onetomany_counterparts() = return onetomany_counterparts
 const onetomany_counterparts = Dict(
 
-  :eventRequiringAttentions => (
-    data_type = Model.EventRequiringAttention, # The struct where the associated manytoone property is
+  :outbreakInfectiousStatusAssoes => (
+    data_type = Model.OutbreakInfectiousStatusAsso, # The struct where the associated manytoone property is
     property = :infectiousStatus, # The name of the associated manytoone property
     action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
 
-  :outbreakInfectiousStatusAssoes => (
-    data_type = Model.OutbreakInfectiousStatusAsso, # The struct where the associated manytoone property is
+  :eventRequiringAttentions => (
+    data_type = Model.EventRequiringAttention, # The struct where the associated manytoone property is
     property = :infectiousStatus, # The name of the associated manytoone property
     action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
 
@@ -42,8 +42,8 @@ const onetomany_counterparts = Dict(
 get_types_override() = return types_override
 const types_override = Dict(
   :patient => Model.Patient, 
-  :eventRequiringAttentions => Vector{Model.EventRequiringAttention}, 
   :outbreakInfectiousStatusAssoes => Vector{Model.OutbreakInfectiousStatusAsso}, 
+  :eventRequiringAttentions => Vector{Model.EventRequiringAttention}, 
 
 )
 

@@ -38,6 +38,8 @@ function getInfectiousStatusForListing end
 
 function getInfectiousStatuses end
 
+function getInfectiousStatusAtTime end
+
 function checkIfPatientIsCarrierAtTime end
 
 """
@@ -55,3 +57,5 @@ function updateCurrentStatus end
 function defaultCheckIfNotAtRiskAnymore end
 
 function upsert! end
+
+function updateOutbreakInfectiousStatusAssos end

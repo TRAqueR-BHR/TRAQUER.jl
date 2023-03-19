@@ -49,7 +49,8 @@ function ContactExposureCtrl.getPatientExposuresForListing(
     # Make the joined DFs unique to avoid creating duplicates when doing the join
     unique!(carrierDecryptDF, :carrier_patient_id)
     unique!(unitsDF, :unit_id)
-    unique!(exposuresDF, :outbreak_id)
+    unique!(outbreaksDF, :outbreak_id)
+    unique!(exposuresDF, :id)
 
     DataFrames.leftjoin!(exposuresDF, carrierDecryptDF, on = :carrier_id => :carrier_patient_id)
     DataFrames.leftjoin!(exposuresDF, unitsDF, on = :unit_id)

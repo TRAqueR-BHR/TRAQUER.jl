@@ -1,27 +1,39 @@
-function InfectiousStatusCtrl.upsert!(infectiousStatus::InfectiousStatus, dbconn::LibPQ.Connection)
+function InfectiousStatusCtrl.upsert!(
+    infectiousStatus::InfectiousStatus,
+    dbconn::LibPQ.Connection
+    ;createEventForStatus::Bool = true
+)
 
-    # Check whether an infectious status
-    filterObject = InfectiousStatus(
-        patient = infectiousStatus.patient,
-        refTime = infectiousStatus.refTime,
-        infectiousAgent = infectiousStatus.infectiousAgent,
-        infectiousStatus = infectiousStatus.infectiousStatus,
-    )
+    # Check whether an infectious status already exists
+    filterObject = if ismissing(infectiousStatus.id)
+        InfectiousStatus(
+            patient = infectiousStatus.patient,
+            refTime = infectiousStatus.refTime,
+            infectiousAgent = infectiousStatus.infectiousAgent,
+            infectiousStatus = infectiousStatus.infectiousStatus,
+        )
+    else
+        InfectiousStatus(id = infectiousStatus.id)
+    end
+
     existing = PostgresORM.retrieve_one_entity(filterObject, false, dbconn)
+
+    # If new infectious status
     if ismissing(existing)
 
         # Create the infectious
         PostgresORM.create_entity!(infectiousStatus,dbconn)
 
-        # Create the event requiring attention
-        eventRequiringAttention = EventRequiringAttention(
-            infectiousStatus = infectiousStatus,
-            isPending = true,
-            eventType = EventRequiringAttentionType.new_status,
-            refTime = infectiousStatus.refTime
-        )
-        EventRequiringAttentionCtrl.upsert!(eventRequiringAttention, dbconn)
-
+        if createEventForStatus
+            # Create the event requiring attention
+            eventRequiringAttention = EventRequiringAttention(
+                infectiousStatus = infectiousStatus,
+                isPending = true,
+                eventType = EventRequiringAttentionType.new_status,
+                refTime = infectiousStatus.refTime
+            )
+            EventRequiringAttentionCtrl.upsert!(eventRequiringAttention, dbconn)
+        end
     else
         infectiousStatus.id = existing.id
         PostgresORM.update_entity!(infectiousStatus,dbconn)

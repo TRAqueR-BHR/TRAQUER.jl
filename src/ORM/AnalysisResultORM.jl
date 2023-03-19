@@ -14,10 +14,12 @@ const columns_selection_and_mapping = Dict(
   :id => "id", 
   :sampleMaterialType => "sample_material_type", 
   :requestTime => "request_time", 
+  :sysCreationTime => "sys_creation_time", 
   :resultTime => "result_time", 
   :result => "result", 
   :resultRawText => "result_raw_text", 
   :requestType => "request_type", 
+  :sysProcessingTime => "sys_processing_time", 
 )
 
 

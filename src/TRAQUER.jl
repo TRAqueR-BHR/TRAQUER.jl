@@ -21,7 +21,8 @@ end  # module Enum
 module TRAQUERUtil
     export openDBConn,openDBConnAndBeginTransaction,beginDBTransaction,
            commitDBTransaction,rollbackDBTransaction,closeDBConn,
-           getConf, formatExceptionAndStackTrace, json2entity, getTimezone
+           getConf, formatExceptionAndStackTrace, json2entity, getTimeZone,
+           executeOnBgThread, createDBConnAndExecute, isMissingOrNothing
     include("./TRAQUERUtil/util-def.jl")
 
 end # module TRAQUERUtil
@@ -111,6 +112,7 @@ module ORM
         using ..ORM, ...Model
         using PostgresORM
         include("./ORM/InfectiousStatusORM.jl")
+        include("./ORM-tracking/InfectiousStatusORM-overwrite.jl")
     end
     module EventRequiringAttentionORM
         using ..ORM, ...Model
@@ -240,6 +242,10 @@ module Controller
     include("Controller/ContactExposureCtrl/ContactExposureCtrl-def.jl")
   end
 
+  module SchedulerCtrl
+    include("Controller/SchedulerCtrl/SchedulerCtrl-def.jl")
+  end
+
   # Default CRUD actions are the base of the Controller module
   include("Controller/default-crud-def.jl")
 
@@ -288,6 +294,9 @@ include("Controller/ContactExposureCtrl/ContactExposureCtrl-imp.jl")
 
 # UnitCtrl
 include("Controller/UnitCtrl/UnitCtrl-imp.jl")
+
+# SchedulerCtrl
+include("Controller/SchedulerCtrl/SchedulerCtrl-imp.jl")
 
 # Custom implementation
 include(ENV["TRAQUER_CUSTOM_MODULE_IMPLEMENTATION_FILE"])

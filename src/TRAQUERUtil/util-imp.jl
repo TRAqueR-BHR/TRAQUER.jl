@@ -6,6 +6,7 @@ include("getMappingAnalysisRequestType2InfectiousAgentCategory.jl")
 include("analysisRequestType2InfectiousAgentCategory.jl")
 include("infectiousAgentCategory2AnalysisRequestTypes.jl")
 include("json2entity.jl")
+include("isMissingOrNothing.jl")
 
 # see ~/.julia/config/startup.jl for setting the environment variable
 function TRAQUERUtil.loadConf()::ConfParse
@@ -38,17 +39,30 @@ function TRAQUERUtil.getConf(category_name::String,property_name::String)
                         property_name)
 end
 
-function TRAQUERUtil.getTimezoneAsStr()
+function TRAQUERUtil.getTimeZoneAsStr()
     TRAQUERUtil.getConf("default","timezone")
 end
 
-function TRAQUERUtil.getTimezone()
-    TimeZones.TimeZone(TRAQUERUtil.getTimezoneAsStr())
+function TRAQUERUtil.getTimeZone()
+    TimeZones.TimeZone(TRAQUERUtil.getTimeZoneAsStr())
+end
+
+function TRAQUERUtil.nowInTargetTimeZone()
+    now(localzone()) |> # Reminder: 'now' in the computer timezone may be different from the
+                        #  hospital timezone, Eg. developers may be working from a different
+                        #  timezone than the one configured in the config file
+    n -> astimezone(n, getTimeZone())
 end
 
 function TRAQUERUtil.getOrganizationCustomModuleName()
     TRAQUERUtil.getConf("custom","module_name")
 end
+
+function TRAQUERUtil.debugIncludeCarriersThatAreNotHospitalized()
+    TRAQUERUtil.getConf("debug","include_carriers_that_are_not_hospitalized") |>
+    n -> parse(Bool, n)
+end
+
 
 function TRAQUERUtil.getOrganizationCustomModule()
     moduleName = TRAQUERUtil.getOrganizationCustomModuleName()
@@ -95,7 +109,7 @@ function TRAQUERUtil.openDBConn()
                              "; throw_error=true)
 
     execute(conn, "SET enable_partition_pruning = on;")
-    execute(conn, "SET TIMEZONE='$(TRAQUERUtil.getTimezoneAsStr())';")
+    execute(conn, "SET TIMEZONE='$(TRAQUERUtil.getTimeZoneAsStr())';")
 
     return conn
 end

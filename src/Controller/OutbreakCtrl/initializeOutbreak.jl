@@ -21,6 +21,7 @@ function OutbreakCtrl.initializeOutbreak(
     dbconn::LibPQ.Connection
 )
 
+    # Create the outbreak
     outbreak = Outbreak(
         name = outbreakName,
         infectiousAgent = firstInfectiousStatus.infectiousAgent,
@@ -28,23 +29,14 @@ function OutbreakCtrl.initializeOutbreak(
         criticity = criticity) |>
         n ->  PostgresORM.create_entity!(n, dbconn)
 
-    outbreakInfectiousStatusAsso = OutbreakInfectiousStatusAsso(
-        outbreak = outbreak,
-        infectiousStatus = firstInfectiousStatus) |> n -> PostgresORM.create_entity!(n, dbconn)
-
-
-    # Generate the default associations between the outbreak and the units
-    outbreakUnitAssos = TRAQUERUtil.createDBConnAndExecute() do dbconn
-
-        OutbreakCtrl.generateDefaultOutbreakUnitAssos(
-            outbreak,
-            false, # simulate::Bool,
-            dbconn
-        )
-
-    end
+    # Initialize the outbreak using the association with the carrier infectious status
+    firstInfectiousStatus.outbreakInfectiousStatusAssoes = [
+        OutbreakInfectiousStatusAsso(outbreak = outbreak)
+    ]
+    InfectiousStatusCtrl.updateOutbreakInfectiousStatusAssos(
+        firstInfectiousStatus, dbconn
+    )
 
     return outbreak
-
 
 end

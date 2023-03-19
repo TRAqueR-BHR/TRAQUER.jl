@@ -5,8 +5,6 @@ function InfectiousStatusCtrl.checkIfPatientIsCarrierAtTime(
     dbconn::LibPQ.Connection
 )
 
-    @info "[patient.id, infectiousAgent]" [patient.id, infectiousAgent]
-
     # Get all the 'carrier' and 'not_at_risk' statuses
     # NOTE: But anyway, there should be no case where a 'carrier' transition to 'contact'
     statuses = "SELECT ist.*

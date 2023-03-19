@@ -23,6 +23,7 @@ function createTablePartitionsOnYearMonthForGivenYear end
 function createTablesPartitionsOnYearMonthForLastYears end
 function blindBakeIsRequired end
 function listEnums end
+function debugIncludeCarriersThatAreNotHospitalized end
 
 function rmAccentsAndLowercase end
 function cleanStringForEncryptedValueCp end
@@ -32,10 +33,11 @@ function removeDoubleLineReturns end
 function formatExceptionAndStackTrace end
 function formatExceptionAndStackTraceCore end
 function updateConf end
-function getTimezone end
-function getTimezoneAsStr end
+function getTimeZone end
+function getTimeZoneAsStr end
 function string2enum end
 function string2date end
+function nowInTargetTimeZone end
 
 function generateHumanReadableUniqueRef end
 function retrieveSequenceNextval end
@@ -74,5 +76,6 @@ function string2bool end
 function json2entity end
 function browserDateString2date end
 function browserDateString2ZonedDateTime end
+function isMissingOrNothing end
 
 # function addDataFrameRow

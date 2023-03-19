@@ -77,9 +77,10 @@ module ResponseType
     confirm = 2 
     request_analysis = 3 
     send_a_reminder = 4 
-    declare_outbreak = 5 
-    isolation_in_same_unit = 6 
-    isolation_in_special_unit = 7 
+    associate_to_existing_outbreak = 5 
+    declare_outbreak = 6 
+    isolation_in_same_unit = 7 
+    isolation_in_special_unit = 8 
   end
 end
 
@@ -144,11 +145,12 @@ end
 module EventRequiringAttentionType
   export EVENT_REQUIRING_ATTENTION_TYPE
   @enum EVENT_REQUIRING_ATTENTION_TYPE begin
-    hospitalization = 1 
-    new_status = 2 
-    analysis_in_progress = 3 
-    analysis_done = 4 
-    analysis_late = 5 
+    new_status = 1 
+    analysis_in_progress = 2 
+    analysis_done = 3 
+    analysis_late = 4 
+    new_stay = 5 
+    death = 6 
   end
 end
 

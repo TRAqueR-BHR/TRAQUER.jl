@@ -1,15 +1,8 @@
-function StayCtrl.getCarriersStaysForListing(
-    outbreakUnitAsso::OutbreakUnitAsso,
+function StayCtrl.transformStaysForListing(
+    stays::Vector{Stay},
     cryptStr::String,
     dbconn::LibPQ.Connection
-)
-# ::DataFrame
-
-    stays::Vector{Stay} = StayCtrl.getCarriersStays(
-        outbreakUnitAsso,
-        dbconn
-    )
-    @info "length(stays)[$(length(stays))]"
+)::DataFrame
 
     if isempty(stays)
         return DataFrame()

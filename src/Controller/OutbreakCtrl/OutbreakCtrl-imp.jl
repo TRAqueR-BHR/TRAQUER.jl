@@ -1,3 +1,5 @@
 include("getOutbreakFromEventRequiringAttention.jl")
 include("initializeOutbreak.jl")
 include("generateDefaultOutbreakUnitAssos.jl")
+include("getOutbreaksThatCanBeAssociated.jl")
+include("getOutbreakUnitAssosFromInfectiousStatus.jl")

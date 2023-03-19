@@ -2,7 +2,7 @@ function PatientCtrl.getPatientDecrypt(
     patient::Patient,
     encryptionStr::String,
     dbconn::LibPQ.Connection
-)
+)::Union{Missing,PatientDecrypt}
 
     patientDecryptData = "
         SELECT p.id AS patient_id

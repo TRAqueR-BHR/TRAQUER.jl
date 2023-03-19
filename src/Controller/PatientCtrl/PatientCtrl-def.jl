@@ -10,3 +10,8 @@ function retrievePatients end
 function retrieveOnePatient end
 function getRefOneChar end
 function getPatientDecrypt end
+function getPatientsForListing end
+
+function getPatientDecryptedInfoFromId end
+function getPatientsDecryptedInfoFromIds end
+function updatePatientNameAndBirthdate end

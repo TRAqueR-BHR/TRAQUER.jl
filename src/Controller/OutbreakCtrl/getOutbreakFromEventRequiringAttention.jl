@@ -1,6 +1,7 @@
 function OutbreakCtrl.getOutbreakFromEventRequiringAttention(
     eventRequiringAttention::EventRequiringAttention,
-    retrieveComplexProperties::Bool, dbconn::LibPQ.Connection
+    retrieveComplexProperties::Bool,
+    dbconn::LibPQ.Connection
 )::Union{Missing, Outbreak}
 
     eventRefTime = eventRequiringAttention.refTime

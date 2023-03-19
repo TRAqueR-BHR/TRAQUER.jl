@@ -1,21 +1,6 @@
-function createStayIfNotExists end
+function upsert! end
+
 function retrieveOneStay end
-
-"""
-    createStay(
-        patient::Patient,
-        unit::Unit,
-        inTime::ZonedDateTime,
-        outTime::Union{Missing,ZonedDateTime},
-        hospitalizationInTime::Union{Missing,ZonedDateTime},
-        hospitalizationOutTime::Union{Missing,ZonedDateTime},
-        room::Union{Missing,String},
-        dbconn::LibPQ.Connection
-    )
-
-Create a stay for a patient and update the current hospitalization status of the patient
-"""
-function createStay end
 
 function retrieveOneStayContainingDateTime end
 
@@ -25,6 +10,10 @@ function getSortedPatientStays end
 
 function getStaysWherePatientAtRisk end
 
-function getCarriersStays end
+function getCarriersOrContactsStays end
 
-function getCarriersStaysForListing end
+function transformStaysForListing end
+
+function getHospitalizationsDates end
+
+function getStaysForListing end

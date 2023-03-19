@@ -14,7 +14,10 @@ function ContactExposureCtrl.generateContactExposures(
     #   i.e. One of the in_time or out_time of the carrier's stays falls inside someone else
     #         stays
 
-    restrictionForPartition = carrierStayInTime - Month(1)
+    # Restrict the search of the contacts' stays to a few months back.
+    # Must be careful to rollback enough in order to not exclude stays of contacts that
+    # arrived a long time before the carrier stay
+    restrictionForPartition = carrierStayInTime - Month(6)
 
     queryArgs = [
         restrictionForPartition, # for perf
@@ -24,10 +27,11 @@ function ContactExposureCtrl.generateContactExposures(
     queryString = "
         SELECT s.*
         FROM stay s
-        WHERE s.in_date >= \$1 -- This is for performance, in order to take
-                               --   advantage of the partitioning.
-                               -- CAUTION: We need to take a large margin for \$1
-        AND s.unit_id = \$2
+        WHERE
+            s.in_date >= \$1 -- This is for performance, in order to take
+                             --   advantage of the partitioning.
+                             -- CAUTION: We need to take a large margin for \$1
+            AND s.unit_id = \$2
     "
 
     if !ismissing(carrierStayOutTime)
@@ -35,17 +39,19 @@ function ContactExposureCtrl.generateContactExposures(
         queryString *= "
             AND
                 (
-                    -- Get the overlapping stays with a begin/end datetime
+                    -- Get the overlapping stays with a begin/end datetime that partially
+                    -- fall inside the carrier stay
                     -- Scenarios CASE 1:
                     --   carrier      [=================]
                     --   contact [=============]
                     --   contact                  [==============]
 
-                    (  \$3 BETWEEN s.in_time AND s.out_time
+                    (
+                        \$3 BETWEEN s.in_time AND s.out_time
                        OR \$4 BETWEEN s.in_time AND s.out_time
                     )
 
-                     OR
+                    OR
 
                     -- Get the overlapping stays without an end datetime:
                     -- Scenarios CASE 2:
@@ -55,6 +61,17 @@ function ContactExposureCtrl.generateContactExposures(
 
                     (
                         \$4 >= s.in_time AND s.out_time IS NULL
+                    )
+
+                    OR
+
+                    -- Get the overlapping stays with a begin/end datetime that completely
+                    -- fall inside the carrier stay
+                    -- Scenarios CASE 3:
+                    --   carrier      [=================]
+                    --   contact          [==========]
+                    (
+                        \$3 < s.in_time AND \$4 > s.out_time
                     )
                 )
 
@@ -66,7 +83,7 @@ function ContactExposureCtrl.generateContactExposures(
         queryString *= "
             AND (
 
-                    -- Scenario CASE 3:
+                    -- Scenario CASE 4:
                     --   carrier       [======================
                     --   contact   [========]
                     --   contact          [========]
@@ -74,7 +91,7 @@ function ContactExposureCtrl.generateContactExposures(
 
                     OR
 
-                    -- Scenario CASE 4:
+                    -- Scenario CASE 5:
                     --   carrier       [======================
                     --   contact   [==========================
                     --   contact           [==================
@@ -92,8 +109,6 @@ function ContactExposureCtrl.generateContactExposures(
         false,
         dbconn)
 
-    @info "DEBUG1 unit[$(carrierStayUnit.name)] length(contactStays)[$(length(contactStays))]"
-
     # Check that the exposure is not with the carrier himself
     if !ismissing(carrier)
         filter!(
@@ -102,8 +117,6 @@ function ContactExposureCtrl.generateContactExposures(
         )
     end
 
-    @info "DEBUG2 unit[$(carrierStayUnit.name)] length(contactStays)[$(length(contactStays))]"
-
     # Only keep the stays for the same room if needed
     if sameRoomOnly && !ismissing(carrierStayRoom)
         filter!(
@@ -111,8 +124,6 @@ function ContactExposureCtrl.generateContactExposures(
             contactStays
         )
     end
-
-    @info "DEBUG3 unit[$(carrierStayUnit.name)] length(contactStays)[$(length(contactStays))]"
 
     # Get the exact overlap
     exposures = ContactExposure[]
@@ -167,7 +178,7 @@ function ContactExposureCtrl.generateContactExposures(
 
     exposures = ContactExposure[]
 
-    carrierStays = StayCtrl.getCarriersStays(asso, dbconn)
+    carrierStays = StayCtrl.getCarriersOrContactsStays(asso, InfectiousStatusType.carrier ,dbconn)
 
 
     # If there are no carrier stay in the asso, the asso is probably created from scratch
