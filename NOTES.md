@@ -1,9 +1,9 @@
 [ Info: ATB2[K, l, e, b, s, i, e, l, l, a,  , p, n, e, u, m, o, n, i, a, e,  , -,  , E, P, C]
 ERROR: LoadError: UndefVarError: requestTime not defined
 Stacktrace:
- [1] importAnalyses(df::DataFrame, encryptionStr::String; stopAfterXLines::Float64)
+ [1] importAnalyses(df::DataFrame, encryptionStr::AbstractString; stopAfterXLines::Float64)
    @ TRAQUER ~/CODE/BHRE/TRAQUER.jl/src/Controller/ETLCtrl/ETLCtrl-importAnalyses-imp.jl:115
- [2] importAnalyses(df::DataFrame, encryptionStr::String)
+ [2] importAnalyses(df::DataFrame, encryptionStr::AbstractString)
    @ TRAQUER ~/CODE/BHRE/TRAQUER.jl/src/Controller/ETLCtrl/ETLCtrl-importAnalyses-imp.jl:5
  [3] top-level scope
    @ ~/CODE/BHRE/TRAQUER.jl/test/runtests-ETLCtrl.jl:42
