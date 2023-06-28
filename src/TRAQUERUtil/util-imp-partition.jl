@@ -33,7 +33,7 @@ function TRAQUERUtil.createPartitionPatientBirthdateIfNotExist(birthdate::Date,
           end
 end
 
-function TRAQUERUtil.createPartitionPatientNameIfNotExist(lastname::String,
+function TRAQUERUtil.createPartitionPatientNameIfNotExist(lastname::AbstractString,
                                                           dbconn::LibPQ.Connection)
 
         #
@@ -68,7 +68,7 @@ function TRAQUERUtil.createPartitionPatientNameIfNotExist(lastname::String,
          end
 end
 
-function TRAQUERUtil.createPartitionPatientRefIfNotExist(ref::String,
+function TRAQUERUtil.createPartitionPatientRefIfNotExist(ref::AbstractString,
                                                          dbconn::LibPQ.Connection)
 
         #
@@ -102,7 +102,7 @@ function TRAQUERUtil.createPartitionPatientRefIfNotExist(ref::String,
          end
 end
 
-function TRAQUERUtil.getTablePartitionNameOnYearMonth(tableName::String,
+function TRAQUERUtil.getTablePartitionNameOnYearMonth(tableName::AbstractString,
                                        year::Integer,
                                        month::Integer)
     # Add the trailing 0 if the month is inferior to 10
@@ -140,8 +140,8 @@ function TRAQUERUtil.createTablesPartitionsOnYearMonthForLastYears()
 end
 
 
-function TRAQUERUtil.createTablePartitionsOnYearMonthForGivenYear(schemaName::String,
-                                                                  tableName::String,
+function TRAQUERUtil.createTablePartitionsOnYearMonthForGivenYear(schemaName::AbstractString,
+                                                                  tableName::AbstractString,
                                                                   _year::Integer,
                                                                   dbconn::LibPQ.Connection)
 
@@ -155,8 +155,8 @@ function TRAQUERUtil.createTablePartitionsOnYearMonthForGivenYear(schemaName::St
 
 end
 
-function TRAQUERUtil.createTablePartitionOnYearMonth(schemaName::String,
-                                          tableName::String,
+function TRAQUERUtil.createTablePartitionOnYearMonth(schemaName::AbstractString,
+                                          tableName::AbstractString,
                                           year::Integer,
                                           month::Integer,
                                           dbconn::LibPQ.Connection)
@@ -167,14 +167,12 @@ function TRAQUERUtil.createTablePartitionOnYearMonth(schemaName::String,
                                                        year,
                                                        month)
 
-    @info "Create partition $schemaName.$partitionTable"
 
     # Vérifie que la partition n'existe pas déjà
     if PostgresORM.SchemaInfo.check_if_table_or_partition_exists(
                                     partitionTable,
                                     schemaName,
                                     dbconn)
-        @info "Partition $schemaName.$partitionTable already exists"
         return
     end
 
@@ -251,7 +249,7 @@ function TRAQUERUtil.createPartitionContactExposureIfNotExist(
 
 end
 
-function TRAQUERUtil.createPartitionAnalysisRefIfNotExist(ref::String,
+function TRAQUERUtil.createPartitionAnalysisRefIfNotExist(ref::AbstractString,
                                                           dbconn::LibPQ.Connection)
 
         #

@@ -3,8 +3,8 @@
     TRAQUERUtil.createDBConnAndExecuteWithTransaction() do dbconn
 
         newUnit = UnitCtrl.createUnitIfNotExists(
-            randstring(6), # unitCodeName::String,
-            randstring(6), # unitName::String,
+            randstring(6), # unitCodeName::AbstractString,
+            randstring(6), # unitName::AbstractString,
             dbconn)
 
         PostgresORM.delete_entity(newUnit,dbconn)

@@ -1,11 +1,11 @@
 
-function AnalysisResultCtrl.createAnalysisResultIfNotExist(
+function AnalysisResultCtrl.upsertAnalysis(
     patient::Patient,
     stay::Stay,
     requestType::ANALYSIS_REQUEST_TYPE,
     requestTime::ZonedDateTime,
-    ref::String,
-    encryptionStr::String,
+    ref::AbstractString,
+    encryptionStr::AbstractString,
     sampleMaterial::Union{Missing,SAMPLE_MATERIAL_TYPE},
     result::Union{Missing,ANALYSIS_RESULT_VALUE_TYPE},
     resultTime::Union{Missing,ZonedDateTime},

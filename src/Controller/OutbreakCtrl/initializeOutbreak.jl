@@ -1,6 +1,6 @@
 """
     OutbreakCtrl.initializeOutbreak(
-        outbreakName::String,
+        outbreakName::AbstractString,
         firstInfectiousStatus::InfectiousStatus,
         criticity::OUTBREAK_CRITICITY,
         refTime::ZonedDateTime,
@@ -14,7 +14,7 @@ corresponding to this new hospitalization should have a reference time that is t
 the new hospitalization
 """
 function OutbreakCtrl.initializeOutbreak(
-    outbreakName::String,
+    outbreakName::AbstractString,
     firstInfectiousStatus::InfectiousStatus,
     criticity::OUTBREAK_CRITICITY,
     refTime::ZonedDateTime,

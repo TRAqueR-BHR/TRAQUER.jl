@@ -1,0 +1,1 @@
+function resetDatabase end

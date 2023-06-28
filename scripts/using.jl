@@ -14,6 +14,7 @@
 @everywhere using TRAQUER.Controller.AppuserCtrl
 @everywhere using TRAQUER.Controller.OutbreakCtrl
 @everywhere using TRAQUER.Controller.SchedulerCtrl
+@everywhere using TRAQUER.Controller.MaintenanceCtrl
 @everywhere using TRAQUER.Controller.EventRequiringAttentionCtrl
 
 @everywhere using TRAQUER.Enum.AnalysisRequestStatusType

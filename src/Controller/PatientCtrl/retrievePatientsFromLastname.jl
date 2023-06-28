@@ -1,5 +1,5 @@
-function PatientCtrl.retrievePatientsFromLastname(lastname::String,
-                                                  encryptionStr::String,
+function PatientCtrl.retrievePatientsFromLastname(lastname::AbstractString,
+                                                  encryptionStr::AbstractString,
                                                   dbconn::LibPQ.Connection)
 
     lastname = string(lastname)

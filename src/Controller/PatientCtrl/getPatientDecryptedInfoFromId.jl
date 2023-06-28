@@ -1,7 +1,7 @@
 
 function PatientCtrl.getPatientDecryptedInfoFromId(
-    patientId::String,
-    encryptionStr::String,
+    patientId::AbstractString,
+    encryptionStr::AbstractString,
     dbconn::LibPQ.Connection)
 
     patients = PatientCtrl.getPatientsDecryptedInfoFromIds(
@@ -18,7 +18,7 @@ end
 
 function PatientCtrl.getPatientsDecryptedInfoFromIds(
     patientIds::Vector{String},
-    encryptionStr::String,
+    encryptionStr::AbstractString,
     dbconn::LibPQ.Connection)
 
     # ########################### #

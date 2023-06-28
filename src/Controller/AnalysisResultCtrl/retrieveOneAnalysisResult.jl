@@ -1,7 +1,7 @@
 function AnalysisResultCtrl.retrieveOneAnalysisResult(
     patient::Patient,
-    ref::String,
-    encryptionStr::String,
+    ref::AbstractString,
+    encryptionStr::AbstractString,
     dbconn::LibPQ.Connection
 )
 

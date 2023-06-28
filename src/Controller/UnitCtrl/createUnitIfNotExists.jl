@@ -1,6 +1,8 @@
-function UnitCtrl.createUnitIfNotExists(unitCodeName::String,
-                                       unitName::String,
-                                       dbconn::LibPQ.Connection)
+function UnitCtrl.createUnitIfNotExists(
+    unitCodeName::AbstractString,
+    unitName::AbstractString,
+    dbconn::LibPQ.Connection
+)
 
     # Look for a Unit
     unit::Union{Missing,Unit} =

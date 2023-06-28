@@ -1,7 +1,7 @@
 
-function PatientCtrl.createCryptedPatientName(firstname::String,
-                                              lastname::String,
-                                              encryptionStr::String,
+function PatientCtrl.createCryptedPatientName(firstname::AbstractString,
+                                              lastname::AbstractString,
+                                              encryptionStr::AbstractString,
                                               dbconn::LibPQ.Connection)
 
       # Create partition if needed

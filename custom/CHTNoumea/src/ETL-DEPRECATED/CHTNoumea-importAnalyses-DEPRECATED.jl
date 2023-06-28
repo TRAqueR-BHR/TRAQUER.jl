@@ -1,5 +1,5 @@
 function Custom.importAnalyses(df::DataFrame,
-                                encryptionStr::String
+                                encryptionStr::AbstractString
                                 ;stopAfterXLines::Number = Inf64)
 
     @info (
@@ -112,7 +112,7 @@ function Custom.importAnalyses(df::DataFrame,
 
 
 
-           analysis = AnalysisResultCtrl.createAnalysisResultIfNotExist(patient,
+           analysis = AnalysisResultCtrl.upsertAnalysis(patient,
                                                             stay,
                                                             analysisType,
                                                             requestTime,

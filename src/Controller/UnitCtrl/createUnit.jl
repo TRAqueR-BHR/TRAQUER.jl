@@ -1,5 +1,5 @@
-function UnitCtrl.createUnit(unitCodeName::String,
-                             unitName::String,
+function UnitCtrl.createUnit(unitCodeName::AbstractString,
+                             unitName::AbstractString,
                              dbconn::LibPQ.Connection)
 
     unit = Unit(name = unitName,

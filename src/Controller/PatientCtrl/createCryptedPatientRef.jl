@@ -1,5 +1,5 @@
-function PatientCtrl.createCryptedPatientRef(ref::String,
-                                             encryptionStr::String,
+function PatientCtrl.createCryptedPatientRef(ref::AbstractString,
+                                             encryptionStr::AbstractString,
                                              dbconn::LibPQ.Connection)
 
        # Create partition if needed

@@ -257,7 +257,7 @@ function AppuserCtrl.retrieveActiveAppusers(caller::Appuser
 end
 
 
-function AppuserCtrl.authenticate(login::String, password::String)
+function AppuserCtrl.authenticate(login::AbstractString, password::AbstractString)
 
     #
     # 1. Check that the password match the login

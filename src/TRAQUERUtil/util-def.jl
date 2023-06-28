@@ -38,6 +38,7 @@ function getTimeZoneAsStr end
 function string2enum end
 function string2date end
 function nowInTargetTimeZone end
+function resetDatabaseIsAllowed end
 
 function generateHumanReadableUniqueRef end
 function retrieveSequenceNextval end
@@ -77,5 +78,7 @@ function json2entity end
 function browserDateString2date end
 function browserDateString2ZonedDateTime end
 function isMissingOrNothing end
-
+function copyLinesToDestFile end
+function readFirstNLinesOfFile end
+function readFirstNLinesOfCSVFile end
 # function addDataFrameRow

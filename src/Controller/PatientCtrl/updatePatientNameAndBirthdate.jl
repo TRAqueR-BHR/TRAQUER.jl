@@ -1,10 +1,10 @@
 """
     PatientCtrl.updatePatientNameAndBirthdate(
         patient::Patient,
-        firstname::String,
-        lastname::String,
+        firstname::AbstractString,
+        lastname::AbstractString,
         birthdate::Date,
-        encryptionStr::String,
+        encryptionStr::AbstractString,
         dbconn::LibPQ.Connection)
 
 Updates the firstname, lastname and birth date of the patient
@@ -12,10 +12,10 @@ Updates the firstname, lastname and birth date of the patient
 """
 function PatientCtrl.updatePatientNameAndBirthdate(
     patient::Patient,
-    firstname::String,
-    lastname::String,
+    firstname::AbstractString,
+    lastname::AbstractString,
     birthdate::Date,
-    encryptionStr::String,
+    encryptionStr::AbstractString,
     dbconn::LibPQ.Connection)
 
     # Retrieve the entity from the database (to make sure we have all the properties set)

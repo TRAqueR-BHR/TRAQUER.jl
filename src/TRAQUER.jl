@@ -9,7 +9,7 @@ function greet()
   @info "Hello"
 end
 
-function greet(str::String)
+function greet(str::AbstractString)
   @info "Hello $str"
 end
 
@@ -246,6 +246,10 @@ module Controller
     include("Controller/SchedulerCtrl/SchedulerCtrl-def.jl")
   end
 
+  module MaintenanceCtrl
+    include("Controller/MaintenanceCtrl/MaintenanceCtrl-def.jl")
+  end
+
   # Default CRUD actions are the base of the Controller module
   include("Controller/default-crud-def.jl")
 
@@ -297,6 +301,9 @@ include("Controller/UnitCtrl/UnitCtrl-imp.jl")
 
 # SchedulerCtrl
 include("Controller/SchedulerCtrl/SchedulerCtrl-imp.jl")
+
+# MaintenanceCtrl
+include("Controller/MaintenanceCtrl/MaintenanceCtrl-imp.jl")
 
 # Custom implementation
 include(ENV["TRAQUER_CUSTOM_MODULE_IMPLEMENTATION_FILE"])

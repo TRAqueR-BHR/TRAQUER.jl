@@ -9,14 +9,14 @@ using TRAQUER.Controller
 
 @testset "Test TRAQUERUtil.createPartitionsIfNotExist" begin
 
-  lastname = "Çellac"
-  year = 1981
-  dbconn = TRAQUERUtil.openDBConn()
+    lastname = "Çellac"
+    year = 1981
+    dbconn = TRAQUERUtil.openDBConn()
 
-  TRAQUERUtil.createPartitionsIfNotExist(lastname,
-                                         year,
-                                         dbconn)
-  TRAQUERUtil.closeDBConn(dbconn)
+    TRAQUERUtil.createPartitionsIfNotExist(lastname,
+                                            year,
+                                            dbconn)
+    TRAQUERUtil.closeDBConn(dbconn)
 
 
 end
@@ -24,48 +24,45 @@ end
 @testset "Test TRAQUERUtil.convertStringToZonedDateTime" begin
 
     # Scenario '1 time entier'
-     dateStr = "01/07/2020"
-     timeStr = "5"
-     timeZone = tz"Europe/Paris"
-
-     @test TRAQUERUtil.convertStringToZonedDateTime(dateStr,timeStr,timeZone) ==
-
-     # Scenario '2 out range of date '
-       dateStr = "01/14/2020"
-       timeStr = "2060"
-       timeZone = tz"Europe/Paris"
-
-       @test TRAQUERUtil.convertStringToZonedDateTime(dateStr,timeStr,timeZone)
-
-      # Scenario '3 time entier'
-      dateStr = "01/07/2020"
-      timeStr = "58"
-      timeZone = tz"Europe/Paris"
-
-       TRAQUERUtil.convertStringToZonedDateTime(dateStr,timeStr,timeZone)
+    dateStr = "01/07/2020"
+    timeStr = "5"
+    timeZone = tz"Europe/Paris"
 
 
-       # Scenario '3 time entier'
-       dateStr = "01/07/2020"
-       timeStr = "455"
-       timeZone = tz"Europe/Paris"
+    # Scenario '2 out range of date '
+    dateStr = "01/14/2020"
+    timeStr = "2060"
+    timeZone = tz"Europe/Paris"
 
-        TRAQUERUtil.convertStringToZonedDateTime(dateStr,timeStr,timeZone)
+    TRAQUERUtil.convertStringToZonedDateTime(dateStr,timeStr,timeZone)
 
+    # Scenario '3 time entier'
+    dateStr = "01/07/2020"
+    timeStr = "58"
+    timeZone = tz"Europe/Paris"
 
-        # Scenario '4 time entier'
-        dateStr = "01/07/2020"
-        timeStr = "2050"
-        timeZone = tz"Europe/Paris"
+    TRAQUERUtil.convertStringToZonedDateTime(dateStr,timeStr,timeZone)
 
-         TRAQUERUtil.convertStringToZonedDateTime(dateStr,timeStr,timeZone)
+    # Scenario '3 time entier'
+    dateStr = "01/07/2020"
+    timeStr = "455"
+    timeZone = tz"Europe/Paris"
 
-         # Scenario '5 out range of time entier'
-         dateStr = "01/07/2020"
-         timeStr = "2060"
-         timeZone = tz"Europe/Paris"
+    TRAQUERUtil.convertStringToZonedDateTime(dateStr,timeStr,timeZone)
 
-          TRAQUERUtil.convertStringToZonedDateTime(dateStr,timeStr,timeZone)
+    # Scenario '4 time entier'
+    dateStr = "01/07/2020"
+    timeStr = "2050"
+    timeZone = tz"Europe/Paris"
+
+    TRAQUERUtil.convertStringToZonedDateTime(dateStr,timeStr,timeZone)
+
+    # Scenario '5 out range of time entier'
+    dateStr = "01/07/2020"
+    timeStr = "2060"
+    timeZone = tz"Europe/Paris"
+
+    TRAQUERUtil.convertStringToZonedDateTime(dateStr,timeStr,timeZone)
 
 end
 

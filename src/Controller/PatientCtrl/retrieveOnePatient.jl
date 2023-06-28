@@ -1,5 +1,5 @@
-function PatientCtrl.retrieveOnePatient(ref::String,
-                                        encryptionStr::String,
+function PatientCtrl.retrieveOnePatient(ref::AbstractString,
+                                        encryptionStr::AbstractString,
                                         dbconn::LibPQ.Connection)
 
     patients = PatientCtrl.retrievePatientsFromRef(ref,
@@ -12,10 +12,10 @@ function PatientCtrl.retrieveOnePatient(ref::String,
     end
 end
 
-function PatientCtrl.retrieveOnePatient(firstname::String,
-                                     lastname::String,
+function PatientCtrl.retrieveOnePatient(firstname::AbstractString,
+                                     lastname::AbstractString,
                                      birthdate::Date,
-                                     encryptionStr::String,
+                                     encryptionStr::AbstractString,
                                      dbconn::LibPQ.Connection)
 
      patients = PatientCtrl.retrievePatients(firstname,

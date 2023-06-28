@@ -1,5 +1,5 @@
 function PatientCtrl.retrievePatientsFromBirthdate(birthdate::Date,
-                                                   encryptionStr::String,
+                                                   encryptionStr::AbstractString,
                                                    dbconn::LibPQ.Connection)
 
     birthdateAsStr = string(birthdate)

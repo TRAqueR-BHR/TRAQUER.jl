@@ -1,5 +1,5 @@
-function PatientCtrl.retrievePatientsFromRef(ref::String,
-                                             encryptionStr::String,
+function PatientCtrl.retrievePatientsFromRef(ref::AbstractString,
+                                             encryptionStr::AbstractString,
                                              dbconn::LibPQ.Connection)
 
     refOneChar = PatientCtrl.getRefOneChar(ref)

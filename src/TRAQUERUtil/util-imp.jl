@@ -1,9 +1,12 @@
+include("analysisRequestType2InfectiousAgentCategory.jl")
+include("copyLinesToDestFile.jl")
+include("readFirstNLinesOfFile.jl")
+include("readFirstNLinesOfCSVFile.jl")
 include("utils-type2type.jl")
 include("util-imp-partition.jl")
 include("utils-impl-ref-generation.jl")
 include("do-functions.jl")
 include("getMappingAnalysisRequestType2InfectiousAgentCategory.jl")
-include("analysisRequestType2InfectiousAgentCategory.jl")
 include("infectiousAgentCategory2AnalysisRequestTypes.jl")
 include("json2entity.jl")
 include("isMissingOrNothing.jl")
@@ -27,13 +30,13 @@ function TRAQUERUtil.loadConf()::ConfParse
 
 end
 
-function TRAQUERUtil.hasConf(category_name::String,property_name::String)
+function TRAQUERUtil.hasConf(category_name::AbstractString,property_name::AbstractString)
     ConfParser.haskey(TRAQUER.config,
                         category_name,
                         property_name)
 end
 
-function TRAQUERUtil.getConf(category_name::String,property_name::String)
+function TRAQUERUtil.getConf(category_name::AbstractString,property_name::AbstractString)
     ConfParser.retrieve(TRAQUER.config,
                         category_name,
                         property_name)
@@ -176,7 +179,7 @@ function TRAQUERUtil.extractCryptPwdFromHTTPRequest(req::Dict{Any,Any})
 end
 
 # eg. "1970-01-01T12:35:00+01:00"
-function TRAQUERUtil.convertStringToZonedDateTime(str::String)
+function TRAQUERUtil.convertStringToZonedDateTime(str::AbstractString)
 
     # Eg. "2021-12-21T23:39:40.000Z", "2021-12-21T23:39:40.000+01:00"
     # => remove the milliseconds (the '[0-9]3' in the regexp)
@@ -207,53 +210,55 @@ function TRAQUERUtil.convertStringToZonedDateTime(str::String)
 
 end
 
-
-
 function TRAQUERUtil.convertStringToZonedDateTime(
-    dateStr::String,
-    timeStr::String,
-    _tz::VariableTimeZone)
+    dateStr::AbstractString,
+    timeStr::AbstractString,
+    _tz::VariableTimeZone
+)
 
-               dateDate = Date(dateStr,DateFormat("d/m/y"))
-               timeTime = begin
+    dateDate = Date(dateStr,DateFormat("d/m/y"))
+    timeTime = begin
 
-                  timeTemp = missing
+        timeTemp = missing
 
-                  if length(timeStr) == 1
-                     timeTemp = Time(timeStr, DateFormat("M"))
-                  end
+        if length(timeStr) == 1
+            timeTemp = Time(timeStr, DateFormat("M"))
+        end
 
-                  if length(timeStr) == 2
-                     timeTemp = Time(timeStr, DateFormat("MM"))
-                  end
-
-
-                  if length(timeStr) == 3
-                     timeTemp = Time(timeStr, DateFormat("HMM"))
-                  end
-
-                  if length(timeStr) == 4
-                     timeTemp = Time(timeStr, DateFormat("HHMM"))
-                  end
-                  if length(timeStr) == 5
-                     timeTemp = Time(timeStr, DateFormat("HH:MM"))
-                  end
-                  timeTemp
-
-               end
+        if length(timeStr) == 2
+            timeTemp = Time(timeStr, DateFormat("MM"))
+        end
 
 
+        if length(timeStr) == 3
+            timeTemp = Time(timeStr, DateFormat("HMM"))
+        end
 
-               dateTimes = DateTime(dateDate,timeTime)
+        if length(timeStr) == 4
+            timeTemp = Time(timeStr, DateFormat("HHMM"))
+        end
 
+        if length(timeStr) == 5
+            timeTemp = Time(timeStr, DateFormat("HH:MM"))
+        end
 
-               inDateTest =  TimeZones.first_valid(dateTimes,_tz)
+        if length(timeStr) == 8
+            timeTemp = Time(timeStr, DateFormat("HH:MM:SS"))
+        end
 
-               return  inDateTest
+        timeTemp
+
+    end
+
+    dateTimes = DateTime(dateDate, timeTime)
+
+    inDateTest =  TimeZones.first_valid(dateTimes,_tz)
+
+    return  inDateTest
 end
 
 
-function TRAQUERUtil.rmAccentsAndLowercase(str::String)
+function TRAQUERUtil.rmAccentsAndLowercase(str::AbstractString)
     return Unicode.normalize(str,stripmark=true) |>
            n -> lowercase(n)
 end
@@ -273,7 +278,7 @@ function TRAQUERUtil.cleanStringForEncryptedValueCp(str)
 end
 
 
-function TRAQUERUtil.normalizeWhites(str::String, keepLineReturns::Bool)
+function TRAQUERUtil.normalizeWhites(str::AbstractString, keepLineReturns::Bool)
 
     if keepLineReturns
         result = TRAQUERUtil.removeDoubleSpaces(str) |>
@@ -354,7 +359,7 @@ function TRAQUERUtil.blindBakeIsRequired()
     return parse(Bool,getConf("default","blind_bake"))
 end
 
-function TRAQUERUtil.string2enum(enumType::DataType, str::String)
+function TRAQUERUtil.string2enum(enumType::DataType, str::AbstractString)
     PostgresORM.PostgresORMUtil.string2enum(enumType, str)
 end
 
@@ -363,11 +368,11 @@ function TRAQUERUtil.string2enum(enumType::DataType, str::Missing)
 end
 
 """
-    string2date(str::String)
+    string2date(str::AbstractString)
 
 "2019-07-24T00:41:49.732Z" becomes "2019-07-24"
 """
-function TRAQUERUtil.string2date(str::String)
+function TRAQUERUtil.string2date(str::AbstractString)
     dateMatch = match(r"^([0-9]{4}-[0-9]{2}-[0-9]{2})",str)
     Date(dateMatch.match)
 end
@@ -426,4 +431,10 @@ function TRAQUERUtil.json2Entity(datatype::DataType,
         false, # retrieve_complex_props::Bool,
         missing #dbconn::Union{LibPQ.Connection,Missing}
              )
+end
+
+
+function TRAQUERUtil.resetDatabaseIsAllowed()
+    TRAQUERUtil.getConf("debug","allow_database_reset") |>
+    n -> parse(Bool, n)
 end

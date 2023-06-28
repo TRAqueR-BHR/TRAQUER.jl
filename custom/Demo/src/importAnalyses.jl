@@ -1,6 +1,6 @@
 function Custom.importAnalyses(
     df::DataFrame,
-    encryptionStr::String
+    encryptionStr::AbstractString
     ;stopAfterXLines::Number = Inf64)
 
     @info (
@@ -88,17 +88,24 @@ function Custom.importAnalyses(
                 continue
             end
 
-            analysis = AnalysisResultCtrl.createAnalysisResultIfNotExist(
-                patient,
-                stay,
-                requestType,
-                requestTime,
-                analysisRef,
-                encryptionStr,
-                sample,
-                result,
-                resultTime,
-                dbconn)
+            analysisResult = AnalysisResult(
+               patient = patient,
+               stay = stay,
+               sampleMaterialType = sample,
+               requestTime = requestTime,
+               resultTime = resultTime,
+               result = result,
+               resultRawText = missing,
+               requestType = requestType,
+           )
+
+
+           analysisResult = AnalysisResultCtrl.upsert!(
+               analysisResult,
+               analysisRef,
+               encryptionStr,
+               dbconn
+           )
 
         end # `for r in eachrow(df)`
 

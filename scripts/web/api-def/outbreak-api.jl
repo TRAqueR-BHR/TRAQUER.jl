@@ -315,7 +315,7 @@ new_route = route("/api/outbreak/initialize", req -> begin
 
         # Create the entity from the JSON Dict
         firstInfectiousStatus::InfectiousStatus = json2entity(InfectiousStatus, obj["firstInfectiousStatus"])
-        outbreakName::String = obj["outbreakName"]
+        outbreakName::AbstractString = obj["outbreakName"]
         criticity = TRAQUERUtil.int2enum(OUTBREAK_CRITICITY, obj["criticity"])
         refTime::ZonedDateTime = TRAQUERUtil.browserDateString2ZonedDateTime(obj["refTime"])
 

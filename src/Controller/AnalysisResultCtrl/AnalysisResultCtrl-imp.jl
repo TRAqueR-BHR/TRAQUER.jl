@@ -1,5 +1,4 @@
 include("getAnalyses.jl")
-include("createAnalysisResultIfNotExist.jl")
 include("getRefOneChar.jl")
 include("retrieveOneAnalysisResult.jl")
 include("retrieveAnalysesResultsFromRef.jl")

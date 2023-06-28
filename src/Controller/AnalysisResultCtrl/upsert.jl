@@ -1,7 +1,7 @@
 function AnalysisResultCtrl.upsert!(
     analysisResult::AnalysisResult,
-    analysisRef::String,
-    encryptionStr::String,
+    analysisRef::AbstractString,
+    encryptionStr::AbstractString,
     dbconn::LibPQ.Connection
 )
 
@@ -24,10 +24,12 @@ function AnalysisResultCtrl.upsert!(
             analysisResult.requestType,
             analysisResult.sampleMaterialType,
             analysisResult.result,
+            analysisResult.resultRawText,
             analysisResult.resultTime,
             analysisRef,
             encryptionStr,
-            dbconn)
+            dbconn
+        )
 
     else
 

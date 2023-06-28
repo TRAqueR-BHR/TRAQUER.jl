@@ -1,4 +1,4 @@
-function createAnalysisResultIfNotExist end
+function upsertAnalysis end
 function retrieveOneAnalysisResult end
 function retrieveAnalysesResultsFromRef end
 function createAnalysisResult end

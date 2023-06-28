@@ -1,3 +1,8 @@
+"""
+    Base.push!(df::DataFrame, entity::PostgresORM.IEntity, dbconn::LibPQ.Connection)
+
+Pushes a PostgresORM IEntity in a dataframe
+"""
 function Base.push!(df::DataFrame, entity::PostgresORM.IEntity, dbconn::LibPQ.Connection)
 
     entityAsNamedTuple = entity |>

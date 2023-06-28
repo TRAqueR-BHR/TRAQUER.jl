@@ -1,6 +1,6 @@
 function StayCtrl.transformStaysForListing(
     stays::Vector{Stay},
-    cryptStr::String,
+    cryptStr::AbstractString,
     dbconn::LibPQ.Connection
 )::DataFrame
 

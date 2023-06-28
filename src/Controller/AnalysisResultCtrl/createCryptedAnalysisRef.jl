@@ -1,5 +1,5 @@
 function AnalysisResultCtrl.createCryptedAnalysisRef(
-    ref::String, encryptionStr::String, dbconn::LibPQ.Connection
+    ref::AbstractString, encryptionStr::AbstractString, dbconn::LibPQ.Connection
 )
 
        # Create partition if needed

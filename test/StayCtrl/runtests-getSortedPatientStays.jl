@@ -29,7 +29,7 @@ include("../runtests-prerequisite.jl")
 
     patch_execute_query_and_handle_result_for_Stay =
         @patch PostgresORM.execute_query_and_handle_result(
-            n::String,
+            n::AbstractString,
             _type::Type{Stay},
             queryArgs,
             complexProps::Bool,

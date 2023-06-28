@@ -1,6 +1,6 @@
 function PatientCtrl.getPatientDecrypt(
     patient::Patient,
-    encryptionStr::String,
+    encryptionStr::AbstractString,
     dbconn::LibPQ.Connection
 )::Union{Missing,PatientDecrypt}
 

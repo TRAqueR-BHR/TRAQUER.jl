@@ -1,6 +1,6 @@
 function ContactExposureCtrl.getPatientExposuresForListing(
     patient::Patient,
-    encryptionStr::String,
+    encryptionStr::AbstractString,
     dbconn::LibPQ.Connection)::DataFrame
 
     exposures = PostgresORM.retrieve_entity(

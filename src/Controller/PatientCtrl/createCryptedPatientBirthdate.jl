@@ -1,5 +1,5 @@
 function PatientCtrl.createCryptedPatientBirthdate(birthdate::Date,
-                                                   encryptionStr::String,
+                                                   encryptionStr::AbstractString,
                                                    dbconn::LibPQ.Connection)
 
     # Create partition if needed

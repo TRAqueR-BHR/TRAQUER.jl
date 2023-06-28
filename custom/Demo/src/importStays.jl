@@ -1,5 +1,5 @@
 function Custom.importStays(df::DataFrame,
-                             encryptionStr::String
+                             encryptionStr::AbstractString
                             ;randomData::Bool = false)
 
     @info (
@@ -12,11 +12,13 @@ function Custom.importStays(df::DataFrame,
     _tz = TRAQUERUtil.getTimeZone()
 
     counter = 0 # for debug
+    currentRowForDebug::Union{Missing,DataFrameRow} = missing
     try
 
         for r in eachrow(df)
 
             counter += 1 # for debug
+            currentRowForDebug = r
             @info "Treating line[$counter] of stays"
             # if counter > 10 # for debug
             #   TRAQUERUtil.commitDBTransaction(dbconn)
@@ -50,7 +52,8 @@ function Custom.importStays(df::DataFrame,
                 birthdate,
                 ref,
                 encryptionStr,
-                dbconn)
+                dbconn
+            )
 
             if ismissing(patient)
                 error("Unable to find patient for firstname[$firstname]"
@@ -73,7 +76,7 @@ function Custom.importStays(df::DataFrame,
         end # `for r in eachrow(df)`
 
      catch e
-        @error "Problem at line $counter"
+        @error "Problem at line $counter" currentRowForDebug
         rethrow(e)
      finally
         TRAQUERUtil.closeDBConn(dbconn)

@@ -38,7 +38,7 @@ new_route = route("/api/event-requiring-attention/get-event", req -> begin
         obj = JSON.parse(String(req[:data]))
 
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
-        eventId::String = obj["eventId"]
+        eventId::AbstractString = obj["eventId"]
 
         eventRequiringAttention = TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn

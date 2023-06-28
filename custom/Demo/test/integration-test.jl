@@ -1,24 +1,7 @@
 include("../../../test/runtests-prerequisite.jl")
 
 # Cleaning
-TRAQUERUtil.createDBConnAndExecute() do dbconn
-
-    "DELETE FROM stay" |>
-    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
-
-    "DELETE FROM analysis_result" |>
-    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
-
-    "DELETE FROM infectious_status" |>
-    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
-
-    "DELETE FROM outbreak" |>
-    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
-
-    "DELETE FROM contact_exposure" |>
-    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
-
-end
+MaintenanceCtrl.resetDatabase()
 
 # ETL
 include("runtests-Demo-importStays.jl")
@@ -71,7 +54,7 @@ outbreakPatient2 = TRAQUERUtil.createDBConnAndExecute() do dbconn
 
 
     outbreakPatient2 = OutbreakCtrl.initializeOutbreak(
-        "outbreak patient2", # outbreakName::String,
+        "outbreak patient2", # outbreakName::AbstractString,
         patient2CarrierStatus, # firstInfectiousStatus::InfectiousStatus,
         OutbreakCriticity.EPIDEMIC,
         now(TRAQUERUtil.getTimeZone()),

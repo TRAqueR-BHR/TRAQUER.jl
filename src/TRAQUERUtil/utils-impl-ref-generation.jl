@@ -5,7 +5,7 @@ function TRAQUERUtil.generateHumanReadableUniqueRef(obj::Patient)
     parse(Int64,"$_today$_seqNextVal")
 end
 
-function TRAQUERUtil.retrieveSequenceNextval(postgreslSequenceName::String)
+function TRAQUERUtil.retrieveSequenceNextval(postgreslSequenceName::AbstractString)
 
     # Get the next value of the sequence
     # NOTE: In case we have several postresql master servers, make sure that the

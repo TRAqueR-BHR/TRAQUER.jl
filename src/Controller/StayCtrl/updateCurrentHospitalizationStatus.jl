@@ -9,8 +9,6 @@ function StayCtrl.updateCurrentHospitalizationStatus(
 
     stays = StayCtrl.getSortedPatientStays(patient, dbconn)
 
-    @info "length(stays)[$(length(stays))]"
-
     if isempty(stays)
         return
     end
@@ -26,8 +24,6 @@ function StayCtrl.updateCurrentHospitalizationStatus(
         patient.isHospitalized = false
         patient.currentUnit = missing
     end
-
-    @info patient
 
     PostgresORM.update_entity!(patient, dbconn)
 

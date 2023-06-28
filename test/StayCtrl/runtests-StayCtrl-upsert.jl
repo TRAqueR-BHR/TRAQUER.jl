@@ -5,8 +5,8 @@ include("../runtests-prerequisite.jl")
     TRAQUERUtil.createDBConnAndExecuteWithTransaction() do dbconn
 
         unit = UnitCtrl.createUnitIfNotExists(
-            randstring(6), # unitCodeName::String,
-            randstring(6), # unitName::String,
+            randstring(6), # unitCodeName::AbstractString,
+            randstring(6), # unitName::AbstractString,
             dbconn)
 
         patient = PatientCtrl.createPatientIfNoExist(

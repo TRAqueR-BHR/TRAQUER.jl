@@ -1,7 +1,7 @@
-function PatientCtrl.retrievePatients(firstname::String,
-                                     lastname::String,
+function PatientCtrl.retrievePatients(firstname::AbstractString,
+                                     lastname::AbstractString,
                                      birthdate::Date,
-                                     encryptionStr::String,
+                                     encryptionStr::AbstractString,
                                      dbconn::LibPQ.Connection)
 
      lastname_forCp = TRAQUERUtil.cleanStringForEncryptedValueCp(lastname)

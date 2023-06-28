@@ -1,5 +1,5 @@
 function UnitCtrl.retrieveOneUnit(
-    unitCodeName::String,
+    unitCodeName::AbstractString,
     dbconn::LibPQ.Connection
 )
 

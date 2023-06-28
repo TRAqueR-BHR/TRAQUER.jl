@@ -1,5 +1,5 @@
 function Custom.importStays(df::DataFrame,
-                             encryptionStr::String
+                             encryptionStr::AbstractString
                             ;randomData::Bool = false)
 
     dbconn = TRAQUERUtil.openDBConn()

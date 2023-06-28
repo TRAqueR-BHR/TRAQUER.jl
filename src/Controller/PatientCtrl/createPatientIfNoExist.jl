@@ -1,8 +1,8 @@
-function PatientCtrl.createPatientIfNoExist(firstname::String,
-                                            lastname::String,
+function PatientCtrl.createPatientIfNoExist(firstname::AbstractString,
+                                            lastname::AbstractString,
                                             birthdate::Date,
-                                            ref::String,
-                                            encryptionStr::String,
+                                            ref::AbstractString,
+                                            encryptionStr::AbstractString,
                                             dbconn::LibPQ.Connection)
 
     # Look for the patient

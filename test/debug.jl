@@ -12,6 +12,8 @@ using DataFrames
 using TimeZones
 using Dates
 using Test
+using Distributed
+
 
 TRAQUERUtil.getConf("database","port")
 TRAQUERUtil.openDBConn()
@@ -106,7 +108,7 @@ PostgresORM.Controller.execute_query_and_handle_result(query,Patient,args,false,
 
 
 toto = XLSX.readxlsx("csv/Untitled 1.xlsx")
-Tables typeof(toto["Sheet1"])
+typeof(toto["Sheet1"])
 names(df)
 df = DataFrame(XLSX.readtable("csv/Untitled 1.xlsx", "Sheet1")...)
 
@@ -306,3 +308,103 @@ ist.outbreakInfectiousStatusAssoes = [
 
 PostgresORM.update_vector_property!(ist, :outbreakInfectiousStatusAssoes, dbconn)
 TRAQUERUtil.closeDBConn(dbconn)
+
+
+dfStays = CSV.read(
+    "/home/traquer/DATA/pending/dxcare-3mois.csv",
+    DataFrame
+    ;delim = ';'
+)
+
+
+dfStaysGroupedByNIP = groupby(dfStays,:NIP)
+supertype(typeof(dfStaysGroupedByNIP[1]))
+
+length(dfStaysGroupedByNIP)
+
+dfAnalyses = CSV.read(
+    "/home/traquer/DATA/pending/inlog-3mois.csv",
+    DataFrame
+    ;delim = ';'
+)
+
+
+using dates
+Time("23:59:59")
+
+Time(lpad("359",4,'0'),DateFormat("HHMM"))
+
+dfAnalyses.ANA_CODE |> unique
+ANA_CODE
+
+dfAnalyses |>
+n -> filter(x -> x.ANA_CODE == "GXEPC",n) |>
+n -> unique(n.VALEUR_RESULTAT)
+n -> filter(x -> !ismissing(x.VALEUR_RESULTAT) && x.VALEUR_RESULTAT ∈ ["PIMP", "PVIM", "PNDM", "PKPC", "POXA"], n) |>
+first
+
+dfAnalyses |>
+n -> filter(x -> x.ANA_CODE == "PREPC",n) |>
+n -> unique(n.VALEUR_RESULTAT)
+
+# Rows for patients with culture of EPC positive
+dfAnalyses |>
+n -> filter(x -> x.ANA_CODE == "PREPC",n) |>
+n -> filter(x -> !ismissing(x.VALEUR_RESULTAT) && x.VALEUR_RESULTAT == "P",n) |>
+n -> unique(n.NIP_PATIENT) |>
+n -> filter(x -> x.NIP_PATIENT ∈ n,dfAnalyses)
+
+
+dfAnalyses |>
+n -> filter(x -> x.ANA_CODE == "PREPC",n) |>
+n -> unique(n.VALEUR_RESULTAT)
+
+_tz = TRAQUERUtil.getTimeZone()
+passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
+    passmissing(string)(missing),
+    "00:00",
+    _tz
+)
+
+
+String7("de") |> String |> typeof
+
+df = DataFrame(col1 = ["00037839", "0000456", "0000789", "xx899"])
+
+df.col1 = replace.(df.col1, r"^0+" => s"")
+
+println(df)
+
+
+df = DataFrame(a = [1,2], b = [3,4])
+CSV.write("/home/traquer/CODE/TRAQUER.jl/tmp/df.csv", df; delim = ";")
+
+
+res = @showprogress pmap(1:5) do i
+    if iseven(i)
+        DataFrame(col1=i,col2=1*3)
+    else
+        DataFrame()
+    end
+end |> n -> vcat(n...)
+
+res[!, "error"] = Vector{Union{Missing, String}}(fill(missing, size(res, 1)))
+
+res[1,:error] = "dde"
+
+onerow = deepcopy(first(res))
+onerow.col1 = 1000
+hcat(onerow,)
+onerow.err = ""
+
+push!(res,onerow)
+
+toto = DataFrame()
+push!(toto,onerow)
+
+
+df = DataFrame(col1 = [100,200])
+for (i,r) in enumerate(eachrow(df))
+    @info i
+    @info r
+end

@@ -1,8 +1,8 @@
-function PatientCtrl.createPatient(firstname::String,
-                                   lastname::String,
+function PatientCtrl.createPatient(firstname::AbstractString,
+                                   lastname::AbstractString,
                                    birthdate::Date,
                                    ref::Union{String,Missing},
-                                   encryptionStr::String,
+                                   encryptionStr::AbstractString,
                                    dbconn::LibPQ.Connection)
 
     # If no patient ref is given create one
