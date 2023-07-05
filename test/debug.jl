@@ -404,7 +404,21 @@ push!(toto,onerow)
 
 
 df = DataFrame(col1 = [100,200])
+df.lineNumInSrcFile = 2:nrow(df)+1
+
 for (i,r) in enumerate(eachrow(df))
     @info i
     @info r
 end
+
+
+function readFirstNLinesOfFile(filePath::String, n::Integer)
+
+end
+
+readFirstNLinesOfFile("",9)
+
+
+fill(missing, 2)
+
+CSV.File("test/TRAQUERUtil/assets/testReadFirstLines.csv")

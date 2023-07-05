@@ -1,10 +1,15 @@
-function MaintenanceCtrl.resetDatabase()
+function MaintenanceCtrl.resetDatabase(
+    ;resetStays = true
+)
     TRAQUERUtil.createDBConnAndExecute() do dbconn
         MaintenanceCtrl.resetDatabase(dbconn)
     end
 end
 
-function MaintenanceCtrl.resetDatabase(dbconn::LibPQ.Connection)
+function MaintenanceCtrl.resetDatabase(
+    dbconn::LibPQ.Connection
+    ;resetStays = true
+)
 
     if !TRAQUERUtil.resetDatabaseIsAllowed()
         error(
@@ -14,8 +19,10 @@ function MaintenanceCtrl.resetDatabase(dbconn::LibPQ.Connection)
         )
     end
 
-    # "DELETE FROM stay" |>
-    # n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+    if resetStays
+        "DELETE FROM stay" |>
+        n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+    end
 
     "DELETE FROM analysis_result" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
@@ -28,5 +35,7 @@ function MaintenanceCtrl.resetDatabase(dbconn::LibPQ.Connection)
 
     "DELETE FROM contact_exposure" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
+    nothing
 
 end

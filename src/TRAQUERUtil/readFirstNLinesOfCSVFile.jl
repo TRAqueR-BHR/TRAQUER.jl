@@ -1,20 +1,19 @@
 function TRAQUERUtil.readFirstNLinesOfCSVFile(
     filePath::String,
     nbOfLines::Integer
-    ;delim::String = ","
+    ;csvFileKwargs...
 )
 
     csvData = TRAQUERUtil.readFirstNLinesOfFile(
         filePath,
-        nbOfLines
-        ;delim = delim
+        nbOfLines+1 # Add one line to take into account the header line
     )
 
     # Create an IOBuffer from the string
     buffer = IOBuffer(csvData)
 
     # Parse the CSV data
-    df = DataFrame(CSV.File(buffer))
+    df = DataFrame(CSV.File(buffer;csvFileKwargs...))
 
     return df
 

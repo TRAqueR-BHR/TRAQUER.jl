@@ -7,7 +7,7 @@ using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
       ..Controller.PatientCtrl, ..Controller.InfectiousStatusCtrl
 using DataFrames
 using ..Controller.ETLCtrl,..Controller.StayCtrl
-using DataFrames
+using DataFrames, IterTools
 using ..Controller.PatientCtrl, ..TRAQUERUtil, ..Model
 using Dates
 using ..Controller.ETLCtrl,..Controller.StayCtrl

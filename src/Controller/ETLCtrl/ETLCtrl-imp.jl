@@ -1,3 +1,5 @@
+include("serializeRowsInError.jl")
+
 function ETLCtrl.importStays(
     df::DataFrame,
     encryptionStr::AbstractString

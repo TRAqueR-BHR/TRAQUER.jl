@@ -2,7 +2,7 @@
 Usage:
 copyLinesToDestFile("path_to_source_file.txt", [1,3,5], "path_to_destination_file.txt")
 """
-function copyLinesToDestFile(sourceFile::String, lineNums::Vector{Integer}, destFile::String)
+function TRAQUERUtil.copyLinesToDestFile(sourceFile::String, lineNums::Vector{<:Integer}, destFile::String)
 
     # Check if the destination directory exists and create it if it doesn't
     destDir = dirname(destFile)
@@ -23,4 +23,12 @@ function copyLinesToDestFile(sourceFile::String, lineNums::Vector{Integer}, dest
             end
         end
     end
+end
+
+function TRAQUERUtil.copyLinesToDestFile(
+    sourceFile::String, lineNumsRange::AbstractRange, destFile::String
+)
+
+    TRAQUERUtil.copyLinesToDestFile(sourceFile, collect(lineNumsRange), destFile)
+
 end

@@ -81,4 +81,5 @@ function isMissingOrNothing end
 function copyLinesToDestFile end
 function readFirstNLinesOfFile end
 function readFirstNLinesOfCSVFile end
+function readLineXOfFile end
 # function addDataFrameRow
