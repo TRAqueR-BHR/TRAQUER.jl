@@ -1,3 +1,53 @@
+function Custom.importStays(
+    csvFilepath::AbstractString,
+    problemsDir::String,
+    encryptionStr::AbstractString
+    ;maxNumberOfLinesToIntegrate::Union{Integer,Missing} = missing
+ )
+
+    # Create a directory for storing the problems of this file
+    srcFileBasename = basename(csvFilepath)
+    problemsDir = joinpath(problemsDir,srcFileBasename)
+    rm(problemsDir, recursive = true, force = true) # clean if already exists
+    mkpath(problemsDir)
+
+    dfStays = if ismissing(maxNumberOfLinesToIntegrate)
+       CSV.read(
+          csvFilepath,
+          DataFrame
+          ;delim = ';'
+       )
+    else
+       TRAQUERUtil.readFirstNLinesOfCSVFile(
+          csvFilepath,
+          maxNumberOfLinesToIntegrate
+          ;delim = ";"
+       )
+    end
+
+
+    @time dfOfRowsInError = TRAQUER.Custom.importStays(
+        dfStays,
+        encryptionStr
+    )
+
+    # Serialize the rows in error
+    if !isempty(dfOfRowsInError)
+
+        ETLCtrl.serializeRowsInError(dfOfRowsInError, csvFilepath, problemsDir)
+
+        @warn (
+            "Some errors in source file[$srcFileBasename]. The problematic lines have been"
+            *" extracted together with the desciption of the errors in $problemsDir"
+        )
+
+    else
+        @info "no problem"
+    end
+
+ end
+
+
 """
   - No column for hospitalization out time => use 00:00:00
 """
@@ -18,14 +68,15 @@ function Custom.importStays(
 
     dfGroupedByNIP = groupby(df,:NIP)
 
-    @showprogress pmap(1:length(dfGroupedByNIP)) do i
+    dfOfRowsInError = @showprogress pmap(1:length(dfGroupedByNIP)) do i
         Custom.importStays(
             dfGroupedByNIP[i],
             encryptionStr
         )
-    end
+    end |>
+    n -> vcat(n...)
 
-    nothing
+    return dfOfRowsInError
 
 end
 
@@ -34,16 +85,23 @@ function Custom.importStays(
     encryptionStr::AbstractString
 )
 
+    # Create an empty DataFrame for storing problems
+    dfOfRowsInError = DataFrame(
+        lineNumInSrcFile = Vector{Int}(),
+        error = Vector{String}()
+    )
+
     dbconn = TRAQUERUtil.openDBConn()
     _tz = TRAQUERUtil.getTimeZone()
 
-    currentRowForDebug::Union{Missing,DataFrameRow} = missing
+    lineNumInSrcFile = 0
 
     try
 
         for r in eachrow(df)
 
-            currentRowForDebug = r
+            # Keep track of the line number in the src CSV file
+            lineNumInSrcFile = r.lineNumInSrcFile
 
             unitCodeName = string(r.CODE_UF_LOCA)
             unitName = r.NOM_UF_LOCA
@@ -120,10 +178,21 @@ function Custom.importStays(
         end # `for r in eachrow(df)`
 
     catch e
-        @error "Problem at line " currentRowForDebug
-        rethrow(e)
+        errorDescription = TRAQUERUtil.formatExceptionAndStackTraceCore(
+            e, stacktrace(catch_backtrace())
+        )
+
+        push!(
+            dfOfRowsInError,
+            (
+                lineNumInSrcFile = lineNumInSrcFile,
+                error = errorDescription
+            )
+        )
     finally
         TRAQUERUtil.closeDBConn(dbconn)
     end
+
+    return dfOfRowsInError
 
 end

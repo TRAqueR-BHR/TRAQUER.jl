@@ -5,22 +5,45 @@ function Custom.importAnalyses(
    ;maxNumberOfLinesToIntegrate::Union{Integer,Missing} = missing
 )
 
-   dfAnalyses = CSV.read(
-      "/home/traquer/DATA/pending/inlog-3mois.csv",
-      DataFrame
-      ;delim = ';'
-   )
+   # Create a directory for storing the problems of this file
+   srcFileBasename = basename(csvFilepath)
+   problemsDir = joinpath(problemsDir,srcFileBasename)
+   rm(problemsDir, recursive = true, force= true) # clean if already exists
+   mkpath(problemsDir)
 
-   if !ismissing(maxNumberOfLinesToIntegrate)
-      dfAnalyses = first(dfAnalyses,10)
+   dfAnalyses = if ismissing(maxNumberOfLinesToIntegrate)
+      CSV.read(
+         csvFilepath,
+         DataFrame
+         ;delim = ';'
+      )
+   else
+      TRAQUERUtil.readFirstNLinesOfCSVFile(
+         csvFilepath,
+         maxNumberOfLinesToIntegrate
+         ;delim = ";"
+      )
    end
 
-   @time TRAQUER.Custom.importAnalyses(
+
+   @time dfOfRowsInError = TRAQUER.Custom.importAnalyses(
       dfAnalyses,
-      getDefaultEncryptionStr(),
-      # "/home/traquer/DATA/problems/dxcare-3mois.csv/",
-      "/home/traquer/CODE/TRAQUER.jl/tmp/problems/inlog-3mois.csv/"
+      encryptionStr
    )
+
+   # Serialize the rows in error
+   if !isempty(dfOfRowsInError)
+
+      ETLCtrl.serializeRowsInError(dfOfRowsInError, csvFilepath, problemsDir)
+
+      @warn (
+         "Some errors in source file[$srcFileBasename]. The problematic lines have been"
+         *" extracted together with the desciption of the errors in $problemsDir"
+      )
+
+   else
+      @info "no problem"
+   end
 
 end
 
@@ -34,9 +57,8 @@ end
 """
 function Custom.importAnalyses(
    df::DataFrame,
-   encryptionStr::AbstractString,
-   problemsDir::String
-)
+   encryptionStr::AbstractString
+)::DataFrame
 
    @info (
      "\n# #################################### #"
@@ -49,7 +71,7 @@ function Custom.importAnalyses(
    df.NIP_PATIENT = replace.(df.NIP_PATIENT, r"^0+" => s"")
 
    # Create a line number column (used in particular to know the lines where we had problems)
-   df.lineNumInSrcFile = 1:nrow(df)-1
+   df.lineNumInSrcFile = 2:nrow(df)+1
 
    # Create an analysis ref column
    df.analysis_ref = map(
@@ -59,12 +81,8 @@ function Custom.importAnalyses(
       df[:,:NIP_PATIENT],df[:,:ANA_CODE],df[:,:DATE_DEMANDE],df[:,:HEURE_DEMANDE]
    )
 
-   # Add a column to store the error
-   df[!, "error_description"] = Vector{Union{Missing, String}}(fill(missing, size(df, 1)))
-   df[!, "error_uuid"] = Vector{Union{Missing, String}}(fill(missing, size(df, 1)))
-
    # Group the dataframe by patient NIP
-   dfGroupedByNIP = groupby(df,:NIP_PATIENT)
+   dfGroupedByNIP = DataFrames.groupby(df,:NIP_PATIENT)
 
    # Process the patients in parrallel and concatenate the rows in error
    dfOfRowsInError = @showprogress pmap(1:length(dfGroupedByNIP)) do i
@@ -75,22 +93,7 @@ function Custom.importAnalyses(
       end |>
       n -> vcat(n...)
 
-   # Serialize the rows in error
-   if !isempty(dfOfRowsInError)
-      mkpath(problemsDir)
-      filepathForLinesWithProblems = joinpath(problemsDir,string(UUIDs.uuid4(),".csv"))
-      @info filepathForLinesWithProblems
-      CSV.write(
-         filepathForLinesWithProblems,
-         select(dfOfRowsInError, Not(["error_description","error_uuid"]))
-         ;delim = ";"
-      )
-      # filepathForLinesWithProblemsREADME = "$filepathForLinesWithProblems.README"
-   else
-      @info "no problem"
-   end
-
-   nothing
+   return dfOfRowsInError
 
 end
 
@@ -100,128 +103,130 @@ function Custom.importAnalyses(
    encryptionStr::AbstractString,
 )
 
-   dfOfRowsInError = DataFrame()
+   # Create an empty DataFrame for storing problems
+   dfOfRowsInError = DataFrame(
+      lineNumInSrcFile = Vector{Int}(),
+      error = Vector{String}()
+   )
 
    dbconn = TRAQUERUtil.openDBConn()
    _tz = TRAQUERUtil.getTimeZone()
 
-   currentRowForDebug::Union{Missing,DataFrameRow} = missing
+   lineNumInSrcFile = 0
 
    try
 
       for (rowIdx, r) in enumerate(eachrow(df))
 
-           if iseven(rowIdx)
+         # Keep track of the line number in the src CSV file
+         lineNumInSrcFile = r.lineNumInSrcFile
+
+         if iseven(rowIdx)
             error("even number")
-           end
+         end
 
-           sourceRowNumber = r.sourceRowNumber
+         # Exclude ATB2 rows, for the moment we dont know what to do with it
+         if r.ANA_CODE == "ATB2"
+            continue
+         end
 
-           currentRowForDebug = r
+         # Check if NIP_PATIENT is missing
+         if ismissing(r.NIP_PATIENT)
+            error("NIP_PATIENT is missing")
+            continue
+         end
 
-           # Exclude ATB2 rows, for the moment we dont know what to do with it
-           if r.ANA_CODE == "ATB2"
-               continue
-           end
+         # Check if analysys ref is missing
+         if ismissing(r.analysis_ref)
+            error("analysis_ref is missing")
+            continue
+         end
 
-           # Check if NIP_PATIENT is missing
-           if ismissing(r.NIP_PATIENT)
-              error("Error at line[$sourceRowNumber], NIP_PATIENT is missing")
-              continue
-           end
+         patientRef = passmissing(string)(r.NIP_PATIENT)
+         analysisRef = passmissing(string)(r.analysis_ref)
+         resultRawText = if (
+            ismissing(r.Libelle_micro_organisme)
+            || strip(r.Libelle_micro_organisme) == "null"
+         )
+            missing
+         else
+            strip(r.Libelle_micro_organisme)
+         end
 
-           # Check if analysys ref is missing
-           if ismissing(r.analysis_ref)
-              error("Error at line[$sourceRowNumber], analysis_ref is missing")
-              continue
-           end
+         requestTime = TRAQUERUtil.convertStringToZonedDateTime(
+            string(r.DATE_DEMANDE),
+            string(r.HEURE_DEMANDE),
+            _tz
+         )
 
-           patientRef = passmissing(string)(r.NIP_PATIENT)
-           analysisRef = passmissing(string)(r.analysis_ref)
-           resultRawText = if (
-               ismissing(r.Libelle_micro_organisme)
-               || strip(r.Libelle_micro_organisme) == "null"
-            )
-               missing
-           else
-               strip(r.Libelle_micro_organisme)
-           end
-
-           requestTime = TRAQUERUtil.convertStringToZonedDateTime(
-               string(r.DATE_DEMANDE),
-               string(r.HEURE_DEMANDE),
+         resultTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
+               passmissing(string)(r.DATE_SAISIE_RES),
+               "00:00",
                _tz
-           )
+         )
 
-           resultTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
-                  passmissing(string)(r.DATE_SAISIE_RES),
-                  "00:00",
-                  _tz
-           )
+         sample = missing
 
-           sample = missing
+         requestType = Custom.convertStringInInputFileToANALYSIS_REQUEST_TYPE(r.ANA_CODE)
+         result = passmissing(string)(r.VALEUR_RESULTAT) |>
+            n -> passmissing(Custom.convertStringInInputFileToANALYSIS_RESULT_VALUE_TYPE)(n, requestType)
 
-           requestType = Custom.convertStringInInputFileToANALYSIS_REQUEST_TYPE(r.ANA_CODE)
-           result = passmissing(string)(r.VALEUR_RESULTAT) |>
-              n -> passmissing(Custom.convertStringInInputFileToANALYSIS_RESULT_VALUE_TYPE)(n, requestType)
+         # Get a patient
+         patient =
+            PatientCtrl.retrieveOnePatient(patientRef, encryptionStr, dbconn)
 
-           # Get a patient
-           patient =
-               PatientCtrl.retrieveOnePatient(patientRef, encryptionStr, dbconn)
+         if ismissing(patient)
+            errorMsg = (
+               "Unable to find patient for ref[$patientRef]. "
+            * " Maybe a file of stays has not been integrated.")
+            @warn errorMsg
+            continue
+         end
 
-           if ismissing(patient)
-              errorMsg = ("Problem at line[$sourceRowNumber]."
-              * " Unable to find patient for ref[$patientRef]. "
-              * " Maybe a file of stays has not been integrated.")
-              @warn errorMsg
-              continue
-           end
+         # Get a stay
+         stay = StayCtrl.retrieveOneStayContainingDateTime(patient, requestTime, dbconn)
 
-           # Get a stay
-           stay = StayCtrl.retrieveOneStayContainingDateTime(patient, requestTime, dbconn)
+         if ismissing(stay)
+            noStayErrorMsg = (
+            "Unable to find a stay for patient.id[$(patient.id)]"
+            * " patient.ref[$(patientRef)]"
+            * " starting before the date of the analyis request[$requestTime].")
+            error(noStayErrorMsg)
+         end
 
-           if ismissing(stay)
-               noStayErrorMsg = (
-               "Problem at row[$sourceRowNumber] of dataframe "
-               *"(line[$(sourceRowNumber+1)] of xlsx)."
-               * " Unable to find a stay for patient.id[$(patient.id)]"
-               * " patient.ref[$(patientRef)]"
-               * " starting before the date of the analyis request[$requestTime].")
-               error(noStayErrorMsg)
-           end
-
-           analysisResult = AnalysisResult(
-               patient = patient,
-               stay = stay,
-               sampleMaterialType = sample,
-               requestTime = requestTime,
-               resultTime = resultTime,
-               result = result,
-               resultRawText = resultRawText,
-               requestType = requestType,
-           )
+         analysisResult = AnalysisResult(
+            patient = patient,
+            stay = stay,
+            sampleMaterialType = sample,
+            requestTime = requestTime,
+            resultTime = resultTime,
+            result = result,
+            resultRawText = resultRawText,
+            requestType = requestType,
+         )
 
 
-           analysisResult = AnalysisResultCtrl.upsert!(
-               analysisResult,
-               analysisRef,
-               encryptionStr,
-               dbconn
-           )
+         analysisResult = AnalysisResultCtrl.upsert!(
+            analysisResult,
+            analysisRef,
+            encryptionStr,
+            dbconn
+         )
 
       end # `for r in eachrow(df)`
 
    catch e
-      # @error "Problem at line: " currentRowForDebug
-      # rethrow(e)
+      errorDescription = TRAQUERUtil.formatExceptionAndStackTraceCore(
+         e, stacktrace(catch_backtrace())
+      )
 
-      errorDescription = TRAQUERUtil.formatExceptionAndStackTraceCore(e, stacktrace(catch_backtrace()))
-
-      # Create a copy of the row and set the error description
-      rowInError = deepcopy(currentRowForDebug)
-      rowInError.error_description = errorDescription
-      rowInError.error_uuid = UUIDs.uuid4() |> string
-      push!(dfOfRowsInError,rowInError)
+      push!(
+         dfOfRowsInError,
+         (
+            lineNumInSrcFile = lineNumInSrcFile,
+            error = errorDescription
+         )
+      )
    finally
        TRAQUERUtil.closeDBConn(dbconn)
    end

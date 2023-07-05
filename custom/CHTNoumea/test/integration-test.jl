@@ -3,31 +3,28 @@ using CSV, DataFrames
 using TRAQUER, TRAQUER.TRAQUERUtil
 
 # Cleaning
-MaintenanceCtrl.resetDatabase()
+MaintenanceCtrl.resetDatabase(resetStays = false)
 
 # Load all stays and analyses in one dataframe
-dfStays = CSV.read(
-    "/home/traquer/DATA/pending/dxcare-3mois.csv",
-    DataFrame
-    ;delim = ';'
-)
-dfAnalyses = CSV.read(
-    "/home/traquer/DATA/pending/inlog-3mois.csv",
-    DataFrame
-    ;delim = ';'
-)
+# dfStays = CSV.read(
+#     "/home/traquer/DATA/pending/dxcare-3mois.csv",
+#     DataFrame
+#     ;delim = ';'
+# )
+# dfAnalyses = CSV.read(
+#     "/home/traquer/DATA/pending/inlog-3mois.csv",
+#     DataFrame
+#     ;delim = ';'
+# )
 
-# Uncomment the following if you want to limit the number of rows processed
-# dfStays = first(dfStays,100)
-dfAnalyses = first(dfAnalyses,10)
 
 @time TRAQUER.Custom.importStays(dfStays, getDefaultEncryptionStr()) # 1000 lines in 130s with 4 workers
                                                                      # 1000 lines in 380s with 1 worker
 @time TRAQUER.Custom.importAnalyses(
-    dfAnalyses,
+    "/home/traquer/DATA/pending/inlog-3mois.csv",
+    "/home/traquer/CODE/TRAQUER.jl/tmp/problems",
     getDefaultEncryptionStr(),
-    # "/home/traquer/DATA/problems/dxcare-3mois.csv/",
-    "/home/traquer/CODE/TRAQUER.jl/tmp/problems/inlog-3mois.csv/"
+    ;maxNumberOfLinesToIntegrate = 10
 )
 
 # Process the date at different point in time
