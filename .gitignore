@@ -12,3 +12,4 @@ docs/build/*
 debug-scripts/*
 !debug-scripts/.gitkeep
 
+tmp/*
