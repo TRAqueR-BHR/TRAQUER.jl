@@ -1,23 +1,10 @@
-using Distributed
-include("../prerequisite.jl")
-
-# If we find in the configuration that we want more procs, add some
-if haskey(ENV,"TRAQUER_ADDITIONAL_PROCS")
-  @info "TRAQUER_ADDITIONAL_PROCS[$(ENV["TRAQUER_ADDITIONAL_PROCS"])]"
-  additionalProcs=parse(Int,ENV["TRAQUER_ADDITIONAL_PROCS"])
-  if additionalProcs > 0
-    addprocs(additionalProcs)
-  end
-end
-
-# Run all the required 'using' again now that we have all the workers
-include("../prerequisite.jl")
+include("prerequisite.jl")
 
 @everywhere using Mux, HTTP
 
 # The loggers need to be declared once the modules are loaded because they have
 #   a reference to them
-@everywhere include("../logging/loggers.jl")
+@everywhere include("logging/loggers.jl")
 
 # Warmup workers
 # if TRAQUERUtil.blindBakeIsRequired()
@@ -31,7 +18,7 @@ include("../prerequisite.jl")
 #   module used by the API has changed.
 # NOTE: Do not restart Mux.serve()
 
-@everywhere include("web-api-definition.jl")
+@everywhere include("web/web-api-definition.jl")
 
 # WebSocket server
 # @everywhere function websocket_example(x)
