@@ -22,12 +22,12 @@ end
 
 # Load all stays and analyses in one dataframe
 dfStays = DataFrame(
-    XLSX.readtable("custom/Demo/test/sample-input-data/accidental_discovery_and_epidemic/demo-stays SALIOU.XLSX",1)
-    # XLSX.readtable("custom/Demo/test/sample-input-data/demo-stays.xlsx",1)
+    XLSX.readtable("custom/demo/test/sample-input-data/accidental_discovery_and_epidemic/demo-stays SALIOU.XLSX",1)
+    # XLSX.readtable("custom/demo/test/sample-input-data/demo-stays.xlsx",1)
 )
 dfAnalyses = DataFrame(
-    # XLSX.readtable("custom/Demo/test/sample-input-data/demo-analyses.xlsx",1)
-    XLSX.readtable("custom/Demo/test/sample-input-data/accidental_discovery_and_epidemic/demo-analyses SALIOU.XLSX",1)
+    # XLSX.readtable("custom/demo/test/sample-input-data/demo-analyses.xlsx",1)
+    XLSX.readtable("custom/demo/test/sample-input-data/accidental_discovery_and_epidemic/demo-analyses SALIOU.XLSX",1)
 )
 
 TRAQUERUtil.createDBConnAndExecute() do dbconn

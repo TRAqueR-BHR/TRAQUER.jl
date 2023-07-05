@@ -4,8 +4,8 @@ include("../../../test/runtests-prerequisite.jl")
 MaintenanceCtrl.resetDatabase()
 
 # ETL
-include("runtests-Demo-importStays.jl")
-include("runtests-Demo-importAnalyses.jl")
+include("runtests-demo-importStays.jl")
+include("runtests-demo-importAnalyses.jl")
 
 # Select all patients
 patients = TRAQUERUtil.createDBConnAndExecute() do dbconn

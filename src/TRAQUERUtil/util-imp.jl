@@ -58,29 +58,10 @@ function TRAQUERUtil.nowInTargetTimeZone()
     n -> astimezone(n, getTimeZone())
 end
 
-function TRAQUERUtil.getOrganizationCustomModuleName()
-    TRAQUERUtil.getConf("custom","module_name")
-end
-
 function TRAQUERUtil.debugIncludeCarriersThatAreNotHospitalized()
     TRAQUERUtil.getConf("debug","include_carriers_that_are_not_hospitalized") |>
     n -> parse(Bool, n)
 end
-
-
-function TRAQUERUtil.getOrganizationCustomModule()
-    moduleName = TRAQUERUtil.getOrganizationCustomModuleName()
-    if moduleName == "CHTNoumea"
-        return Custom.CHTNoumea
-    elseif moduleName == "CHUBrest"
-        return Custom.CHUBrest
-    elseif moduleName == "Demo"
-        return Custom.Demo
-    else
-        error("Missing module[$moduleName]")
-    end
-end
-
 
 """
 

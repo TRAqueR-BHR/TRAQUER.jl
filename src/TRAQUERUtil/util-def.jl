@@ -54,9 +54,6 @@ function createDBConnAndExecuteWithTransaction end
 function executeOnWorkerTwoOrHigher end
 function executeOnBgThread end
 
-function getOrganizationCustomModuleName end
-function getOrganizationCustomModule end
-
 function getMappingAnalysisRequestType2InfectiousAgentCategory end
 function analysisRequestType2InfectiousAgentCategory end
 function infectiousAgentCategory2AnalysisRequestTypes end
