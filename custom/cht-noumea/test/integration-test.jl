@@ -20,6 +20,15 @@ MaintenanceCtrl.resetDatabase(resetStays = false)
 
 @time TRAQUER.Custom.importStays(dfStays, getDefaultEncryptionStr()) # 1000 lines in 130s with 4 workers
                                                                      # 1000 lines in 380s with 1 worker
+
+
+@time TRAQUER.Custom.importStays(
+    "/home/traquer/DATA/pending/dxcare-3mois.csv",
+    "/home/traquer/CODE/TRAQUER.jl/tmp/problems",
+    getDefaultEncryptionStr(),
+    ;maxNumberOfLinesToIntegrate = 10
+)
+
 @time TRAQUER.Custom.importAnalyses(
     "/home/traquer/DATA/pending/inlog-3mois.csv",
     "/home/traquer/CODE/TRAQUER.jl/tmp/problems",

@@ -56,17 +56,21 @@ function Custom.importStays(
     encryptionStr::AbstractString
 )
 
+
     @info (
           "\n# ################################## #"
         * "\n# Starting the integration of stays #"
         * "\n# ################################## #"
-        )
+    )
 
     # Remove leading Os in the patient NIP
     df.NIP = string.(df.NIP)
     df.NIP = replace.(df.NIP, r"^0+" => s"")
 
-    dfGroupedByNIP = groupby(df,:NIP)
+    # Create a line number column (used in particular to know the lines where we had problems)
+    df.lineNumInSrcFile = 2:nrow(df)+1
+
+    dfGroupedByNIP = DataFrames.groupby(df,:NIP)
 
     dfOfRowsInError = @showprogress pmap(1:length(dfGroupedByNIP)) do i
         Custom.importStays(
