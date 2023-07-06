@@ -1,15 +1,22 @@
 function MaintenanceCtrl.resetDatabase(
-    ;resetStays = true
+    ;resetStays::Union{Missing,Bool} = missing
 )
     TRAQUERUtil.createDBConnAndExecute() do dbconn
-        MaintenanceCtrl.resetDatabase(dbconn)
+        MaintenanceCtrl.resetDatabase(
+            dbconn
+            ;resetStays = resetStays
+        )
     end
 end
 
 function MaintenanceCtrl.resetDatabase(
     dbconn::LibPQ.Connection
-    ;resetStays = true
+    ;resetStays::Union{Missing,Bool} = missing
 )
+
+    if ismissing(resetStays)
+        error("The keyword argument 'resetStays' must be provided")
+    end
 
     if !TRAQUERUtil.resetDatabaseIsAllowed()
         error(
