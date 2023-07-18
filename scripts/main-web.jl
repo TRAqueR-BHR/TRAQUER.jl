@@ -4,7 +4,8 @@ include("prerequisite.jl")
 
 # The loggers need to be declared once the modules are loaded because they have
 #   a reference to them
-@everywhere include("logging/loggers.jl")
+# We had to comment out this because it was causing issues when running TRAQUER on several workers
+# @everywhere include("logging/loggers.jl")
 
 # Warmup workers
 # if TRAQUERUtil.blindBakeIsRequired()
