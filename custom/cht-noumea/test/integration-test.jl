@@ -3,7 +3,7 @@ using CSV, DataFrames
 using TRAQUER, TRAQUER.TRAQUERUtil
 
 # Cleaning
-MaintenanceCtrl.resetDatabase(resetStays = false)
+MaintenanceCtrl.resetDatabase(resetStays = true)
 
 # Load all stays and analyses in one dataframe
 # dfStays = CSV.read(
