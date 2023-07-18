@@ -49,7 +49,7 @@ end
 
 """
    - We may have a bacteria culture positive without the ATB2 exam to know what bacteria it is - See NIPs 231943, 57042 (PREPC)
-   - We interpret NEPC as positive
+   - We interpret NEPC as negative
    - No column for sample type
    - Use column DATE_SAISIE_RES for the result date (and set time to 00:00:00)
    TODO: * Keep the result string of the source file to be able to check that the source data
