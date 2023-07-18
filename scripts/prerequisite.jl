@@ -5,6 +5,7 @@ using Distributed
 
 # Need to load modules in worker 1 first (before the other workers), if not it doesnt work
 include("./using.jl")
+sleep(1)
 
 include("add-procs.jl")
 
