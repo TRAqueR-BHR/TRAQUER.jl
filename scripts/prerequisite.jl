@@ -3,6 +3,9 @@
 #           pwd() should return /home/vlaugier/CODE/Medilegist.jl
 using Distributed
 
+# Need to load modules in worker 1 first (before the other workers), if not it doesnt work
+include("./using.jl")
+
 include("add-procs.jl")
 
 @everywhere using Pkg
