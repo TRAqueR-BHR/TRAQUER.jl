@@ -121,10 +121,6 @@ function Custom.importAnalyses(
          # Keep track of the line number in the src CSV file
          lineNumInSrcFile = r.lineNumInSrcFile
 
-         if iseven(rowIdx)
-            error("even number")
-         end
-
          # Exclude ATB2 rows, for the moment we dont know what to do with it
          if r.ANA_CODE == "ATB2"
             continue
