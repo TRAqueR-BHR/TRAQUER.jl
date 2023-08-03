@@ -27,7 +27,7 @@ include("prerequisite.jl")
 #     while !eof(sock)
 #         str = String(read(sock))
 #         println("Received data: " * str)
-#         write(sock, "Hey, I've received " * str)c
+#         write(sock, "Hey, I've received " * str)
 #     end
 # end
 
