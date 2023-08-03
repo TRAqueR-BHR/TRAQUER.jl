@@ -1,1 +1,2 @@
 function resetDatabase end
+function resetInfectiousStatusesOutbreaksAndExposures end

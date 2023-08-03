@@ -16,7 +16,9 @@ new_route = route("/api/misc/reset-data", req -> begin
 
         executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
-                resetOutcome = Custom.resetData(dbconn)
+                resetOutcome = MaintenanceCtrl.resetInfectiousStatusesOutbreaksAndExposures(
+                    dbconn
+                )
             end
         end
 

@@ -48,9 +48,11 @@ function Custom.importAnalyses(
 end
 
 """
-   - We may have a bacteria culture positive without the ATB2 exam to know what bacteria it is - See NIPs 231943, 57042 (PREPC)
+   - We ignore ATB2
+   - We may have a bacteria culture positive without the ATB2 exam to know what bacteria it is
+      (see NIPs 231943, 57042 (PREPC))
+   - Also have a ATB2 without the a prior PREPC or PRVE (see NIP 39262667)
    - We interpret NEPC as negative
-   - No column for sample type
    - Use column DATE_SAISIE_RES for the result date (and set time to 00:00:00)
    TODO: * Keep the result string of the source file to be able to check that the source data
          * If culture is positive look for the ATB2 row to get the name of the bacteria
@@ -175,7 +177,7 @@ function Custom.importAnalyses(
             errorMsg = (
                "Unable to find patient for ref[$patientRef]. "
             * " Maybe a file of stays has not been integrated.")
-            @warn errorMsg
+            error(errorMsg)
             continue
          end
 

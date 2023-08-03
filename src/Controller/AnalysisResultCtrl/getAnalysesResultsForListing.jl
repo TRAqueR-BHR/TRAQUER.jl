@@ -127,7 +127,7 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
                 else
                     error(
                         "Unsupported filterValue[$(typeof(filterValue))] "
-                        *"for enumType[$(enumType)]"
+                        *"for enumType[$(paramsDict["enumType"])]"
                     )
                 end
             else

@@ -1,4 +1,4 @@
-function Custom.resetData(
+function MaintenanceCtrl.resetInfectiousStatusesOutbreaksAndExposures(
     dbconn::LibPQ.Connection
 )
 

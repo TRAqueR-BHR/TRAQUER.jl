@@ -117,12 +117,18 @@ function ContactExposureCtrl.generateContactExposures(
         )
     end
 
-    # Only keep the stays for the same room if needed
-    if sameRoomOnly && !ismissing(carrierStayRoom)
-        filter!(
-            s -> s.unit.id == carrierStayUnit.id && s.room === carrierStayRoom,
-            contactStays
-        )
+    # Filter on same room if needed
+    if sameRoomOnly
+        # If restriction on same room only that there is no room to filter then we consider that
+        # that there is no exposure
+        if ismissing(carrierStayRoom)
+            contactStays = Stay[]
+        else
+            filter!(
+                s -> s.unit.id == carrierStayUnit.id && s.room === carrierStayRoom,
+                contactStays
+            )
+        end
     end
 
     # Get the exact overlap

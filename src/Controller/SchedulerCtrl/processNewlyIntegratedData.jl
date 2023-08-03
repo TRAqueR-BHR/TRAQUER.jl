@@ -1,7 +1,7 @@
 function SchedulerCtrl.processNewlyIntegratedData(
     dbconn::LibPQ.Connection
     # Allows to do as if we were at a given time
-    ;forceProcessingTime::ZonedDateTime = Union{Missing,TRAQUERUtil.nowInTargetTimeZone()}
+    ;forceProcessingTime::Union{Missing,ZonedDateTime} = missing
 )
 
     # ################################################################################ #

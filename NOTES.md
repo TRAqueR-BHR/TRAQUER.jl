@@ -29,3 +29,15 @@ Stock 2021 pour les analyses
 (maybe not, see OutbreakCtrl.getOutbreakFromEventRequiringAttention, OutbreakCtrl.getOutbreakUnitAssosFromInfectiousStatus)
 - Remove OutbreakUnitAsso.startTime
 - Remove OutbreakUnitAsso.endTime
+
+
+
+Bonjour,
+
+NIP_PATIENT,
+ANA_CODE,
+DATE_DEMANDE,
+HEURE_DEMANDE,
+Libelle_micro_organisme,
+DATE_SAISIE_RES,
+VALEUR_RESULTAT,
