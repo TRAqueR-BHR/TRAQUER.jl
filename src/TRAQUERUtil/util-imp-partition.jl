@@ -219,20 +219,6 @@ function TRAQUERUtil.createPartitionStayIfNotExist(stay::Stay,
 
 end
 
-function TRAQUERUtil.createPartitionAnalysisResultIfNotExist(analysisResult::AnalysisResult,
-                                                       dbconn::LibPQ.Connection)
-
-    schemaName = "public"
-    tableName = "analysis_result"
-    year = Dates.year(analysisResult.stay.inDate)
-    month = Dates.month(analysisResult.stay.inDate)
-    TRAQUERUtil.createTablePartitionOnYearMonth(schemaName,
-                                                tableName,
-                                                year,
-                                                month,
-                                                dbconn)
-
-end
 
 function TRAQUERUtil.createPartitionContactExposureIfNotExist(
     contactExposure::ContactExposure, dbconn::LibPQ.Connection)
