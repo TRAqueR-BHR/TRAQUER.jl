@@ -191,14 +191,6 @@ function Custom.importAnalyses(
          #       record the information so that we can deduce the infectious status
          stay = StayCtrl.retrieveOneStayContainingDateTime(patient, requestTime, dbconn)
 
-         if ismissing(stay)
-            noStayErrorMsg = (
-            "Unable to find a stay for patient.id[$(patient.id)]"
-            * " patient.ref[$(patientRef)]"
-            * " starting before the date of the analyis request[$requestTime].")
-            error(noStayErrorMsg)
-         end
-
          analysisResult = AnalysisResult(
             patient = patient,
             stay = stay,

@@ -127,15 +127,3 @@ include("../../../test/runtests-prerequisite.jl")
     @test res.result === AnalysisResultValueType.positive
 
 end
-
-
-Custom.convertETLInputDataToRequestAndResultType(
-    "ATB2", # ANA_CODE
-    "EPC", # "BMR"
-    "1 ligne" # VALEUR_RESULTAT
-)
-
-(
-    request = AnalysisRequestType.bacterial_culture_carbapenemase_producing_enterobacteriaceae,
-    result = AnalysisResultValueType.positive
-)
