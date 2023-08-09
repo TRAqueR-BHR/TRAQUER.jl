@@ -219,7 +219,6 @@ function TRAQUERUtil.createPartitionStayIfNotExist(stay::Stay,
 
 end
 
-
 function TRAQUERUtil.createPartitionContactExposureIfNotExist(
     contactExposure::ContactExposure, dbconn::LibPQ.Connection)
 
