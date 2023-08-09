@@ -153,18 +153,22 @@ function Custom.importAnalyses(
          )
 
          resultTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
-               passmissing(string)(r.DATE_SAISIE_RES),
-               "00:00",
-               _tz
+            passmissing(string)(r.DATE_SAISIE_RES),
+            "00:00",
+            _tz
          )
 
          sample = missing
 
-         requestType, result = Custom.convertETLInputDataToRequestAndResultType(
-            passmissing(string)(r.ANA_CODE), # ANA_CODE
-            passmissing(string)(r.BMR), # "BMR"
-            passmissing(string)(r.VALEUR_RESULTAT) # VALEUR_RESULTAT
+         tmpRes = Custom.convertETLInputDataToRequestAndResultType(
+            passmissing(string)(r.ANA_CODE),
+            passmissing(string)(r.BMR),
+            passmissing(string)(r.VALEUR_RESULTAT)
          )
+         if isnothing(tmpRes)
+            continue
+         end
+         requestType, result = tmpRes
 
          # requestType = Custom.convertStringInInputFileToANALYSIS_REQUEST_TYPE(r.ANA_CODE)
          # result = passmissing(string)(r.VALEUR_RESULTAT) |>
@@ -182,7 +186,9 @@ function Custom.importAnalyses(
             continue
          end
 
-         # Get a stay
+         # Get a stay.
+         # NOTE: We may not find a stay for the analysis, it doesnt matter we still want to
+         #       record the information so that we can deduce the infectious status
          stay = StayCtrl.retrieveOneStayContainingDateTime(patient, requestTime, dbconn)
 
          if ismissing(stay)
