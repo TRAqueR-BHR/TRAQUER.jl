@@ -123,11 +123,6 @@ function Custom.importAnalyses(
          # Keep track of the line number in the src CSV file
          lineNumInSrcFile = r.lineNumInSrcFile
 
-         # Exclude ATB2 rows, for the moment we dont know what to do with it
-         if r.ANA_CODE == "ATB2"
-            continue
-         end
-
          # Check if NIP_PATIENT is missing
          if ismissing(r.NIP_PATIENT)
             error("NIP_PATIENT is missing")
@@ -165,9 +160,15 @@ function Custom.importAnalyses(
 
          sample = missing
 
-         requestType = Custom.convertStringInInputFileToANALYSIS_REQUEST_TYPE(r.ANA_CODE)
-         result = passmissing(string)(r.VALEUR_RESULTAT) |>
-            n -> passmissing(Custom.convertStringInInputFileToANALYSIS_RESULT_VALUE_TYPE)(n, requestType)
+         requestType, result = Custom.convertETLInputDataToRequestAndResultType(
+            passmissing(string)(r.ANA_CODE), # ANA_CODE
+            passmissing(string)(r.BMR), # "BMR"
+            passmissing(string)(r.VALEUR_RESULTAT) # VALEUR_RESULTAT
+         )
+
+         # requestType = Custom.convertStringInInputFileToANALYSIS_REQUEST_TYPE(r.ANA_CODE)
+         # result = passmissing(string)(r.VALEUR_RESULTAT) |>
+         #    n -> passmissing(Custom.convertStringInInputFileToANALYSIS_RESULT_VALUE_TYPE)(n, requestType)
 
          # Get a patient
          patient =
@@ -202,7 +203,6 @@ function Custom.importAnalyses(
             resultRawText = resultRawText,
             requestType = requestType,
          )
-
 
          analysisResult = AnalysisResultCtrl.upsert!(
             analysisResult,

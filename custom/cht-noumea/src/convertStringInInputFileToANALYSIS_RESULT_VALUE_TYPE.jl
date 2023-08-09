@@ -1,3 +1,6 @@
+"""
+
+"""
 function Custom.convertStringInInputFileToANALYSIS_RESULT_VALUE_TYPE(
     analysisResult::AbstractString,
     requestType::ANALYSIS_REQUEST_TYPE
@@ -24,6 +27,8 @@ function Custom.convertStringInInputFileToANALYSIS_RESULT_VALUE_TYPE(
         else
             return AnalysisResultValueType.positive
         end
+    else
+        error("Unsupported requestType[$requestType] in convertStringInInputFileToANALYSIS_RESULT_VALUE_TYPE")
     end
 
 
