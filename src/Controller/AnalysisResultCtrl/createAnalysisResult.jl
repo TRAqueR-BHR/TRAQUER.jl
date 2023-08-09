@@ -1,6 +1,6 @@
 function AnalysisResultCtrl.createAnalysisResult(
     patient::Patient,
-    stay::Stay,
+    stay::Union{Missing,Stay},
     requestTime::ZonedDateTime,
     requestType::ANALYSIS_REQUEST_TYPE,
     sampleMaterialType::Union{Missing,SAMPLE_MATERIAL_TYPE},
