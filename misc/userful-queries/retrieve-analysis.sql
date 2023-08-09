@@ -9,7 +9,7 @@ SELECT a.*
        ,pgp_sym_decrypt(pnc.firstname_crypt, 'aaaaaaaxxxxxcccccc') AS firstname
        ,pgp_sym_decrypt(pnc.lastname_crypt, 'aaaaaaaxxxxxcccccc') AS lastname
 FROM analysis_result a
-LEFT JOIN stay s
+LEFT JOIN stay s -- an analysis may not be linked to a stay
   ON a.stay_id = s.id
 INNER JOIN patient p
   ON p.id  = a.patient_id

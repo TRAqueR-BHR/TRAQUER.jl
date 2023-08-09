@@ -26,7 +26,7 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
 
     queryStringShared = "
     FROM analysis_result a
-    LEFT JOIN stay s
+    LEFT JOIN stay s -- an analysis may not have a corresponding stay
         ON a.stay_id = s.id
     INNER JOIN patient p
         ON p.id  = a.patient_id
