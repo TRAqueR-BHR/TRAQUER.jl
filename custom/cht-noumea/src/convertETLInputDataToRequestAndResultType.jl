@@ -1,7 +1,7 @@
 function Custom.convertETLInputDataToRequestAndResultType(
-    ana_code::AbstractString,
-    bmr::Union{Missing,AbstractString},
-    valeur_resultat::Union{Missing,AbstractString}
+    ana_code::String,
+    bmr::Union{Missing,String},
+    valeur_resultat::Union{Missing,String}
 )::Union{
     Nothing, # for when we ignore the line
     NamedTuple{

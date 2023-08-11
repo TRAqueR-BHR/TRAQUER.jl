@@ -33,8 +33,18 @@ MaintenanceCtrl.resetDatabase(resetStays = false)
     "/home/traquer/DATA/pending/inlog-3mois.csv",
     "/home/traquer/CODE/TRAQUER.jl/tmp/problems",
     getDefaultEncryptionStr(),
-    ;maxNumberOfLinesToIntegrate = 10
+    ;maxNumberOfLinesToIntegrate = 1000
 )
+
+using CSV
+df = CSV.read(
+    "/home/traquer/DATA/pending/inlog-3mois.csv",
+    DataFrame
+    ;delim = ';'
+)
+first(df[:,[:PRENOM,:NOM]],5) |>
+df |>
+n -> filter(r -> !ismissing(r.NOM) && r.NOM == "TEOUIA",n)
 
 # Process the date at different point in time
 TRAQUERUtil.createDBConnAndExecute() do dbconn

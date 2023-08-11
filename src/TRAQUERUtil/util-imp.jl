@@ -11,6 +11,7 @@ include("getMappingAnalysisRequestType2InfectiousAgentCategory.jl")
 include("infectiousAgentCategory2AnalysisRequestTypes.jl")
 include("json2entity.jl")
 include("isMissingOrNothing.jl")
+include("util-db-dump.jl")
 
 # see ~/.julia/config/startup.jl for setting the environment variable
 function TRAQUERUtil.loadConf()::ConfParse

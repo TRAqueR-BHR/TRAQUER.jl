@@ -176,6 +176,7 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
     # Add some columns for the decrypted values
     if !ismissing(cryptPwd)
         queryString *= "
+            ,pgp_sym_decrypt(arc.ref_crypt, \$1) AS analysis_ref
             ,pgp_sym_decrypt(pbc.birthdate_crypt, \$1) AS birthdate
             ,pgp_sym_decrypt(pnc.firstname_crypt, \$1) AS firstname
             ,pgp_sym_decrypt(pnc.lastname_crypt, \$1) AS lastname

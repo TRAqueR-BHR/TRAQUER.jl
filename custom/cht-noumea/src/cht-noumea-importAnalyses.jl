@@ -69,7 +69,7 @@ function Custom.importAnalyses(
    )
 
    # Remove leading Os in the patient NIP
-   df.NIP_PATIENT = string.(df.NIP_PATIENT)
+   df.NIP_PATIENT = String.(string.(df.NIP_PATIENT))
    df.NIP_PATIENT = replace.(df.NIP_PATIENT, r"^0+" => s"")
 
    # Create a line number column (used in particular to know the lines where we had problems)
@@ -77,10 +77,10 @@ function Custom.importAnalyses(
 
    # Create an analysis ref column
    df.analysis_ref = map(
-      (NIP_PATIENT, ANA_CODE, DATE_DEMANDE, HEURE_DEMANDE) -> begin
-              "$(string(NIP_PATIENT))_$(ANA_CODE)_$(DATE_DEMANDE),$(HEURE_DEMANDE)"
+      (NIP_PATIENT, ANA_CODE, BMR, DATE_DEMANDE, HEURE_DEMANDE) -> begin
+              "$(string(NIP_PATIENT))_$(ANA_CODE)_BMR-$(BMR)_$(DATE_DEMANDE)_$(HEURE_DEMANDE)"
           end,
-      df[:,:NIP_PATIENT],df[:,:ANA_CODE],df[:,:DATE_DEMANDE],df[:,:HEURE_DEMANDE]
+      df[:,:NIP_PATIENT],df[:,:ANA_CODE],df[:,:BMR],df[:,:DATE_DEMANDE],df[:,:HEURE_DEMANDE]
    )
 
    # Group the dataframe by patient NIP
@@ -135,8 +135,8 @@ function Custom.importAnalyses(
             continue
          end
 
-         patientRef = passmissing(string)(r.NIP_PATIENT)
-         analysisRef = passmissing(string)(r.analysis_ref)
+         patientRef = passmissing(String)(r.NIP_PATIENT)
+         analysisRef = passmissing(String)(r.analysis_ref)
          resultRawText = if (
             ismissing(r.Libelle_micro_organisme)
             || strip(r.Libelle_micro_organisme) == "null"
@@ -153,7 +153,7 @@ function Custom.importAnalyses(
          )
 
          resultTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
-            passmissing(string)(r.DATE_SAISIE_RES),
+            passmissing(String)(r.DATE_SAISIE_RES),
             "00:00",
             _tz
          )
@@ -161,18 +161,15 @@ function Custom.importAnalyses(
          sample = missing
 
          tmpRes = Custom.convertETLInputDataToRequestAndResultType(
-            passmissing(string)(r.ANA_CODE),
-            passmissing(string)(r.BMR),
-            passmissing(string)(r.VALEUR_RESULTAT)
+            passmissing(String)(r.ANA_CODE),
+            passmissing(String)(r.BMR),
+            passmissing(String)(r.VALEUR_RESULTAT)
          )
+
          if isnothing(tmpRes)
             continue
          end
          requestType, result = tmpRes
-
-         # requestType = Custom.convertStringInInputFileToANALYSIS_REQUEST_TYPE(r.ANA_CODE)
-         # result = passmissing(string)(r.VALEUR_RESULTAT) |>
-         #    n -> passmissing(Custom.convertStringInInputFileToANALYSIS_RESULT_VALUE_TYPE)(n, requestType)
 
          # Get a patient
          patient =
@@ -187,7 +184,7 @@ function Custom.importAnalyses(
          end
 
          # Get a stay.
-         # NOTE: We may not find a stay for the analysis, it doesnt matter we still want to
+         # NOTE: We may not find a stay for the analysis, it doesnt matter, we still want to
          #       record the information so that we can deduce the infectious status
          stay = StayCtrl.retrieveOneStayContainingDateTime(patient, requestTime, dbconn)
 
