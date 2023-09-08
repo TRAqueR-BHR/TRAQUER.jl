@@ -1,4 +1,4 @@
-include("../../../test/runtests-prerequisite.jl")
+include("prerequisite.jl")
 
 @testset "Test Custom.convertETLInputDataToRequestAndResultType" begin
 

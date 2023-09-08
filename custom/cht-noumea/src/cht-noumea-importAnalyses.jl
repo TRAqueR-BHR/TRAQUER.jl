@@ -42,7 +42,13 @@ function Custom.importAnalyses(
       )
 
    else
-      @info "no problem"
+      @info "No problem"
+   end
+
+   # Remove the directory if there is nothing in it. This allows to only have directories
+   # that correspond to integrations that didnt go well.
+   if isempty(readdir(problemsDir))
+      rm(problemsDir)
    end
 
 end
@@ -147,23 +153,25 @@ function Custom.importAnalyses(
          end
 
          requestTime = TRAQUERUtil.convertStringToZonedDateTime(
-            string(r.DATE_DEMANDE),
-            string(r.HEURE_DEMANDE),
+            String(r.DATE_DEMANDE), # String15 -> String
+            string(r.HEURE_DEMANDE), # Int64 -> String
             _tz
          )
 
          resultTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
-            passmissing(String)(r.DATE_SAISIE_RES),
-            "00:00",
+            passmissing(String)(r.DATE_SAISIE_RES), # String15 -> String
+            passmissing(string)(r.HEURE_SAISIE_RES), # Int64 -> String
             _tz
          )
 
-         sample = missing
+         sample = Custom.Custom.convertETLInputDataToSampleMaterialType(
+            passmissing(String)(r.NATURE_CODE)
+        )
 
          tmpRes = Custom.convertETLInputDataToRequestAndResultType(
-            passmissing(String)(r.ANA_CODE),
-            passmissing(String)(r.BMR),
-            passmissing(String)(r.VALEUR_RESULTAT)
+            passmissing(String)(r.ANA_CODE), # String7 -> String
+            passmissing(String)(r.BMR), # String7 -> String
+            passmissing(String)(r.VALEUR_RESULTAT) # String15 -> String
          )
 
          if isnothing(tmpRes)

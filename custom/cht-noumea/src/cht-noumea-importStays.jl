@@ -42,7 +42,13 @@ function Custom.importStays(
         )
 
     else
-        @info "no problem"
+        @info "No problem"
+    end
+
+    # Remove the directory if there is nothing in it. This allows to only have directories
+    # that correspond to integrations that didnt go well.
+    if isempty(readdir(problemsDir))
+        rm(problemsDir)
     end
 
  end
@@ -123,7 +129,7 @@ function Custom.importStays(
                 _tz
             )
             hospitalizationOutDateStr = passmissing(string)(r.DATE_SORTIE_SEJOUR)
-            hospitalizationOutTimeStr = "00:00"
+            hospitalizationOutTimeStr = string(r.HEURE_SORTIE_SEJOUR)
             hospitalizationOutTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
                 hospitalizationOutDateStr,
                 hospitalizationOutTimeStr,

@@ -21,9 +21,10 @@ function AnalysisResultCtrl.retrieveAnalysesResultsFromRef(
                  refOneChar,
                  patient.id]
     analyses = PostgresORM.execute_query_and_handle_result(
-            queryString, AnalysisResult, queryArgs,
-            false, # complex props
-            dbconn)
+        queryString, AnalysisResult, queryArgs,
+        false, # complex props
+        dbconn
+    )
 
     analyses
 

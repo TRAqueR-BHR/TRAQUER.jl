@@ -1,52 +1,31 @@
-include("../../../test/runtests-prerequisite.jl")
+include("prerequisite.jl")
 using CSV, DataFrames
 using TRAQUER, TRAQUER.TRAQUERUtil
 
 # Cleaning
 MaintenanceCtrl.resetDatabase(resetStays = false)
 
-# Load all stays and analyses in one dataframe
-# dfStays = CSV.read(
-#     "/home/traquer/DATA/pending/dxcare-3mois.csv",
-#     DataFrame
-#     ;delim = ';'
-# )
-# dfAnalyses = CSV.read(
-#     "/home/traquer/DATA/pending/inlog-3mois.csv",
-#     DataFrame
-#     ;delim = ';'
-# )
-
-
-@time TRAQUER.Custom.importStays(dfStays, getDefaultEncryptionStr()) # 1000 lines in 130s with 4 workers
-                                                                     # 1000 lines in 380s with 1 worker
-
+# ########################### #
+# Integrate from the CSV file #
+# ########################### #
 
 @time TRAQUER.Custom.importStays(
-    "/home/traquer/DATA/pending/dxcare-3mois.csv",
+    "/home/traquer/DATA/pending/dxcare-from-2023-01-01-00-00-00-to-2023-02-01-00-00-00.csv",
     "/home/traquer/CODE/TRAQUER.jl/tmp/problems",
     getDefaultEncryptionStr(),
     ;maxNumberOfLinesToIntegrate = 10
 )
 
 @time TRAQUER.Custom.importAnalyses(
-    "/home/traquer/DATA/pending/inlog-3mois.csv",
+    "/home/traquer/DATA/pending/inlog-from-2023-01-01-00-00-00-to-2023-02-01-00-00-00.csv",
     "/home/traquer/CODE/TRAQUER.jl/tmp/problems",
     getDefaultEncryptionStr(),
-    ;maxNumberOfLinesToIntegrate = 1000
+    ;maxNumberOfLinesToIntegrate = 100
 )
 
-using CSV
-df = CSV.read(
-    "/home/traquer/DATA/pending/inlog-3mois.csv",
-    DataFrame
-    ;delim = ';'
-)
-first(df[:,[:PRENOM,:NOM]],5) |>
-df |>
-n -> filter(r -> !ismissing(r.NOM) && r.NOM == "TEOUIA",n)
-
-# Process the date at different point in time
+# ########################################### #
+# Process the date at different point in time #
+# ########################################### #
 TRAQUERUtil.createDBConnAndExecute() do dbconn
     SchedulerCtrl.processNewlyIntegratedData(
         dbconn
@@ -71,6 +50,37 @@ TRAQUERUtil.createDBConnAndExecute() do dbconn
         )
     )
 end
+
+# ########################### #
+# Other possible integrations #
+# ########################### #
+
+# Load all stays and analyses in one dataframe
+# dfStays = CSV.read(
+#     "/home/traquer/DATA/pending/dxcare-3mois.csv",
+#     DataFrame
+#     ;delim = ';'
+# )
+# dfAnalyses = CSV.read(
+#     "/home/traquer/DATA/pending/inlog-3mois.csv",
+#     DataFrame
+#     ;delim = ';'
+# )
+
+# @time TRAQUER.Custom.importStays(dfStays, getDefaultEncryptionStr()) # 1000 lines in 130s with 4 workers
+#                                                                      # 1000 lines in 380s with 1 worker
+
+# using CSV
+# df = CSV.read(
+#     "/home/traquer/DATA/pending/inlog-3mois.csv",
+#     DataFrame
+#     ;delim = ';'
+# )
+# first(df[:,[:PRENOM,:NOM]],5) |>
+# df |>
+# n -> filter(r -> !ismissing(r.NOM) && r.NOM == "TEOUIA",n)
+
+
 
 # ####################### #
 # OLD WAY OF DOING THINGS #

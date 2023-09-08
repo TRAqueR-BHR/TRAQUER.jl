@@ -170,11 +170,27 @@ function TRAQUERUtil.createTablePartitionOnYearMonth(schemaName::AbstractString,
 
     # Vérifie que la partition n'existe pas déjà
     if PostgresORM.SchemaInfo.check_if_table_or_partition_exists(
-                                    partitionTable,
-                                    schemaName,
-                                    dbconn)
+        partitionTable,
+        schemaName,
+        dbconn
+    )
         return
     end
+
+    # When executing an integration task on several workers it is possible that two workers
+    # detect that a partition is missing, which results in the two workers trying to create
+    # a partition and one worker will fail at doing it, an error will be thrown we will need
+    # to reintegrate the line where the integration process failed.
+    # Therefore if the partition does not exist we introduce a random delay and chek again
+    sleep(rand()*2) # between 0 and 2 seconds
+    if PostgresORM.SchemaInfo.check_if_table_or_partition_exists(
+        partitionTable,
+        schemaName,
+        dbconn
+    )
+        return
+    end
+
 
     # Définie les bornes de la partition
     startDate = Dates.Date(year,month,01)
