@@ -97,6 +97,16 @@ function StayCtrl.getStaysForListing(
                         ILIKE \$$(args_counter += 1) "
                 push!(queryArgs,(filterValue * "%"))
 
+            # Special treatment for filter on the crypted firstname
+            elseif (nameInSelect == "firstname" && !ismissing(cryptPwd))
+                # Add a first filter on the first letter for performance
+                filterValue = lowercase(filterValue)
+                # Add the filter itself
+                queryStringShared *= "
+                    AND pgp_sym_decrypt(pnc.firstname_crypt, \$1)
+                        ILIKE \$$(args_counter += 1) "
+                push!(queryArgs,(filterValue * "%"))
+
             # Create a different WHERE clause for text
             elseif (paramsDict["attributeType"] == "text" ||
                 paramsDict["attributeType"] == "string")
@@ -200,8 +210,8 @@ function StayCtrl.getStaysForListing(
     #       which results in passing NULL to the query which does work
     offset = (pageNum - 1) * pageSize
 
-    println(queryString)
-    @info queryArgs
+    # println(queryString)
+    # @info queryArgs
 
     objects = missing
 
