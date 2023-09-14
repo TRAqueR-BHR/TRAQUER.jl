@@ -416,7 +416,8 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-outbreak", req -> 
             TRAQUERUtil.createDBConnAndExecute() do dbconn
                 PostgresORM.retrieve_entity(
                     OutbreakUnitAsso(outbreak = outbreak), true, dbconn
-                )
+                ) |>
+                n -> sort(n, by = x -> x.unit.name)
             end
         end
 
