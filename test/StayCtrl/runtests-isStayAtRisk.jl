@@ -1,9 +1,9 @@
 include("../runtests-prerequisite.jl")
 
-@testset "Test ContactExposureCtrl.canGenerateContactExposures" begin
+@testset "Test StayCtrl.isStayAtRisk" begin
 
     # CASE 'Carrier refTime after the beginning of non-ending stay and no not_at_risk time'
-    @test ContactExposureCtrl.canGenerateContactExposures(
+    @test StayCtrl.isStayAtRisk(
         Stay(
             inTime = ZonedDateTime(DateTime("2022-04-11T02:00:00"), getTimeZone()),
             hospitalizationInTime = ZonedDateTime(DateTime("2022-04-11T02:00:00"), getTimeZone()),
@@ -14,7 +14,7 @@ include("../runtests-prerequisite.jl")
     ) === true
 
     # CASE 'not_at_risk refTime before the beginning of non-ending stay'
-    @test ContactExposureCtrl.canGenerateContactExposures(
+    @test StayCtrl.isStayAtRisk(
         Stay(
             inTime = ZonedDateTime(DateTime("2022-05-11T02:00:00"), getTimeZone()),
             hospitalizationInTime = ZonedDateTime(DateTime("2022-05-11T02:00:00"), getTimeZone()),

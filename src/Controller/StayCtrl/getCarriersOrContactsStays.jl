@@ -22,7 +22,7 @@ function StayCtrl.getCarriersOrContactsStays(
             n -> PostgresORM.execute_query_and_handle_result(
                 n, Outbreak, [outbreakUnitAsso.id], false, dbconn) |> first
 
-    # Select all the carrier infectious statuses of this outbreak
+    # Select all the carrier/contact infectious statuses of this outbreak
     infectiousStatuses = "
         SELECT ist.*
         FROM outbreak_infectious_status_asso oiss

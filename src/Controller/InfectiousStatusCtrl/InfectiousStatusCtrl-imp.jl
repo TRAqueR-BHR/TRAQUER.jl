@@ -1,6 +1,7 @@
 include("defaultCheckIfNotAtRiskAnymore.jl")
 include("getInfectiousStatusForListing.jl")
 include("getInfectiousStatuses.jl")
+include("getInfectiousStatusesAtTime.jl")
 include("getInfectiousStatusAtTime.jl")
 include("generateCarrierStatusesFromAnalyses.jl")
 include("generateContactStatusesFromContactExposures.jl")

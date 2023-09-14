@@ -100,6 +100,15 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
                         ILIKE \$$(args_counter += 1) "
                 push!(queryArgs,(filterValue * "%"))
 
+            # Special treatment for filter on the crypted firstname
+            elseif (nameInSelect == "firstname" && !ismissing(cryptPwd))
+                filterValue = lowercase(filterValue)
+                # Add the filter itself
+                queryStringShared *= "
+                    AND pgp_sym_decrypt(pnc.firstname_crypt, \$1)
+                        ILIKE \$$(args_counter += 1) "
+                push!(queryArgs,(filterValue * "%"))
+
             # Create a different WHERE clause for text
             elseif (paramsDict["attributeType"] == "text" ||
                 paramsDict["attributeType"] == "string")

@@ -1,50 +1,65 @@
 function SchedulerCtrl.processNewlyIntegratedData(
     dbconn::LibPQ.Connection
     # Allows to do as if we were at a given time
-    ;forceProcessingTime::Union{Missing,ZonedDateTime} = missing
+    ;forceProcessingTime::Union{Missing,ZonedDateTime} = missing,
+    patient::Union{Patient,Missing} = missing
 )
 
     # ################################################################################ #
     # Get the ids that we are about to process for tables `analysis_result` and `stay` #
     # ################################################################################ #
     newStaysQueryStr = missing
-    newStaysQueryParams = missing
+    newStaysQueryParams = []
     newAnalysesQueryStr = missing
-    newAnalysesQueryParams = missing
+    newAnalysesQueryParams = []
 
-    if ismissing(forceProcessingTime)
-        newStaysQueryStr = "
-            SELECT *
-            FROM stay
-            WHERE sys_processing_time IS NULL"
-        newStaysQueryParams = missing
+    newStaysQueryStr = "
+        SELECT *
+        FROM stay
+        WHERE sys_processing_time IS NULL"
 
-        newAnalysesQueryStr = "
-            SELECT *
-            FROM analysis_result
-            WHERE sys_processing_time IS NULL"
-        newAnalysesQueryParams = missing
-    else
-        newStaysQueryStr = "
-            SELECT *
-            FROM stay
-            WHERE sys_processing_time IS NULL
-            AND (
-                (out_time IS NULL AND in_time <= \$1)
-                OR out_time <= \$1
-            )"
-        newStaysQueryParams = [forceProcessingTime]
+    newAnalysesQueryStr = "
+        SELECT *
+        FROM analysis_result
+        WHERE sys_processing_time IS NULL"
 
-        newAnalysesQueryStr = "
-          SELECT *
-          FROM analysis_result
-          WHERE sys_processing_time IS NULL
-            AND (
-                (result_time IS NULL AND request_time <= \$1)
-                OR result_time <= \$1
-            )"
-        newAnalysesQueryParams = [forceProcessingTime]
+    if !ismissing(patient)
+
+        # Stays
+        push!(newStaysQueryParams,patient.id)
+        newStaysQueryStr *= "
+            AND patient_id = \$$(length(newStaysQueryParams))
+        "
+
+        # Analyses
+        push!(newAnalysesQueryParams,patient.id)
+        newAnalysesQueryStr *= "
+            AND patient_id = \$$(length(newAnalysesQueryParams))
+        "
     end
+
+    if !ismissing(forceProcessingTime)
+
+        # Stays
+        push!(newStaysQueryParams,forceProcessingTime)
+        newStaysQueryStr *= "
+            AND (
+                (out_time IS NULL AND in_time <= \$$(length(newStaysQueryParams)))
+                OR out_time <= \$$(length(newStaysQueryParams))
+            )"
+
+        # Analyses
+        push!(newAnalysesQueryParams,forceProcessingTime)
+        newAnalysesQueryStr *= "
+            AND (
+                (result_time IS NULL AND request_time <= \$$(length(newAnalysesQueryParams)))
+                OR result_time <= \$$(length(newAnalysesQueryParams))
+            )"
+
+    end
+
+    println(newStaysQueryStr)
+    println(newAnalysesQueryStr)
 
     newStays = PostgresORM.execute_query_and_handle_result(
         newStaysQueryStr, Stay, newStaysQueryParams, false, dbconn

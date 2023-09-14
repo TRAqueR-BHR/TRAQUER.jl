@@ -1,10 +1,10 @@
-function ContactExposureCtrl.canGenerateContactExposures(
+function StayCtrl.isStayAtRisk(
     stay::Stay,
     atRiskStatus::InfectiousStatus,
     notAtRiskStatus::Union{InfectiousStatus,Missing}
 )
 
-    ContactExposureCtrl.canGenerateContactExposures(
+    StayCtrl.isStayAtRisk(
         stay::Stay,
         atRiskStatus.refTime,
         passmissing(getproperty)(notAtRiskStatus,:refTime)
@@ -12,7 +12,7 @@ function ContactExposureCtrl.canGenerateContactExposures(
 
 end
 
-function ContactExposureCtrl.canGenerateContactExposures(
+function StayCtrl.isStayAtRisk(
     stay::Stay,
     atRiskStatusRefTime::ZonedDateTime,
     notAtRiskStatusRefTime::Union{ZonedDateTime,Missing}

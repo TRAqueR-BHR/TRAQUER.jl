@@ -42,11 +42,12 @@ function StayCtrl.getStaysWherePatientAtRisk(
         Stay,
         queryArgs,
         false,
-        dbconn)
+        dbconn
+    )
 
     # Only keep the stays that can generate exposures
     filter!(
-        stay -> ContactExposureCtrl.canGenerateContactExposures(
+        stay -> StayCtrl.isStayAtRisk(
                     stay,
                     atRiskStatus,
                     notAtRiskStatus

@@ -56,7 +56,7 @@ function EventRequiringAttentionCtrl.createNewStayEventsForPatientsAtRisk(
         if !existingRow
 
             # Find the infectious status
-            atRiskStatus = getInfectiousStatusAtTime(
+            atRiskStatus = getInfectiousStatusesAtTime(
                 stay.patient,
                 stay.inTime,
                 false, # retrieveComplexProps::Bool,

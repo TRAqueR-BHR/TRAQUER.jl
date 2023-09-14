@@ -14,6 +14,8 @@ function EventRequiringAttentionCtrl.createAnalysisDoneEventIfNeeded(
         analysis.requestType
     )
 
+    @info "infectiousAgent" infectiousAgent
+
     infectiousStatusAtExactSameTime::Bool =
     "
     SELECT ist.id
@@ -38,6 +40,7 @@ function EventRequiringAttentionCtrl.createAnalysisDoneEventIfNeeded(
 
     statusAtTime = InfectiousStatusCtrl.getInfectiousStatusAtTime(
         analysis.patient,
+        infectiousAgent,
         timeOfInterest,
         true, # retrieveComplexProps::Bool,
         dbconn
@@ -47,6 +50,7 @@ function EventRequiringAttentionCtrl.createAnalysisDoneEventIfNeeded(
     # as 'not_at_risk'
     # Reminder: An event must be related to an infectious status, by convention and because
     #            how of the INNER JOIN in `getInfectiousStatusForListing`
+    @info "statusAtTime" statusAtTime
     if isMissingOrNothing(statusAtTime)
         @warn (
             "No infectious status found for patient[$(analysis.patient.id)] at "
@@ -64,6 +68,9 @@ function EventRequiringAttentionCtrl.createAnalysisDoneEventIfNeeded(
             dbconn
             ;createEventForStatus = false
         )
+
+        # As always, refresh the current status of the patient
+        InfectiousStatusCtrl.updateCurrentStatus(analysis.patient, dbconn)
 
     end
 

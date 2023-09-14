@@ -1,14 +1,13 @@
 include("../runtests-prerequisite.jl")
 
-@testset "Test InfectiousStatusCtrl.getInfectiousStatusAtTime" begin
+@testset "Test InfectiousStatusCtrl.getInfectiousStatusesAtTime" begin
 
     dbconn = TRAQUERUtil.openDBConn()
 
     patient = Patient(id = "412f6de9-776a-4fff-b429-3cf53a390127")
 
-    infectiousStatus = InfectiousStatusCtrl.getInfectiousStatusAtTime(
+    infectiousStatus = InfectiousStatusCtrl.getInfectiousStatusesAtTime(
         patient,
-        InfectiousAgentCategory.carbapenemase_producing_enterobacteriaceae,
         ZonedDateTime(DateTime("2023-01-08T17:00:00"), TRAQUERUtil.getTimeZone()),
         false, # retrieveComplexProps::Bool,
         dbconn

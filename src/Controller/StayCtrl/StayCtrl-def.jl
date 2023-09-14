@@ -17,3 +17,5 @@ function transformStaysForListing end
 function getHospitalizationsDates end
 
 function getStaysForListing end
+
+function isStayAtRisk end
