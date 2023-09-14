@@ -14,8 +14,6 @@ function EventRequiringAttentionCtrl.createAnalysisDoneEventIfNeeded(
         analysis.requestType
     )
 
-    @info "infectiousAgent" infectiousAgent
-
     infectiousStatusAtExactSameTime::Bool =
     "
     SELECT ist.id
