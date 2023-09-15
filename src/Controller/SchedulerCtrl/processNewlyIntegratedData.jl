@@ -67,24 +67,28 @@ function SchedulerCtrl.processNewlyIntegratedData(
     newAnalyses = PostgresORM.execute_query_and_handle_result(
         newAnalysesQueryStr, AnalysisResult, newAnalysesQueryParams, false, dbconn
     )
+    patientsWithNewDataInAnalysisTable = getproperty.(newAnalyses, :patient) |> n -> unique(x -> x.id, n)
 
     @info forceProcessingTime
     @info "Processing $(length(newStays)) new stays, $(length(newAnalyses)) new analyses"
 
-    aLongTimeAgo = Date("1970-01-01")
-    tomorrow = today() + Day(1)
+    aLongTimeAgo = ZonedDateTime(
+        DateTime("1970-01-01"),
+        TRAQUERUtil.getTimeZone()
+    )
+    tomorrow = now(TRAQUERUtil.getTimeZone()) + Day(1) # The one day is just to have a margin
+    timeUpperBound = if ismissing(forceProcessingTime) tomorrow else forceProcessingTime end
 
     # ############################################ #
     # Process new data to deduce the carrier cases #
     # ############################################ #
-    patientsWithNewDataInAnalysisTable = getproperty.(newAnalyses, :patient) |> n -> unique(x -> x.id, n)
     for patient in patientsWithNewDataInAnalysisTable
 
         @info "Patient with new data " getproperty.(patientsWithNewDataInAnalysisTable,:id)
 
         InfectiousStatusCtrl.generateCarrierStatusesFromAnalyses(
             patient,
-            (aLongTimeAgo, tomorrow), # forAnalysesRequestsBetween::Tuple{Date,Date},
+            (aLongTimeAgo, timeUpperBound), # forAnalysesRequestsBetween::Tuple{Date,Date},
             dbconn
         )
 
@@ -101,15 +105,15 @@ function SchedulerCtrl.processNewlyIntegratedData(
     # Process new data to deduce the not at risk statuses #
     # ################################################### #
     # patientsWithNewDataInAnalysisTable = getproperty.(newAnalyses, :patient) |> n -> unique(x -> x.id, n)
-    # for patient in patientsWithNewDataInAnalysisTable
+    for patient in patientsWithNewDataInAnalysisTable
 
-    #     InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
-    #         patient,
-    #         (aLongTimeAgo, tomorrow), # forAnalysesRequestsBetween::Tuple{Date,Date},
-    #         dbconn
-    #     )
+        InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
+            patient,
+            (aLongTimeAgo, timeUpperBound), # forAnalysesRequestsBetween::Tuple{Date,Date},
+            dbconn
+        )
 
-    # end
+    end
 
     # If a new stay did not lead to the creation of an infectious status and that the patient
     # is at risk, create an event 'new_stay'. Eg. if a not at risk patient arrives in a unit
@@ -155,6 +159,7 @@ function SchedulerCtrl.processNewlyIntegratedData(
         dbconn
     )
 
+    nothing
 
 
 end
