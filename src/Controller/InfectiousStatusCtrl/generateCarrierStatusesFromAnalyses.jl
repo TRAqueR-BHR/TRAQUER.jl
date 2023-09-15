@@ -1,6 +1,6 @@
 function InfectiousStatusCtrl.generateCarrierStatusesFromAnalyses(
     patient::Patient,
-    forAnalysesRequestsBetween::Tuple{Date,Date},
+    forAnalysesRequestsBetween::Tuple{ZonedDateTime, ZonedDateTime},
     dbconn::LibPQ.Connection
 )
 

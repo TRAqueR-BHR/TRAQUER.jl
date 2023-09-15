@@ -1,6 +1,6 @@
 function InfectiousStatusCtrl.generateContactStatusesFromContactExposures(
     patient::Patient,
-    forExposuresRefTimeBetween::Tuple{Date,Date},
+    forExposuresRefTimeBetween::Tuple{ZonedDateTime, ZonedDateTime},
     dbconn::LibPQ.Connection)
 
     exposuresDF = "

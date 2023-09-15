@@ -1,6 +1,6 @@
 function InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
     patient::Patient,
-    forAnalysesRequestsBetween::Tuple{Date,Date},
+    forAnalysesRequestsBetween::Tuple{ZonedDateTime, ZonedDateTime},
     dbconn::LibPQ.Connection
 )
 
