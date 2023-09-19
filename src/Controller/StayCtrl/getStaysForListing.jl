@@ -210,9 +210,6 @@ function StayCtrl.getStaysForListing(
     #       which results in passing NULL to the query which does work
     offset = (pageNum - 1) * pageSize
 
-    # println(queryString)
-    # @info queryArgs
-
     objects = missing
 
     dbconn = TRAQUERUtil.openDBConn()

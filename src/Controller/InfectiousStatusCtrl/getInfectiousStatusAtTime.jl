@@ -24,9 +24,6 @@ function InfectiousStatusCtrl.getInfectiousStatusAtTime(
     queryString *= "
         ORDER BY ist.ref_time "
 
-    println(queryString)
-    @info queryParams
-
     statuses = PostgresORM.execute_query_and_handle_result(
         queryString, InfectiousStatus, queryParams, retrieveComplexProps, dbconn)
 

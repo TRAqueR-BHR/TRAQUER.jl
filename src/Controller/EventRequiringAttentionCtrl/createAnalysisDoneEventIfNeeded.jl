@@ -48,12 +48,7 @@ function EventRequiringAttentionCtrl.createAnalysisDoneEventIfNeeded(
     # as 'not_at_risk'
     # Reminder: An event must be related to an infectious status, by convention and because
     #            how of the INNER JOIN in `getInfectiousStatusForListing`
-    @info "statusAtTime" statusAtTime
     if isMissingOrNothing(statusAtTime)
-        @warn (
-            "No infectious status found for patient[$(analysis.patient.id)] at "
-            * "time[($(analysis.requestTime))] => Create a 'not_at_risk' event to attach to it"
-        )
         statusAtTime = InfectiousStatus(
             patient = analysis.patient,
             infectiousAgent = infectiousAgent,
@@ -73,10 +68,10 @@ function EventRequiringAttentionCtrl.createAnalysisDoneEventIfNeeded(
     end
 
     eventRequiringAttention = EventRequiringAttention(
-            infectiousStatus = statusAtTime,
-            isPending = true,
-            eventType = EventRequiringAttentionType.analysis_done,
-            refTime = analysis.requestTime
+        infectiousStatus = statusAtTime,
+        isPending = true,
+        eventType = EventRequiringAttentionType.analysis_done,
+        refTime = analysis.requestTime
     )
 
     EventRequiringAttentionCtrl.upsert!(eventRequiringAttention, dbconn)

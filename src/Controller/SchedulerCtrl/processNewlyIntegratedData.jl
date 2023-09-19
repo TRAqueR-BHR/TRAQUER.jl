@@ -58,9 +58,6 @@ function SchedulerCtrl.processNewlyIntegratedData(
 
     end
 
-    println(newStaysQueryStr)
-    println(newAnalysesQueryStr)
-
     newStays = PostgresORM.execute_query_and_handle_result(
         newStaysQueryStr, Stay, newStaysQueryParams, false, dbconn
     )
@@ -69,7 +66,6 @@ function SchedulerCtrl.processNewlyIntegratedData(
     )
     patientsWithNewDataInAnalysisTable = getproperty.(newAnalyses, :patient) |> n -> unique(x -> x.id, n)
 
-    @info forceProcessingTime
     @info "Processing $(length(newStays)) new stays, $(length(newAnalyses)) new analyses"
 
     aLongTimeAgo = ZonedDateTime(
@@ -84,7 +80,7 @@ function SchedulerCtrl.processNewlyIntegratedData(
     # ############################################ #
     for patient in patientsWithNewDataInAnalysisTable
 
-        @info "Patient with new data " getproperty.(patientsWithNewDataInAnalysisTable,:id)
+        # @info "Patient with new data " getproperty.(patientsWithNewDataInAnalysisTable,:id)
 
         InfectiousStatusCtrl.generateCarrierStatusesFromAnalyses(
             patient,
@@ -98,7 +94,10 @@ function SchedulerCtrl.processNewlyIntegratedData(
     # Process new data to deduce the contact cases #
     # ############################################ #
     # TODO: Restrict the instances of OutbreakUnitAsso to the ones that are involved in the
-    #       new activity : the OubreakUnitAssos where the units had movements
+    # new activity : the OubreakUnitAssos where the units had movements.
+    # We dont need the units where there were analyses, because in the event where there is a
+    # positive analysis that generates a new 'carrier' infectious status, that will not
+    # generate contact cases because the status needs to be confirmed
     ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(dbconn)
 
     # ################################################### #
