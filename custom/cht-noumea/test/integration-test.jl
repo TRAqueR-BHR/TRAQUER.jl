@@ -3,21 +3,21 @@ using CSV, DataFrames
 using TRAQUER, TRAQUER.TRAQUERUtil
 
 # Cleaning
-MaintenanceCtrl.resetDatabase(resetStays = false)
+MaintenanceCtrl.resetDatabase(resetStays = true)
 
 # ########################### #
 # Integrate from the CSV file #
 # ########################### #
 
 @time TRAQUER.Custom.importStays(
-    "/home/traquer/DATA/pending/dxcare-from-2023-01-01-00-00-00-to-2023-02-01-00-00-00.csv",
+    "/home/traquer/DATA/pending/dxcare-from-2022-12-01-00-00-00-to-2023-01-01-00-00-00.csv",
     "/home/traquer/CODE/TRAQUER.jl/tmp/problems",
     getDefaultEncryptionStr(),
-    ;maxNumberOfLinesToIntegrate = 10
+    # ;maxNumberOfLinesToIntegrate = 10
 )
 
 @time TRAQUER.Custom.importAnalyses(
-    "/home/traquer/DATA/pending/inlog-from-2023-01-01-00-00-00-to-2023-02-01-00-00-00.csv",
+    "/home/traquer/DATA/pending/inlog-from-2022-12-01-00-00-00-to-2023-01-01-00-00-00.csv",
     "/home/traquer/CODE/TRAQUER.jl/tmp/problems",
     getDefaultEncryptionStr(),
     ;maxNumberOfLinesToIntegrate = 100

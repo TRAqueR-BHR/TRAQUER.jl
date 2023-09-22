@@ -155,6 +155,17 @@ function Custom.importStays(
             # Room
             room = passmissing(string)(r.NUMEROT_LIT)
 
+            # Out label
+            outLabel = passmissing(string)(r.LIB_MODE_SORTIE)
+            diedDuringStay::Bool = if (
+                !ismissing(outLabel)
+                && TRAQUERUtil.rmAccentsAndLowercase(outLabel) === "deces"
+            )
+                true
+            else
+                false
+            end
+
             # Get a unit
             unit = UnitCtrl.createUnitIfNotExists(unitCodeName,unitName,dbconn)
 
@@ -181,7 +192,8 @@ function Custom.importStays(
                 outTime = outTime,
                 hospitalizationInTime = hospitalizationInTime,
                 hospitalizationOutTime = hospitalizationOutTime,
-                room = room
+                room = room,
+                patientDiedDuringStay = diedDuringStay
             )
             StayCtrl.upsert!(stay, dbconn)
 
