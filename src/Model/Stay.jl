@@ -1,4 +1,4 @@
-mutable struct Stay <: IStay 
+mutable struct Stay <: IStay
 
   patient::Union{Missing,Model.IPatient}
   unit::Union{Missing,Model.IUnit}
@@ -6,6 +6,7 @@ mutable struct Stay <: IStay
   inDate::Union{Missing,Date}
   outTime::Union{Missing,ZonedDateTime}
   sysCreationTime::Union{Missing,ZonedDateTime}
+  patientDiedDuringStay::Union{Missing,Bool}
   hospitalizationOutTime::Union{Missing,ZonedDateTime}
   inTime::Union{Missing,ZonedDateTime}
   hospitalizationInTime::Union{Missing,ZonedDateTime}
@@ -21,6 +22,7 @@ mutable struct Stay <: IStay
     inDate = missing,
     outTime = missing,
     sysCreationTime = missing,
+    patientDiedDuringStay = missing,
     hospitalizationOutTime = missing,
     inTime = missing,
     hospitalizationInTime = missing,
@@ -28,13 +30,14 @@ mutable struct Stay <: IStay
     room = missing,
     analysisResults = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
     x.patient = patient
     x.unit = unit
     x.id = id
     x.inDate = inDate
     x.outTime = outTime
     x.sysCreationTime = sysCreationTime
+    x.patientDiedDuringStay = patientDiedDuringStay
     x.hospitalizationOutTime = hospitalizationOutTime
     x.inTime = inTime
     x.hospitalizationInTime = hospitalizationInTime
@@ -44,4 +47,4 @@ mutable struct Stay <: IStay
     return x
   end
 
-end 
+end

@@ -1,10 +1,32 @@
 function StayCtrl.getStaysWherePatientAtRisk(
     atRiskStatus::InfectiousStatus,
-    dbconn::LibPQ.Connection)::Vector{Stay}
+    dbconn::LibPQ.Connection
+)::Vector{Stay}
 
-    # Look for an infectious status 'not_at_risk' after the 'carrier' ref. time for this
-    # same infectious agent. It will allow to exclude the stays that started after the
-    # ref. time of this 'not_at_risk' status
+
+    # ################## #
+    # Retrieve all stays #
+    # ################## #
+    queryString = "
+       SELECT s.*
+       FROM stay s
+       WHERE s.patient_id = \$1
+       ORDER BY s.in_time
+    "
+    queryArgs = [atRiskStatus.patient.id]
+    atRiskStays = PostgresORM.execute_query_and_handle_result(
+        queryString,
+        Stay,
+        queryArgs,
+        false,
+        dbconn
+    )
+
+    # ################################################################################## #
+    # Look for an infectious status 'not_at_risk' after the 'carrier' ref. time for this #
+    # same infectious agent. It will allow to exclude the stays that started after the   #
+    # ref. time of this 'not_at_risk' status                                             #
+    # ################################################################################## #
     notAtRiskStatus = "
         SELECT ist.*
         FROM infectious_status ist
@@ -25,35 +47,65 @@ function StayCtrl.getStaysWherePatientAtRisk(
                 ],
                 false,
                 dbconn
-            ) |> n -> if isempty(n) missing else first(1) end
+            ) |> n -> if isempty(n) missing else first(n) end
 
-    # ################################################################################### #
-    # Get all stays of the carrier and keep the ones that can generate an exposure        #
-    # ################################################################################### #
-    queryString = "
-       SELECT s.*
-       FROM stay s
-       WHERE s.patient_id = \$1
-       ORDER BY s.in_time
-    "
-    queryArgs = [atRiskStatus.patient.id]
-    atRiskStays = PostgresORM.execute_query_and_handle_result(
-        queryString,
-        Stay,
-        queryArgs,
-        false,
+
+    # ############################################################################## #
+    # Remove the stays 'in the past' (relatively to the infectious status ref. time) #
+    # ############################################################################## #
+    infectiousStatusStay = StayCtrl.retrieveOneStay(
+        atRiskStatus,
         dbconn
     )
 
-    # Only keep the stays that can generate exposures
-    filter!(
-        stay -> StayCtrl.isStayAtRisk(
-                    stay,
-                    atRiskStatus,
-                    notAtRiskStatus
-                ),
-        atRiskStays
-    )
+    # For 'contact' status, start at the stay during which the infectious status started
+    if atRiskStatus.infectiousStatus == InfectiousStatusType.contact
+        filter!(
+            s -> s.inTime >= infectiousStatusStay.inTime,
+            atRiskStays
+        )
+    # For 'carrier' status, start at the first stay of the hospitalization
+    elseif atRiskStatus.infectiousStatus == InfectiousStatusType.carrier
+        filter!(
+            s -> s.hospitalizationInTime >= infectiousStatusStay.hospitalizationInTime,
+            atRiskStays
+        )
+    else
+        error("Unsupported InfectiousStatusType[$atRiskStatus]")
+    end
+
+    # ################################################################################ #
+    # Remove the stays 'in the future' (relatively to the infectious status ref. time) #
+    # ################################################################################ #
+    if !ismissing(notAtRiskStatus)
+        filter!(
+            s -> begin
+
+                # This is debatable, but we chose to consider that a stay that ended after
+                # the not_at_risk status time is not at risk
+                if (!ismissing(s.outTime) && s.outTime > notAtRiskStatus.refTime)
+                    return false
+                end
+
+                if s.inTime > notAtRiskStatus.refTime
+                    return false
+                end
+
+                return true
+
+            end,
+            atRiskStays
+        )
+    end
+
+    # filter!(
+    #     stay -> StayCtrl.isStayAtRisk(
+    #                 stay,
+    #                 atRiskStatus,
+    #                 notAtRiskStatus
+    #             ),
+    #     atRiskStays
+    # )
 
     return atRiskStays
 

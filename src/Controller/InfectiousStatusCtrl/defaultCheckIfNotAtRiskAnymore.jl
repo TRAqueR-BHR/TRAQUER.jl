@@ -1,3 +1,22 @@
+"""
+    InfectiousStatusCtrl.defaultCheckIfNotAtRiskAnymore(
+        infectiousStatuses::Vector{InfectiousStatus},
+        analyses::Vector{AnalysisResult},
+        infectiousAgent::INFECTIOUS_AGENT_CATEGORY
+    )::Union{Missing, InfectiousStatus}
+
+Checks whether a 'at risk' patient is still at risk by either returning the 'still at risk'
+infectious status or a new (not serialized) instance of not_at_risk.
+
+  * If the last infectious status found in the database is carrier/contact then we check if the
+analyses allow to set the patient back to 'not at risk', in which case we return a new
+instance of a not_at_risk InfectiousStatus that the calling function can serialize.
+  * If last infectious status found in the database is not_at_risk then return it.
+  * If no infectious status found return missing
+
+**NOTES:**
+  * This function is more meant to be called on a patient that is at risk
+"""
 function InfectiousStatusCtrl.defaultCheckIfNotAtRiskAnymore(
     infectiousStatuses::Vector{InfectiousStatus},
     analyses::Vector{AnalysisResult},
@@ -6,9 +25,9 @@ function InfectiousStatusCtrl.defaultCheckIfNotAtRiskAnymore(
 
     requestTypes = TRAQUERUtil.infectiousAgentCategory2AnalysisRequestTypes(infectiousAgent)
 
-    # ############################################# #
-    # A few sanity checks (some may throw an error) #
-    # ############################################# #
+    # ##################################### #
+    # Get last serialized infectious status #
+    # ##################################### #
     infectiousStatuses = filter(x -> x.infectiousAgent === infectiousAgent, infectiousStatuses)
     analyses = filter(x -> x.requestType ∈ requestTypes, analyses)
 
@@ -41,8 +60,11 @@ function InfectiousStatusCtrl.defaultCheckIfNotAtRiskAnymore(
     numberOfNegativeTestsForContactExclusion =
         TRAQUERUtil.getNumberOfNegativeTestsForContactExclusion()
 
+    # #################################################################################### #
+    # Determine whether the patient is still at risk                                       #
+    # NOTE: If the last infectious status found in the database is 'not_at_risk' return it #
+    # #################################################################################### #
     currentStatus::Union{Missing, INFECTIOUS_STATUS_TYPE} = missing
-
     if lastInfectiousStatus.infectiousStatus == InfectiousStatusType.contact
 
         if length(negativeAnalysesAfterLastInfectiousStatus) >= numberOfNegativeTestsForContactExclusion
@@ -69,9 +91,13 @@ function InfectiousStatusCtrl.defaultCheckIfNotAtRiskAnymore(
         end
 
     else
-        currentStatus = InfectiousStatusType.not_at_risk
+        return lastInfectiousStatus
     end
 
+    # ##################################################################### #
+    # If patient is still at risk, return the last infectious status found  #
+    # If not, instantiate a new infectious status                           #
+    # ##################################################################### #
     if currentStatus != InfectiousStatusType.not_at_risk
         return lastInfectiousStatus
     else
@@ -82,6 +108,5 @@ function InfectiousStatusCtrl.defaultCheckIfNotAtRiskAnymore(
             isConfirmed = false,
         )
     end
-
 
 end

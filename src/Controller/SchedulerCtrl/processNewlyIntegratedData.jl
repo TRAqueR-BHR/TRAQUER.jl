@@ -114,6 +114,11 @@ function SchedulerCtrl.processNewlyIntegratedData(
 
     end
 
+    InfectiousStatusCtrl.generateNotAtRiskStatusForDeadPatient.(
+        newStays,
+        dbconn
+    )
+
     # If a new stay did not lead to the creation of an infectious status and that the patient
     # is at risk, create an event 'new_stay'. Eg. if a not at risk patient arrives in a unit
     # where there is a carrier, it will create a contact infectious status and its associated

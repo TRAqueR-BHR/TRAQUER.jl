@@ -1,6 +1,9 @@
-function StayCtrl.retrieveOneStay(patient::Patient,
-                                  inTime::ZonedDateTime,
-                                  dbconn::LibPQ.Connection)
+function StayCtrl.retrieveOneStay(
+    patient::Patient,
+    inTime::ZonedDateTime,
+    dbconn::LibPQ.Connection
+)::Union{Missing,Stay}
+
     queryString = "
             SELECT s.* FROM stay s
             INNER JOIN patient p
@@ -24,4 +27,18 @@ function StayCtrl.retrieveOneStay(patient::Patient,
     else
         return first(stays)
     end
+end
+
+
+function StayCtrl.retrieveOneStay(
+    infectiousStatus::InfectiousStatus,
+    dbconn::LibPQ.Connection
+)::Union{Missing,Stay}
+
+    StayCtrl.retrieveOneStayContainingDateTime(
+        infectiousStatus.patient,
+        infectiousStatus.refTime,
+        dbconn
+    )
+
 end

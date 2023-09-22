@@ -45,7 +45,7 @@ function EventRequiringAttentionCtrl.createAnalysisDoneEventIfNeeded(
     )
 
     # If there is no infectious status at the time of the analysis request, create one
-    # as 'not_at_risk'
+    # as 'not_at_risk'. No need to create an event for this not_at_risk status.
     # Reminder: An event must be related to an infectious status, by convention and because
     #            how of the INNER JOIN in `getInfectiousStatusForListing`
     if isMissingOrNothing(statusAtTime)
@@ -67,6 +67,8 @@ function EventRequiringAttentionCtrl.createAnalysisDoneEventIfNeeded(
 
     end
 
+    # Create the event for the new analysis result
+    # NOTE: We always want the users to know that a result has arrived
     eventRequiringAttention = EventRequiringAttention(
         infectiousStatus = statusAtTime,
         isPending = true,

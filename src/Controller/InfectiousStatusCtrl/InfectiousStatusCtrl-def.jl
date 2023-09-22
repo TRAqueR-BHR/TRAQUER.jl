@@ -30,6 +30,8 @@ function generateCarrierStatusesFromAnalyses end
 
 function generateNotAtRiskStatusesFromAnalyses end
 
+function generateNotAtRiskStatusForDeadPatient end
+
 function generateContactStatusesFromContactExposures end
 
 function generateContactStatusFromExposure end
