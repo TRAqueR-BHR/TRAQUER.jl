@@ -1,4 +1,4 @@
-mutable struct Stay <: IStay
+mutable struct Stay <: IStay 
 
   patient::Union{Missing,Model.IPatient}
   unit::Union{Missing,Model.IUnit}
@@ -47,4 +47,4 @@ mutable struct Stay <: IStay
     return x
   end
 
-end
+end 
