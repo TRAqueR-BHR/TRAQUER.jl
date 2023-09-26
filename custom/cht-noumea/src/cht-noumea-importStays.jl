@@ -120,6 +120,11 @@ function Custom.importStays(
             lastname = string(r.NOM)
             birthdate::Date = r.DATE_NAISSANCE |> n -> Date(n,DateFormat("d/m/y"))
 
+            # Ignore consultations
+            if contains(r.NOM_UF_LOCA," CS") || contains(r.NOM_UF_LOCA," CS ")
+                continue
+            end
+
             # Hospitalization in/out
             hospitalizationInDateStr = string(r.DATE_ENTREE_SEJOUR)
             hospitalizationInTimeStr = string(r.HEURE_ENTREE_SEJ)

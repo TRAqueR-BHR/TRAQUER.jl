@@ -3,7 +3,7 @@ using CSV, DataFrames
 using TRAQUER, TRAQUER.TRAQUERUtil
 
 # Cleaning
-MaintenanceCtrl.resetDatabase(resetStays = true)
+MaintenanceCtrl.resetDatabase(resetStays = false)
 
 # ########################### #
 # Integrate from the CSV file #
@@ -13,8 +13,9 @@ MaintenanceCtrl.resetDatabase(resetStays = true)
     "/home/traquer/DATA/pending/dxcare-from-2022-12-01-00-00-00-to-2023-01-01-00-00-00.csv",
     "/home/traquer/CODE/TRAQUER.jl/tmp/problems",
     getDefaultEncryptionStr(),
-    # ;maxNumberOfLinesToIntegrate = 10
-)
+    ;maxNumberOfLinesToIntegrate = 100
+) # 349.047879 seconds for 1 worker and 100 records
+  # 88 seconds for 8 workers and 100 records
 
 @time TRAQUER.Custom.importAnalyses(
     "/home/traquer/DATA/pending/inlog-from-2022-12-01-00-00-00-to-2023-01-01-00-00-00.csv",
@@ -26,22 +27,6 @@ MaintenanceCtrl.resetDatabase(resetStays = true)
 # ########################################### #
 # Process the date at different point in time #
 # ########################################### #
-TRAQUERUtil.createDBConnAndExecute() do dbconn
-    SchedulerCtrl.processNewlyIntegratedData(
-        dbconn
-        ;forceProcessingTime = ZonedDateTime(
-            DateTime("2022-05-10T00:00:00"), TRAQUERUtil.getTimeZone()
-        )
-    )
-end
-TRAQUERUtil.createDBConnAndExecute() do dbconn
-    SchedulerCtrl.processNewlyIntegratedData(
-        dbconn
-        ;forceProcessingTime = ZonedDateTime(
-            DateTime("2022-05-15T00:00:00"), TRAQUERUtil.getTimeZone()
-        )
-    )
-end
 TRAQUERUtil.createDBConnAndExecute() do dbconn
     SchedulerCtrl.processNewlyIntegratedData(
         dbconn
