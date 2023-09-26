@@ -13,7 +13,7 @@ NOTE: The OutbreakUnitAssos must exist in the database.
 """
 function ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(
     dbconn::LibPQ.Connection
-    ;hintOnWhatOutbreakUnitAssosToSelect::Union{Missing,Vector{Stay}= missing}
+    ;hintOnWhatOutbreakUnitAssosToSelect::Union{Missing,Vector{Stay}} = missing
 )
 
     # Get the outbreaks of all carriers
@@ -41,7 +41,7 @@ function ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(
         # Get the list of units IDs that have movements and the minimun inTime
         unitsIdsOfHintStays::Vector{String} = hintOnWhatOutbreakUnitAssosToSelect |>
             n -> getproperty.(n, :unit) |>
-            n -> getproperty.(n, :ids) |>
+            n -> getproperty.(n, :id) |>
             unique
         minimumInTime::ZonedDateTime = hintOnWhatOutbreakUnitAssosToSelect |>
             n -> getproperty.(n, :inTime) |>
