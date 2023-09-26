@@ -98,7 +98,10 @@ function SchedulerCtrl.processNewlyIntegratedData(
     # We dont need the units where there were analyses, because in the event where there is a
     # positive analysis that generates a new 'carrier' infectious status, that will not
     # generate contact cases because the status needs to be confirmed
-    ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(dbconn)
+    ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(
+        dbconn
+        ;hintOnWhatOutbreakUnitAssosToSelect = newStays
+    )
 
     # ################################################### #
     # Process new data to deduce the not at risk statuses #
