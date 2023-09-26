@@ -1,3 +1,15 @@
+"""
+    OutbreakCtrl.getOutbreakFromEventRequiringAttention(
+        eventRequiringAttention::EventRequiringAttention,
+        retrieveComplexProperties::Bool,
+        dbconn::LibPQ.Connection
+    )::Union{Missing, Outbreak}
+
+Get an outbreak (if any) most related to the event.
+
+Look for the outbreaks related to the infectious status of the event and return the one that
+has the closest reference time to the event time.
+"""
 function OutbreakCtrl.getOutbreakFromEventRequiringAttention(
     eventRequiringAttention::EventRequiringAttention,
     retrieveComplexProperties::Bool,
