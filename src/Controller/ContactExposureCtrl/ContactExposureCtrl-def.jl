@@ -24,6 +24,14 @@ CASE1: Carrier stay and contact stay have an out time
   contact:     [============]
   overlap:     [------------]
 
+  carrier: [=============]
+  contact:                     [============]
+  overlap:  ∅
+
+  carrier:                     [=============]
+  contact:  [============]
+  overlap:  ∅
+
 CASE2 : Carrier stay has an out time but contact stay has not
 
     carrier: [=================]
@@ -34,6 +42,10 @@ CASE2 : Carrier stay has an out time but contact stay has not
     contact: [=========================
     overlap:       [---------------]
 
+    carrier: [=========]
+    contact:               [=========================
+    overlap: ∅
+
 CASE3 : Carrier stay doesn't have an out time but contact stay has
 
     carrier: [============================
@@ -43,6 +55,10 @@ CASE3 : Carrier stay doesn't have an out time but contact stay has
     carrier:       [======================
     contact: [=========================]
     overlap:       [-------------------]
+
+    carrier:             [======================
+    contact: [========]
+    overlap: ∅
 
 CASE4 : Neither carrier stay nor contact stay have an out time
 
