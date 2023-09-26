@@ -26,3 +26,19 @@ end
     end
 
 end
+
+@testset "Test ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses for
+    all outbreaks and with an hint to restrict the " begin
+
+    TRAQUERUtil.createDBConnAndExecute() do dbconn
+        hintOnWhatOutbreakUnitAssosToSelect::Vector{Stay} = Stay[]
+        TRAQUERUtil.createDBConnAndExecuteWithTransaction() do dbconn
+            ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(
+                dbconn
+                ;hintOnWhatOutbreakUnitAssosToSelect = hintOnWhatOutbreakUnitAssosToSelect
+            )
+        end
+    end
+
+
+end
