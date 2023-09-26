@@ -59,11 +59,6 @@ function TRAQUERUtil.nowInTargetTimeZone()
     n -> astimezone(n, getTimeZone())
 end
 
-function TRAQUERUtil.debugIncludeCarriersThatAreNotHospitalized()
-    TRAQUERUtil.getConf("debug","include_carriers_that_are_not_hospitalized") |>
-    n -> parse(Bool, n)
-end
-
 """
 
     updateConf()::Bool

@@ -23,7 +23,6 @@ function createTablePartitionsOnYearMonthForGivenYear end
 function createTablesPartitionsOnYearMonthForLastYears end
 function blindBakeIsRequired end
 function listEnums end
-function debugIncludeCarriersThatAreNotHospitalized end
 
 function rmAccentsAndLowercase end
 function cleanStringForEncryptedValueCp end
