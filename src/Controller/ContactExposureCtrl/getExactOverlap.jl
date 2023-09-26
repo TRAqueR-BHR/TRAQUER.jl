@@ -3,16 +3,24 @@ function ContactExposureCtrl.getExactOverlap(
     carrierOutTime::Union{Missing, ZonedDateTime},
     contactInTime::ZonedDateTime,
     contactOutTime::Union{Missing, ZonedDateTime},
-)::Tuple{ZonedDateTime, Union{ZonedDateTime, Missing}}
+)::Tuple{Union{ZonedDateTime,Missing}, Union{ZonedDateTime, Missing}}
 
 
     overlapStart::Union{Missing,ZonedDateTime} = missing
     overlapEnd::Union{Missing,ZonedDateTime} = missing
 
+    resultIfNoOverlap = (missing,missing)
+
     if !ismissing(carrierOutTime)
 
         # CASE1: Take the 2nd and 3rd of the sorted 4 dates
         if !ismissing(contactOutTime)
+
+            # No overlap cases
+            if carrierOutTime <= contactInTime || contactOutTime <= carrierInTime
+                return resultIfNoOverlap
+            end
+
             allDates = [
                 carrierInTime,
                 carrierOutTime,
@@ -24,6 +32,12 @@ function ContactExposureCtrl.getExactOverlap(
 
         # CASE2: Take the 2nd and 3rd of the sorted 3 dates
         else
+
+            # No overlap cases
+            if carrierOutTime <= contactInTime
+                return resultIfNoOverlap
+            end
+
             allDates = [
                 carrierInTime,
                 carrierOutTime,
@@ -37,6 +51,12 @@ function ContactExposureCtrl.getExactOverlap(
 
         # CASE3: Take the 2nd and 3rd of the sorted 3 dates
         if !ismissing(contactOutTime)
+
+            # No overlap cases
+            if contactOutTime <= carrierInTime
+                return resultIfNoOverlap
+            end
+
             allDates = [
                 carrierInTime,
                 contactInTime,
