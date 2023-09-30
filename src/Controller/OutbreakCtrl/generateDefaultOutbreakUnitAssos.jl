@@ -71,6 +71,15 @@ function OutbreakCtrl.generateDefaultOutbreakUnitAssos(
     # ################################################################### #
     for stay in atRiskStays
 
+        # Check that the unit can be associated to an outbreak
+        # First check that the properties of the unit are loaded
+        if ismissing(stay.unit.canBeAssociatedToAnOutbreak)
+            stay.unit = PostgresORM.retrieve_one_entity(Stay(id = stay.unit.id),false,dbconn)
+        end
+        if stay.unit.canBeAssociatedToAnOutbreak === false
+            continue;
+        end
+
         # An asso may already exists, update it if needed, we dont want to create several
         # assos to the same unit
         existingAsso = PostgresORM.retrieve_one_entity(
