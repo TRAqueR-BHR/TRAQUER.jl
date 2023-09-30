@@ -295,7 +295,7 @@ end
 function TRAQUERUtil.formatExceptionAndStackTrace(ex::Exception,
                           stackTrace::StackTrace
                           ;maxLines = 20,
-                           stopAt = "(::getfield(Mux")
+                           stopAt = "Mux.")
     message = TRAQUERUtil.formatExceptionAndStackTraceCore(ex,
                               stackTrace
                               ;maxLines = maxLines,
@@ -315,7 +315,7 @@ end
 function TRAQUERUtil.formatExceptionAndStackTraceCore(ex::Exception,
                           stackTrace::StackTrace
                           ;maxLines = 20,
-                           stopAt = "(::getfield(Mux")
+                           stopAt = "Mux.")
     # @info length(stackTrace)
     message = string(ex)
     counter = 0

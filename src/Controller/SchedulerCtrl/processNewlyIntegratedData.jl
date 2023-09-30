@@ -52,6 +52,8 @@ function SchedulerCtrl.processNewlyIntegratedData(
         push!(newAnalysesQueryParams,forceProcessingTime)
         newAnalysesQueryStr *= "
             AND (
+                -- Allows to do as if we didnt know the result when we ask for a processing
+                -- time that is after the request time but before the result time
                 (result_time IS NULL AND request_time <= \$$(length(newAnalysesQueryParams)))
                 OR result_time <= \$$(length(newAnalysesQueryParams))
             )"

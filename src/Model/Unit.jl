@@ -2,6 +2,7 @@ mutable struct Unit <: IUnit
 
   id::Union{Missing,String}
   name::Union{Missing,String}
+  canBeAssociatedToAnOutbreak::Union{Missing,Bool}
   codeName::Union{Missing,String}
   outbreakUnitAssoes::Union{Missing,Vector{Model.IOutbreakUnitAsso}}
   staies::Union{Missing,Vector{Model.IStay}}
@@ -13,6 +14,7 @@ mutable struct Unit <: IUnit
   Unit(;
     id = missing,
     name = missing,
+    canBeAssociatedToAnOutbreak = missing,
     codeName = missing,
     outbreakUnitAssoes = missing,
     staies = missing,
@@ -20,9 +22,10 @@ mutable struct Unit <: IUnit
     patients = missing,
     analysisRequests = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,)
     x.id = id
     x.name = name
+    x.canBeAssociatedToAnOutbreak = canBeAssociatedToAnOutbreak
     x.codeName = codeName
     x.outbreakUnitAssoes = outbreakUnitAssoes
     x.staies = staies

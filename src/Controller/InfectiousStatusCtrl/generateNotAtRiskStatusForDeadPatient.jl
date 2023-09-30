@@ -1,7 +1,7 @@
 function InfectiousStatusCtrl.generateNotAtRiskStatusForDeadPatient(
     stay::Stay,
     dbconn::LibPQ.Connection
-)::Union{nothing,InfectiousStatus}
+)::Union{Nothing,InfectiousStatus}
 
     if stay.patientDiedDuringStay !== true
         return

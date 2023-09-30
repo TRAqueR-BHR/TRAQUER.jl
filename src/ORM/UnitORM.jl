@@ -10,6 +10,7 @@ get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
   :id => "id", 
   :name => "name", 
+  :canBeAssociatedToAnOutbreak => "can_be_associated_to_an_outbreak", 
   :codeName => "code_name", 
 )
 

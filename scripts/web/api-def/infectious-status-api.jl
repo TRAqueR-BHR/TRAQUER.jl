@@ -241,8 +241,6 @@ new_route = route("/api/infectious-status/get-infectious-status-from-infectious-
             end
         end
 
-        @info "length(infectiousStatuses)[$(length(infectiousStatuses))]"
-
         200 # status code
 
     catch e

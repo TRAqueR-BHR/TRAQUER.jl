@@ -49,6 +49,9 @@ function StayCtrl.upsert!(
 
     end
 
+    # Fix missing hospitalization status if any
+    StayCtrl.fixMissingHospitalizationOutTime(stay.patient, dbconn)
+
     # Update patient current hospitalization status
     StayCtrl.updateCurrentHospitalizationStatus(stay.patient, dbconn)
 

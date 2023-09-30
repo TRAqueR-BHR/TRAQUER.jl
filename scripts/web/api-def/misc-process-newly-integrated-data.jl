@@ -17,7 +17,7 @@ new_route = route("/api/misc/process-newly-integrated-data", req -> begin
         obj = JSON.parse(String(req[:data]))
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
         processingTime =  ZonedDateTime(obj["processingTime"]) |>
-            n -> astimezone(n, getTimeZone())
+            n -> astimezone(n, req[:params][:browserTimezone])
 
         @info processingTime
 

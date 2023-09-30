@@ -36,7 +36,7 @@ function ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(
     )
 
     # Roughly filter out some of the associations
-    if !ismissing(hintOnWhatOutbreakUnitAssosToSelect)
+    if !ismissing(hintOnWhatOutbreakUnitAssosToSelect) && !isempty(hintOnWhatOutbreakUnitAssosToSelect)
 
         # Get the list of units IDs that have movements and the minimun inTime
         unitsIdsOfHintStays::Vector{String} = hintOnWhatOutbreakUnitAssosToSelect |>

@@ -19,3 +19,5 @@ function getHospitalizationsDates end
 function getStaysForListing end
 
 function isStayAtRisk end
+
+function fixMissingHospitalizationOutTime end

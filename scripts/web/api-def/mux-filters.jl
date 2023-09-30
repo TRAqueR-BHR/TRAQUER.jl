@@ -43,6 +43,14 @@ new_filter = Mux.stack(function mux_get_appuser_from_jwt(app,req)
     return app(req)
   end
 
+  # If the header contains the 'browser-timezone' convert it to a julia timezone
+  if haskey(headers_dict,"browser-timezone")
+      req[:params][:browserTimezone] = TimeZones.TimeZone(
+          headers_dict["browser-timezone"],
+          TimeZones.Class(:FIXED) | TimeZones.Class(:STANDARD) | TimeZones.Class(:LEGACY)
+      )
+  end
+
   # @info "Checking JWT and find an existing user"
 
   # If the header contains the 'Authorization' field we check its validity and

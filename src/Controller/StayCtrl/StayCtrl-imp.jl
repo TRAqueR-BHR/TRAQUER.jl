@@ -1,3 +1,4 @@
+include("fixMissingHospitalizationOutTime.jl")
 include("upsert.jl")
 include("retrieveOneStay.jl")
 include("updateCurrentHospitalizationStatus.jl")
