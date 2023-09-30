@@ -31,8 +31,9 @@ TRAQUERUtil.createDBConnAndExecute() do dbconn
     SchedulerCtrl.processNewlyIntegratedData(
         dbconn
         ;forceProcessingTime = ZonedDateTime(
-            DateTime("2022-08-01T00:00:00"), TRAQUERUtil.getTimeZone()
-        )
+            DateTime("2022-12-05T13:30:13"), tz"Asia/Bangkok"
+        ),
+        # patient = Patient(id = "f553105d-5315-4fe7-8405-989113f9647e")
     )
 end
 
