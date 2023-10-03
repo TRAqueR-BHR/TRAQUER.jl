@@ -29,8 +29,16 @@ function OutbreakCtrl.initializeOutbreak(
         criticity = criticity) |>
         n ->  PostgresORM.create_entity!(n, dbconn)
 
-    # Initialize the outbreak using the association with the carrier infectious status
+    # Initialize the outbreak using the association with the carrier infectious status.
+    # The infectious status may already be associated to an outbreak, in which case we
+    # want to keep the existing association
+    existingAssos = PostgresORM.retrieve_entity(
+        OutbreakInfectiousStatusAsso(infectiousStatus = firstInfectiousStatus),
+        false,
+        dbconn
+    )
     firstInfectiousStatus.outbreakInfectiousStatusAssoes = [
+        existingAssos...,
         OutbreakInfectiousStatusAsso(outbreak = outbreak)
     ]
     InfectiousStatusCtrl.updateOutbreakInfectiousStatusAssos(
