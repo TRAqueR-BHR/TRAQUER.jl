@@ -10,18 +10,18 @@ MaintenanceCtrl.resetDatabase(resetStays = false)
 # ########################### #
 
 @time TRAQUER.Custom.importStays(
-    "/home/traquer/DATA/pending/dxcare-from-2022-12-01-00-00-00-to-2023-01-01-00-00-00.csv",
-    "/home/traquer/CODE/TRAQUER.jl/tmp/problems",
+    "dxcare-from-2022-12-01-00-00-00-to-2023-01-01-00-00-00.csv",
     getDefaultEncryptionStr(),
     ;maxNumberOfLinesToIntegrate = 100
 ) # 349.047879 seconds for 1 worker and 100 records
   # 88 seconds for 8 workers and 100 records
 
 @time TRAQUER.Custom.importAnalyses(
-    "/home/traquer/DATA/pending/inlog-from-2022-12-01-00-00-00-to-2023-01-01-00-00-00.csv",
-    "/home/traquer/CODE/TRAQUER.jl/tmp/problems",
+    "inlog-from-2022-12-01-00-00-00-to-2023-01-01-00-00-00.csv",
     getDefaultEncryptionStr(),
-    ;maxNumberOfLinesToIntegrate = 100
+    # ;maxNumberOfLinesToIntegrate = 100,
+    rangeToIntegrate = 118:118,
+    moveFileToDoneDir = false
 )
 
 # ########################################### #

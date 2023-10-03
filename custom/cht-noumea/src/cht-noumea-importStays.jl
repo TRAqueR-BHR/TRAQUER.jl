@@ -1,13 +1,18 @@
 function Custom.importStays(
     csvFilepath::AbstractString,
-    problemsDir::String,
     encryptionStr::AbstractString
-    ;maxNumberOfLinesToIntegrate::Union{Integer,Missing} = missing
+    ;maxNumberOfLinesToIntegrate::Union{Integer,Missing} = missing,
+    moveFileToDoneDir::Bool = true
  )
+
+    # Concatenate the pending dir to the path if user passed a file name instead of a file path
+    if !contains(csvFilepath, Base.Filesystem.path_separator)
+        csvFilepath = joinpath(TRAQUERUtil.getPendingInputFilesDir(),csvFilepath)
+    end
 
     # Create a directory for storing the problems of this file
     srcFileBasename = basename(csvFilepath)
-    problemsDir = joinpath(problemsDir,srcFileBasename)
+    problemsDir = joinpath(TRAQUERUtil.getInputFilesProblemsDir(),srcFileBasename)
     rm(problemsDir, recursive = true, force = true) # clean if already exists
     mkpath(problemsDir)
 
@@ -45,11 +50,17 @@ function Custom.importStays(
         @info "No problem"
     end
 
+    # Move the input file to the DONE dir
+    if moveFileToDoneDir
+        TRAQUERUtil.moveAnalysesInputFileToDoneDir(csvFilepath)
+    end
+
     # Remove the directory if there is nothing in it. This allows to only have directories
     # that correspond to integrations that didnt go well.
     if isempty(readdir(problemsDir))
         rm(problemsDir)
     end
+
 
  end
 

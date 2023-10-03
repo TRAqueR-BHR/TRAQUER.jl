@@ -1,13 +1,19 @@
 function Custom.importAnalyses(
    csvFilepath::AbstractString,
-   problemsDir::String,
    encryptionStr::AbstractString
-   ;maxNumberOfLinesToIntegrate::Union{Integer,Missing} = missing
+   ;maxNumberOfLinesToIntegrate::Union{Integer,Missing} = missing,
+   rangeToIntegrate::Union{UnitRange{<:Integer},Missing} = missing,
+   moveFileToDoneDir::Bool = true
 )
+
+   # Concatenate the pending dir to the path if user passed a file name instead of a file path
+   if !contains(csvFilepath, Base.Filesystem.path_separator)
+      csvFilepath = joinpath(TRAQUERUtil.getPendingInputFilesDir(),csvFilepath)
+   end
 
    # Create a directory for storing the problems of this file
    srcFileBasename = basename(csvFilepath)
-   problemsDir = joinpath(problemsDir,srcFileBasename)
+   problemsDir = joinpath(TRAQUERUtil.getInputFilesProblemsDir(),srcFileBasename)
    rm(problemsDir, recursive = true, force= true) # clean if already exists
    mkpath(problemsDir)
 
@@ -25,6 +31,12 @@ function Custom.importAnalyses(
       )
    end
 
+   # Limit to a range if any
+   if !ismissing(rangeToIntegrate)
+      rangeToIntegrate = rangeToIntegrate .- 1
+      @info rangeToIntegrate
+      dfAnalyses = dfAnalyses[rangeToIntegrate,:]
+   end
 
    @time dfOfRowsInError = TRAQUER.Custom.importAnalyses(
       dfAnalyses,
@@ -43,6 +55,11 @@ function Custom.importAnalyses(
 
    else
       @info "No problem"
+   end
+
+   # Move the input file to the DONE dir
+   if moveFileToDoneDir
+      TRAQUERUtil.moveAnalysesInputFileToDoneDir(csvFilepath)
    end
 
    # Remove the directory if there is nothing in it. This allows to only have directories
@@ -190,6 +207,8 @@ function Custom.importAnalyses(
             error(errorMsg)
             continue
          end
+
+         @info "patient[$(patient.id)]"
 
          # Get a stay.
          # NOTE: We may not find a stay for the analysis, it doesnt matter, we still want to

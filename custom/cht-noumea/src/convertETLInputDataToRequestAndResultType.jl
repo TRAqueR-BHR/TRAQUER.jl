@@ -39,8 +39,8 @@ function Custom.convertETLInputDataToRequestAndResultType(
         # Reminder: Positive cultures are given by ATB2 lines
         if ana_code ∈ ["PREPC", "PRVRE"]
 
+            # Ignore line, when PREPC and PRVRE are positive ('P') we look at the ATB2 line
             if valeur_resultat === "P"
-                @info "Ignore line, when PREPC and PRVRE are positive we look at the ATB2 line"
                 return nothing
             else
                 if ana_code == "PREPC"
