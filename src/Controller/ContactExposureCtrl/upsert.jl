@@ -1,9 +1,12 @@
 function ContactExposureCtrl.upsert!(contactExposure::ContactExposure, dbconn::LibPQ.Connection)
 
-    # Check whether an exposure already exists
+    # Check whether an exposure already exists,
+    # NOTE: When looking for an existing exposure, we dont use the outbreak in the filter
+    #       so that we dont create a duplicate exposure (this can happen when an infectious
+    #       status is associated to several outbreaks)
     filterObject = ContactExposure(
         contact = contactExposure.contact,
-        outbreak = contactExposure.outbreak,
+        carrier = contactExposure.carrier,
         unit = contactExposure.unit,
         startTime = contactExposure.startTime,
         endTime = contactExposure.endTime,
