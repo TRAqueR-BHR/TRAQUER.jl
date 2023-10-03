@@ -1,6 +1,6 @@
 include("../scripts/prerequisite.jl")
 
-using Test, Mocking, UUIDs, LibPQ, Random, JSON, XLSX
+using Test, Mocking, UUIDs, LibPQ, Random, JSON, XLSX, Dates
 
 function getDefaultEncryptionStr()
     return "aaaaaaaxxxxxcccccc"

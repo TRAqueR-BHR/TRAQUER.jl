@@ -205,7 +205,6 @@ function StayCtrl.getStaysForListing(
     queryString *= "
     OFFSET \$$(args_counter += 1)"
 
-    @info typeof(queryString)
     # NOTE: This will equal to missing if pageSize is missing
     #       which results in passing NULL to the query which does work
     offset = (pageNum - 1) * pageSize

@@ -1,6 +1,6 @@
 function EventRequiringAttentionCtrl.upsert!(
     eventRequiringAttention::EventRequiringAttention, dbconn::LibPQ.Connection
-)
+)::EventRequiringAttention
 
     # Check whether an infectious status
     filterObject = EventRequiringAttention(
@@ -8,6 +8,7 @@ function EventRequiringAttentionCtrl.upsert!(
         refTime = eventRequiringAttention.refTime,
         eventType = eventRequiringAttention.eventType,
     )
+
     existing = PostgresORM.retrieve_one_entity(filterObject, false, dbconn)
 
     if ismissing(existing)

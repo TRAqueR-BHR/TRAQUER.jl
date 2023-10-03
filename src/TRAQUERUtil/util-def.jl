@@ -80,3 +80,9 @@ function readFirstNLinesOfCSVFile end
 function readLineXOfFile end
 # function addDataFrameRow
 function dumpDatabase end
+function getDataDir end
+function getPendingInputFilesDir end
+function getDoneInputFilesDir end
+function getInputFilesProblemsDir end
+function moveStaysInputFileToDoneDir end
+function moveAnalysesInputFileToDoneDir end

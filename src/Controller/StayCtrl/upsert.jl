@@ -46,7 +46,7 @@ function StayCtrl.upsert!(
         if updateNeeded
             # Reset the processing time so that the stay gets processed again with the
             # additional information
-            existingStay.sysProcessingTime = misssing
+            stay.sysProcessingTime = missing
             PostgresORM.update_entity!(stay,dbconn)
         end
 

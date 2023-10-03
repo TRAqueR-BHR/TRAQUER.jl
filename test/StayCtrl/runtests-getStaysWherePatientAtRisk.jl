@@ -4,7 +4,7 @@ include("../runtests-prerequisite.jl")
 
     TRAQUERUtil.createDBConnAndExecute() do dbconn
         infectiousStatus = PostgresORM.retrieve_one_entity(
-            InfectiousStatus(id = "d744f06f-7fb1-456a-b3b2-156bae5a908d"),
+            InfectiousStatus(id = "9af0ef4d-0b55-480a-b6ca-f56e8f7c2700"),
             false,
             dbconn
         )
@@ -15,7 +15,7 @@ include("../runtests-prerequisite.jl")
     end |>
     stays -> begin
         for s in stays
-            @info "$(s.unit.name): $(s.inTime) ➡ $(s.outTime)"
+            @info "$(s.unit.name): $(s.inTime) ➡ $(s.outTime) $(s.unit.canBeAssociatedToAnOutbreak)"
         end
     end
 

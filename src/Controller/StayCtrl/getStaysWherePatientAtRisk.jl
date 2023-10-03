@@ -22,6 +22,7 @@ function StayCtrl.getStaysWherePatientAtRisk(
         dbconn
     )
 
+
     # ################################################################################## #
     # Look for an infectious status 'not_at_risk' after the 'carrier' ref. time for this #
     # same infectious agent. It will allow to exclude the stays that started after the   #
@@ -64,14 +65,31 @@ function StayCtrl.getStaysWherePatientAtRisk(
             s -> s.inTime >= infectiousStatusStay.inTime,
             atRiskStays
         )
-    # For 'carrier' status, start at the first stay of the hospitalization
+    # For 'carrier' status, all the stays of the hospitalization
     elseif atRiskStatus.infectiousStatus == InfectiousStatusType.carrier
         filter!(
-            s -> s.hospitalizationInTime >= infectiousStatusStay.hospitalizationInTime,
+            s -> s.hospitalizationInTime == infectiousStatusStay.hospitalizationInTime,
             atRiskStays
         )
     else
         error("Unsupported InfectiousStatusType[$atRiskStatus]")
+    end
+
+    # For carrier, check if the patient was isolated during one of the stays, in which case
+    # we can remove all the stays that started after the isolationTime
+    if atRiskStatus.infectiousStatus == InfectiousStatusType.carrier
+        isolationTimeOverHospitalization = getproperty.(atRiskStays,:isolationTime) |>
+            skipmissing |>
+            collect |>
+            n -> if isempty(n) missing else first(n) end
+        if !ismissing(isolationTimeOverHospitalization)
+            filter!(
+                s -> begin
+                    s.inTime <= isolationTimeOverHospitalization
+                end,
+                atRiskStays
+            )
+        end
     end
 
     # ################################################################################ #

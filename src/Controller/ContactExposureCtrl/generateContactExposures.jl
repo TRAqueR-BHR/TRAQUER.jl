@@ -2,7 +2,7 @@ function ContactExposureCtrl.generateContactExposures(
     outbreak::Outbreak,
     carrierStayUnit::Unit,
     carrierStayInTime::ZonedDateTime,
-    carrierStayOutTime::Union{ZonedDateTime,Missing},
+    upperTimeLimit::Union{ZonedDateTime,Missing},
     carrierStayRoom::Union{String,Missing},
     sameRoomOnly::Bool,
     dbconn::LibPQ.Connection
@@ -34,7 +34,7 @@ function ContactExposureCtrl.generateContactExposures(
             AND s.unit_id = \$2
     "
 
-    if !ismissing(carrierStayOutTime)
+    if !ismissing(upperTimeLimit)
 
         queryString *= "
             AND
@@ -76,7 +76,7 @@ function ContactExposureCtrl.generateContactExposures(
                 )
 
         "
-        push!(queryArgs,[carrierStayInTime, carrierStayOutTime]...)
+        push!(queryArgs,[carrierStayInTime, upperTimeLimit]...)
 
     else
 
@@ -147,7 +147,7 @@ function ContactExposureCtrl.generateContactExposures(
 
         overlapStart, overlapEnd = ContactExposureCtrl.getExactOverlap(
             carrierStayInTime,
-            carrierStayOutTime,
+            upperTimeLimit,
             contactStay,
         )
 
@@ -284,11 +284,18 @@ function ContactExposureCtrl.generateContactExposures(
     ;simulate::Bool = false
 )
 
+    # Upper limit of exposures is either the out time of the unit or the isolation time
+    upperTime = if !ismissing(carrierStay.isolationTime)
+            carrierStay.isolationTime
+        else
+            carrierStay.outTime
+        end
+
     return ContactExposureCtrl.generateContactExposures(
         outbreak,
         carrierStay.unit,
         carrierStay.inTime,
-        carrierStay.outTime,
+        upperTime,
         carrierStay.room,
         sameRoomOnly,
         dbconn

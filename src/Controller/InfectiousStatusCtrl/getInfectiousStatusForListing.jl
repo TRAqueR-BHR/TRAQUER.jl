@@ -155,6 +155,9 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
         #       various types of joins no longer preserve the order of the
         #       left dataframe
         #       (see https://github.com/JuliaData/DataFrames.jl/blob/main/NEWS.md#other-relevant-changes)
+        if paramsDict["field"] == "event_ref_time" && ismissing(paramsDict["sorting"])
+            paramsDict["sorting"] = -1
+        end
         if !ismissing(paramsDict["sorting"])
 
             # For the SQL query
@@ -223,7 +226,6 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
     queryString *= "
     OFFSET \$$(args_counter += 1)"
 
-    @info typeof(queryString)
     # NOTE: This will equal to missing if pageSize is missing
     #       which results in passing NULL to the query which does work
     offset = (pageNum - 1) * pageSize

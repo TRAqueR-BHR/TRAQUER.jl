@@ -74,7 +74,7 @@ function OutbreakCtrl.generateDefaultOutbreakUnitAssos(
         # Check that the unit can be associated to an outbreak
         # First check that the properties of the unit are loaded
         if ismissing(stay.unit.canBeAssociatedToAnOutbreak)
-            stay.unit = PostgresORM.retrieve_one_entity(Stay(id = stay.unit.id),false,dbconn)
+            stay.unit = PostgresORM.retrieve_one_entity(Unit(id = stay.unit.id),false,dbconn)
         end
         if stay.unit.canBeAssociatedToAnOutbreak === false
             continue;

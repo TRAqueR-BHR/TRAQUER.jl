@@ -12,6 +12,8 @@ include("infectiousAgentCategory2AnalysisRequestTypes.jl")
 include("json2entity.jl")
 include("isMissingOrNothing.jl")
 include("util-db-dump.jl")
+include("moveStaysInputFileToDoneDir.jl")
+include("moveAnalysesInputFileToDoneDir.jl")
 
 # see ~/.julia/config/startup.jl for setting the environment variable
 function TRAQUERUtil.loadConf()::ConfParse
@@ -415,4 +417,20 @@ end
 function TRAQUERUtil.resetDatabaseIsAllowed()
     TRAQUERUtil.getConf("debug","allow_database_reset") |>
     n -> parse(Bool, n)
+end
+
+function TRAQUERUtil.getDataDir()
+    TRAQUERUtil.getConf("path","data_dir")
+end
+
+function TRAQUERUtil.getPendingInputFilesDir()
+    TRAQUERUtil.getConf("path","pending_input_files_dir")
+end
+
+function TRAQUERUtil.getDoneInputFilesDir()
+    TRAQUERUtil.getConf("path","done_input_files_dir")
+end
+
+function TRAQUERUtil.getInputFilesProblemsDir()
+    TRAQUERUtil.getConf("path","input_files_problems_dir")
 end
