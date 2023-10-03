@@ -173,19 +173,24 @@ function ContactExposureCtrl.generateContactExposures(
 end
 
 function ContactExposureCtrl.generateContactExposures(
-    asso::OutbreakUnitAsso, dbconn::LibPQ.Connection
+    asso::OutbreakUnitAsso,
+    dbconn::LibPQ.Connection
     ;simulate::Bool = false
 )
 
     outbreak = PostgresORM.retrieve_one_entity(
         Outbreak(id = asso.outbreak.id),
         false,
-        dbconn)
+        dbconn
+    )
 
     exposures = ContactExposure[]
 
-    carrierStays = StayCtrl.getCarriersOrContactsStays(asso, InfectiousStatusType.carrier ,dbconn)
-
+    carrierStays = StayCtrl.getCarriersOrContactsStays(
+        asso,
+        InfectiousStatusType.carrier,
+        dbconn
+    )
 
     # If there are no carrier stay in the asso, the asso is probably created from scratch
     #   by the user
