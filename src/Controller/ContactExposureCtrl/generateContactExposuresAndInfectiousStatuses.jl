@@ -29,7 +29,7 @@ function ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(
     JOIN outbreak_unit_asso oua
         ON oua.outbreak_id = o.id
     WHERE ist.infectious_status = 'carrier'
-    ORDER BY o.refTime DESC -- Take the most recent outbreaks first, in the case where an
+    ORDER BY o.ref_time DESC -- Take the most recent outbreaks first, in the case where an
                             -- infectious status is linked to several outbreaks it will
                             -- create exposures for the most recent outbreak (reminder:
                             -- we prevent creating a duplicate exposure based on
