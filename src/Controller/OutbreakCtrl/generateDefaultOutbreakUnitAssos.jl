@@ -149,8 +149,10 @@ function OutbreakCtrl.generateDefaultOutbreakUnitAssos(
     # ################################################################## #
     # Generate the contact exposures and the contact infectious statuses #
     # ################################################################## #
-    for asso in defaultAssos
-        ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(asso, dbconn)
+    if !simulate
+        for asso in defaultAssos
+            ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(asso, dbconn)
+        end
     end
 
     return defaultAssos
