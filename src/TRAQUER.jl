@@ -234,6 +234,10 @@ module Controller
     include("Controller/OutbreakCtrl/OutbreakCtrl-def.jl")
   end
 
+  module OutbreakUnitAssoCtrl
+    include("Controller/OutbreakUnitAssoCtrl/OutbreakUnitAssoCtrl-def.jl")
+  end
+
   module EventRequiringAttentionCtrl
     include("Controller/EventRequiringAttentionCtrl/EventRequiringAttentionCtrl-def.jl")
   end
@@ -289,6 +293,9 @@ include("Controller/InfectiousStatusCtrl/InfectiousStatusCtrl-imp.jl")
 
 # OutbreakCtrl
 include("Controller/OutbreakCtrl/OutbreakCtrl-imp.jl")
+
+# OutbreakUnitAssoCtrl
+include("Controller/OutbreakUnitAssoCtrl/OutbreakUnitAssoCtrl-imp.jl")
 
 # EventRequiringAttentionCtrl
 include("Controller/EventRequiringAttentionCtrl/EventRequiringAttentionCtrl-imp.jl")

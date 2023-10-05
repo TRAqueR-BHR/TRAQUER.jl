@@ -13,10 +13,13 @@ function MaintenanceCtrl.resetInfectiousStatusesOutbreaksAndExposures(
     "DELETE FROM contact_exposure" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
-    "UPDATE stay SET sys_processing_time = NULL" |>
+    "UPDATE stay SET sys_processing_time = NULL, isolation_time = NULL" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
     "UPDATE analysis_result SET sys_processing_time = NULL" |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
+    "DELETE FROM misc.max_processing_time" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
     return true

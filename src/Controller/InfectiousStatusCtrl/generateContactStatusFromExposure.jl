@@ -1,6 +1,7 @@
 function InfectiousStatusCtrl.generateContactStatusFromExposure(
     exposure::ContactExposure,
-    dbconn::LibPQ.Connection)
+    dbconn::LibPQ.Connection
+)
 
     # @info "exposure.id[$(exposure.id)]"
     # if any(ismissing.(exposure.contact))
@@ -30,10 +31,6 @@ function InfectiousStatusCtrl.generateContactStatusFromExposure(
         INFECTIOUS_AGENT_CATEGORY, exposuresDF.infectious_agent)
     exposuresDF.contact = map(x -> Patient(id = x), exposuresDF.contact_id)
 
-    patientInfectiousStatuses = InfectiousStatusCtrl.getInfectiousStatuses(
-        exposure.contact, dbconn
-    )
-
     for exposureRow in eachrow(exposuresDF)
 
         infectiousStatus = InfectiousStatus(
@@ -62,23 +59,36 @@ function InfectiousStatusCtrl.generateContactStatusFromExposure(
 
         # Existing statuses:      🍋
         # New contact status:             🍋
+        # Insert new contact?:           false (but update existing contact status)
+
+        # Existing statuses:      🍏
+        # New contact status:             🍋
         # Insert new contact?:           true
 
-        statusJustBefore =
-            patientInfectiousStatuses |>
-            n -> filter(
-                x -> (
-                    x.infectiousAgent == infectiousStatus.infectiousAgent
-                    && x.refTime <= infectiousStatus.refTime
-                    ),
-                n
-            ) |> n -> if isempty(n) missing else last(n) end
+        statusJustBefore = InfectiousStatusCtrl.getInfectiousStatusAtTime(
+            exposure.contact,
+            infectiousStatus.infectiousAgent,
+            infectiousStatus.refTime - Second(1), # We want the infectious status just
+                                                          #  before the infectious status that
+                                                          #  we could potentially create,
+            false, # retrieveComplexProps::Bool,
+            dbconn
+        )
 
-        if (
-            !ismissing(statusJustBefore)
-            && statusJustBefore.infectiousStatus == InfectiousStatusType.carrier
-            )
-            continue
+        if !ismissing(statusJustBefore)
+            if statusJustBefore.infectiousStatus == InfectiousStatusType.carrier
+                continue
+            #  If a contact status already existed then just update the last ref. time
+            elseif statusJustBefore.infectiousStatus == InfectiousStatusType.contact
+
+                # Use the refTime to set the updatedRefTime
+                infectiousStatus.updatedRefTime =  infectiousStatus.refTime
+
+                # Set the property so that the upsert function does an update
+                infectiousStatus.refTime = statusJustBefore.refTime
+                infectiousStatus.id = statusJustBefore.id
+
+            end
         end
 
         # Upsert

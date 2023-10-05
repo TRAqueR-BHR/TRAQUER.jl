@@ -7,6 +7,7 @@ mutable struct ContactExposure <: IContactExposure
   id::Union{Missing,String}
   startTime::Union{Missing,ZonedDateTime}
   endTime::Union{Missing,ZonedDateTime}
+  infectiousStatuses::Union{Missing,Vector{Model.IInfectiousStatus}}
 
   ContactExposure(args::NamedTuple) = ContactExposure(;args...)
   ContactExposure(;
@@ -17,8 +18,9 @@ mutable struct ContactExposure <: IContactExposure
     id = missing,
     startTime = missing,
     endTime = missing,
+    infectiousStatuses = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,)
     x.unit = unit
     x.contact = contact
     x.carrier = carrier
@@ -26,6 +28,7 @@ mutable struct ContactExposure <: IContactExposure
     x.id = id
     x.startTime = startTime
     x.endTime = endTime
+    x.infectiousStatuses = infectiousStatuses
     return x
   end
 

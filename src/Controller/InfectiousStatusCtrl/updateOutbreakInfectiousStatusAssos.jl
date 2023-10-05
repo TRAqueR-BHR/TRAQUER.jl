@@ -10,10 +10,13 @@ function InfectiousStatusCtrl.updateOutbreakInfectiousStatusAssos(
     # Refresh the outbreaks associated with the infectious status
     outbreaks = getproperty.(infectiousStatus.outbreakInfectiousStatusAssoes, :outbreak)
     for outbreak in outbreaks
-        OutbreakCtrl.generateDefaultOutbreakUnitAssos(
-            outbreak,
-            false, # simulate::Bool,
-            dbconn
+        # OutbreakCtrl.generateDefaultOutbreakUnitAssos(
+        #     outbreak,
+        #     false, # simulate::Bool,
+        #     dbconn
+        # )
+        OutbreakUnitAssoCtrl.refreshOutbreakUnitAssosAndRefreshContacts(
+            outbreak, dbconn
         )
     end
 

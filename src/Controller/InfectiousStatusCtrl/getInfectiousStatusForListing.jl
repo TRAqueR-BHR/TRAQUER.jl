@@ -204,6 +204,7 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
                   era.is_pending AS event_is_pending,
                   patient_current_unit.code_name AS current_unit_code_name,
                   patient_current_unit.name AS current_unit_name,
+                  o.id AS outbreak_id,
                   o.name AS outbreak_name
                   ")
 

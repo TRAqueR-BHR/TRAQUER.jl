@@ -34,6 +34,11 @@ function StayCtrl.transformStaysForListing(
     #   doing the innerjoin
     unique!(patientDecryptDF,:patient_id)
 
-    DataFrames.innerjoin(staysDF, patientDecryptDF, on = :patient_id)
+    result = DataFrames.innerjoin(staysDF, patientDecryptDF, on = :patient_id)
+
+    # Sort by descending in_time (like all other lists)
+    sort!(result, :in_time, rev = true)
+
+    return result
 
 end

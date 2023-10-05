@@ -14,7 +14,7 @@ External or manual input:
 
 Analyses:                 pos     neg     neg
                            ▼               ▼
-Infectious status:        car             nor
+Infectious status:        car             nar
 _______________________________________________________________________________
 
 # Case with an external or manual creation of infectious status:
@@ -31,8 +31,6 @@ function generateCarrierStatusesFromAnalyses end
 function generateNotAtRiskStatusesFromAnalyses end
 
 function generateNotAtRiskStatusForDeadPatient end
-
-function generateContactStatusesFromContactExposures end
 
 function generateContactStatusFromExposure end
 

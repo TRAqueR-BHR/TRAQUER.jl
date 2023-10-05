@@ -72,20 +72,7 @@ exposures = TRAQUERUtil.createDBConnAndExecute() do dbconn
     )
 end
 
-# Generate the contact infectious statuses from the exposures
-TRAQUERUtil.createDBConnAndExecute() do dbconn
 
-    for patient in patients
-
-        InfectiousStatusCtrl.generateContactStatusesFromContactExposures(
-            patient,
-            (Date("2020-01-01"), today()), # forAnalysesRequestsBetween::Tuple{Date,Date},
-            dbconn
-        )
-
-    end
-
-end
 
 # Generate the not_at_risk infectious statuses from the analyses
 TRAQUERUtil.createDBConnAndExecute() do dbconn

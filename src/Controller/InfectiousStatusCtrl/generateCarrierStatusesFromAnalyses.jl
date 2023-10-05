@@ -30,6 +30,8 @@ function InfectiousStatusCtrl.generateCarrierStatusesFromAnalyses(
 
         for analysisRes in analysesResults
 
+            @info "analysisRes.requestTime[$(analysisRes.requestTime)]"
+
             infectiousAgent = TRAQUERUtil.analysisRequestType2InfectiousAgentCategory(
                 analysisRes.requestType
             )
@@ -42,6 +44,32 @@ function InfectiousStatusCtrl.generateCarrierStatusesFromAnalyses(
                 refTime = analysisRes.requestTime,
                 isConfirmed = false,
             )
+
+            # Check if we already have a carrier infectious status at that date, if yes
+            # set the updatedRefTime
+            statusJustBefore = InfectiousStatusCtrl.getInfectiousStatusAtTime(
+                analysisRes.patient,
+                infectiousStatus.infectiousAgent,
+                infectiousStatus.refTime - Second(1), # We want the infectious status just
+                                                      #  before the infectious status that
+                                                      #  we could potentially create
+                false, # retrieveComplexProps::Bool,
+                dbconn
+            )
+
+            if !ismissing(statusJustBefore)
+                if statusJustBefore.infectiousStatus == InfectiousStatusType.carrier
+
+                    # Use the refTime to set the updatedRefTime
+                    infectiousStatus.updatedRefTime =  infectiousStatus.refTime
+
+                    # Set the property so that the upsert function does an update
+                    infectiousStatus.refTime = statusJustBefore.refTime
+                    infectiousStatus.id = statusJustBefore.id
+
+                end
+            end
+
             InfectiousStatusCtrl.upsert!(infectiousStatus, dbconn)
 
         end

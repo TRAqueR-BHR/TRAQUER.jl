@@ -1,1 +1,3 @@
 function processNewlyIntegratedData end
+function getMaxProcessingTime end
+function updateMaxProcessingTime end

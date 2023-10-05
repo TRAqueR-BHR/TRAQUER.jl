@@ -1,20 +1,15 @@
 
-data_type = Model.ContactExposure
-PostgresORM.get_orm(x::Model.ContactExposure) = return(ORM.ContactExposureORM)
-get_schema_name() = "public"
-get_table_name() = "contact_exposure"
+data_type = Model.MaxProcessingTime
+PostgresORM.get_orm(x::Model.MaxProcessingTime) = return(ORM.MaxProcessingTimeORM)
+get_schema_name() = "misc"
+get_table_name() = "max_processing_time"
 
 
 # Declare the mapping between the properties and the database columns
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
-  :unit => "unit_id", 
-  :contact => "contact_id", 
-  :carrier => "carrier_id", 
-  :outbreak => "outbreak_id", 
   :id => "id", 
-  :startTime => "start_time", 
-  :endTime => "end_time", 
+  :maxTime => "max_time", 
 )
 
 
@@ -25,21 +20,11 @@ get_id_props() = return [:id,]
 get_onetomany_counterparts() = return onetomany_counterparts
 const onetomany_counterparts = Dict(
 
-  :infectiousStatuses => (
-    data_type = Model.InfectiousStatus, # The struct where the associated manytoone property is
-    property = :contactExposure, # The name of the associated manytoone property
-    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
-
 )
 
 # Override the abstract types 
 get_types_override() = return types_override
 const types_override = Dict(
-  :unit => Model.Unit, 
-  :contact => Model.Patient, 
-  :carrier => Model.Patient, 
-  :outbreak => Model.Outbreak, 
-  :infectiousStatuses => Vector{Model.InfectiousStatus}, 
 
 )
 

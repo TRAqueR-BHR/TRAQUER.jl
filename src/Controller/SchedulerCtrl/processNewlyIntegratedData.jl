@@ -100,8 +100,12 @@ function SchedulerCtrl.processNewlyIntegratedData(
     # We dont need the units where there were analyses, because in the event where there is a
     # positive analysis that generates a new 'carrier' infectious status, that will not
     # generate contact cases because the status needs to be confirmed
-    ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(
-        dbconn
+    # ContactExposureCtrl.generateContactExposuresAndInfectiousStatuses(
+    #     dbconn
+    #     ;hintOnWhatOutbreakUnitAssosToSelect = newStays
+    # )
+    OutbreakUnitAssoCtrl.refreshOutbreakUnitAssosAndRefreshContacts(
+        dbconn,
         ;hintOnWhatOutbreakUnitAssosToSelect = newStays
     )
 
@@ -144,7 +148,7 @@ function SchedulerCtrl.processNewlyIntegratedData(
     # ###################################### #
     # Flag the rows that have been processed #
     # ###################################### #
-    processingTime = if ismissing(forceProcessingTime)
+    processingTime = if !ismissing(forceProcessingTime)
         forceProcessingTime
     else
         TRAQUERUtil.nowInTargetTimeZone()
@@ -167,6 +171,11 @@ function SchedulerCtrl.processNewlyIntegratedData(
         ],
         dbconn
     )
+
+    # ###################################### #
+    # Update the general max processing time #
+    # ###################################### #
+    SchedulerCtrl.updateMaxProcessingTime(dbconn)
 
     nothing
 

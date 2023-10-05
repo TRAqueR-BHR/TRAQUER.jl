@@ -13,6 +13,7 @@
 @everywhere using TRAQUER.Controller.ContactExposureCtrl
 @everywhere using TRAQUER.Controller.AppuserCtrl
 @everywhere using TRAQUER.Controller.OutbreakCtrl
+@everywhere using TRAQUER.Controller.OutbreakUnitAssoCtrl
 @everywhere using TRAQUER.Controller.SchedulerCtrl
 @everywhere using TRAQUER.Controller.MaintenanceCtrl
 @everywhere using TRAQUER.Controller.EventRequiringAttentionCtrl

@@ -228,7 +228,7 @@ function ContactExposureCtrl.generateContactExposures(
 )
 
     # Get the OutbreakUnitAssos
-    outbreakUnitAssos = "SELECT ocua.*
+    outbreakUnitAssos = "SELECT oua.*
         FROM outbreak o
         JOIN outbreak_unit_asso oua
           ON oua.outbreak_id = o.id
