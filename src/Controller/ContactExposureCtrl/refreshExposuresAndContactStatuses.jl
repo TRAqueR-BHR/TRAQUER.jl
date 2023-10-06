@@ -42,16 +42,14 @@ function ContactExposureCtrl.refreshExposuresAndContactStatuses(
 
 
     # Create the new list of exposures
-    @warn "outbreakUnitAsso[$(outbreakUnitAsso.id)]"
     newExposures = ContactExposureCtrl.generateContactExposures(outbreakUnitAsso, dbconn)
-    @warn "out"
     newExposuresIds = getproperty.(newExposures, :id)
 
     # Delete deprecated exposures (also deletes the associated infectious status
     # thanks to DELETE ON CASCADE on the foreign key)
     for oldExposure in oldExposures
         if oldExposure.id ∉ newExposuresIds
-            PostgresORM.delete_entity(oldExposure)
+            PostgresORM.delete_entity(oldExposure,dbconn)
         end
     end
 

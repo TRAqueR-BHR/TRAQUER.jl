@@ -35,6 +35,7 @@ function InfectiousStatusCtrl.generateContactStatusFromExposure(
 
         infectiousStatus = InfectiousStatus(
             patient = exposureRow.contact,
+            contactExposure = exposure,
             infectiousAgent = exposureRow.infectious_agent,
             infectiousStatus = InfectiousStatusType.contact,
             refTime = exposureRow.exposure_start_time,

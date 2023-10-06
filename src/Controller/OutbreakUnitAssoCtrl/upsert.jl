@@ -11,7 +11,13 @@ function OutbreakUnitAssoCtrl.upsert!(asso::OutbreakUnitAsso, dbconn::LibPQ.Conn
         PostgresORM.create_entity!(asso,dbconn)
     else
         asso.id =  existing.id
+
+        # Dont want to erase by mistake the sameRoomOnly attribute
+        if ismissing(asso.sameRoomOnly)
+            asso.sameRoomOnly = existing.sameRoomOnly
+        end
         PostgresORM.update_entity!(asso,dbconn)
+
     end
 
 end
