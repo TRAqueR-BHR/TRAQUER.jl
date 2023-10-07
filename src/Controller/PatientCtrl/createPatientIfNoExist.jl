@@ -1,9 +1,11 @@
-function PatientCtrl.createPatientIfNoExist(firstname::AbstractString,
-                                            lastname::AbstractString,
-                                            birthdate::Date,
-                                            ref::AbstractString,
-                                            encryptionStr::AbstractString,
-                                            dbconn::LibPQ.Connection)
+function PatientCtrl.createPatientIfNoExist(
+    firstname::AbstractString,
+    lastname::AbstractString,
+    birthdate::Date,
+    ref::AbstractString,
+    encryptionStr::AbstractString,
+    dbconn::LibPQ.Connection
+)::Patient
 
     # Look for the patient
     patient::Union{Missing,Patient} =

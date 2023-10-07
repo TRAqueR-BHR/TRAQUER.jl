@@ -107,6 +107,34 @@ function StayCtrl.getStaysForListing(
                         ILIKE \$$(args_counter += 1) "
                 push!(queryArgs,(filterValue * "%"))
 
+            elseif (nameInSelect == "birthdate" && !ismissing(cryptPwd))
+
+                # Convert to Date if needed
+                if isa(filterValue,Date)
+                    # All good do nothing
+                elseif isa(filterValue,AbstractString)
+                    filterValue = TRAQUERUtil.string2date(filterValue)
+                else
+                    error(
+                        ("Unexpected type[$(typeof(filterValue))] for input"
+                        * " birthdate[$filterValue]")
+                    )
+                end
+
+                # Add a first filter on the year for performance
+                queryStringShared *= "
+                    AND pbc.year = \$$(args_counter += 1)"
+                push!(queryArgs,year(filterValue))
+
+                # Add the filter itself
+                queryStringShared *= "
+                    AND pgp_sym_decrypt(pbc.birthdate_crypt, \$1)
+                        = \$$(args_counter += 1) "
+                push!(
+                    queryArgs,
+                    string(filterValue)
+                )
+
             # Create a different WHERE clause for text
             elseif (paramsDict["attributeType"] == "text" ||
                 paramsDict["attributeType"] == "string")

@@ -16,4 +16,13 @@ include("../runtests-prerequisite.jl")
         ;cryptPwd = getDefaultEncryptionStr()
     )[:rows]
 
+    # Filter on birthdate
+    filtersAndSorting = Serialization.deserialize("test/AnalysisResultCtrl/assets/filtersAndSorting-on-patient-birthdate-for-function-getStaysForListing.jld")
+    df = AnalysisResultCtrl.StayCtrl.getStaysForListing(
+        5,
+        1,
+        filtersAndSorting
+        ;cryptPwd = getDefaultEncryptionStr()
+    )[:rows]
+
 end
