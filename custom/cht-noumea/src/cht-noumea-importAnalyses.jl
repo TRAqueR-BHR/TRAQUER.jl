@@ -98,12 +98,12 @@ function Custom.importAnalyses(
    # Create a line number column (used in particular to know the lines where we had problems)
    df.lineNumInSrcFile = 2:nrow(df)+1
 
-   # Create an analysis ref column
+   # Create an analysis ref. column
    df.analysis_ref = map(
-      (NIP_PATIENT, ANA_CODE, BMR, DATE_DEMANDE, HEURE_DEMANDE) -> begin
-              "$(string(NIP_PATIENT))_$(ANA_CODE)_BMR-$(BMR)_$(DATE_DEMANDE)_$(HEURE_DEMANDE)"
+      (D_CODE_COMPLET, ANA_CODE) -> begin
+              "$(string(D_CODE_COMPLET))_$(ANA_CODE)"
           end,
-      df[:,:NIP_PATIENT],df[:,:ANA_CODE],df[:,:BMR],df[:,:DATE_DEMANDE],df[:,:HEURE_DEMANDE]
+      df[:,:D_CODE_COMPLET],df[:,:ANA_CODE]
    )
 
    # Group the dataframe by patient NIP
@@ -146,20 +146,25 @@ function Custom.importAnalyses(
          # Keep track of the line number in the src CSV file
          lineNumInSrcFile = r.lineNumInSrcFile
 
-         # Check if NIP_PATIENT is missing
-         if ismissing(r.NIP_PATIENT)
-            error("NIP_PATIENT is missing")
+         # Check if NIP_PATIENT is missing or empty.
+         # This can happen because some test NIPs are 0s only and we removed the 0s in the
+         # calling function
+         if ismissing(r.NIP_PATIENT || isempty(r.NIP_PATIENT))
             continue
          end
 
          # Check if analysys ref is missing
          if ismissing(r.analysis_ref)
-            error("analysis_ref is missing")
             continue
          end
 
          patientRef = passmissing(String)(r.NIP_PATIENT)
-         analysisRef = passmissing(String)(r.analysis_ref)
+         patientLastname = passmissing(String)(r.NOM) |>
+            n -> if ismissing(n) "Non renseigné" else n end
+         patientFirstname = passmissing(String)(r.NOM) |>
+            n -> if ismissing(n) "Non renseigné" else n end
+         patientBirthdate::Date = r.DATE_NAISSANCE |> n -> Date(n,DateFormat("d/m/y"))
+         analysisRef = String(r.analysis_ref)
          resultRawText = if (
             ismissing(r.Libelle_micro_organisme)
             || strip(r.Libelle_micro_organisme) == "null"
@@ -200,15 +205,20 @@ function Custom.importAnalyses(
          patient =
             PatientCtrl.retrieveOnePatient(patientRef, encryptionStr, dbconn)
 
-         if ismissing(patient)
-            errorMsg = (
-               "Unable to find patient for ref[$patientRef]. "
-            * " Maybe a file of stays has not been integrated.")
-            error(errorMsg)
-            continue
-         end
-
-         @info "patient[$(patient.id)]"
+         # If cannot find a patient
+         # NOTE: We may not have a patient in the case where the analysis is done at the
+         #       request of  another hospital.
+         #       In that case the NIP is not a NIP of the CHT which poses a challenge to
+         #       associate this analysis (and potentially, an infectious status) to the
+         #       right patient in case of a hospitalization at the CHT
+         patient = PatientCtrl.createPatientIfNoExist(
+            patientFirstname,
+            patientLastname,
+            patientBirthdate,
+            patientRef,
+            encryptionStr,
+            dbconn
+         )
 
          # Get a stay.
          # NOTE: We may not find a stay for the analysis, it doesnt matter, we still want to

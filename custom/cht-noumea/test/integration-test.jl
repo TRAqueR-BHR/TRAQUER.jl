@@ -1,6 +1,4 @@
 include("prerequisite.jl")
-using CSV, DataFrames
-using TRAQUER, TRAQUER.TRAQUERUtil
 
 # Cleaning
 MaintenanceCtrl.resetDatabase(resetStays = false)
