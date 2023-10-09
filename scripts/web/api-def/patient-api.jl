@@ -41,7 +41,7 @@ new_route = route("/api/patient/listing", req -> begin
 
 
         # Get the crypt password from the HTTP request header
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
         if ismissing(cryptPwd)
             error("Missing crypt password")
         end
@@ -142,7 +142,7 @@ new_route = route("/api/patient/get-decrypted", req -> begin
 
 
         # Get the crypt password from the HTTP request header
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
         if ismissing(cryptPwd)
             error("Missing crypt password")
         end
@@ -324,7 +324,7 @@ new_route = route("/api/patient/create", req -> begin
         # Get the user as extracted from the JWT
         appuser = req[:params][:appuser]
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
         if ismissing(cryptPwd)
             error("Missing crypt password")
         end
@@ -422,7 +422,7 @@ new_route = route("/api/patient/update-name-and-birthdate", req -> begin
         # Get the user as extracted from the JWT
         appuser = req[:params][:appuser]
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
         if ismissing(cryptPwd)
             error("Missing crypt password")
         end

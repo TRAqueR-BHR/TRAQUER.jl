@@ -17,7 +17,9 @@
 @everywhere using TRAQUER.Controller.SchedulerCtrl
 @everywhere using TRAQUER.Controller.MaintenanceCtrl
 @everywhere using TRAQUER.Controller.EventRequiringAttentionCtrl
-
+@everywhere using TRAQUER.Controller.SchedulerCtrl
+@everywhere using TRAQUER.Controller.TaskWaitingForUserExecutionCtrl
+@everywhere using TRAQUER.Controller.WebApiUsageCtrl
 @everywhere using TRAQUER.Enum.AnalysisRequestStatusType
 @everywhere using TRAQUER.Enum.AnalysisResultValueType
 @everywhere using TRAQUER.Enum.AppuserType
@@ -31,4 +33,4 @@
 @everywhere using TRAQUER.Enum.OutbreakCriticity
 
 @everywhere using PostgresORM, Dates, TimeZones, DataFrames, StringCases, UUIDs, Distributed
-@everywhere using Logging,LoggingExtras, CSV
+@everywhere using Logging, LoggingExtras, CSV, Glob, ThreadPools

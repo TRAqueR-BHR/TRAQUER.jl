@@ -32,7 +32,7 @@ new_route = route("/api/contact-exposure/simulate-contact-exposures", req -> beg
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))
@@ -123,7 +123,7 @@ new_route = route("/api/contact-exposure/patient-exposures-for-listing", req -> 
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
 

@@ -32,7 +32,7 @@ new_route = route("/api/stay/get-carriers-or-contacts-stays-from-outbreak-unit-a
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))
@@ -135,7 +135,7 @@ new_route = route("/api/stay/get-stay-from-stay-filter", req -> begin
     status_code = try
 
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))
@@ -228,7 +228,7 @@ new_route = route("/api/stay/get-patient-hospitalizations-dates", req -> begin
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))
@@ -320,7 +320,7 @@ new_route = route("/api/stay/upsert", req -> begin
     status_code = try
 
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
@@ -335,7 +335,7 @@ new_route = route("/api/stay/upsert", req -> begin
                 stay = StayCtrl.upsert!(
                     stay, dbconn
                 )
-                SchedulerCtrl.processNewlyIntegratedData(dbconn)
+                ETLCtrl.processNewlyIntegratedData(dbconn)
                 return stay
             end
         end
@@ -412,7 +412,7 @@ new_route = route("/api/stay/listing", req -> begin
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
 
@@ -507,7 +507,7 @@ new_route = route("/api/stay/save-patient-isolation-date-from-event-requiring-at
     status_code = try
 
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)

@@ -32,7 +32,7 @@ new_route = route("/api/outbreak-unit-asso/update-asso-and-refresh-exposures-and
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))

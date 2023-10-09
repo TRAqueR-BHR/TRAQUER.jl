@@ -33,7 +33,7 @@ new_route = route("/api/event-requiring-attention/get-event", req -> begin
     status_code = try
 
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
 
@@ -124,7 +124,7 @@ new_route = route("/api/event-requiring-attention/update", req -> begin
     status_code = try
 
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)

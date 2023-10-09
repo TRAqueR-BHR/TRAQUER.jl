@@ -32,7 +32,7 @@ new_route = route("/api/outbreak/get-outbreak-from-event-requiring-attention", r
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))
@@ -126,7 +126,7 @@ new_route = route("/api/outbreak/get-outbreak-from-outbreak-filter", req -> begi
     status_code = try
 
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))
@@ -215,7 +215,7 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-infectious-status"
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))
@@ -307,7 +307,7 @@ new_route = route("/api/outbreak/initialize", req -> begin
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))
@@ -403,7 +403,7 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-outbreak", req -> 
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))
@@ -493,7 +493,7 @@ new_route = route("/api/outbreak/get-outbreak-infectious-status-assos-from-infec
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))
@@ -582,7 +582,7 @@ new_route = route("/api/outbreak/get-outbreaks-that-can-be-associated-to-infecti
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))
@@ -669,7 +669,7 @@ new_route = route("/api/outbreak/save", req -> begin
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))

@@ -23,7 +23,7 @@ new_route = route("/api/misc/process-newly-integrated-data", req -> begin
 
         executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
-                SchedulerCtrl.processNewlyIntegratedData(
+                ETLCtrl.processNewlyIntegratedData(
                     dbconn
                     ;forceProcessingTime = processingTime
                 )

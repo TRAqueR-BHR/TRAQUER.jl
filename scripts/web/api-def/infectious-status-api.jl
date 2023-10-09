@@ -32,7 +32,7 @@ new_route = route("/api/infectious-status/listing", req -> begin
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
 
@@ -125,7 +125,7 @@ new_route = route("/api/infectious-status/upsert", req -> begin
     status_code = try
 
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
@@ -222,7 +222,7 @@ new_route = route("/api/infectious-status/get-infectious-status-from-infectious-
     status_code = try
 
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))
@@ -314,7 +314,7 @@ new_route = route("/api/infectious-status/update-vector-property-outbreak-infect
     status_code = try
 
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)

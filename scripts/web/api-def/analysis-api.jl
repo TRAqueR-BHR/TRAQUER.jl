@@ -32,7 +32,7 @@ new_route = route("/api/analysis/get-analyses-from-patient", req -> begin
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
         obj = JSON.parse(String(req[:data]))
@@ -125,7 +125,7 @@ new_route = route("/api/analysis/upsert", req -> begin
     status_code = try
 
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
@@ -144,7 +144,7 @@ new_route = route("/api/analysis/upsert", req -> begin
                     cryptPwd,
                     dbconn
                 )
-                SchedulerCtrl.processNewlyIntegratedData(dbconn)
+                ETLCtrl.processNewlyIntegratedData(dbconn)
             end
         end
 
@@ -221,7 +221,7 @@ new_route = route("/api/analysis/listing", req -> begin
 
     status_code = try
 
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPRequest(req)
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
 
