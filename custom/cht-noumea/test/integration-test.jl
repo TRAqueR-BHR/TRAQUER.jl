@@ -26,7 +26,7 @@ MaintenanceCtrl.resetDatabase(resetStays = false)
 # Process the date at different point in time #
 # ########################################### #
 TRAQUERUtil.createDBConnAndExecute() do dbconn
-    SchedulerCtrl.processNewlyIntegratedData(
+    ETLCtrl.processNewlyIntegratedData(
         dbconn
         ;forceProcessingTime = ZonedDateTime(
             DateTime("2022-12-05T13:30:13"), tz"Asia/Bangkok"
@@ -86,5 +86,5 @@ end
 # TRAQUERUtil.createDBConnAndExecute() do dbconn
 #     TRAQUER.Custom.importStays(dfStaysSelection,getDefaultEncryptionStr())
 #     TRAQUER.Custom.importAnalyses(dfAnalysesSelection, getDefaultEncryptionStr())
-#     SchedulerCtrl.processNewlyIntegratedData(dbconn)
+#     ETLCtrl.processNewlyIntegratedData(dbconn)
 # end

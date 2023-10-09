@@ -25,7 +25,7 @@ function MaintenanceCtrl.resetInfectiousStatusesOutbreaksAndExposuresAndReproces
         patient,
         dbconn
     )
-    SchedulerCtrl.processNewlyIntegratedData(
+    ETLCtrl.processNewlyIntegratedData(
         dbconn
         ;patient = patient,
         forceProcessingTime = forceProcessingTime

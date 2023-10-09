@@ -1,3 +1,11 @@
+function Custom.importAnalyses(encryptionStr::AbstractString)
+   pendingFiles = glob("inlog-from-*.csv",TRAQUERUtil.getPendingInputFilesDir())
+   Custom.importAnalyses.(
+      pendingFiles,
+      encryptionStr
+   )
+end
+
 function Custom.importAnalyses(
    csvFilepath::AbstractString,
    encryptionStr::AbstractString
@@ -149,7 +157,7 @@ function Custom.importAnalyses(
          # Check if NIP_PATIENT is missing or empty.
          # This can happen because some test NIPs are 0s only and we removed the 0s in the
          # calling function
-         if ismissing(r.NIP_PATIENT || isempty(r.NIP_PATIENT))
+         if ismissing(r.NIP_PATIENT) || isempty(r.NIP_PATIENT)
             continue
          end
 

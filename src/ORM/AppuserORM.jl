@@ -58,6 +58,11 @@ const onetomany_counterparts = Dict(
     property = :lastEditor, # The name of the associated manytoone property
     action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
 
+  :webApiUsages => (
+    data_type = Model.WebApiUsage, # The struct where the associated manytoone property is
+    property = :user, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
+
   :lastEditorAppuserRoleAssoes => (
     data_type = Model.AppuserRoleAsso, # The struct where the associated manytoone property is
     property = :lastEditor, # The name of the associated manytoone property
@@ -95,6 +100,7 @@ const types_override = Dict(
   :eventRequiringAttentions => Vector{Model.EventRequiringAttention}, 
   :creatorAnalysisRequests => Vector{Model.AnalysisRequest}, 
   :lastEditorAnalysisRequests => Vector{Model.AnalysisRequest}, 
+  :webApiUsages => Vector{Model.WebApiUsage}, 
   :lastEditorAppuserRoleAssoes => Vector{Model.AppuserRoleAsso}, 
   :appuserAppuserRoleAssoes => Vector{Model.AppuserRoleAsso}, 
   :creatorAppuserRoleAssoes => Vector{Model.AppuserRoleAsso}, 

@@ -46,7 +46,7 @@ function initialize_http_response_status_code end
 function getCurrentFrontendVersion end
 function json2Entity end
 
-function extractCryptPwdFromHTTPRequest end
+function extractCryptPwdFromHTTPHeader end
 
 function createDBConnAndExecute end
 function createDBConnAndExecuteWithTransaction end
@@ -86,3 +86,6 @@ function getDoneInputFilesDir end
 function getInputFilesProblemsDir end
 function moveStaysInputFileToDoneDir end
 function moveAnalysesInputFileToDoneDir end
+
+function getSchedulerBlacklist end
+function getJuliaFunction end

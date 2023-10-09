@@ -1,4 +1,4 @@
-function SchedulerCtrl.processNewlyIntegratedData(
+function ETLCtrl.processNewlyIntegratedData(
     dbconn::LibPQ.Connection
     # Allows to do as if we were at a given time
     ;forceProcessingTime::Union{Missing,ZonedDateTime} = missing,
@@ -175,7 +175,7 @@ function SchedulerCtrl.processNewlyIntegratedData(
     # ###################################### #
     # Update the general max processing time #
     # ###################################### #
-    SchedulerCtrl.updateMaxProcessingTime(dbconn)
+    ETLCtrl.updateMaxProcessingTime(dbconn)
 
     nothing
 

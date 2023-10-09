@@ -15,6 +15,9 @@ abstract type IPatientNameCrypt <: IEntity end
 abstract type IAnalysisRequest <: IEntity end
 abstract type IUnit <: IEntity end
 abstract type IModification <: IEntity end
+abstract type IWebApiUsage <: IEntity end
+abstract type IScheduledTaskExecution <: IEntity end
+abstract type ITaskWaitingForUserExecution <: IEntity end
 abstract type IMaxProcessingTime <: IEntity end
 abstract type IFrontendVersion <: IEntity end
 abstract type IRole <: IEntity end

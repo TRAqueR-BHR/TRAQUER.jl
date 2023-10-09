@@ -40,7 +40,7 @@ end
 
 # Process the date at different point in time
 TRAQUERUtil.createDBConnAndExecute() do dbconn
-    SchedulerCtrl.processNewlyIntegratedData(
+    ETLCtrl.processNewlyIntegratedData(
         dbconn
         ;forceProcessingTime = ZonedDateTime(
             DateTime("2022-05-10T00:00:00"), TRAQUERUtil.getTimeZone()
@@ -48,7 +48,7 @@ TRAQUERUtil.createDBConnAndExecute() do dbconn
     )
 end
 TRAQUERUtil.createDBConnAndExecute() do dbconn
-    SchedulerCtrl.processNewlyIntegratedData(
+    ETLCtrl.processNewlyIntegratedData(
         dbconn
         ;forceProcessingTime = ZonedDateTime(
             DateTime("2022-05-15T00:00:00"), TRAQUERUtil.getTimeZone()
@@ -56,7 +56,7 @@ TRAQUERUtil.createDBConnAndExecute() do dbconn
     )
 end
 TRAQUERUtil.createDBConnAndExecute() do dbconn
-    SchedulerCtrl.processNewlyIntegratedData(
+    ETLCtrl.processNewlyIntegratedData(
         dbconn
         ;forceProcessingTime = ZonedDateTime(
             DateTime("2022-08-01T00:00:00"), TRAQUERUtil.getTimeZone()
@@ -84,5 +84,5 @@ end
 # TRAQUERUtil.createDBConnAndExecute() do dbconn
 #     TRAQUER.Custom.importStays(dfStaysSelection,getDefaultEncryptionStr())
 #     TRAQUER.Custom.importAnalyses(dfAnalysesSelection, getDefaultEncryptionStr())
-#     SchedulerCtrl.processNewlyIntegratedData(dbconn)
+#     ETLCtrl.processNewlyIntegratedData(dbconn)
 # end

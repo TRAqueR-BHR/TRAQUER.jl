@@ -1,9 +1,17 @@
+function Custom.importStays(encryptionStr::AbstractString)
+    pendingFiles = glob("dxcare-from-*.csv",TRAQUERUtil.getPendingInputFilesDir())
+    Custom.importStays.(
+        pendingFiles,
+        encryptionStr
+    )
+end
+
 function Custom.importStays(
     csvFilepath::AbstractString,
     encryptionStr::AbstractString
     ;maxNumberOfLinesToIntegrate::Union{Integer,Missing} = missing,
     moveFileToDoneDir::Bool = true
- )
+)
 
     # Concatenate the pending dir to the path if user passed a file name instead of a file path
     if !contains(csvFilepath, Base.Filesystem.path_separator)
@@ -130,6 +138,13 @@ function Custom.importStays(
             firstname = string(r.PRENOM)
             lastname = string(r.NOM)
             birthdate::Date = r.DATE_NAISSANCE |> n -> Date(n,DateFormat("d/m/y"))
+
+            # Check if NIP_PATIENT is missing or empty.
+            # This can happen because some test NIPs are 0s only and we removed the 0s in the
+            # calling function
+            if ismissing(ref) || isempty(ref)
+                continue
+            end
 
             # Ignore consultations
             if contains(r.NOM_UF_LOCA," CS") || contains(r.NOM_UF_LOCA," CS ")

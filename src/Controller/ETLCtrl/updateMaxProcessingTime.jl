@@ -1,4 +1,4 @@
-function SchedulerCtrl.updateMaxProcessingTime(dbconn::LibPQ.Connection)::ZonedDateTime
+function ETLCtrl.updateMaxProcessingTime(dbconn::LibPQ.Connection)::ZonedDateTime
 
     # Get the max processing time from the analysis table (NOTE: could also use the stay table)
     maxProcessingTime = "

@@ -34,6 +34,12 @@ function AnalysisResultCtrl.upsert!(
     else
 
         analysisResult.id = existingAnalysisResult.id
+
+        # Set the property 'analysisRefCrypt' with the one from the existing record to avoid
+        # overwriting the existing record with missing
+        analysisResult.analysisRefCrypt = existingAnalysisResult.analysisRefCrypt
+
+
         # Reset the processing time so that the analyis gets processed again with the
         # additional information
         analysisResult.sysProcessingTime = missing

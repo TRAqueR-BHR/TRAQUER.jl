@@ -42,6 +42,9 @@ function StayCtrl.getStaysForListing(
         JOIN patient_name_crypt pnc
             ON  pnc.lastname_first_letter = p.lastname_first_letter
             AND pnc.id = p.name_crypt_id
+        INNER JOIN patient_ref_crypt prc
+            ON  prc.one_char = p.ref_one_char
+            AND prc.id = p.ref_crypt_id
         "
     end
 
@@ -84,8 +87,21 @@ function StayCtrl.getStaysForListing(
 
             filterValue = paramsDict["filterValue"]
 
+            # Special treatment for filter on the crypted patient ref.
+            if (nameInSelect == "patient_ref" && !ismissing(cryptPwd))
+                # Add a first filter on the first letter for performance
+                filterValue = lowercase(filterValue)
+                queryStringShared *= "
+                    AND prc.one_char = \$$(args_counter += 1)"
+                push!(queryArgs, PatientCtrl.getRefOneChar(filterValue))
+                # Add the filter itself
+                queryStringShared *= "
+                    AND pgp_sym_decrypt(prc.ref_crypt, \$1)
+                        ILIKE \$$(args_counter += 1) "
+                push!(queryArgs,(filterValue * "%"))
+
             # Special treatment for filter on the crypted lastname
-            if (nameInSelect == "lastname" && !ismissing(cryptPwd))
+            elseif (nameInSelect == "lastname" && !ismissing(cryptPwd))
                 # Add a first filter on the first letter for performance
                 filterValue = lowercase(filterValue)
                 queryStringShared *= "
@@ -220,6 +236,7 @@ function StayCtrl.getStaysForListing(
             ,pgp_sym_decrypt(pbc.birthdate_crypt, \$1) AS birthdate
             ,pgp_sym_decrypt(pnc.firstname_crypt, \$1) AS firstname
             ,pgp_sym_decrypt(pnc.lastname_crypt, \$1) AS lastname
+            ,pgp_sym_decrypt(prc.ref_crypt, \$1) AS patient_ref
         "
     end
 

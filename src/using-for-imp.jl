@@ -1,6 +1,6 @@
 # 'using' calls for the implementations
 using PostgresORM,  LibPQ, TimeZones, Dates, ConfParser, Unicode, StringCases, Mocking,
-      SplitApplyCombine, UUIDs, Serialization, ProgressMeter
+      SplitApplyCombine, UUIDs, Serialization, ProgressMeter, Glob
 using ..TRAQUER, ..TRAQUERUtil
 using Base.StackTraces
 using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
@@ -16,12 +16,20 @@ using ..Controller.UnitCtrl
 using PostgresORM,  LibPQ, TimeZones, Dates, ConfParser, Unicode, StringCases
 using ..TRAQUER, ..TRAQUERUtil
 using Base.StackTraces
-using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
+using ..Controller.AnalysisResultCtrl,
+      ..Controller.StayCtrl,
       ..Controller.PatientCtrl,
-      ..Controller.InfectiousStatusCtrl, ..Controller.AppuserCtrl,
-      ..Controller.ContactExposureCtrl, ..Controller.EventRequiringAttentionCtrl,
-      ..Controller.OutbreakCtrl, ..Controller.OutbreakUnitAssoCtrl,
-      ..Controller.SchedulerCtrl, ..Controller.MaintenanceCtrl
+      ..Controller.InfectiousStatusCtrl,
+      ..Controller.AppuserCtrl,
+      ..Controller.ContactExposureCtrl,
+      ..Controller.EventRequiringAttentionCtrl,
+      ..Controller.OutbreakCtrl,
+      ..Controller.OutbreakUnitAssoCtrl,
+      ..Controller.SchedulerCtrl,
+      ..Controller.MaintenanceCtrl,
+      ..Controller.TaskWaitingForUserExecutionCtrl,
+      ..Controller.WebApiUsageCtrl,
+      ..Controller.SchedulerCtrl
 using ..Model
 using DataFrames
 using ..Enum.AnalysisRequestStatusType,

@@ -1,3 +1,2 @@
-include("processNewlyIntegratedData.jl")
-include("getMaxProcessingTime.jl")
-include("updateMaxProcessingTime.jl")
+include("checkIfAnythingNeedsToBeExecuted.jl")
+include("checkIfNeedsToExecuteFunction.jl")

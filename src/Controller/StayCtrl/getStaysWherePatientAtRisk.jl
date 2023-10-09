@@ -70,7 +70,7 @@ function StayCtrl.getStaysWherePatientAtRisk(
 
     # Get the current max processing time so that we dont generate contact statuses beyond
     # the date where we stopped (useful when simulating)
-    maxProcessingTime = SchedulerCtrl.getMaxProcessingTime(dbconn)
+    maxProcessingTime = ETLCtrl.getMaxProcessingTime(dbconn)
 
 
     # ############################################################## #

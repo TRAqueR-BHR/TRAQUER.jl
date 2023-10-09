@@ -33,7 +33,8 @@ module Model
            EventRequiringAttention, Modification, Outbreak,
            OutbreakInfectiousStatusAsso, Patient, PatientBirthdateCrypt,
            PatientCurrentStatus, PatientNameCrypt, PatientRefCrypt, Role, RoleRoleAsso,
-           Stay, Unit, OutbreakUnitAsso, PatientDecrypt
+           ScheduledTaskExecution, Stay, TaskWaitingForUserExecution, Unit, WebApiUsage,
+           OutbreakUnitAsso, PatientDecrypt
     export Appuser
     using PostgresORM,TimeZones
     using ..Enum.AnalysisRequestStatusType,
@@ -70,8 +71,11 @@ module Model
     include("Model/PatientRefCrypt.jl")
     include("Model/Role.jl")
     include("Model/RoleRoleAsso.jl")
+    include("Model/ScheduledTaskExecution.jl")
     include("Model/Stay.jl")
+    include("Model/TaskWaitingForUserExecution.jl")
     include("Model/Unit.jl")
+    include("Model/WebApiUsage.jl")
     include("Model-protected/Appuser.jl")
     include("Model-protected/PatientDecrypt.jl")
 end  # module Model
@@ -174,11 +178,20 @@ module ORM
         using PostgresORM
         include("./ORM/RoleRoleAssoORM.jl")
     end
-
+    module ScheduledTaskExecutionORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/ScheduledTaskExecutionORM.jl")
+    end
     module StayORM
         using ..ORM, ...Model
         using PostgresORM
         include("./ORM/StayORM.jl")
+    end
+    module TaskWaitingForUserExecutionORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/TaskWaitingForUserExecutionORM.jl")
     end
     module UnitORM
         using ..ORM, ...Model
@@ -195,6 +208,11 @@ module ORM
         using ..ORM, ...Model
         using PostgresORM
         include("./ORM-tracking/PatientDecryptORM.jl")
+    end
+    module WebApiUsageORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/WebApiUsageORM.jl")
     end
 
 
@@ -246,7 +264,16 @@ module Controller
     include("Controller/ContactExposureCtrl/ContactExposureCtrl-def.jl")
   end
 
+  module TaskWaitingForUserExecutionCtrl
+      include("Controller/TaskWaitingForUserExecutionCtrl/TaskWaitingForUserExecutionCtrl-def.jl")
+  end
+
+  module WebApiUsageCtrl
+      include("Controller/WebApiUsageCtrl/WebApiUsageCtrl-def.jl")
+  end
+
   module SchedulerCtrl
+    using Dates
     include("Controller/SchedulerCtrl/SchedulerCtrl-def.jl")
   end
 
@@ -306,6 +333,12 @@ include("Controller/ContactExposureCtrl/ContactExposureCtrl-imp.jl")
 # UnitCtrl
 include("Controller/UnitCtrl/UnitCtrl-imp.jl")
 
+# TaskWaitingForUserExecutionCtrl
+include("Controller/TaskWaitingForUserExecutionCtrl/TaskWaitingForUserExecutionCtrl-imp.jl")
+
+# WebApiUsageCtrl
+include("Controller/WebApiUsageCtrl/WebApiUsageCtrl-imp.jl")
+
 # SchedulerCtrl
 include("Controller/SchedulerCtrl/SchedulerCtrl-imp.jl")
 
@@ -321,5 +354,28 @@ include("Base/push.jl")
 PostgresORM.ModificationORM.get_schema_name() = "supervision"
 
 const config = TRAQUERUtil.loadConf()
+
+
+"""
+Scheduler is of type `Timer` it executes every 45s to check whether there is a recurring
+action to execute
+  (cf  `SchedulerCtrl.checkIfAnythingNeedsToBeExecuted()`).
+NOTE : Function `startScheduler()` is to be invoked on one worker only
+"""
+scheduler = missing
+
+"Create and start the scheduler"
+function startScheduler()
+   @info "Start scheduler on proc[$(Distributed.myid())]"
+   global scheduler =
+     Timer(timer -> SchedulerCtrl.checkIfAnythingNeedsToBeExecuted(), 1; interval=45)
+end
+
+"Stop the scheduler"
+function stopScheduler()
+  global scheduler
+   @info "Stop scheduler on proc[$(Distributed.myid())]"
+   close(scheduler)
+end
 
 end # module

@@ -7,7 +7,7 @@ function TRAQUERUtil.dumpDatabase(schemaOnly::Bool;dumpFilePath::Union{String,Mi
     port = TRAQUERUtil.getConf("database","port_for_dump")
 
     # Create the filename
-    timestampSuffix = now(TRAQUERUtil.getTimezone()) |>
+    timestampSuffix = now(TRAQUERUtil.getTimeZone()) |>
         n -> Dates.format(n,Dates.DateFormat("yyyy-mm-ddTHH:MM"))
 
     dumpFileName = "$databaseName-$timestampSuffix.dump"
