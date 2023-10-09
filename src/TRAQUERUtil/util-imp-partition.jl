@@ -28,7 +28,6 @@ function TRAQUERUtil.createPartitionPatientBirthdateIfNotExist(birthdate::Date,
              queryResult = execute(preparedQuery,
                                     []
                                    ;throw_error=true)
-             TRAQUERUtil.commitDBTransaction(dbconn)
 
           end
 end
@@ -63,7 +62,6 @@ function TRAQUERUtil.createPartitionPatientNameIfNotExist(lastname::AbstractStri
             queryResult = execute(preparedQuery,
                                    []
                                   ;throw_error=true)
-            TRAQUERUtil.commitDBTransaction(dbconn)
 
          end
 end
@@ -97,7 +95,6 @@ function TRAQUERUtil.createPartitionPatientRefIfNotExist(ref::AbstractString,
             queryResult = execute(preparedQuery,
                                    []
                                   ;throw_error=true)
-            TRAQUERUtil.commitDBTransaction(dbconn)
 
          end
 end
@@ -279,7 +276,6 @@ function TRAQUERUtil.createPartitionAnalysisRefIfNotExist(ref::AbstractString,
             queryResult = execute(preparedQuery,
                                    []
                                   ;throw_error=true)
-            TRAQUERUtil.commitDBTransaction(dbconn)
 
          end
 end
