@@ -34,6 +34,9 @@ new_route = route("/api/analysis/get-analyses-from-patient", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
@@ -53,6 +56,15 @@ new_route = route("/api/analysis/get-analyses-from-patient", req -> begin
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -128,6 +140,8 @@ new_route = route("/api/analysis/upsert", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
 
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
@@ -136,9 +150,6 @@ new_route = route("/api/analysis/upsert", req -> begin
 
         analysisResult = json2entity(AnalysisResult, obj["analysisResult"])
         analysisRef = obj["analysisRef"]
-
-        # Get the user as extracted from the JWT
-        appuser = req[:params][:appuser]
 
         TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
@@ -152,6 +163,14 @@ new_route = route("/api/analysis/upsert", req -> begin
             end
         end
 
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -227,6 +246,9 @@ new_route = route("/api/analysis/listing", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
@@ -238,14 +260,20 @@ new_route = route("/api/analysis/listing", req -> begin
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
         obj["pageNum"] += 1 # Pagination starts at 0 on the UI
 
-        # Get the user as extracted from the JWT
-        appuser = req[:params][:appuser]
-
         query_result = AnalysisResultCtrl.getAnalysesResultsForListing(
             obj["pageSize"],
             obj["pageNum"],
             obj["cols"]
             ;cryptPwd = cryptPwd
+        )
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
         )
 
         200 # status code

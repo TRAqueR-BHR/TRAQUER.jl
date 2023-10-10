@@ -34,6 +34,9 @@ new_route = route("/api/outbreak-unit-asso/update-asso-and-refresh-exposures-and
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
@@ -54,6 +57,15 @@ new_route = route("/api/outbreak-unit-asso/update-asso-and-refresh-exposures-and
         end
 
         success = true
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 

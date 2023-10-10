@@ -14,6 +14,9 @@ new_route = route("/api/misc/process-newly-integrated-data", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         obj = JSON.parse(String(req[:data]))
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
         processingTime =  ZonedDateTime(obj["processingTime"]) |>
@@ -31,6 +34,15 @@ new_route = route("/api/misc/process-newly-integrated-data", req -> begin
         end
 
         processingOutcome = true
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200
 

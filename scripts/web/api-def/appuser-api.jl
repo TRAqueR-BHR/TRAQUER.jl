@@ -16,6 +16,7 @@ new_route = route("/api/authenticate", req -> begin
     error = nothing
 
     status_code = try
+
         appuser = AppuserCtrl.authenticate(obj["login"],
                                            obj["password"])
         200
@@ -179,28 +180,28 @@ new_route = route("/api/appuser/save", req -> begin
 
     status_code = try
 
-    # Create the dictionary from the JSON
-    obj = JSON.parse(String(req[:data]))
+        # Create the dictionary from the JSON
+        obj = JSON.parse(String(req[:data]))
 
-    # Create the entity from the JSON Dict
-    entity::Appuser = json2Entity(Appuser,obj)
+        # Create the entity from the JSON Dict
+        entity::Appuser = json2Entity(Appuser,obj)
 
-    # Get the user as extracted from the JWT
-    editor = req[:params][:appuser]
+        # Get the user as extracted from the JWT
+        editor = req[:params][:appuser]
 
-    # If entity has no ID set, we consider that it's a creation
-    if (ismissing(entity.id))
-        appUser = Controller.persist!(entity;
-                                      creator = editor)
-    # If entity has an ID, we consider that it's an update
-    else
-        appUser = Controller.update!(entity;
-                                     editor = editor,
-                                     updateVectorProps = true # update vector properties
-                                     )
-    end
+        # If entity has no ID set, we consider that it's a creation
+        if (ismissing(entity.id))
+            appUser = Controller.persist!(entity;
+                                        creator = editor)
+        # If entity has an ID, we consider that it's an update
+        else
+            appUser = Controller.update!(entity;
+                                        editor = editor,
+                                        updateVectorProps = true # update vector properties
+                                        )
+        end
 
-    200 # status code
+        200 # status code
 
     catch e
         formatExceptionAndStackTrace(e,

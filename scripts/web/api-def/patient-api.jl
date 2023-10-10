@@ -39,7 +39,6 @@ new_route = route("/api/patient/listing", req -> begin
         # Get the user as extracted from the JWT
         appuser = req[:params][:appuser]
 
-
         # Get the crypt password from the HTTP request header
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
         if ismissing(cryptPwd)
@@ -61,6 +60,15 @@ new_route = route("/api/patient/listing", req -> begin
                 ;cryptPwd = cryptPwd
             )
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -162,6 +170,15 @@ new_route = route("/api/patient/get-decrypted", req -> begin
             end
         end
 
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
+
         200 # status code
 
     catch e
@@ -249,6 +266,15 @@ new_route = route("/api/patient/get-patient-decrypted-info/:id", req -> begin
                 patientId,
                 cryptPwd)
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status_code
 
@@ -348,6 +374,15 @@ new_route = route("/api/patient/create", req -> begin
             end
         end
 
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
+
         200 # status_code
 
     catch e
@@ -442,6 +477,15 @@ new_route = route("/api/patient/update-name-and-birthdate", req -> begin
                 birthdate,
                 cryptPwd)
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status_code
 

@@ -34,6 +34,8 @@ new_route = route("/api/event-requiring-attention/get-event", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
 
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
@@ -51,6 +53,15 @@ new_route = route("/api/event-requiring-attention/get-event", req -> begin
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -127,6 +138,8 @@ new_route = route("/api/event-requiring-attention/update", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
 
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
@@ -140,9 +153,6 @@ new_route = route("/api/event-requiring-attention/update", req -> begin
             error("Cannot update an eventRequiringAttention if not properly loaded")
         end
 
-        # Get the user as extracted from the JWT
-        appuser = req[:params][:appuser]
-
         @info "eventRequiringAttention[$(eventRequiringAttention.id)]"
 
         TRAQUERUtil.executeOnBgThread() do
@@ -153,6 +163,14 @@ new_route = route("/api/event-requiring-attention/update", req -> begin
             end
         end
 
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 

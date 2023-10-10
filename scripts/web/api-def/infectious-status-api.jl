@@ -34,6 +34,9 @@ new_route = route("/api/infectious-status/listing", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
@@ -45,14 +48,20 @@ new_route = route("/api/infectious-status/listing", req -> begin
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
         obj["pageNum"] += 1 # Pagination starts at 0 on the UI
 
-        # Get the user as extracted from the JWT
-        appuser = req[:params][:appuser]
-
         query_result = InfectiousStatusCtrl.
             getInfectiousStatusForListing(obj["pageSize"],
                                           obj["pageNum"],
                                           obj["cols"]
                                          ;cryptPwd = cryptPwd)
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -128,6 +137,8 @@ new_route = route("/api/infectious-status/upsert", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
 
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
@@ -141,9 +152,6 @@ new_route = route("/api/infectious-status/upsert", req -> begin
             error("Cannot update an infectiousStatus if not properly loaded")
         end
 
-        # Get the user as extracted from the JWT
-        appuser = req[:params][:appuser]
-
         TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
                 InfectiousStatusCtrl.upsert!(
@@ -152,6 +160,14 @@ new_route = route("/api/infectious-status/upsert", req -> begin
             end
         end
 
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -227,6 +243,8 @@ new_route = route("/api/infectious-status/get-infectious-status-from-infectious-
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
 
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
@@ -246,6 +264,15 @@ new_route = route("/api/infectious-status/get-infectious-status-from-infectious-
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -321,6 +348,8 @@ new_route = route("/api/infectious-status/update-vector-property-outbreak-infect
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
 
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
@@ -333,9 +362,6 @@ new_route = route("/api/infectious-status/update-vector-property-outbreak-infect
         if ismissing(infectiousStatus.infectiousAgent)
             error("Cannot update an infectiousStatus if not properly loaded")
         end
-
-        # Get the user as extracted from the JWT
-        appuser = req[:params][:appuser]
 
         TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
@@ -352,6 +378,15 @@ new_route = route("/api/infectious-status/update-vector-property-outbreak-infect
 
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 

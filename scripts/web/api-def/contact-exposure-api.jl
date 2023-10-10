@@ -34,6 +34,9 @@ new_route = route("/api/contact-exposure/simulate-contact-exposures", req -> beg
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
@@ -53,6 +56,15 @@ new_route = route("/api/contact-exposure/simulate-contact-exposures", req -> beg
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -127,15 +139,15 @@ new_route = route("/api/contact-exposure/patient-exposures-for-listing", req -> 
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
 
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
         patient = json2entity(Patient, obj)
-
-        # Get the user as extracted from the JWT
-        appuser = req[:params][:appuser]
 
         df = TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
@@ -146,6 +158,15 @@ new_route = route("/api/contact-exposure/patient-exposures-for-listing", req -> 
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 

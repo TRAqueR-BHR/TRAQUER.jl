@@ -53,13 +53,13 @@ new_route = route("/api/task-waiting-for-user-execution/execute-pending-tasks", 
         success = true
 
         # Log API usage
-        apiOutTime = now(getTimeZone())
-        # WebApiUsageCtrl.logAPIUsage(
-        #     appuser,
-        #     apiURL,
-        #     apiInTime,
-        #     apiOutTime
-        # )
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status_code
 

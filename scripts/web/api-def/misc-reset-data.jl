@@ -14,6 +14,9 @@ new_route = route("/api/misc/reset-data", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
                 resetOutcome = MaintenanceCtrl.resetInfectiousStatusesOutbreaksAndExposures(
@@ -21,6 +24,15 @@ new_route = route("/api/misc/reset-data", req -> begin
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200
 

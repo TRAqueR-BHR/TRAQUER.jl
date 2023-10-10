@@ -34,6 +34,9 @@ new_route = route("/api/stay/get-carriers-or-contacts-stays-from-outbreak-unit-a
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
@@ -63,6 +66,15 @@ new_route = route("/api/stay/get-carriers-or-contacts-stays-from-outbreak-unit-a
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -138,6 +150,8 @@ new_route = route("/api/stay/get-stay-from-stay-filter", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
 
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
@@ -156,6 +170,15 @@ new_route = route("/api/stay/get-stay-from-stay-filter", req -> begin
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -232,6 +255,9 @@ new_route = route("/api/stay/get-patient-hospitalizations-dates", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
@@ -250,6 +276,15 @@ new_route = route("/api/stay/get-patient-hospitalizations-dates", req -> begin
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -325,6 +360,8 @@ new_route = route("/api/stay/upsert", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
 
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
@@ -346,6 +383,23 @@ new_route = route("/api/stay/upsert", req -> begin
             end
         end
 
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -420,6 +474,9 @@ new_route = route("/api/stay/listing", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         obj = JSON.parse(String(req[:data]))
@@ -439,6 +496,24 @@ new_route = route("/api/stay/listing", req -> begin
             obj["pageNum"],
             obj["cols"]
             ;cryptPwd = cryptPwd
+        )
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
         )
 
         200 # status code
@@ -516,6 +591,8 @@ new_route = route("/api/stay/save-patient-isolation-date-from-event-requiring-at
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
 
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
@@ -539,6 +616,24 @@ new_route = route("/api/stay/save-patient-isolation-date-from-event-requiring-at
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 

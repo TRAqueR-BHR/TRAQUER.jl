@@ -34,6 +34,9 @@ new_route = route("/api/outbreak/get-outbreak-from-event-requiring-attention", r
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
@@ -54,6 +57,15 @@ new_route = route("/api/outbreak/get-outbreak-from-event-requiring-attention", r
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -129,6 +141,8 @@ new_route = route("/api/outbreak/get-outbreak-from-outbreak-filter", req -> begi
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
 
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
@@ -147,6 +161,15 @@ new_route = route("/api/outbreak/get-outbreak-from-outbreak-filter", req -> begi
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -221,6 +244,9 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-infectious-status"
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
@@ -240,6 +266,15 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-infectious-status"
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -315,6 +350,9 @@ new_route = route("/api/outbreak/initialize", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
@@ -338,6 +376,15 @@ new_route = route("/api/outbreak/initialize", req -> begin
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -413,6 +460,9 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-outbreak", req -> 
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
@@ -430,6 +480,15 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-outbreak", req -> 
                 n -> sort(n, by = x -> x.unit.name)
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -505,6 +564,9 @@ new_route = route("/api/outbreak/get-outbreak-infectious-status-assos-from-infec
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
@@ -521,6 +583,15 @@ new_route = route("/api/outbreak/get-outbreak-infectious-status-assos-from-infec
                 )
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -596,6 +667,9 @@ new_route = route("/api/outbreak/get-outbreaks-that-can-be-associated-to-infecti
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
@@ -610,6 +684,15 @@ new_route = route("/api/outbreak/get-outbreaks-that-can-be-associated-to-infecti
                 OutbreakCtrl.getOutbreaksThatCanBeAssociated(infectiousStatus, dbconn)
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 
@@ -685,6 +768,9 @@ new_route = route("/api/outbreak/save", req -> begin
 
     status_code = try
 
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
         # Create the dictionary from the JSON
@@ -699,6 +785,15 @@ new_route = route("/api/outbreak/save", req -> begin
                 PostgresORM.update_entity!(outbreak, dbconn)
             end
         end
+
+        # Log API usage
+        apiOutTime = now(getTimezone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
 
         200 # status code
 

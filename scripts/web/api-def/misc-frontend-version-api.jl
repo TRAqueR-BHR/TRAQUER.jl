@@ -13,8 +13,11 @@ new_route = route("/api/misc/get-current-frontend-version", req -> begin
     error = nothing
 
     status_code = try
+
         frontendVersion = TRAQUERUtil.getCurrentFrontendVersion()
+
         200
+
     catch e
         # https://pkg.julialang.org/docs/julia/THl1k/1.1.1/manual/stacktraces.html#Error-handling-1
         formatExceptionAndStackTrace(e,

@@ -8,12 +8,16 @@ new_route = route("/api/misc/name-of-dataset-password-header-for-http-request", 
 
     @info "/misc/name-of-dataset-password-header-for-http-request"
 
-    frontendVersion = missing
+    nameOfDatasetPasswordHeaderForHttpRequest = missing
     error = nothing
 
     status_code = try
-        frontendVersion = TRAQUERUtil.getNameOfDatasetPasswordHeaderForHttpRequest()
+
+        nameOfDatasetPasswordHeaderForHttpRequest =
+            TRAQUERUtil.getNameOfDatasetPasswordHeaderForHttpRequest()
+
         200
+
     catch e
         # https://pkg.julialang.org/docs/julia/THl1k/1.1.1/manual/stacktraces.html#Error-handling-1
         formatExceptionAndStackTrace(e,
@@ -31,7 +35,7 @@ new_route = route("/api/misc/name-of-dataset-password-header-for-http-request", 
     result::Union{Missing,String} = missing
     try
         if status_code == 200
-            result = String(JSON.json(frontendVersion)) # The client side doesn't really need the message
+            result = String(JSON.json(nameOfDatasetPasswordHeaderForHttpRequest))
         else
             result = String(JSON.json(error))
         end
