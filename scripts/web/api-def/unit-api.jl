@@ -10,7 +10,7 @@ new_route = route("/api/unit/get-all-units", req -> begin
 
     apiURL = "/api/unit/get-all-units"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -58,7 +58,7 @@ new_route = route("/api/unit/get-all-units", req -> begin
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,

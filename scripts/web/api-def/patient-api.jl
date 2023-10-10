@@ -62,7 +62,7 @@ new_route = route("/api/patient/listing", req -> begin
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -171,7 +171,7 @@ new_route = route("/api/patient/get-decrypted", req -> begin
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -268,7 +268,7 @@ new_route = route("/api/patient/get-patient-decrypted-info/:id", req -> begin
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -375,7 +375,7 @@ new_route = route("/api/patient/create", req -> begin
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -479,7 +479,7 @@ new_route = route("/api/patient/update-name-and-birthdate", req -> begin
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,

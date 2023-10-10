@@ -10,7 +10,7 @@ new_route = route("/api/infectious-status/listing", req -> begin
 
     apiURL = "/api/infectious-status/listing"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -55,7 +55,7 @@ new_route = route("/api/infectious-status/listing", req -> begin
                                          ;cryptPwd = cryptPwd)
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -113,7 +113,7 @@ new_route = route("/api/infectious-status/upsert", req -> begin
 
     apiURL = "/api/infectious-status/upsert"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -161,7 +161,7 @@ new_route = route("/api/infectious-status/upsert", req -> begin
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -219,7 +219,7 @@ new_route = route("/api/infectious-status/get-infectious-status-from-infectious-
 
     apiURL = "/api/infectious-status/get-infectious-status-from-infectious-status-filter"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -266,7 +266,7 @@ new_route = route("/api/infectious-status/get-infectious-status-from-infectious-
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -324,7 +324,7 @@ new_route = route("/api/infectious-status/update-vector-property-outbreak-infect
 
     apiURL = "/api/infectious-status/update-vector-property-outbreak-infectious-status-assoes"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -380,7 +380,7 @@ new_route = route("/api/infectious-status/update-vector-property-outbreak-infect
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,

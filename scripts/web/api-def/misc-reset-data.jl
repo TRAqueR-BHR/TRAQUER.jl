@@ -26,7 +26,7 @@ new_route = route("/api/misc/reset-data", req -> begin
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,

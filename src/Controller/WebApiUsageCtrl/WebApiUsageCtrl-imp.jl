@@ -25,10 +25,6 @@ function WebApiUsageCtrl.logAPIUsage(
     dbconn::LibPQ.Connection
 )
 
-    if !isLogWebAPIUsage()
-        return
-    end
-
     apiUsage = WebApiUsage(
         user = appuser,
         inTime = inTime,

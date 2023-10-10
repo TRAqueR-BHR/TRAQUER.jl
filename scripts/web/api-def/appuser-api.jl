@@ -10,7 +10,7 @@ new_route = route("/api/authenticate", req -> begin
 
     apiURL = "/api/authenticate"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     appuser = missing
     error = nothing
@@ -70,7 +70,7 @@ new_route = route("/api/appuser/retrieve-user-from-id", req -> begin
 
     apiURL = "/api/appuser/retrieve-user-from-id"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -252,7 +252,7 @@ new_route = route("/api/appuser/get-all-users", req -> begin
 
     apiURL = "/api/appuser/get-all-users"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)

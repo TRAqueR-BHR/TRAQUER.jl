@@ -10,7 +10,7 @@ new_route = route("/api/analysis/get-analyses-from-patient", req -> begin
 
     apiURL = "/api/analysis/get-analyses-from-patient"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -58,7 +58,7 @@ new_route = route("/api/analysis/get-analyses-from-patient", req -> begin
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -116,7 +116,7 @@ new_route = route("/api/analysis/upsert", req -> begin
 
     apiURL = "/api/analysis/upsert"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -164,7 +164,7 @@ new_route = route("/api/analysis/upsert", req -> begin
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -222,7 +222,7 @@ new_route = route("/api/analysis/listing", req -> begin
 
     apiURL = "/api/analysis/listing"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -268,7 +268,7 @@ new_route = route("/api/analysis/listing", req -> begin
         )
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,

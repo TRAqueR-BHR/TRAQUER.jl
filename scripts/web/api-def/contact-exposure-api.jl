@@ -10,7 +10,7 @@ new_route = route("/api/contact-exposure/simulate-contact-exposures", req -> beg
 
     apiURL = "/api/contact-exposure/simulate-contact-exposures"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -58,7 +58,7 @@ new_route = route("/api/contact-exposure/simulate-contact-exposures", req -> beg
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -116,7 +116,7 @@ new_route = route("/api/contact-exposure/patient-exposures-for-listing", req -> 
 
     apiURL = "/api/contact-exposure/patient-exposures-for-listing"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -160,7 +160,7 @@ new_route = route("/api/contact-exposure/patient-exposures-for-listing", req -> 
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,

@@ -10,7 +10,7 @@ new_route = route("/api/outbreak-unit-asso/update-asso-and-refresh-exposures-and
 
     apiURL = "/api/contact-exposure/generate-contact-exposures-and-infectious-statuses"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -59,7 +59,7 @@ new_route = route("/api/outbreak-unit-asso/update-asso-and-refresh-exposures-and
         success = true
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,

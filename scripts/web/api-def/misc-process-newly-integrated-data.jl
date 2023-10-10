@@ -36,7 +36,7 @@ new_route = route("/api/misc/process-newly-integrated-data", req -> begin
         processingOutcome = true
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,

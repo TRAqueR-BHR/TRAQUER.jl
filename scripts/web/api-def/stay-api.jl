@@ -10,7 +10,7 @@ new_route = route("/api/stay/get-carriers-or-contacts-stays-from-outbreak-unit-a
 
     apiURL = "/api/stay/get-carriers-or-contacts-stays-from-outbreak-unit-asso"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -68,7 +68,7 @@ new_route = route("/api/stay/get-carriers-or-contacts-stays-from-outbreak-unit-a
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -126,7 +126,7 @@ new_route = route("/api/stay/get-stay-from-stay-filter", req -> begin
 
     apiURL = "/api/stay/get-stay-from-stay-filter"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -172,7 +172,7 @@ new_route = route("/api/stay/get-stay-from-stay-filter", req -> begin
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -231,7 +231,7 @@ new_route = route("/api/stay/get-patient-hospitalizations-dates", req -> begin
 
     apiURL = "/api/stay/get-patient-hospitalizations-dates"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -278,7 +278,7 @@ new_route = route("/api/stay/get-patient-hospitalizations-dates", req -> begin
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -336,7 +336,7 @@ new_route = route("/api/stay/upsert", req -> begin
 
     apiURL = "/api/stay/upsert"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -384,7 +384,7 @@ new_route = route("/api/stay/upsert", req -> begin
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -393,7 +393,7 @@ new_route = route("/api/stay/upsert", req -> begin
         )
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -451,7 +451,7 @@ new_route = route("/api/stay/listing", req -> begin
 
     apiURL = "/api/stay/listing"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -499,7 +499,7 @@ new_route = route("/api/stay/listing", req -> begin
         )
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -508,7 +508,7 @@ new_route = route("/api/stay/listing", req -> begin
         )
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -567,7 +567,7 @@ new_route = route("/api/stay/save-patient-isolation-date-from-event-requiring-at
 
     apiURL = "/api/stay/save-patient-isolation-date-from-event-requiring-attention"
     @info "API $apiURL"
-    apiInTime = now(getTimezone())
+    apiInTime = now(getTimeZone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -618,7 +618,7 @@ new_route = route("/api/stay/save-patient-isolation-date-from-event-requiring-at
         end
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
@@ -627,7 +627,7 @@ new_route = route("/api/stay/save-patient-isolation-date-from-event-requiring-at
         )
 
         # Log API usage
-        apiOutTime = now(getTimezone())
+        apiOutTime = now(getTimeZone())
         WebApiUsageCtrl.logAPIUsage(
             appuser,
             apiURL,
