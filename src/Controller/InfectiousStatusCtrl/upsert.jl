@@ -36,7 +36,6 @@ function InfectiousStatusCtrl.upsert!(
         end
     else
         infectiousStatus.id = existing.id
-        @info "Update" infectiousStatus.updatedRefTime
         PostgresORM.update_entity!(infectiousStatus,dbconn)
     end
 

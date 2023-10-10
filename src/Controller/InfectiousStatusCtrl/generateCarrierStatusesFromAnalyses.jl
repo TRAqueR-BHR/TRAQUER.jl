@@ -30,8 +30,6 @@ function InfectiousStatusCtrl.generateCarrierStatusesFromAnalyses(
 
         for analysisRes in analysesResults
 
-            @info "analysisRes.requestTime[$(analysisRes.requestTime)]"
-
             infectiousAgent = TRAQUERUtil.analysisRequestType2InfectiousAgentCategory(
                 analysisRes.requestType
             )

@@ -1,3 +1,9 @@
+function ETLCtrl.processNewlyIntegratedData()
+    TRAQUERUtil.createDBConnAndExecute() do dbconn
+        ETLCtrl.processNewlyIntegratedData(dbconn)
+    end
+end
+
 function ETLCtrl.processNewlyIntegratedData(
     dbconn::LibPQ.Connection
     # Allows to do as if we were at a given time
