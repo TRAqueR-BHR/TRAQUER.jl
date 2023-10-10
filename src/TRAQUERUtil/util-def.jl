@@ -91,3 +91,8 @@ function moveInputFileToProcessingDir end
 
 function getSchedulerBlacklist end
 function getJuliaFunction end
+
+function dumpDatabase end
+function cleanOldDatabaseDumps end
+function dumpDatabaseAndCleanOldDumps end
+function getDatabaseDumpRetentionPeriod end

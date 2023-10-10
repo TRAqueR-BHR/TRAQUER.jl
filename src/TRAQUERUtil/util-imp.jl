@@ -17,6 +17,7 @@ include("moveAnalysesInputFileToDoneDir.jl")
 include("moveInputFileToProcessingDir.jl")
 include("getSchedulerBlacklist.jl")
 include("getJuliaFunction.jl")
+include("util-db-dump.jl")
 
 # see ~/.julia/config/startup.jl for setting the environment variable
 function TRAQUERUtil.loadConf()::ConfParse

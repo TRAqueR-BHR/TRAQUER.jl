@@ -75,10 +75,19 @@ function InfectiousStatusCtrl.defaultCheckIfNotAtRiskAnymore(
 
     elseif lastInfectiousStatus.infectiousStatus == InfectiousStatusType.carrier
 
+        # We want to start checking the negative analysis after the last time that the carrier
+        # status was activated
+        startingTime = skipmissing(
+            [
+                lastInfectiousStatus.refTime,
+                lastInfectiousStatus.updatedRefTime
+            ]
+        ) |> collect |> maximum
+
         # Only interested in the negative analyses after the waiting period
         negativeAnalysesAfterWaitingPeriod = filter!(
             x -> (
-                    x.requestTime >= lastInfectiousStatus.refTime + waitingPeriodForCarrier
+                    x.requestTime >= startingTime + waitingPeriodForCarrier
                     && x.result === AnalysisResultValueType.negative
                 ),
                 negativeAnalysesAfterLastInfectiousStatus
