@@ -8,7 +8,9 @@ new_route = route("/api/event-requiring-attention/get-event", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/event-requiring-attention"
+    apiURL = "/api/event-requiring-attention"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -99,7 +101,9 @@ new_route = route("/api/event-requiring-attention/update", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /event-requiring-attention/update"
+    apiURL = "/api/event-requiring-attention/update"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)

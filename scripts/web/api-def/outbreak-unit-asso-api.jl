@@ -8,7 +8,9 @@ new_route = route("/api/outbreak-unit-asso/update-asso-and-refresh-exposures-and
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/contact-exposure/generate-contact-exposures-and-infectious-statuses"
+    apiURL = "/api/contact-exposure/generate-contact-exposures-and-infectious-statuses"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)

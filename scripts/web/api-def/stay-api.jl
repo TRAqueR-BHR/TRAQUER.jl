@@ -8,7 +8,9 @@ new_route = route("/api/stay/get-carriers-or-contacts-stays-from-outbreak-unit-a
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/stay/get-carriers-or-contacts-stays-from-outbreak-unit-asso"
+    apiURL = "/api/stay/get-carriers-or-contacts-stays-from-outbreak-unit-asso"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -110,7 +112,9 @@ new_route = route("/api/stay/get-stay-from-stay-filter", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/stay/get-stay-from-stay-filter"
+    apiURL = "/api/stay/get-stay-from-stay-filter"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -202,9 +206,9 @@ new_route = route("/api/stay/get-patient-hospitalizations-dates", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/stay/get-patient-hospitalizations-dates"
-
-    @info req
+    apiURL = "/api/stay/get-patient-hospitalizations-dates"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -295,7 +299,9 @@ new_route = route("/api/stay/upsert", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /stay/upsert"
+    apiURL = "/api/stay/upsert"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -389,7 +395,9 @@ new_route = route("/api/stay/listing", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /stay/listing"
+    apiURL = "/api/stay/listing"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -482,7 +490,9 @@ new_route = route("/api/stay/save-patient-isolation-date-from-event-requiring-at
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/stay/save-patient-isolation-date-from-event-requiring-attention"
+    apiURL = "/api/stay/save-patient-isolation-date-from-event-requiring-attention"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)

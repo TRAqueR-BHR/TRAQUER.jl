@@ -8,7 +8,9 @@ new_route = route("/api/role/all-composed-roles/:appuser_type", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /role/all-composed-roles/:appuser_type"
+    apiURL = "/api/role/all-composed-roles/:appuser_type"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -91,7 +93,9 @@ new_route = route("/api/role/all-composed-roles", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /role/all-composed-roles"
+    apiURL = "/api/role/all-composed-roles"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -171,7 +175,9 @@ new_route = route("/api/role/composed-roles-for-listing", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /role/composed-roles-for-listing"
+    apiURL = "/api/role/composed-roles-for-listing"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)

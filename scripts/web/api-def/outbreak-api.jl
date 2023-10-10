@@ -8,7 +8,9 @@ new_route = route("/api/outbreak/get-outbreak-from-event-requiring-attention", r
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/outbreak/get-outbreak-from-event-requiring-attention"
+    apiURL = "/api/outbreak/get-outbreak-from-event-requiring-attention"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -101,7 +103,9 @@ new_route = route("/api/outbreak/get-outbreak-from-outbreak-filter", req -> begi
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/outbreak/get-outbreak-from-outbreak-filter"
+    apiURL = "/api/outbreak/get-outbreak-from-outbreak-filter"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -192,7 +196,9 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-infectious-status"
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/outbreak/get-outbreak-unit-assos-from-infectious-status"
+    apiURL = "/api/outbreak/get-outbreak-unit-assos-from-infectious-status"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -283,7 +289,9 @@ new_route = route("/api/outbreak/initialize", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/outbreak/initialize"
+    apiURL = "/api/outbreak/initialize"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -379,7 +387,9 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-outbreak", req -> 
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/outbreak/get-outbreak-unit-assos-from-outbreak"
+    apiURL = "/api/outbreak/get-outbreak-unit-assos-from-outbreak"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -469,7 +479,9 @@ new_route = route("/api/outbreak/get-outbreak-infectious-status-assos-from-infec
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/outbreak/get-outbreak-infectious-status-assos-from-infectious-status"
+    apiURL = "/api/outbreak/get-outbreak-infectious-status-assos-from-infectious-status"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -558,7 +570,9 @@ new_route = route("/api/outbreak/get-outbreaks-that-can-be-associated-to-infecti
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/outbreak/get-outbreaks-that-can-be-associated-to-infectious-status"
+    apiURL = "/api/outbreak/get-outbreaks-that-can-be-associated-to-infectious-status"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -645,7 +659,9 @@ new_route = route("/api/outbreak/save", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /api/outbreak/save"
+    apiURL = "/api/outbreak/save"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)

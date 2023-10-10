@@ -8,7 +8,9 @@ new_route = route("/api/authenticate", req -> begin
 
     obj = JSON.parse(String(req[:data]))
 
-    @info "API /authenticate with login[$(obj["login"])]"
+    apiURL = "/api/authenticate"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     appuser = missing
     error = nothing
@@ -65,7 +67,9 @@ new_route = route("/api/appuser/retrieve-user-from-id", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /appuser/retrieve-user-from-id"
+    apiURL = "/api/appuser/retrieve-user-from-id"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
@@ -245,7 +249,9 @@ new_route = route("/api/appuser/get-all-users", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /appuser/get-all-users"
+    apiURL = "/api/appuser/get-all-users"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)

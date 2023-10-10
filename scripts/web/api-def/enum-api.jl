@@ -8,7 +8,9 @@ new_route = route("/api/enum/posible-values/:enumType", req -> begin
         return(respFor_OPTIONS_req())
     end
 
-    @info "API /enum/posible-values/:enumType"
+    apiURL = "/api/enum/posible-values/:enumType"
+    @info "API $apiURL"
+    apiInTime = now(getTimezone())
 
     # Check if the user is allowed
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
