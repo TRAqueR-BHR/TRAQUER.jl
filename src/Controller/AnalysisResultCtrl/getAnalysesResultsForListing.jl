@@ -88,8 +88,21 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
 
             filterValue = paramsDict["filterValue"]
 
+            # Special treatment for filter on the analysis ref.
+            if (nameInSelect == "analysis_ref" && !ismissing(cryptPwd))
+                # Add a first filter on the first letter for performance
+                filterValue = lowercase(filterValue)
+                queryStringShared *= "
+                    AND arc.one_char = \$$(args_counter += 1)"
+                push!(queryArgs, AnalysisResultCtrl.getRefOneChar(filterValue))
+                # Add the filter itself
+                queryStringShared *= "
+                    AND pgp_sym_decrypt(arc.ref_crypt, \$1)
+                        ILIKE \$$(args_counter += 1) "
+                push!(queryArgs,(filterValue * "%"))
+
             # Special treatment for filter on the crypted patient ref.
-            if (nameInSelect == "patient_ref" && !ismissing(cryptPwd))
+            elseif (nameInSelect == "patient_ref" && !ismissing(cryptPwd))
                 # Add a first filter on the first letter for performance
                 filterValue = lowercase(filterValue)
                 queryStringShared *= "

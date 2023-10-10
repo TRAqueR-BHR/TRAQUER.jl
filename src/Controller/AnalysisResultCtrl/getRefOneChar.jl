@@ -1,4 +1,3 @@
 function AnalysisResultCtrl.getRefOneChar(ref::AbstractString)
-    refOneChar = lowercase(last(ref))
-    return refOneChar
+    return Custom.getAnalysisRefOneChar(ref)
 end

@@ -19,6 +19,8 @@ function Custom.importAnalyses(
       csvFilepath = joinpath(TRAQUERUtil.getPendingInputFilesDir(),csvFilepath)
    end
 
+   @info "Start importing file[$csvFilepath]"
+
    # Move the file to the temporary processing dir
    processingFilePath = TRAQUERUtil.moveInputFileToProcessingDir(csvFilepath)
 

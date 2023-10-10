@@ -7,9 +7,9 @@ function TRAQUERUtil.moveInputFileToProcessingDir(filePath::String)::String
         "$(string(now(getTimeZone())))"
     )
     mkdir(processingDirPath)
-    @info "processingDirPath[$processingDirPath]"
     destPath = joinpath(processingDirPath, basename(filePath))
     mv(filePath, destPath ;force=true)
+    @info "Moved $filePath to $destPath"
 
     return destPath
 
