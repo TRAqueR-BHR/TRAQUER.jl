@@ -19,6 +19,9 @@ function Custom.importAnalyses(
       csvFilepath = joinpath(TRAQUERUtil.getPendingInputFilesDir(),csvFilepath)
    end
 
+   # Move the file to the temporary processing dir
+   processingFilePath = TRAQUERUtil.moveInputFileToProcessingDir(csvFilepath)
+
    # Create a directory for storing the problems of this file
    srcFileBasename = basename(csvFilepath)
    problemsDir = joinpath(TRAQUERUtil.getInputFilesProblemsDir(),srcFileBasename)
@@ -27,13 +30,13 @@ function Custom.importAnalyses(
 
    dfAnalyses = if ismissing(maxNumberOfLinesToIntegrate)
       CSV.read(
-         csvFilepath,
+         processingFilePath,
          DataFrame
          ;delim = ';'
       )
    else
       TRAQUERUtil.readFirstNLinesOfCSVFile(
-         csvFilepath,
+         processingFilePath,
          maxNumberOfLinesToIntegrate
          ;delim = ";"
       )
@@ -67,11 +70,16 @@ function Custom.importAnalyses(
 
    # Move the input file to the DONE dir
    if moveFileToDoneDir
-      TRAQUERUtil.moveAnalysesInputFileToDoneDir(csvFilepath)
+      TRAQUERUtil.moveAnalysesInputFileToDoneDir(processingFilePath)
+   else
+      mv(processingFilePath, csvFilepath)
    end
 
-   # Remove the directory if there is nothing in it. This allows to only have directories
-   # that correspond to integrations that didnt go well.
+   # Delete the temporary processing dir
+   rm(dirname(processingFilePath))
+
+   # Remove the problem directory if there is nothing in it. This allows to only have
+   # directories that correspond to integrations that didnt go well
    if isempty(readdir(problemsDir))
       rm(problemsDir)
    end

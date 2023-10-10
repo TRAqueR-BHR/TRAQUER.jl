@@ -12,3 +12,20 @@ at risk using function `
             atRiskStatus::InfectiousStatus,
             dbconn::LibPQ.Connection
         )`
+
+
+## Scheduler
+
+### Permanently Add/Remove
+To add/remove a function or change the timing of execution of a scheduled function. No need
+to restart the application, you can just restart the scheduler
+```
+TRAQUER.stopScheduler()
+TRAQUER.startScheduler()
+```
+
+### Enable/Disable a function
+To enable/disable a function for an environment, do not remove it from the code, use the
+blacklist in the configuration file (`scheduler.blacklist`).
+
+**NOTE:** No need to restart the scheduler.

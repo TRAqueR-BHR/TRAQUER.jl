@@ -82,10 +82,12 @@ function readLineXOfFile end
 function dumpDatabase end
 function getDataDir end
 function getPendingInputFilesDir end
+function getProcessingInputFilesDir end
 function getDoneInputFilesDir end
 function getInputFilesProblemsDir end
 function moveStaysInputFileToDoneDir end
 function moveAnalysesInputFileToDoneDir end
+function moveInputFileToProcessingDir end
 
 function getSchedulerBlacklist end
 function getJuliaFunction end

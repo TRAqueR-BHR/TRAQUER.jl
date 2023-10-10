@@ -14,6 +14,7 @@ include("isMissingOrNothing.jl")
 include("util-db-dump.jl")
 include("moveStaysInputFileToDoneDir.jl")
 include("moveAnalysesInputFileToDoneDir.jl")
+include("moveInputFileToProcessingDir.jl")
 include("getSchedulerBlacklist.jl")
 include("getJuliaFunction.jl")
 
@@ -440,6 +441,10 @@ end
 
 function TRAQUERUtil.getPendingInputFilesDir()
     TRAQUERUtil.getConf("path","pending_input_files_dir")
+end
+
+function TRAQUERUtil.getProcessingInputFilesDir()
+    TRAQUERUtil.getConf("path","processing_input_files_dir")
 end
 
 function TRAQUERUtil.getDoneInputFilesDir()

@@ -1,21 +1,28 @@
 function MaintenanceCtrl.resetDatabase(
-    ;resetStays::Union{Missing,Bool} = missing
+    ;resetStays::Union{Missing,Bool} = missing,
+    resetPatients::Union{Missing,Bool} = missing
 )
     TRAQUERUtil.createDBConnAndExecute() do dbconn
         MaintenanceCtrl.resetDatabase(
             dbconn
-            ;resetStays = resetStays
+            ;resetStays = resetStays,
+            resetPatients = resetPatients
         )
     end
 end
 
 function MaintenanceCtrl.resetDatabase(
     dbconn::LibPQ.Connection
-    ;resetStays::Union{Missing,Bool} = missing
+    ;resetStays::Union{Missing,Bool} = missing,
+    resetPatients::Union{Missing,Bool} = missing
 )
 
     if ismissing(resetStays)
         error("The keyword argument 'resetStays' must be provided")
+    end
+
+    if ismissing(resetPatients)
+        error("The keyword argument 'resetPatients' must be provided")
     end
 
     if !TRAQUERUtil.resetDatabaseIsAllowed()
@@ -31,7 +38,20 @@ function MaintenanceCtrl.resetDatabase(
         n -> PostgresORM.execute_plain_query(n,missing,dbconn)
     end
 
+    if resetPatients
+        "DELETE FROM patient" |>
+        n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+        "DELETE FROM patient_birthdate_crypt" |>
+        n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+        "DELETE FROM patient_name_crypt" |>
+        n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+        "DELETE FROM patient_ref_crypt" |>
+        n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+    end
+
     "DELETE FROM analysis_result" |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+    "DELETE FROM analysis_ref_crypt" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
     "DELETE FROM infectious_status" |>
