@@ -59,7 +59,7 @@ function Custom.importAnalyses(
    # Serialize the rows in error
    if !isempty(dfOfRowsInError)
 
-      ETLCtrl.serializeRowsInError(dfOfRowsInError, csvFilepath, problemsDir)
+      ETLCtrl.serializeRowsInError(dfOfRowsInError, processingFilePath, problemsDir)
 
       @warn (
          "Some errors in source file[$srcFileBasename]. The problematic lines have been"
