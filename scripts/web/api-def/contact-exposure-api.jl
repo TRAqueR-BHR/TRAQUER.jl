@@ -52,7 +52,8 @@ new_route = route("/api/contact-exposure/simulate-contact-exposures", req -> beg
             TRAQUERUtil.createDBConnAndExecute() do dbconn
                 ContactExposureCtrl.generateContactExposures(
                     outbreakUnitAsso, dbconn
-                    ;simulate = true
+                    ;simulate = true,
+                    excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation = true
                 )
             end
         end
