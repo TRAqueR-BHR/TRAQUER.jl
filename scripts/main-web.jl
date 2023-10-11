@@ -6,7 +6,7 @@ include("prerequisite.jl")
 # We had to comment out this because it was causing issues when running TRAQUER on several workers
 # The error we get is 'invalid redefinition of constant ##303'
 # At Noumea, on the same machine, it was working on traquer_dev but not on traquer_prod
-@everywhere include("logging/loggers.jl")
+# @everywhere include("logging/loggers.jl")
 
 # Warmup workers
 # if TRAQUERUtil.blindBakeIsRequired()
