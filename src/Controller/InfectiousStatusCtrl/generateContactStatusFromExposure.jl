@@ -1,18 +1,27 @@
 function InfectiousStatusCtrl.generateContactStatusFromExposure(
     exposure::ContactExposure,
     dbconn::LibPQ.Connection
-)
+)::Nothing
 
-    # @info "exposure.id[$(exposure.id)]"
-    # if any(ismissing.(exposure.contact))
-        exposure = PostgresORM.retrieve_one_entity(ContactExposure(id = exposure.id), true, dbconn)
-    # end
+
+    exposure = PostgresORM.retrieve_one_entity(ContactExposure(id = exposure.id), true, dbconn)
+
+    # Check that the exposure is long enough to generate a contact status, if not delete the
+    # associated infectious status if any (needed in case an infectious status was created)
+    if !ContactExposureCtrl.isExposureLongEnoughToGenerateContactStatus(exposure)
+        PostgresORM.delete_entity_alike(
+            InfectiousStatus(contactExposure = exposure),
+            dbconn
+        )
+        return
+    end
 
     exposuresDF = "
         SELECT ce.contact_id,
                o.id as outbreak_id,
                ce.carrier_id,
                ce.start_time as exposure_start_time,
+               ce.end_time as exposure_end_time,
                o.infectious_agent
         FROM contact_exposure ce
         JOIN outbreak o

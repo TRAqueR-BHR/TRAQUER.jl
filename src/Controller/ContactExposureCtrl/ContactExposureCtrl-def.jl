@@ -129,3 +129,5 @@ Get the instances of ContactExposure where the given patient is a contact
 function getPatientExposuresForListing end
 
 function refreshExposuresAndContactStatuses end
+
+function isExposureLongEnoughToGenerateContactStatus end

@@ -42,7 +42,9 @@ function ContactExposureCtrl.refreshExposuresAndContactStatuses(
 
 
     # Create the new list of exposures
+    # NOTE: We want to generate all the exposures, even if they dont create a contact status
     newExposures = ContactExposureCtrl.generateContactExposures(outbreakUnitAsso, dbconn)
+
     newExposuresIds = getproperty.(newExposures, :id)
 
     # Delete deprecated exposures (also deletes the associated infectious status

@@ -7,7 +7,8 @@ function ContactExposureCtrl.generateContactExposures(
     sameRoomOnly::Bool,
     dbconn::LibPQ.Connection
     ;carrier::Union{Missing,Patient} = missing,
-    simulate::Bool = false
+    simulate::Bool = false,
+    excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation::Bool = false
 )
 
     # Find all patients staying in the same units at the same time
@@ -164,6 +165,16 @@ function ContactExposureCtrl.generateContactExposures(
 
     end
 
+
+    # Exclude the exposure that are too short if needed
+    if excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation
+        filter!(
+            e -> ContactExposureCtrl.isExposureLongEnoughToGenerateContactStatus(e),
+            exposures
+        )
+    end
+
+    # Serialize if not simulate
     if !simulate
         ContactExposureCtrl.upsert!.(exposures, dbconn)
     end
@@ -175,7 +186,8 @@ end
 function ContactExposureCtrl.generateContactExposures(
     asso::OutbreakUnitAsso,
     dbconn::LibPQ.Connection
-    ;simulate::Bool = false
+    ;simulate::Bool = false,
+    excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation::Bool = false
 )
 
     outbreak = PostgresORM.retrieve_one_entity(
@@ -203,7 +215,9 @@ function ContactExposureCtrl.generateContactExposures(
                 asso.startTime,
                 asso.endTime,
                 dbconn
-                ;simulate = simulate
+                ;simulate = simulate,
+                excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation =
+                    excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation
             )...
         )
     else
@@ -211,8 +225,13 @@ function ContactExposureCtrl.generateContactExposures(
             push!(
                 exposures,
                 ContactExposureCtrl.generateContactExposures(
-                    outbreak, carrierStay, asso.sameRoomOnly, dbconn
-                    ;simulate = simulate
+                    outbreak,
+                    carrierStay,
+                    asso.sameRoomOnly,
+                    dbconn
+                    ;simulate = simulate,
+                    excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation =
+                        excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation
                 )...
             )
         end
@@ -224,7 +243,8 @@ end
 
 function ContactExposureCtrl.generateContactExposures(
     outbreak::Outbreak, dbconn::LibPQ.Connection
-    ;simulate::Bool = false
+    ;simulate::Bool = false,
+    excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation::Bool = false
 )
 
     # Get the OutbreakUnitAssos
@@ -250,7 +270,9 @@ function ContactExposureCtrl.generateContactExposures(
             exposures,
             ContactExposureCtrl.generateContactExposures(
                 asso, dbconn
-                ;simulate = simulate
+                ;simulate = simulate,
+                excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation =
+                    excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation
             )...)
     end
 
@@ -266,7 +288,8 @@ function ContactExposureCtrl.generateContactExposures(
     startTime::ZonedDateTime,
     endTime::ZonedDateTime,
     dbconn::LibPQ.Connection
-    ;simulate::Bool = false
+    ;simulate::Bool = false,
+    excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation::Bool = false
 )
 
     return ContactExposureCtrl.generateContactExposures(
@@ -277,6 +300,9 @@ function ContactExposureCtrl.generateContactExposures(
         missing, # room
         false, # sameRoomOnly::Bool,
         dbconn
+        ;simulate = simulate,
+        excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation =
+                    excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation
     )
 
 end
@@ -286,7 +312,8 @@ end
 
 function ContactExposureCtrl.generateContactExposures(
     outbreak::Outbreak, carrierStay::Stay, sameRoomOnly::Bool, dbconn::LibPQ.Connection
-    ;simulate::Bool = false
+    ;simulate::Bool = false,
+    excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation::Bool = false
 )
 
     # Upper limit of exposures is either the out time of the unit or the isolation time
@@ -305,7 +332,9 @@ function ContactExposureCtrl.generateContactExposures(
         sameRoomOnly,
         dbconn
         ;carrier = carrierStay.patient,
-        simulate = simulate
+        simulate = simulate,
+        excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation =
+                    excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation
     )
 
 end
