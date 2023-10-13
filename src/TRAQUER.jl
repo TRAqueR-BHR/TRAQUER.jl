@@ -22,7 +22,8 @@ module TRAQUERUtil
     export openDBConn,openDBConnAndBeginTransaction,beginDBTransaction,
            commitDBTransaction,rollbackDBTransaction,closeDBConn,
            getConf, formatExceptionAndStackTrace, json2entity, getTimeZone,
-           executeOnBgThread, createDBConnAndExecute, isMissingOrNothing
+           executeOnBgThread, createDBConnAndExecute, isMissingOrNothing,
+           json2Entity
     include("./TRAQUERUtil/util-def.jl")
 
 end # module TRAQUERUtil
