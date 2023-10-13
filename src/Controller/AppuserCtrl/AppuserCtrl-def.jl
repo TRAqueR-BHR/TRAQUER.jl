@@ -12,3 +12,4 @@ function retrieveActiveAppusers end
 function authenticate end
 function getComposedRolesAccessibleToUser end
 function getComposedRolesForListing end
+function getAppusersForListing end

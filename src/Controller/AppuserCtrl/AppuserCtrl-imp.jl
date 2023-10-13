@@ -1,3 +1,5 @@
+include("getAppusersForListing.jl")
+
 function AppuserCtrl.setJWT!(appuser::Appuser)
 
     # payload = Dict("roles" => ["role1","role2"],

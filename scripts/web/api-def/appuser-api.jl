@@ -277,8 +277,7 @@ new_route = route("/api/appuser/get-all-users", req -> begin
         # Get the user as extracted from the JWT
         appuser = req[:params][:appuser]
 
-        queryResult =
-            Controller.User.getAllUsers(appuser)
+        queryResult = AppuserCtrl.getAppusersForListing(appuser)
 
         200 # status_code
 
