@@ -2,8 +2,8 @@ include("../runtests-prerequisite.jl")
 
 @testset "Test TaskWaitingForUserExecutionCtrl.checkIfAnyPendingTask" begin
 
-    dbconn = MedilegistUtil.openDBConn()
+    dbconn = TRAQUERUtil.openDBConn()
     TaskWaitingForUserExecutionCtrl.checkIfAnyPendingTask(dbconn)
-    MedilegistUtil.closeDBConn(dbconn)
+    TRAQUERUtil.closeDBConn(dbconn)
 
 end

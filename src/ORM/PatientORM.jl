@@ -51,6 +51,11 @@ const onetomany_counterparts = Dict(
     property = :carrier, # The name of the associated manytoone property
     action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
 
+  :analysisRequests => (
+    data_type = Model.AnalysisRequest, # The struct where the associated manytoone property is
+    property = :patient, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
+
 )
 
 # Override the abstract types 
@@ -65,6 +70,7 @@ const types_override = Dict(
   :staies => Vector{Model.Stay}, 
   :contactContactExposures => Vector{Model.ContactExposure}, 
   :carrierContactExposures => Vector{Model.ContactExposure}, 
+  :analysisRequests => Vector{Model.AnalysisRequest}, 
 
 )
 

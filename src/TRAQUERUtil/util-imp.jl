@@ -18,6 +18,7 @@ include("moveInputFileToProcessingDir.jl")
 include("getSchedulerBlacklist.jl")
 include("getJuliaFunction.jl")
 include("util-db-dump.jl")
+include("util-email.jl")
 
 # see ~/.julia/config/startup.jl for setting the environment variable
 function TRAQUERUtil.loadConf()::ConfParse
@@ -454,4 +455,38 @@ end
 
 function TRAQUERUtil.getInputFilesProblemsDir()
     TRAQUERUtil.getConf("path","input_files_problems_dir")
+end
+
+
+function TRAQUERUtil.noEmail()
+
+    if parse(Bool,getConf("email","noemail")) == true
+        return true
+    else
+        return false
+    end
+
+end
+
+function TRAQUERUtil.getAdminEmail()
+    return TRAQUERUtil.getConf("admin","admin_email") |>
+        strip |>
+        string |>
+        n -> split(n,",") |>
+        n -> string.(n) |>
+        n -> if isempty(n)  missing else n end
+end
+
+function TRAQUERUtil.bccAdminForEveryEmail()
+    if ismissing(TRAQUERUtil.getAdminEmail())
+        return false
+    else
+        return parse(Bool,TRAQUERUtil.getConf("admin","bcc_admin_for_every_email"))
+    end
+end
+
+function TRAQUERUtil.getInstancePrettyName()
+    prettyName = TRAQUERUtil.getInstanceCodeName()
+    prettyName = replace(prettyName,"_" => " ")
+    prettyName = uppercase(prettyName)
 end

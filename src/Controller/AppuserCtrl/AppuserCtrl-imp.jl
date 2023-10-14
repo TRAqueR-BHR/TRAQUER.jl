@@ -1,4 +1,5 @@
 include("getAppusersForListing.jl")
+include("upsert.jl")
 
 function AppuserCtrl.setJWT!(appuser::Appuser)
 
@@ -67,15 +68,26 @@ function Controller.preUpdate!(appuser::Appuser)
 end
 
 
-function Controller.updateVectorProps!(object::Appuser,
-                            dbconn::LibPQ.Connection,
-                            editor::Union{Missing,Appuser})
-    AppuserCtrl.updateAppuserAppuserRoleAssos!(object,dbconn,editor)
+function Controller.updateVectorProps!(
+    object::Appuser,
+    dbconn::LibPQ.Connection
+    ;editor::Union{Missing,Appuser} = missing
+)
+    @info "HREERERERE"
+    AppuserCtrl.updateAppuserAppuserRoleAssos!(
+        object,
+        dbconn
+        ;editor = editor
+    )
 end
 
-function AppuserCtrl.updateAppuserAppuserRoleAssos!(object::Appuser,
-                                        dbconn::LibPQ.Connection,
-                                        editor::Union{Missing,Appuser})
+function AppuserCtrl.updateAppuserAppuserRoleAssos!(
+    object::Appuser,
+    dbconn::LibPQ.Connection,
+    ;editor::Union{Missing,Appuser} = missing
+)
+
+    @info "## length(appuserAppuserRoleAssoes)[$(length(object.appuserAppuserRoleAssoes))]"
 
     PostgresORM.update_vector_property!(object, # updated_object
                             :appuserAppuserRoleAssoes, # updated_property

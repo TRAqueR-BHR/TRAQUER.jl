@@ -10,9 +10,7 @@ get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
   :id => "id", 
   :composed => "composed", 
-  :nameFr => "name_fr", 
   :codeName => "code_name", 
-  :nameEn => "name_en", 
   :restrictedToAppuserType => "restricted_to_appuser_type", 
 )
 

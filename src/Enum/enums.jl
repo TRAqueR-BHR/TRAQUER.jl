@@ -143,7 +143,8 @@ end
 module AppuserType
   export APPUSER_TYPE
   @enum APPUSER_TYPE begin
-    healthcare_professional = 1 
+    technical_administrator = 1 
+    staff_member = 2 
   end
 end
 
@@ -167,9 +168,18 @@ end
 module RoleCodeName
   export ROLE_CODE_NAME
   @enum ROLE_CODE_NAME begin
-    healthcare_professional = 1 
-    can_modify_user = 2 
+    technical_administrator = 1 
+    staff_member = 2 
     doctor = 3 
+    caregiver = 4 
+    nurse = 5 
+    secretary = 6 
+    biologist = 7 
+    software_administrator = 8 
+    is_doctor = 9 
+    is_nurse = 10 
+    can_modify_user = 11 
+    staff_member_with_extended_permissions = 12 
   end
 end
 
@@ -182,6 +192,7 @@ module EventRequiringAttentionType
     analysis_late = 4 
     new_stay = 5 
     death = 6 
+    transfer_to_another_care_facility = 7 
   end
 end
 

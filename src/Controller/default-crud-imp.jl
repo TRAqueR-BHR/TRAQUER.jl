@@ -68,11 +68,13 @@ function Controller.postUpdate!(object::T) where T <: PostgresORM.IEntity end
 "Action qui succède à l'ajout d'un objet IEntity dans la base de données"
 function Controller.postPersist!(object::T) where T <: PostgresORM.IEntity end
 
-"Met à jour les attributs de type Vector d'un objet IEntity"
-function Controller.updateVectorProps!(object::T,
-                            dbconn::LibPQ.Connection
-                           ;editor::Union{Missing, Appuser} = missing) where T <: PostgresORM.IEntity
-   # À surcharger si besoin
+"Overwrite this function if needed"
+function Controller.updateVectorProps!(
+    object::T,
+    dbconn::LibPQ.Connection
+    ;editor::Union{Missing, Appuser} = missing
+) where T <: PostgresORM.IEntity
+   @info "Default Controller.updateVectorProps!: DO NOTHING"
 end
 
 "Ajoute un objet IEntity dans la base de données"
@@ -122,9 +124,12 @@ function Controller.update!(object::T
 @info "DEBUG4"
         # Update the associations
         if updateVectorProps
-            Controller.updateVectorProps!(object, dbconn
-                              ;editor = editor)
-                              @info "DEBUG5"
+            Controller.updateVectorProps!(
+                object,
+                dbconn
+                ;editor = editor
+            )
+            @info "DEBUG5!!"
         end
 
         Controller.postUpdate!(object)

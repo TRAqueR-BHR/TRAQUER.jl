@@ -245,6 +245,10 @@ module Controller
     include("Controller/AnalysisResultCtrl/AnalysisResultCtrl-def.jl")
   end
 
+  module AnalysisRequestCtrl
+    include("Controller/AnalysisRequestCtrl/_def.jl")
+  end
+
   module InfectiousStatusCtrl
     include("Controller/InfectiousStatusCtrl/InfectiousStatusCtrl-def.jl")
   end
@@ -312,6 +316,9 @@ include("Controller/StayCtrl/StayCtrl-imp.jl")
 
 # AnalysisResultCtrl
 include("Controller/AnalysisResultCtrl/AnalysisResultCtrl-imp.jl")
+
+# AnalysisRequestCtrl
+include("Controller/AnalysisRequestCtrl/_imp.jl")
 
 # ETLCtrl
 include("Controller/ETLCtrl/ETLCtrl-imp.jl")

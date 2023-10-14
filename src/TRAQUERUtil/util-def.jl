@@ -80,10 +80,12 @@ function readFirstNLinesOfCSVFile end
 function readLineXOfFile end
 # function addDataFrameRow
 function dumpDatabase end
+function noEmail end
 function getDataDir end
 function getPendingInputFilesDir end
 function getProcessingInputFilesDir end
 function getDoneInputFilesDir end
+function getInstancePrettyName end
 function getInputFilesProblemsDir end
 function moveStaysInputFileToDoneDir end
 function moveAnalysesInputFileToDoneDir end
@@ -96,3 +98,7 @@ function dumpDatabase end
 function cleanOldDatabaseDumps end
 function dumpDatabaseAndCleanOldDumps end
 function getDatabaseDumpRetentionPeriod end
+
+function sendemail end
+function getAdminEmail end
+function bccAdminForEveryEmail end

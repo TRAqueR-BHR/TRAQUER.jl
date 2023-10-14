@@ -160,6 +160,7 @@ new_route = route("/api/stay/get-stay-from-stay-filter", req -> begin
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
 
         # Create the entity from the JSON Dict
+        serialize("tmp/obj_stay.jld",obj["stay"])
         stayFilter::Stay = json2entity(Stay, obj["stay"])
         includeComplexProperties::Bool = obj["includeComplexProperties"]
 

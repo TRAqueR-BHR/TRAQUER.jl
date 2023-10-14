@@ -103,10 +103,10 @@ new_route = route("/api/appuser/retrieve-user-from-id", req -> begin
 
         appUser =
             Controller.retrieveOneEntity(
-                                       appUser_filter,
-                                       true, # complexProps
-                                       true # retrieve complex properties
-                                      )
+                appUser_filter,
+                true, # complexProps
+                true # retrieve complex properties
+            )
 
         200 # status_code
 
@@ -191,15 +191,25 @@ new_route = route("/api/appuser/save", req -> begin
 
         # If entity has no ID set, we consider that it's a creation
         if (ismissing(entity.id))
-            appUser = Controller.persist!(entity;
-                                        creator = editor)
+            appUser = Controller.persist!(
+                entity
+                ;creator = editor
+            )
         # If entity has an ID, we consider that it's an update
         else
-            appUser = Controller.update!(entity;
-                                        editor = editor,
-                                        updateVectorProps = true # update vector properties
-                                        )
+            appUser = Controller.update!(
+                entity;
+                editor = editor,
+                updateVectorProps = true # update vector properties
+            )
         end
+
+        # This is to avoid cyclic reference at serialization
+        appUser = Controller.retrieveOneEntity(
+            Appuser(id = appUser.id),
+            true, # complexProps
+            true # retrieve complex properties
+        )
 
         200 # status code
 

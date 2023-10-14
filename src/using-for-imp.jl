@@ -17,6 +17,7 @@ using PostgresORM,  LibPQ, TimeZones, Dates, ConfParser, Unicode, StringCases
 using ..TRAQUER, ..TRAQUERUtil
 using Base.StackTraces
 using ..Controller.AnalysisResultCtrl,
+      ..Controller.AnalysisRequestCtrl,
       ..Controller.StayCtrl,
       ..Controller.PatientCtrl,
       ..Controller.InfectiousStatusCtrl,

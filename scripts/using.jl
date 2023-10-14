@@ -9,6 +9,7 @@
 @everywhere using TRAQUER.Controller.ETLCtrl
 @everywhere using TRAQUER.Controller.StayCtrl
 @everywhere using TRAQUER.Controller.AnalysisResultCtrl
+@everywhere using TRAQUER.Controller.AnalysisRequestCtrl
 @everywhere using TRAQUER.Controller.InfectiousStatusCtrl
 @everywhere using TRAQUER.Controller.ContactExposureCtrl
 @everywhere using TRAQUER.Controller.AppuserCtrl
