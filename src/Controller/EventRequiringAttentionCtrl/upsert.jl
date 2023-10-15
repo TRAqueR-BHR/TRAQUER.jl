@@ -2,7 +2,7 @@ function EventRequiringAttentionCtrl.upsert!(
     eventRequiringAttention::EventRequiringAttention, dbconn::LibPQ.Connection
 )::EventRequiringAttention
 
-    # Check whether an infectious status
+    # Check whether an event already exists
     filterObject = EventRequiringAttention(
         infectiousStatus = eventRequiringAttention.infectiousStatus,
         refTime = eventRequiringAttention.refTime,

@@ -151,6 +151,10 @@ function ETLCtrl.processNewlyIntegratedData(
         dbconn
     )
 
+    # Events for late analysis request
+    AnalysisRequestCtrl.getOverdueAnalysesRequests(dbconn) |>
+        n -> EventRequiringAttentionCtrl.createAnalysisLateEvent.(n, dbconn)
+
     # ###################################### #
     # Flag the rows that have been processed #
     # ###################################### #

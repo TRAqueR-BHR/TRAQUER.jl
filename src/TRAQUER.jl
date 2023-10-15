@@ -23,7 +23,7 @@ module TRAQUERUtil
            commitDBTransaction,rollbackDBTransaction,closeDBConn,
            getConf, formatExceptionAndStackTrace, json2entity, getTimeZone,
            executeOnBgThread, createDBConnAndExecute, isMissingOrNothing,
-           json2Entity
+           json2Entity, getTranslation
     include("./TRAQUERUtil/util-def.jl")
 
 end # module TRAQUERUtil
@@ -362,7 +362,7 @@ include("Base/push.jl")
 PostgresORM.ModificationORM.get_schema_name() = "supervision"
 
 const config = TRAQUERUtil.loadConf()
-
+const translation = TRAQUERUtil.loadTranslation()
 
 """
 Scheduler is of type `Timer` it executes every 45s to check whether there is a recurring

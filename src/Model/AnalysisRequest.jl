@@ -6,10 +6,10 @@ mutable struct AnalysisRequest <: IAnalysisRequest
   unit::Union{Missing,Model.IUnit}
   id::Union{Missing,String}
   unitExpectedCollectionTime::Union{Missing,ZonedDateTime}
+  status::Union{Missing,AnalysisRequestStatusType.ANALYSIS_REQUEST_STATUS_TYPE}
   requestType::Union{Missing,AnalysisRequestType.ANALYSIS_REQUEST_TYPE}
   creationTime::Union{Missing,ZonedDateTime}
   lastUpdateTime::Union{Missing,ZonedDateTime}
-  statusType::Union{Missing,AnalysisRequestStatusType.ANALYSIS_REQUEST_STATUS_TYPE}
 
   AnalysisRequest(args::NamedTuple) = AnalysisRequest(;args...)
   AnalysisRequest(;
@@ -19,10 +19,10 @@ mutable struct AnalysisRequest <: IAnalysisRequest
     unit = missing,
     id = missing,
     unitExpectedCollectionTime = missing,
+    status = missing,
     requestType = missing,
     creationTime = missing,
     lastUpdateTime = missing,
-    statusType = missing,
   ) = begin
     x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
     x.creator = creator
@@ -31,10 +31,10 @@ mutable struct AnalysisRequest <: IAnalysisRequest
     x.unit = unit
     x.id = id
     x.unitExpectedCollectionTime = unitExpectedCollectionTime
+    x.status = status
     x.requestType = requestType
     x.creationTime = creationTime
     x.lastUpdateTime = lastUpdateTime
-    x.statusType = statusType
     return x
   end
 

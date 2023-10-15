@@ -14,10 +14,10 @@ const columns_selection_and_mapping = Dict(
   :unit => "unit_id", 
   :id => "id", 
   :unitExpectedCollectionTime => "unit_expected_collection_time", 
+  :status => "status", 
   :requestType => "request_type", 
   :creationTime => "creation_time", 
   :lastUpdateTime => "last_update_time", 
-  :statusType => "status_type", 
 )
 
 

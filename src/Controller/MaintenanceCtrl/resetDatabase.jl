@@ -49,8 +49,12 @@ function MaintenanceCtrl.resetDatabase(
         n -> PostgresORM.execute_plain_query(n,missing,dbconn)
     end
 
+    "DELETE FROM analysis_request" |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
     "DELETE FROM analysis_result" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
     "DELETE FROM analysis_ref_crypt" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
