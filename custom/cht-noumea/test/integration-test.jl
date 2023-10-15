@@ -1,24 +1,25 @@
 include("prerequisite.jl")
 
 # Cleaning
-MaintenanceCtrl.resetDatabase(resetStays = false)
+MaintenanceCtrl.resetDatabase(resetStays = true, resetPatients = true)
 
 # ########################### #
 # Integrate from the CSV file #
 # ########################### #
 
 @time TRAQUER.Custom.importStays(
-    "dxcare-from-2022-12-01-00-00-00-to-2023-01-01-00-00-00.csv",
+    "dxcare-from-2022-12-01-00-00-00-to-2023-10-14-00-00-00.csv",
     getDefaultEncryptionStr(),
-    ;maxNumberOfLinesToIntegrate = 100
+    ;maxNumberOfLinesToIntegrate = 100,
+    moveFileToDoneDir = false
 ) # 349.047879 seconds for 1 worker and 100 records
   # 88 seconds for 8 workers and 100 records
 
 @time TRAQUER.Custom.importAnalyses(
-    "inlog-from-2022-12-01-00-00-00-to-2023-01-01-00-00-00.csv",
+    "inlog-from-2022-12-01-00-00-00-to-2023-10-14-00-00-00.csv",
     getDefaultEncryptionStr(),
-    # ;maxNumberOfLinesToIntegrate = 100,
-    rangeToIntegrate = 118:118,
+    ;maxNumberOfLinesToIntegrate = 100,
+    # rangeToIntegrate = 118:118,
     moveFileToDoneDir = false
 )
 

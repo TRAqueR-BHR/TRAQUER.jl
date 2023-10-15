@@ -1,22 +1,18 @@
 
-data_type = Model.AnalysisRequest
-PostgresORM.get_orm(x::Model.AnalysisRequest) = return(ORM.AnalysisRequestORM)
-get_schema_name() = "public"
-get_table_name() = "analysis_request"
+data_type = Model.ExposedFunction
+PostgresORM.get_orm(x::Model.ExposedFunction) = return(ORM.ExposedFunctionORM)
+get_schema_name() = "misc"
+get_table_name() = "exposed_function"
 
 
 # Declare the mapping between the properties and the database columns
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
-  :creator => "creator_id", 
-  :patient => "patient_id", 
-  :lastEditor => "last_editor_id", 
-  :unit => "unit_id", 
   :id => "id", 
-  :unitExpectedCollectionTime => "unit_expected_collection_time", 
-  :requestTime => "request_time", 
-  :status => "status", 
-  :requestType => "request_type", 
+  :prettyName => "pretty_name", 
+  :roles => "roles", 
+  :juliaName => "julia_name", 
+  :argumentsAsJson => "arguments_as_json", 
 )
 
 
@@ -32,10 +28,6 @@ const onetomany_counterparts = Dict(
 # Override the abstract types 
 get_types_override() = return types_override
 const types_override = Dict(
-  :creator => Model.Appuser, 
-  :patient => Model.Patient, 
-  :lastEditor => Model.Appuser, 
-  :unit => Model.Unit, 
 
 )
 

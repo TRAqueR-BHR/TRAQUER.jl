@@ -1,2 +1,3 @@
 function upsert! end
 function getOverdueAnalysesRequests end
+function updateAnalysisPendingAnalysesRequests end

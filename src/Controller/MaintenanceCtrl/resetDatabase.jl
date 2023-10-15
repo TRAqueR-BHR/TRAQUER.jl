@@ -58,7 +58,7 @@ function MaintenanceCtrl.resetDatabase(
     "DELETE FROM analysis_ref_crypt" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
-    "DELETE FROM infectious_status" |>
+    "DELETE FROM infectious_status" |> # also deletes entries in 'event_requiring_attention'
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
     "DELETE FROM outbreak" |>

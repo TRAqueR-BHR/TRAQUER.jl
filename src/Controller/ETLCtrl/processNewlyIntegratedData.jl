@@ -144,9 +144,14 @@ function ETLCtrl.processNewlyIntegratedData(
     )
 
     # If a new analysis with a result did not lead to the creation of an infectious status,
-    # create an event 'new_analysis'
-    # TODO
+    # create an event 'analysis_done'
     EventRequiringAttentionCtrl.createAnalysisDoneEventIfNeeded.(
+        newAnalyses,
+        dbconn
+    )
+
+    # Some analyses may corresponds to some pending analysis requests
+    AnalysisRequestCtrl.updateAnalysisPendingAnalysesRequests(
         newAnalyses,
         dbconn
     )

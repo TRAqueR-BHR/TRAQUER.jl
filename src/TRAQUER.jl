@@ -35,7 +35,8 @@ module Model
            OutbreakInfectiousStatusAsso, Patient, PatientBirthdateCrypt,
            PatientCurrentStatus, PatientNameCrypt, PatientRefCrypt, Role, RoleRoleAsso,
            ScheduledTaskExecution, Stay, TaskWaitingForUserExecution, Unit, WebApiUsage,
-           OutbreakUnitAsso, PatientDecrypt
+           OutbreakUnitAsso, PatientDecrypt,
+           ExposedFunction, ExposedFunctionArgument
     export Appuser
     using PostgresORM,TimeZones
     using ..Enum.AnalysisRequestStatusType,
@@ -77,8 +78,10 @@ module Model
     include("Model/TaskWaitingForUserExecution.jl")
     include("Model/Unit.jl")
     include("Model/WebApiUsage.jl")
+    include("Model/ExposedFunction.jl")
     include("Model-protected/Appuser.jl")
     include("Model-protected/PatientDecrypt.jl")
+    include("Model-protected/ExposedFunctionArgument.jl")
 end  # module Model
 
 module ORM
@@ -107,6 +110,11 @@ module ORM
         using ..ORM, ...Model
         using PostgresORM
         include("./ORM/ContactExposureORM.jl")
+    end
+    module ExposedFunctionORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/ExposedFunctionORM.jl")
     end
     module FrontendVersionORM
         using ..ORM, ...Model
@@ -229,6 +237,14 @@ module Controller
     include("Controller/ETLCtrl/ETLCtrl-def.jl")
   end
 
+  module ExposedFunctionCtrl
+    include("Controller/ExposedFunctionCtrl/_def.jl")
+  end
+
+  module ExtractionCtrl
+    include("Controller/ExtractionCtrl/_def.jl")
+  end
+
   module PatientCtrl
     include("Controller/PatientCtrl/PatientCtrl-def.jl")
   end
@@ -322,6 +338,12 @@ include("Controller/AnalysisRequestCtrl/_imp.jl")
 
 # ETLCtrl
 include("Controller/ETLCtrl/ETLCtrl-imp.jl")
+
+# ExposedFunctionCtrl
+include("Controller/ExposedFunctionCtrl/_imp.jl")
+
+# ExtractionCtrl
+include("Controller/ExtractionCtrl/_imp.jl")
 
 # InfectiousStatusCtrl
 include("Controller/InfectiousStatusCtrl/InfectiousStatusCtrl-imp.jl")

@@ -194,7 +194,10 @@ function Custom.importStays(
             )
 
             # Room
-            room = passmissing(string)(r.NUMEROT_LIT)
+            room = passmissing(String)(r.NUMEROT_LIT) # String7 -> String
+
+            # Sector
+            sector = passmissing(string)(r.NOM_SECTEUR)
 
             # Out label
             outLabel = passmissing(string)(r.LIB_MODE_SORTIE)
@@ -233,7 +236,9 @@ function Custom.importStays(
                 outTime = outTime,
                 hospitalizationInTime = hospitalizationInTime,
                 hospitalizationOutTime = hospitalizationOutTime,
+                hospitalizationOutComment = outLabel,
                 room = room,
+                sector = sector,
                 patientDiedDuringStay = diedDuringStay
             )
             StayCtrl.upsert!(stay, dbconn)

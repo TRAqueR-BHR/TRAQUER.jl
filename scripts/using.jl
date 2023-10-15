@@ -7,6 +7,8 @@
 @everywhere using TRAQUER.Controller.PatientCtrl
 @everywhere using TRAQUER.Controller.UnitCtrl
 @everywhere using TRAQUER.Controller.ETLCtrl
+@everywhere using TRAQUER.Controller.ExposedFunctionCtrl
+@everywhere using TRAQUER.Controller.ExtractionCtrl
 @everywhere using TRAQUER.Controller.StayCtrl
 @everywhere using TRAQUER.Controller.AnalysisResultCtrl
 @everywhere using TRAQUER.Controller.AnalysisRequestCtrl

@@ -13,6 +13,7 @@ const columns_selection_and_mapping = Dict(
   :id => "id", 
   :inDate => "in_date", 
   :isolationTime => "isolation_time", 
+  :hospitalizationOutComment => "hospitalization_out_comment", 
   :outTime => "out_time", 
   :sysCreationTime => "sys_creation_time", 
   :patientDiedDuringStay => "patient_died_during_stay", 
@@ -20,6 +21,7 @@ const columns_selection_and_mapping = Dict(
   :inTime => "in_time", 
   :hospitalizationInTime => "hospitalization_in_time", 
   :sysProcessingTime => "sys_processing_time", 
+  :sector => "sector", 
   :room => "room", 
 )
 
