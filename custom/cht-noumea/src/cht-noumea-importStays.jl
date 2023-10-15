@@ -31,7 +31,7 @@ function Custom.importStays(
 
     dfStays = if ismissing(maxNumberOfLinesToIntegrate)
        CSV.read(
-            processingFilePath,
+            open(processingFilePath, StringEncodings.enc"ISO-8859-1"),  # also works if file is UTF8
             DataFrame
             ;delim = ';'
        )
