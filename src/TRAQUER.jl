@@ -36,7 +36,8 @@ module Model
            PatientCurrentStatus, PatientNameCrypt, PatientRefCrypt, Role, RoleRoleAsso,
            ScheduledTaskExecution, Stay, TaskWaitingForUserExecution, Unit, WebApiUsage,
            OutbreakUnitAsso, PatientDecrypt,
-           ExposedFunction, ExposedFunctionArgument
+           ExposedFunction, ExposedFunctionArgument,
+           DeletedInfectiousStatus
     export Appuser
     using PostgresORM,TimeZones
     using ..Enum.AnalysisRequestStatusType,
@@ -61,6 +62,7 @@ module Model
     include("Model/ContactExposure.jl")
     include("Model/FrontendVersion.jl")
     include("Model/InfectiousStatus.jl")
+    include("Model/DeletedInfectiousStatus.jl")
     include("Model/EventRequiringAttention.jl")
     include("Model/Modification.jl")
     include("Model/Outbreak.jl")
@@ -126,6 +128,11 @@ module ORM
         using PostgresORM
         include("./ORM/InfectiousStatusORM.jl")
         include("./ORM-tracking/InfectiousStatusORM-overwrite.jl")
+    end
+    module DeletedInfectiousStatusORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/DeletedInfectiousStatusORM.jl")
     end
     module EventRequiringAttentionORM
         using ..ORM, ...Model
@@ -269,6 +276,10 @@ module Controller
     include("Controller/InfectiousStatusCtrl/InfectiousStatusCtrl-def.jl")
   end
 
+  module DeletedInfectiousStatusCtrl
+    include("Controller/DeletedInfectiousStatusCtrl/_def.jl")
+  end
+
   module OutbreakCtrl
     include("Controller/OutbreakCtrl/OutbreakCtrl-def.jl")
   end
@@ -347,6 +358,9 @@ include("Controller/ExtractionCtrl/_imp.jl")
 
 # InfectiousStatusCtrl
 include("Controller/InfectiousStatusCtrl/InfectiousStatusCtrl-imp.jl")
+
+# DeletedInfectiousStatusCtrl
+include("Controller/DeletedInfectiousStatusCtrl/_imp.jl")
 
 # OutbreakCtrl
 include("Controller/OutbreakCtrl/OutbreakCtrl-imp.jl")

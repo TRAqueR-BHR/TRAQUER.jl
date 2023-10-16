@@ -4,6 +4,19 @@ function InfectiousStatusCtrl.upsert!(
     ;createEventForStatus::Bool = true
 )
 
+    # Do not create the status if it was deleted
+    deletedInfectiousStatus::Union{Missing, DeletedInfectiousStatus} =
+        DeletedInfectiousStatus(
+            patient = infectiousStatus.patient,
+            infectiousAgent = infectiousStatus.infectiousAgent,
+            refTime = infectiousStatus.refTime,
+            infectiousStatus = infectiousStatus.infectiousStatus,
+        ) |>
+        n -> PostgresORM.retrieve_one_entity(n, false, dbconn)
+    if !ismissing(deletedInfectiousStatus)
+        return infectiousStatus
+    end
+
     # Check whether an infectious status already exists
     filterObject = if ismissing(infectiousStatus.id)
         InfectiousStatus(

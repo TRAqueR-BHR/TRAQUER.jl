@@ -2,6 +2,7 @@ abstract type IOutbreakUnitAsso <: IEntity end
 abstract type IAnalysisResult <: IEntity end
 abstract type IPatientRefCrypt <: IEntity end
 abstract type IInfectiousStatus <: IEntity end
+abstract type IDeletedInfectiousStatus <: IEntity end
 abstract type IPatientBirthdateCrypt <: IEntity end
 abstract type IOutbreak <: IEntity end
 abstract type IPatientCurrentStatus <: IEntity end

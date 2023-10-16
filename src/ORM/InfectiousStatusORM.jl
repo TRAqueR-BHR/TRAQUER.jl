@@ -11,14 +11,13 @@ const columns_selection_and_mapping = Dict(
   :patient => "patient_id", 
   :contactExposure => "contact_exposure_id", 
   :id => "id", 
+  :isCurrent => "is_current", 
+  :updatedRefTime => "updated_ref_time", 
+  :infectiousStatus => "infectious_status", 
+  :analysisRequestStatus => "analysis_request_status", 
   :isConfirmed => "is_confirmed", 
   :refTime => "ref_time", 
   :infectiousAgent => "infectious_agent", 
-  :analysisRequestStatus => "analysis_request_status", 
-  :updatedRefTime => "updated_ref_time", 
-  :isCancelled => "is_cancelled", 
-  :isCurrent => "is_current", 
-  :infectiousStatus => "infectious_status", 
 )
 
 

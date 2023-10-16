@@ -61,3 +61,5 @@ function defaultCheckIfNotAtRiskAnymore end
 function upsert! end
 
 function updateOutbreakInfectiousStatusAssos end
+
+function delete end
