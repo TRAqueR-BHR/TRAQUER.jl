@@ -25,10 +25,30 @@ function Custom.convertETLInputDataToRequestAndResultType(
         # Convert to result type
         if ismissing(valeur_resultat)
             result = missing
-        elseif valeur_resultat == "P"
-            result = AnalysisResultValueType.positive
+
+        # Ignore line, when "GXEPC", "GXERV" are positive ('PXXXX') we look at the ATB2 line
+        elseif startswith(valeur_resultat,"P")
+            return nothing
+
+        # Ignore lines that corresponds to a infirmation of a suspicion
+        # (case where molecular analysis is S)
+        elseif valeur_resultat ∈ ["NA", "NB", "NEPC"]
+            return nothing
+
+        elseif valeur_resultat ∈ ["A"]
+            return AnalysisResultValueType.negative
+
+        elseif startswith(valeur_resultat,"S")
+            result = AnalysisResultValueType.suspicion
+
+        elseif valeur_resultat ∈ ["NR", "INHB", "ERREUR"]
+            result = AnalysisResultValueType.cancelled
         else
-            result = AnalysisResultValueType.negative
+            error(
+                "Unknown valeur_resultat[$valeur_resultat] for ANA_CODE[$ana_code], "
+                *"supported values are the following: "
+                *"A, ERREUR, INHB, NA, NB, NEPC, NR, PB, PIMP, SA, SB, SEPC"
+            )
         end
 
     # #################### #
@@ -52,8 +72,15 @@ function Custom.convertETLInputDataToRequestAndResultType(
                 # We may not have the result yet
                 if ismissing(valeur_resultat)
                     result = missing
-                else
+                elseif valeur_resultat == "A"
                     result = AnalysisResultValueType.negative
+                elseif valeur_resultat == "NR"
+                    result = AnalysisResultValueType.cancelled
+                else
+                    error(
+                        "Unknown valeur_resultat[$valeur_resultat] for ANA_CODE[$ana_code], "
+                        *"supported values are the following: A, P, NR"
+                    )
                 end
             end
 

@@ -13,6 +13,7 @@
 @everywhere using TRAQUER.Controller.AnalysisResultCtrl
 @everywhere using TRAQUER.Controller.AnalysisRequestCtrl
 @everywhere using TRAQUER.Controller.InfectiousStatusCtrl
+@everywhere using TRAQUER.Controller.DeletedInfectiousStatusCtrl
 @everywhere using TRAQUER.Controller.ContactExposureCtrl
 @everywhere using TRAQUER.Controller.AppuserCtrl
 @everywhere using TRAQUER.Controller.OutbreakCtrl
