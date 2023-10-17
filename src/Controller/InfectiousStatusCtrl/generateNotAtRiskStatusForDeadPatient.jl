@@ -25,7 +25,7 @@ function InfectiousStatusCtrl.generateNotAtRiskStatusForDeadPatient(
                 patient = stay.patient,
                 infectiousAgent = ist.infectiousAgent,
                 infectiousStatus = InfectiousStatusType.not_at_risk,
-                refTime = if !ismissing((stay.outTime)) stay.inTime else stay.outTime end,
+                refTime = if !ismissing((stay.outTime)) stay.outTime else stay.inTime end,
                 isConfirmed = false,
             )
 

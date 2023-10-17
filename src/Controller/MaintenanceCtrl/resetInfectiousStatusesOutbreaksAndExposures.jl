@@ -1,3 +1,11 @@
+function MaintenanceCtrl.resetInfectiousStatusesOutbreaksAndExposures()
+
+    TRAQUERUtil.createDBConnAndExecute() do dbconn
+        MaintenanceCtrl.resetInfectiousStatusesOutbreaksAndExposures(dbconn)
+    end
+
+end
+
 function MaintenanceCtrl.resetInfectiousStatusesOutbreaksAndExposures(
     dbconn::LibPQ.Connection
 )
