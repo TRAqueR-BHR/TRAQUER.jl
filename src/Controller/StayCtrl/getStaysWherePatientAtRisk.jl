@@ -122,9 +122,11 @@ function StayCtrl.getStaysWherePatientAtRisk(
             ) |> n -> if isempty(n) missing else first(n) end
 
 
-    # ############################################################################## #
-    # Remove the stays 'in the past' (relatively to the infectious status ref. time) #
-    # ############################################################################## #
+    # ################################## #
+    # Filter out the stays 'in the past' #
+    # ################################## #
+
+    # Get the stay where the patient got the status
     infectiousStatusStay = StayCtrl.retrieveOneStay(
         atRiskStatus,
         dbconn
@@ -136,19 +138,71 @@ function StayCtrl.getStaysWherePatientAtRisk(
             s -> s.inTime >= infectiousStatusStay.inTime,
             atRiskStays
         )
-    # For 'carrier' and 'suspicion' status, all the stays starting at the hospitalization
-    # where the infectious status got created
+    # For 'carrier' and 'suspicion' status, take all the stays starting at the hospitalization
+    # where the infectious status got created or starting after the last negative result if
+    # the patient was not at risk when entering the hospital (i.e. no status or status 'not_at_risk')
     elseif atRiskStatus.infectiousStatus ∈ [InfectiousStatusType.carrier, InfectiousStatusType.suspicion]
+
+        # A first filter to drop the stays before the hospitalization where the status got declared
         filter!(
             s -> s.hospitalizationInTime >= infectiousStatusStay.hospitalizationInTime,
             atRiskStays
         )
+
+        # Get the status of the patient at the beginning of the hospitalization
+        infectiousStatusAtHospitalization = InfectiousStatusCtrl.getInfectiousStatusAtTime(
+            atRiskStatus.patient,
+            atRiskStatus.infectiousAgent,
+            infectiousStatusStay.hospitalizationInTime,
+            false, # retrieveComplexProps::Bool,
+            dbconn
+        )
+
+        # If patient was not at risk or just contact, look for a negative analysis
+        if (
+            ismissing(infectiousStatusAtHospitalization)
+            || infectiousStatusAtHospitalization.infectiousStatus ∈
+                [InfectiousStatusType.not_at_risk, InfectiousStatusType.contact]
+            )
+
+            lastNegativeResult = AnalysisResultCtrl.getLastNegativeResultWithinPeriod(
+                atRiskStatus.patient,
+                atRiskStatus.infectiousAgent,
+                infectiousStatusStay.hospitalizationInTime,
+                atRiskStatus.refTime,
+                dbconn
+            )
+
+            # Drop the stays that ended before the last negative result. The stay of the
+            # negative result is considered at risk because the patient may have become
+            # positive during that stay
+            if ismissing(lastNegativeResult)
+                filter!(
+                    s -> begin
+                       #  Negative analysis result:            ⬇
+                       #  Stays:                     [=====][=====][=====]   [========][===]
+                       #  Keep:                         no    yes    yes         yes    yes
+                       if !ismissing(s.outTime) && s.outTime < lastNegativeResult.requestTime
+                            return false
+                       else
+                            return true
+                       end
+                    end,
+                    atRiskStays
+                )
+            end
+
+        end
+
+
     else
         error("Unsupported InfectiousStatusType[$atRiskStatus]")
     end
 
-    # For carrier and 'suspicion' for a given hospitalization, only keep the stays that
-    # started before the isolation time (if any)
+    # #################################################################################### #
+    # For carrier and 'suspicion' for a given hospitalization, only keep the stays that    #
+    # started before the isolation time (if any)                                           #
+    # #################################################################################### #
     if atRiskStatus.infectiousStatus ∈ [InfectiousStatusType.carrier, InfectiousStatusType.suspicion]
 
         # Get all the stays during which the patient was isolated (accross all hospit.)
@@ -176,23 +230,11 @@ function StayCtrl.getStaysWherePatientAtRisk(
             end,
             atRiskStays
         )
-        # isolationTimeOverHospitalization = getproperty.(atRiskStays,:isolationTime) |>
-        #     skipmissing |>
-        #     collect |>
-        #     n -> if isempty(n) missing else first(n) end
-        # if !ismissing(isolationTimeOverHospitalization)
-        #     filter!(
-        #         s -> begin
-        #             s.inTime <= isolationTimeOverHospitalization
-        #         end,
-        #         atRiskStays
-        #     )
-        # end
     end
 
-    # ################################################################################ #
-    # Remove the stays 'in the future' (relatively to the infectious status ref. time) #
-    # ################################################################################ #
+    # ###################################################### #
+    # Remove the stays where patient was not at risk anymore #
+    # ###################################################### #
     if !ismissing(notAtRiskStatus)
         filter!(
             s -> begin
@@ -213,15 +255,6 @@ function StayCtrl.getStaysWherePatientAtRisk(
             atRiskStays
         )
     end
-
-    # filter!(
-    #     stay -> StayCtrl.isStayAtRisk(
-    #                 stay,
-    #                 atRiskStatus,
-    #                 notAtRiskStatus
-    #             ),
-    #     atRiskStays
-    # )
 
     return atRiskStays
 

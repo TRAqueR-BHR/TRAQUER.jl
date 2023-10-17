@@ -265,7 +265,7 @@ module Controller
   end
 
   module AnalysisResultCtrl
-    include("Controller/AnalysisResultCtrl/AnalysisResultCtrl-def.jl")
+    include("Controller/AnalysisResultCtrl/_def.jl")
   end
 
   module AnalysisRequestCtrl
@@ -289,7 +289,7 @@ module Controller
   end
 
   module EventRequiringAttentionCtrl
-    include("Controller/EventRequiringAttentionCtrl/EventRequiringAttentionCtrl-def.jl")
+    include("Controller/EventRequiringAttentionCtrl/_def.jl")
   end
 
   module ContactExposureCtrl
@@ -342,7 +342,7 @@ include("Controller/PatientCtrl/PatientCtrl-imp.jl")
 include("Controller/StayCtrl/StayCtrl-imp.jl")
 
 # AnalysisResultCtrl
-include("Controller/AnalysisResultCtrl/AnalysisResultCtrl-imp.jl")
+include("Controller/AnalysisResultCtrl/_imp.jl")
 
 # AnalysisRequestCtrl
 include("Controller/AnalysisRequestCtrl/_imp.jl")
@@ -369,7 +369,7 @@ include("Controller/OutbreakCtrl/OutbreakCtrl-imp.jl")
 include("Controller/OutbreakUnitAssoCtrl/OutbreakUnitAssoCtrl-imp.jl")
 
 # EventRequiringAttentionCtrl
-include("Controller/EventRequiringAttentionCtrl/EventRequiringAttentionCtrl-imp.jl")
+include("Controller/EventRequiringAttentionCtrl/_imp.jl")
 
 # ContactExposureCtrl
 include("Controller/ContactExposureCtrl/ContactExposureCtrl-imp.jl")

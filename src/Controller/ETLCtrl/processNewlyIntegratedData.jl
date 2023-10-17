@@ -166,6 +166,9 @@ function ETLCtrl.processNewlyIntegratedData(
     AnalysisRequestCtrl.getOverdueAnalysesRequests(dbconn) |>
         n -> EventRequiringAttentionCtrl.createAnalysisLateEvent.(n, dbconn)
 
+    # Events for patients at risk that were transfered to another care facility
+    EventRequiringAttentionCtrl.createEventsTransferToAnotherCareFacility(dbconn)
+
     # ###################################### #
     # Flag the rows that have been processed #
     # ###################################### #

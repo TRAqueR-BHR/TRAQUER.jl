@@ -7,3 +7,5 @@ function createCryptedAnalysisRef end
 function getAnalyses end
 function upsert! end
 function getAnalysesResultsForListing end
+function getLastNegativeResultWithinPeriod end
+function getLastNegativeResultIfPatientBecameCarrierDuringHospitalization end

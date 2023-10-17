@@ -9,3 +9,4 @@ function getBasicInformationAboutAnalysesInputFile end
 function getBasicInformationAboutStaysInputFile end
 function getSummaryOfPendingInputFiles end
 function getAnalysisRefOneChar end
+function isTransferToAnotherCareFacility end

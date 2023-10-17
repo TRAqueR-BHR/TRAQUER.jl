@@ -1,7 +1,7 @@
 function ContactExposureCtrl.generateContactExposures(
     outbreak::Outbreak,
     carrierStayUnit::Unit,
-    carrierStayInTime::ZonedDateTime,
+    lowerLimit::ZonedDateTime,
     upperTimeLimit::Union{ZonedDateTime,Missing},
     carrierStayRoom::Union{String,Missing},
     sameRoomOnly::Bool,
@@ -18,7 +18,7 @@ function ContactExposureCtrl.generateContactExposures(
     # Restrict the search of the contacts' stays to a few months back.
     # Must be careful to rollback enough in order to not exclude stays of contacts that
     # arrived a long time before the carrier stay
-    restrictionForPartition = carrierStayInTime - Month(6)
+    restrictionForPartition = lowerLimit - Month(6)
 
     queryArgs = [
         restrictionForPartition, # for perf
@@ -77,7 +77,7 @@ function ContactExposureCtrl.generateContactExposures(
                 )
 
         "
-        push!(queryArgs,[carrierStayInTime, upperTimeLimit]...)
+        push!(queryArgs,[lowerLimit, upperTimeLimit]...)
 
     else
 
@@ -99,7 +99,7 @@ function ContactExposureCtrl.generateContactExposures(
                     (s.out_time IS NULL)
                 )
         "
-        push!(queryArgs,[carrierStayInTime]...)
+        push!(queryArgs,[lowerLimit]...)
 
     end
 
@@ -147,7 +147,7 @@ function ContactExposureCtrl.generateContactExposures(
         end
 
         overlapStart, overlapEnd = ContactExposureCtrl.getExactOverlap(
-            carrierStayInTime,
+            lowerLimit,
             upperTimeLimit,
             contactStay,
         )
@@ -207,19 +207,20 @@ function ContactExposureCtrl.generateContactExposures(
     # If there are no carrier stay in the asso, the asso is probably created from scratch
     #   by the user
     if isempty(carrierStays)
-        push!(
-            exposures,
-            ContactExposureCtrl.generateContactExposures(
-                outbreak,
-                asso.unit,
-                asso.startTime,
-                asso.endTime,
-                dbconn
-                ;simulate = simulate,
-                excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation =
-                    excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation
-            )...
-        )
+        error("It is Not supported to generate contact exposures without carriers stays")
+        # push!(
+        #     exposures,
+        #     ContactExposureCtrl.generateContactExposures(
+        #         outbreak,
+        #         asso.unit,
+        #         asso.startTime,
+        #         asso.endTime,
+        #         dbconn
+        #         ;simulate = simulate,
+        #         excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation =
+        #             excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation
+        #     )...
+        # )
     else
         for carrierStay in carrierStays
             push!(
@@ -316,17 +317,50 @@ function ContactExposureCtrl.generateContactExposures(
     excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation::Bool = false
 )
 
-    # Upper limit of exposures is either the out time of the unit or the isolation time
+    # #################################################################################### #
+    # Compute the upper limit                                                              #
+    # Upper limit of exposures is either the out time of the unit or the isolation time    #
+    # #################################################################################### #
     upperTime = if !ismissing(carrierStay.isolationTime)
             carrierStay.isolationTime
         else
             carrierStay.outTime
         end
 
+    # ########### #
+    # Lower limit #
+    # ########### #
+
+    # Initialize lower limit with carrier stay in time
+    lowerLimit = carrierStay.inTime
+
+    lastNegativeResultIfPatientBecameCarrierDuringHospitalization =
+        AnalysisResultCtrl.getLastNegativeResultIfPatientBecameCarrierDuringHospitalization(
+            carrierStay,
+            outbreak.infectiousAgent,
+            dbconn
+        )
+    # If patient was not at risk when entering the hospital and that he turned carrier during
+    # the hospitalization after having some negative tests, use the last negative test as
+    # the lower limit
+    if !ismissing(lastNegativeResult)
+        # If the stay is the one where the patient was last negative use the request time
+        # as the lower limit plus one day (we consider that the patient cannot have turned
+        # positive on the same day that he was tested negative)
+        if (
+            lastNegativeResultIfPatientBecameCarrierDuringHospitalization.requestTime > carrierStay.inTime
+            && !ismissing(carrierStay.outTime)
+            && lastNegativeResultIfPatientBecameCarrierDuringHospitalization.requestTime < carrierStay.outTime
+        )
+            lowerLimit = lastNegativeResultIfPatientBecameCarrierDuringHospitalization.requestTime + Day(1)
+        end
+    end
+
+
     return ContactExposureCtrl.generateContactExposures(
         outbreak,
         carrierStay.unit,
-        carrierStay.inTime,
+        lowerLimit,
         upperTime,
         carrierStay.room,
         sameRoomOnly,
