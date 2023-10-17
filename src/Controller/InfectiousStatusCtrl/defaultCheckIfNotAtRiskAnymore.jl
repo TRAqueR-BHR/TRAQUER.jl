@@ -73,7 +73,7 @@ function InfectiousStatusCtrl.defaultCheckIfNotAtRiskAnymore(
             currentStatus = InfectiousStatusType.contact
         end
 
-    elseif lastInfectiousStatus.infectiousStatus == InfectiousStatusType.carrier
+    elseif lastInfectiousStatus.infectiousStatus ∈ [InfectiousStatusType.carrier, InfectiousStatusType.suspicion,]
 
         # We want to start checking the negative analysis after the last time that the carrier
         # status was activated
@@ -96,7 +96,7 @@ function InfectiousStatusCtrl.defaultCheckIfNotAtRiskAnymore(
         if length(negativeAnalysesAfterWaitingPeriod) >= numberOfNegativeTestsForCarrierExclusion
             currentStatus = InfectiousStatusType.not_at_risk
         else
-            currentStatus = InfectiousStatusType.carrier
+            currentStatus = lastInfectiousStatus.infectiousStatus
         end
 
     else

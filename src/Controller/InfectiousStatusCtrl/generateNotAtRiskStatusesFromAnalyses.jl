@@ -32,7 +32,11 @@ function InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
     )
 
     infectiousAgentsForCarrierOrContactStatuses = filter(
-        x -> x.infectiousStatus ∈ [InfectiousStatusType.carrier, InfectiousStatusType.contact],
+        x -> x.infectiousStatus ∈ [
+                InfectiousStatusType.carrier,
+                InfectiousStatusType.suspicion,
+                InfectiousStatusType.contact
+            ],
         allInfectiousStatuses
     ) |> n -> getproperty.(n,:infectiousAgent) |> unique
 

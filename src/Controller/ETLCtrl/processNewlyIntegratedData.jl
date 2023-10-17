@@ -83,14 +83,20 @@ function ETLCtrl.processNewlyIntegratedData(
     tomorrow = now(TRAQUERUtil.getTimeZone()) + Day(1) # The one day is just to have a margin
     timeUpperBound = if ismissing(forceProcessingTime) tomorrow else forceProcessingTime end
 
-    # ############################################ #
-    # Process new data to deduce the carrier cases #
-    # ############################################ #
+    # ############################################################ #
+    # Process new data to deduce the 'carrier' cases and suspicion #
+    # ############################################################ #
     for patient in patientsWithNewDataInAnalysisTable
 
         # @info "Patient with new data " getproperty.(patientsWithNewDataInAnalysisTable,:id)
 
         InfectiousStatusCtrl.generateCarrierStatusesFromAnalyses(
+            patient,
+            (aLongTimeAgo, timeUpperBound), # forAnalysesRequestsBetween::Tuple{Date,Date},
+            dbconn
+        )
+
+        InfectiousStatusCtrl.generateSuspicionStatusesFromAnalyses(
             patient,
             (aLongTimeAgo, timeUpperBound), # forAnalysesRequestsBetween::Tuple{Date,Date},
             dbconn

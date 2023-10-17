@@ -136,9 +136,9 @@ function StayCtrl.getStaysWherePatientAtRisk(
             s -> s.inTime >= infectiousStatusStay.inTime,
             atRiskStays
         )
-    # For 'carrier' status, all the stays starting at the hospitalization where the
-    # infectious status got created
-    elseif atRiskStatus.infectiousStatus == InfectiousStatusType.carrier
+    # For 'carrier' and 'suspicion' status, all the stays starting at the hospitalization
+    # where the infectious status got created
+    elseif atRiskStatus.infectiousStatus ∈ [InfectiousStatusType.carrier, InfectiousStatusType.suspicion]
         filter!(
             s -> s.hospitalizationInTime >= infectiousStatusStay.hospitalizationInTime,
             atRiskStays
@@ -147,9 +147,9 @@ function StayCtrl.getStaysWherePatientAtRisk(
         error("Unsupported InfectiousStatusType[$atRiskStatus]")
     end
 
-    # For carrier, for a given hospitalization, only keep the stays that started before the
-    # isolation time (if any)
-    if atRiskStatus.infectiousStatus == InfectiousStatusType.carrier
+    # For carrier and 'suspicion' for a given hospitalization, only keep the stays that
+    # started before the isolation time (if any)
+    if atRiskStatus.infectiousStatus ∈ [InfectiousStatusType.carrier, InfectiousStatusType.suspicion]
 
         # Get all the stays during which the patient was isolated (accross all hospit.)
         staysWithIsolation = filter(s -> !ismissing(s.isolationTime),atRiskStays)

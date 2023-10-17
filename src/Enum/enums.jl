@@ -130,6 +130,7 @@ module InfectiousStatusType
     not_at_risk = 1 
     carrier = 2 
     contact = 3 
+    suspicion = 4 
   end
 end
 
@@ -138,6 +139,8 @@ module AnalysisResultValueType
   @enum ANALYSIS_RESULT_VALUE_TYPE begin
     positive = 1 
     negative = 2 
+    cancelled = 3 
+    suspicion = 4 
   end
 end
 

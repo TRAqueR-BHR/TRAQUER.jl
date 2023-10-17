@@ -15,7 +15,11 @@ function InfectiousStatusCtrl.generateNotAtRiskStatusForDeadPatient(
         dbconn
     )::Vector{InfectiousStatus}
 
-        if ist.infectiousStatus ∈ [InfectiousStatusType.carrier, InfectiousStatusType.contact]
+        if ist.infectiousStatus ∈ [
+                InfectiousStatusType.carrier,
+                InfectiousStatusType.suspicion,
+                InfectiousStatusType.contact
+            ]
 
             newStatus = InfectiousStatus(
                 patient = stay.patient,

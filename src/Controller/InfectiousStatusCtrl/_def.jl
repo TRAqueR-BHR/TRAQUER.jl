@@ -63,3 +63,5 @@ function upsert! end
 function updateOutbreakInfectiousStatusAssos end
 
 function delete end
+
+function generateSuspicionStatusesFromAnalyses end

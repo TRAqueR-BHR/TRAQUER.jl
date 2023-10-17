@@ -55,15 +55,15 @@ function InfectiousStatusCtrl.generateContactStatusFromExposure(
         #   i.e. That the status just before it (<=) is not a carrier
         # Eg.
         #
-        # Existing statuses:     🍎
+        # Existing statuses:     🍎or🥜
         # New contact status:             🍋
         # Insert new contact?:          false
         #
-        # Existing statuses:              🍎
+        # Existing statuses:              🍎or🥜
         # New contact status:             🍋
         # Insert new contact?:          false
         #
-        # Existing statuses:                     🍎
+        # Existing statuses:                     🍎or🥜
         # New contact status:             🍋
         # Insert new contact?:           true
 
@@ -86,7 +86,7 @@ function InfectiousStatusCtrl.generateContactStatusFromExposure(
         )
 
         if !ismissing(statusJustBefore)
-            if statusJustBefore.infectiousStatus == InfectiousStatusType.carrier
+            if statusJustBefore.infectiousStatus ∈ [InfectiousStatusType.carrier, InfectiousStatusType.suspicion]
                 continue
             #  If a contact status already existed then just update the last ref. time
             elseif statusJustBefore.infectiousStatus == InfectiousStatusType.contact

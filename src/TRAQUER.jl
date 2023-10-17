@@ -273,7 +273,7 @@ module Controller
   end
 
   module InfectiousStatusCtrl
-    include("Controller/InfectiousStatusCtrl/InfectiousStatusCtrl-def.jl")
+    include("Controller/InfectiousStatusCtrl/_def.jl")
   end
 
   module DeletedInfectiousStatusCtrl
@@ -357,7 +357,7 @@ include("Controller/ExposedFunctionCtrl/_imp.jl")
 include("Controller/ExtractionCtrl/_imp.jl")
 
 # InfectiousStatusCtrl
-include("Controller/InfectiousStatusCtrl/InfectiousStatusCtrl-imp.jl")
+include("Controller/InfectiousStatusCtrl/_imp.jl")
 
 # DeletedInfectiousStatusCtrl
 include("Controller/DeletedInfectiousStatusCtrl/_imp.jl")
