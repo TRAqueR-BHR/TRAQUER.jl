@@ -98,6 +98,11 @@ function Custom.importStays(
         * "\n# ################################## #"
     )
 
+    # Input file can be empty
+    if isempty(df)
+        return DataFrame()
+    end
+
     # Remove leading Os in the patient NIP
     df.NIP = string.(df.NIP)
     df.NIP = replace.(df.NIP, r"^0+" => s"")

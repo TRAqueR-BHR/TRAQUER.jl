@@ -109,6 +109,11 @@ function Custom.importAnalyses(
    * "\n# #################################### #"
    )
 
+   # Input file can be empty
+   if isempty(df)
+      return DataFrame()
+   end
+
    # Remove leading Os in the patient NIP
    df.NIP_PATIENT = String.(string.(df.NIP_PATIENT))
    df.NIP_PATIENT = replace.(df.NIP_PATIENT, r"^0+" => s"")
