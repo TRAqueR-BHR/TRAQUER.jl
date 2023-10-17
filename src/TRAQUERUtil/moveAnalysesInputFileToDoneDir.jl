@@ -2,7 +2,7 @@ function TRAQUERUtil.moveAnalysesInputFileToDoneDir(filePath::String)
     doneDirPath = TRAQUERUtil.getDoneInputFilesDir()
 
     # Use regex to extract date from filePath
-    m = match(r"(\d{4}-\d{2}-\d{2})", filePath)
+    m = match(r"(\d{4}-\d{2}-\d{2})", basename(filePath))
 
     # If match found, extract date, create folder, and move file
     if m !== nothing
