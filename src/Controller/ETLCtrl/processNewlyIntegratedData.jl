@@ -11,9 +11,11 @@ function ETLCtrl.processNewlyIntegratedData(
     patient::Union{Patient,Missing} = missing
 )
 
+    @info "
     # ################################################################################ #
     # Get the ids that we are about to process for tables `analysis_result` and `stay` #
     # ################################################################################ #
+    "
     newStaysQueryStr = missing
     newStaysQueryParams = []
     newAnalysesQueryStr = missing
@@ -83,9 +85,12 @@ function ETLCtrl.processNewlyIntegratedData(
     tomorrow = now(TRAQUERUtil.getTimeZone()) + Day(1) # The one day is just to have a margin
     timeUpperBound = if ismissing(forceProcessingTime) tomorrow else forceProcessingTime end
 
-    # ############################################################ #
-    # Process new data to deduce the 'carrier' cases and suspicion #
-    # ############################################################ #
+
+    @info "
+    # ############################################# #
+    # Create the 'carrier' and 'suspicion' statuses #
+    # ############################################# #
+    "
     for patient in patientsWithNewDataInAnalysisTable
 
         # @info "Patient with new data " getproperty.(patientsWithNewDataInAnalysisTable,:id)
@@ -104,9 +109,11 @@ function ETLCtrl.processNewlyIntegratedData(
 
     end
 
+    @info "
     # ############################################ #
     # Process new data to deduce the contact cases #
     # ############################################ #
+    "
     # TODO: Restrict the instances of OutbreakUnitAsso to the ones that are involved in the
     # new activity : the OubreakUnitAssos where the units had movements.
     # We dont need the units where there were analyses, because in the event where there is a
@@ -121,9 +128,12 @@ function ETLCtrl.processNewlyIntegratedData(
         ;hintOnWhatOutbreakUnitAssosToSelect = newStays
     )
 
-    # ################################################### #
-    # Process new data to deduce the not at risk statuses #
-    # ################################################### #
+    @info "
+    # ################################# #
+    # Create the 'not_at_risk' statuses #
+    # ################################# #
+    "
+    @info " -> CASE 1: 'not_at_risk' because of negative analyses"
     # patientsWithNewDataInAnalysisTable = getproperty.(newAnalyses, :patient) |> n -> unique(x -> x.id, n)
     for patient in patientsWithNewDataInAnalysisTable
 
@@ -135,11 +145,17 @@ function ETLCtrl.processNewlyIntegratedData(
 
     end
 
+    @info " -> CASE 2: 'not_at_risk' because patient died"
     InfectiousStatusCtrl.generateNotAtRiskStatusForDeadPatient.(
         newStays,
         dbconn
     )
 
+    @info "
+    # ################################################################ #
+    # Create 'new_stay' events for patients at risk arriving at a unit #
+    # ################################################################ #
+    "
     # If a new stay did not lead to the creation of an infectious status and that the patient
     # is at risk, create an event 'new_stay'. Eg. if a not at risk patient arrives in a unit
     # where there is a carrier, it will create a contact infectious status and its associated
@@ -149,6 +165,11 @@ function ETLCtrl.processNewlyIntegratedData(
         dbconn
     )
 
+    @info "
+    # ############################# #
+    # Create 'analysis_done' events #
+    # ############################# #
+    "
     # If a new analysis with a result did not lead to the creation of an infectious status,
     # create an event 'analysis_done'
     EventRequiringAttentionCtrl.createAnalysisDoneEventIfNeeded.(
@@ -156,22 +177,40 @@ function ETLCtrl.processNewlyIntegratedData(
         dbconn
     )
 
+    @info "
+    # ############################### #
+    # Update pending analyis requests #
+    # ############################### #
+    "
     # Some analyses may corresponds to some pending analysis requests
     AnalysisRequestCtrl.updateAnalysisPendingAnalysesRequests(
         newAnalyses,
         dbconn
     )
 
+    @info "
+    # ############################# #
+    # Create 'analysis_late' events #
+    # ############################# #
+    "
     # Events for late analysis request
     AnalysisRequestCtrl.getOverdueAnalysesRequests(dbconn) |>
         n -> EventRequiringAttentionCtrl.createAnalysisLateEvent.(n, dbconn)
 
+
+    @info "
+    # ################################################# #
+    # Create 'transfer_to_another_care_facility' events #
+    # ################################################# #
+    "
     # Events for patients at risk that were transfered to another care facility
     EventRequiringAttentionCtrl.createEventsTransferToAnotherCareFacility(dbconn)
 
+    @info "
     # ###################################### #
     # Flag the rows that have been processed #
     # ###################################### #
+    "
     processingTime = if !ismissing(forceProcessingTime)
         forceProcessingTime
     else
@@ -196,9 +235,11 @@ function ETLCtrl.processNewlyIntegratedData(
         dbconn
     )
 
+    @info "
     # ###################################### #
     # Update the general max processing time #
     # ###################################### #
+    "
     ETLCtrl.updateMaxProcessingTime(dbconn)
 
     nothing
