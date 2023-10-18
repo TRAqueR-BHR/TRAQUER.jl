@@ -45,20 +45,46 @@ function InfectiousStatusCtrl.generateSuspicionStatusesFromAnalyses(
                 isConfirmed = false,
             )
 
-            # Check if we already have a suspicion infectious status at that date, if yes
-            # set the updatedRefTime
+            # Check that the patient is not already a carrier for this infectious agent,
+            #   i.e. That the status just before it (<=) is not a carrier
+            # Eg.
+            #
+            # Existing statuses:     🍎
+            # New contact status:             🥜
+            # Insert new contact?:          false
+            #
+            # Existing statuses:              🍎
+            # New contact status:             🥜
+            # Insert new contact?:          false
+            #
+            # Existing statuses:                     🍎o
+            # New contact status:             🥜
+            # Insert new contact?:           true
+
+            # Existing statuses:      🥜
+            # New contact status:             🥜
+            # Insert new contact?:           false (but update existing contact status)
+
+            # Existing statuses:      🍏
+            # New contact status:             🥜
+            # Insert new contact?:           true
+
             statusJustBefore = InfectiousStatusCtrl.getInfectiousStatusAtTime(
-                analysisRes.patient,
+                exposure.contact,
                 infectiousStatus.infectiousAgent,
                 infectiousStatus.refTime - Second(1), # We want the infectious status just
-                                                      #  before the infectious status that
-                                                      #  we could potentially create
+                                                            #  before the infectious status that
+                                                            #  we could potentially create,
                 false, # retrieveComplexProps::Bool,
                 dbconn
             )
 
             if !ismissing(statusJustBefore)
-                if statusJustBefore.infectiousStatus == InfectiousStatusType.suspicion
+                if statusJustBefore.infectiousStatus ∈ [InfectiousStatusType.carrier]
+                    continue
+
+                #  If a suspicion status already existed then just update the last ref. time
+                elseif statusJustBefore.infectiousStatus == InfectiousStatusType.suspicion
 
                     # Use the refTime to set the updatedRefTime
                     infectiousStatus.updatedRefTime =  infectiousStatus.refTime

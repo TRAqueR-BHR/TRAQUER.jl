@@ -65,3 +65,7 @@ function updateOutbreakInfectiousStatusAssos end
 function delete end
 
 function generateSuspicionStatusesFromAnalyses end
+
+function getInfectiousStatusesOfInterestOverPeriod end
+
+function getTimeWherePatientBecameCarrierOrSuspicion end

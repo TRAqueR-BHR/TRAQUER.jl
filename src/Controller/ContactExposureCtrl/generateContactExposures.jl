@@ -317,6 +317,10 @@ function ContactExposureCtrl.generateContactExposures(
     excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation::Bool = false
 )
 
+    @info "DEBUG carrierStay.id[$(carrierStay.id)]
+        inTime[$(carrierStay.inTime)],
+        outTime[$(carrierStay.outTime)], isolationTime[$(carrierStay.isolationTime)]"
+
     # #################################################################################### #
     # Compute the upper limit                                                              #
     # Upper limit of exposures is either the out time of the unit or the isolation time    #
@@ -353,9 +357,15 @@ function ContactExposureCtrl.generateContactExposures(
             && lastNegativeResultIfPatientBecameCarrierDuringHospitalization.requestTime < carrierStay.outTime
         )
             lowerLimit = lastNegativeResultIfPatientBecameCarrierDuringHospitalization.requestTime + Day(1)
+
+            @info "DEBUG
+                lastNegativeResultIfPatientBecameCarrierDuringHospitalization[$(lastNegativeResultIfPatientBecameCarrierDuringHospitalization.id)]
+                requestTime[$(lastNegativeResultIfPatientBecameCarrierDuringHospitalization.requestTime)]
+                "
+
+
         end
     end
-
 
     return ContactExposureCtrl.generateContactExposures(
         outbreak,

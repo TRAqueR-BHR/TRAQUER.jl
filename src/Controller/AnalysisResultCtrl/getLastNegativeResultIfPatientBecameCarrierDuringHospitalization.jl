@@ -4,6 +4,18 @@ function AnalysisResultCtrl.getLastNegativeResultIfPatientBecameCarrierDuringHos
     dbconn::LibPQ.Connection
 )::Union{Missing, AnalysisResult}
 
+    # Check that the patient actually got carrier/suspicion during this stay
+    infectiousStatusRefTime = InfectiousStatusCtrl.getTimeWherePatientBecameCarrierOrSuspicion(
+        stay.patient,
+        infectiousAgent,
+        stay,
+        dbconn
+    )
+
+    if ismissing(infectiousStatusRefTime)
+        return missing
+    end
+
     # Get the status of the patient at the beginning of the hospitalization
     infectiousStatusAtHospitalization = InfectiousStatusCtrl.getInfectiousStatusAtTime(
         stay.patient,
@@ -13,8 +25,9 @@ function AnalysisResultCtrl.getLastNegativeResultIfPatientBecameCarrierDuringHos
         dbconn
     )
 
+
     # If patient was not at risk or just contact when hospitalized, look for a negative analysis
-    # between the beginning of the hospitalization and the end of the say
+    # between the beginning of the hospitalization and the moment when he became positive/suspicion
     if (
         ismissing(infectiousStatusAtHospitalization)
         || infectiousStatusAtHospitalization.infectiousStatus ∈
@@ -25,9 +38,10 @@ function AnalysisResultCtrl.getLastNegativeResultIfPatientBecameCarrierDuringHos
             stay.patient,
             infectiousAgent,
             stay.hospitalizationInTime,
-            if ismissing(stay.outTime) now(TRAQUERUtil.getTimeZone()) else stay.outTime end,
+            infectiousStatusRefTime,
             dbconn
         )
+
 
         return lastNegativeResult
 

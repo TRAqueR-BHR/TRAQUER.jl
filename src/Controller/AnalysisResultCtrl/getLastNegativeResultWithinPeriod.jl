@@ -11,6 +11,7 @@ function AnalysisResultCtrl.getLastNegativeResultWithinPeriod(
         FROM analysis_result ar
         WHERE ar.patient_id = \$1
           AND ar.request_type = ANY(\$2)
+          AND ar.result = 'negative'
           AND ar.request_time > \$3
           AND ar.request_time < \$4
         ORDER BY ar.request_time DESC" |>

@@ -18,6 +18,7 @@ function ContactExposureCtrl.getExactOverlap(
 
             # No overlap cases
             if carrierOutTime <= contactInTime || contactOutTime <= carrierInTime
+                @info "HERE!"
                 return resultIfNoOverlap
             end
 
@@ -76,6 +77,7 @@ function ContactExposureCtrl.getExactOverlap(
 
     end
 
+    @info "overlapStart[$overlapStart], overlapEnd[$overlapEnd]"
 
     return overlapStart, overlapEnd
 end
@@ -84,6 +86,9 @@ function ContactExposureCtrl.getExactOverlap(
     carrierStay::Stay,
     contactStay::Stay,
 )::Tuple{ZonedDateTime, Union{ZonedDateTime, Missing}}
+
+    @info "carrierStay[$(carrierStay.id)]"
+    @info "contactStay[$(contactStay.id)]"
 
     return ContactExposureCtrl.getExactOverlap(
         carrierStay.inTime,
@@ -99,6 +104,11 @@ function ContactExposureCtrl.getExactOverlap(
     carrierOutTime::Union{Missing, ZonedDateTime},
     contactStay::Stay,
 )::Tuple{ZonedDateTime, Union{ZonedDateTime, Missing}}
+
+    @info "carrierInTime[$carrierInTime]"
+    @info "carrierOutTime[$carrierOutTime]"
+    @info "contactStay.inTime[$(contactStay.inTime)]"
+    @info "contactStay.outTime[$(contactStay.outTime)]"
 
     return ContactExposureCtrl.getExactOverlap(
         carrierInTime,
