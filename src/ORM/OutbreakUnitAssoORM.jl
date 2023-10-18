@@ -15,6 +15,7 @@ const columns_selection_and_mapping = Dict(
   :startTime => "start_time", 
   :endTime => "end_time", 
   :sameRoomOnly => "same_room_only", 
+  :sameSectorOnly => "same_sector_only", 
   :isDefault => "is_default", 
   :comment => "comment", 
 )

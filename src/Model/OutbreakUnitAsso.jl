@@ -7,6 +7,7 @@ mutable struct OutbreakUnitAsso <: IOutbreakUnitAsso
   startTime::Union{Missing,ZonedDateTime}
   endTime::Union{Missing,ZonedDateTime}
   sameRoomOnly::Union{Missing,Bool}
+  sameSectorOnly::Union{Missing,Bool}
   isDefault::Union{Missing,Bool}
   comment::Union{Missing,String}
 
@@ -19,10 +20,11 @@ mutable struct OutbreakUnitAsso <: IOutbreakUnitAsso
     startTime = missing,
     endTime = missing,
     sameRoomOnly = missing,
+    sameSectorOnly = missing,
     isDefault = missing,
     comment = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
     x.unit = unit
     x.outbreak = outbreak
     x.creator = creator
@@ -30,6 +32,7 @@ mutable struct OutbreakUnitAsso <: IOutbreakUnitAsso
     x.startTime = startTime
     x.endTime = endTime
     x.sameRoomOnly = sameRoomOnly
+    x.sameSectorOnly = sameSectorOnly
     x.isDefault = isDefault
     x.comment = comment
     return x

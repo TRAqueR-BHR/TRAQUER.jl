@@ -132,6 +132,11 @@ function StayCtrl.getStaysWherePatientAtRisk(
         dbconn
     )
 
+    # There may be no stay for the infectious status (not the most common scenario)
+    if ismissing(infectiousStatusStay)
+        return Stay[]
+    end
+
     # For 'contact' status, start at the stay during which the infectious status started
     if atRiskStatus.infectiousStatus == InfectiousStatusType.contact
         filter!(
