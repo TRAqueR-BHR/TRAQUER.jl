@@ -36,7 +36,7 @@ function Custom.convertETLInputDataToRequestAndResultType(
             return nothing
 
         elseif valeur_resultat ∈ ["A"]
-            return AnalysisResultValueType.negative
+            result = AnalysisResultValueType.negative
 
         elseif startswith(valeur_resultat,"S")
             result = AnalysisResultValueType.suspicion

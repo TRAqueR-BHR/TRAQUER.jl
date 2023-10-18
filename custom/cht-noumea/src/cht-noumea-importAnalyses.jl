@@ -10,7 +10,7 @@ function Custom.importAnalyses(
    csvFilepath::AbstractString,
    encryptionStr::AbstractString
    ;maxNumberOfLinesToIntegrate::Union{Integer,Missing} = missing,
-   rangeToIntegrate::Union{UnitRange{<:Integer},Missing} = missing,
+   rangeToIntegrate::Union{Vector{<:Integer},UnitRange{<:Integer},Missing} = missing,
    moveFileToDoneDir::Bool = true
 )
 
@@ -43,6 +43,9 @@ function Custom.importAnalyses(
          ;delim = ";"
       )
    end
+
+   # Create a line number column (used in particular to know the lines where we had problems)
+   dfAnalyses.lineNumInSrcFile = 2:nrow(dfAnalyses)+1
 
    # Limit to a range if any
    if !ismissing(rangeToIntegrate)
@@ -118,9 +121,6 @@ function Custom.importAnalyses(
    df.NIP_PATIENT = String.(string.(df.NIP_PATIENT))
    df.NIP_PATIENT = replace.(df.NIP_PATIENT, r"^0+" => s"")
 
-   # Create a line number column (used in particular to know the lines where we had problems)
-   df.lineNumInSrcFile = 2:nrow(df)+1
-
    # Create an analysis ref. column
    df.analysis_ref = map(
       (D_CODE_COMPLET, ANA_CODE) -> begin
@@ -151,139 +151,142 @@ function Custom.importAnalyses(
    encryptionStr::AbstractString,
 )
 
-   # Create an empty DataFrame for storing problems
-   dfOfRowsInError = DataFrame(
-      lineNumInSrcFile = Vector{Int}(),
-      error = Vector{String}()
-   )
+   TRAQUERUtil.createDBConnAndExecute() do dbconn
 
-   dbconn = TRAQUERUtil.openDBConn()
-   _tz = TRAQUERUtil.getTimeZone()
+      # Create an empty DataFrame for storing problems
+      dfOfRowsInError = DataFrame(
+         lineNumInSrcFile = Vector{Int}(),
+         error = Vector{String}()
+      )
 
-   lineNumInSrcFile = 0
+      _tz = TRAQUERUtil.getTimeZone()
 
-   try
+      lineNumInSrcFile = 0
 
       for (rowIdx, r) in enumerate(eachrow(df))
 
-         # Keep track of the line number in the src CSV file
-         lineNumInSrcFile = r.lineNumInSrcFile
+         try
 
-         # Check if NIP_PATIENT is missing or empty.
-         # This can happen because some test NIPs are 0s only and we removed the 0s in the
-         # calling function
-         if ismissing(r.NIP_PATIENT) || isempty(r.NIP_PATIENT)
-            continue
+            # Keep track of the line number in the src CSV file
+            lineNumInSrcFile = r.lineNumInSrcFile
+
+            # Check if NIP_PATIENT is missing or empty.
+            # This can happen because some test NIPs are 0s only and we removed the 0s in the
+            # calling function
+            if ismissing(r.NIP_PATIENT) || isempty(r.NIP_PATIENT)
+               continue
+            end
+
+            # Check if analysys ref is missing
+            if ismissing(r.analysis_ref)
+               continue
+            end
+
+            patientRef = passmissing(String)(r.NIP_PATIENT)
+            patientLastname = passmissing(String)(r.NOM) |>
+               n -> if ismissing(n) "Non renseigné" else n end
+            patientFirstname = passmissing(String)(r.NOM) |>
+               n -> if ismissing(n) "Non renseigné" else n end
+            patientBirthdate::Date = r.DATE_NAISSANCE |> n -> Date(n,DateFormat("d/m/y"))
+            analysisRef = String(r.analysis_ref)
+            resultRawText = if (
+               ismissing(r.Libelle_micro_organisme)
+               || strip(r.Libelle_micro_organisme) == "null"
+            )
+               missing
+            else
+               strip(r.Libelle_micro_organisme)
+            end
+
+            requestTime = TRAQUERUtil.convertStringToZonedDateTime(
+               String(r.DATE_DEMANDE), # String15 -> String
+               string(r.HEURE_DEMANDE), # Int64 -> String
+               _tz
+            )
+
+            resultTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
+               passmissing(String)(r.DATE_SAISIE_RES), # String15 -> String
+               passmissing(string)(r.HEURE_SAISIE_RES), # Int64 -> String
+               _tz
+            )
+
+            sample = Custom.Custom.convertETLInputDataToSampleMaterialType(
+               passmissing(String)(r.NATURE_CODE)
+           )
+
+            tmpRes = Custom.convertETLInputDataToRequestAndResultType(
+               passmissing(String)(r.ANA_CODE), # String7 -> String
+               passmissing(String)(r.BMR), # String7 -> String
+               passmissing(String)(r.VALEUR_RESULTAT) # String15 -> String
+            )
+
+            if isnothing(tmpRes)
+               continue
+            end
+            requestType, result = tmpRes
+
+            # Get a patient
+            patient =
+               PatientCtrl.retrieveOnePatient(patientRef, encryptionStr, dbconn)
+
+            # If cannot find a patient
+            # NOTE: We may not have a patient in the case where the analysis is done at the
+            #       request of  another hospital.
+            #       In that case the NIP is not a NIP of the CHT which poses a challenge to
+            #       associate this analysis (and potentially, an infectious status) to the
+            #       right patient in case of a hospitalization at the CHT
+            patient = PatientCtrl.createPatientIfNoExist(
+               patientFirstname,
+               patientLastname,
+               patientBirthdate,
+               patientRef,
+               encryptionStr,
+               dbconn
+            )
+
+            # Get a stay.
+            # NOTE: We may not find a stay for the analysis, it doesnt matter, we still want to
+            #       record the information so that we can deduce the infectious status
+            stay = StayCtrl.retrieveOneStayContainingDateTime(patient, requestTime, dbconn)
+
+            analysisResult = AnalysisResult(
+               patient = patient,
+               stay = stay,
+               sampleMaterialType = sample,
+               requestTime = requestTime,
+               resultTime = resultTime,
+               result = result,
+               resultRawText = resultRawText,
+               requestType = requestType,
+            )
+
+            analysisResult = AnalysisResultCtrl.upsert!(
+               analysisResult,
+               analysisRef,
+               encryptionStr,
+               dbconn
+            )
+
+         catch e
+            errorDescription = TRAQUERUtil.formatExceptionAndStackTraceCore(
+               e, stacktrace(catch_backtrace())
+            )
+
+            push!(
+               dfOfRowsInError,
+               (
+                  lineNumInSrcFile = lineNumInSrcFile,
+                  error = errorDescription
+               )
+            )
+
          end
-
-         # Check if analysys ref is missing
-         if ismissing(r.analysis_ref)
-            continue
-         end
-
-         patientRef = passmissing(String)(r.NIP_PATIENT)
-         patientLastname = passmissing(String)(r.NOM) |>
-            n -> if ismissing(n) "Non renseigné" else n end
-         patientFirstname = passmissing(String)(r.NOM) |>
-            n -> if ismissing(n) "Non renseigné" else n end
-         patientBirthdate::Date = r.DATE_NAISSANCE |> n -> Date(n,DateFormat("d/m/y"))
-         analysisRef = String(r.analysis_ref)
-         resultRawText = if (
-            ismissing(r.Libelle_micro_organisme)
-            || strip(r.Libelle_micro_organisme) == "null"
-         )
-            missing
-         else
-            strip(r.Libelle_micro_organisme)
-         end
-
-         requestTime = TRAQUERUtil.convertStringToZonedDateTime(
-            String(r.DATE_DEMANDE), # String15 -> String
-            string(r.HEURE_DEMANDE), # Int64 -> String
-            _tz
-         )
-
-         resultTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
-            passmissing(String)(r.DATE_SAISIE_RES), # String15 -> String
-            passmissing(string)(r.HEURE_SAISIE_RES), # Int64 -> String
-            _tz
-         )
-
-         sample = Custom.Custom.convertETLInputDataToSampleMaterialType(
-            passmissing(String)(r.NATURE_CODE)
-        )
-
-         tmpRes = Custom.convertETLInputDataToRequestAndResultType(
-            passmissing(String)(r.ANA_CODE), # String7 -> String
-            passmissing(String)(r.BMR), # String7 -> String
-            passmissing(String)(r.VALEUR_RESULTAT) # String15 -> String
-         )
-
-         if isnothing(tmpRes)
-            continue
-         end
-         requestType, result = tmpRes
-
-         # Get a patient
-         patient =
-            PatientCtrl.retrieveOnePatient(patientRef, encryptionStr, dbconn)
-
-         # If cannot find a patient
-         # NOTE: We may not have a patient in the case where the analysis is done at the
-         #       request of  another hospital.
-         #       In that case the NIP is not a NIP of the CHT which poses a challenge to
-         #       associate this analysis (and potentially, an infectious status) to the
-         #       right patient in case of a hospitalization at the CHT
-         patient = PatientCtrl.createPatientIfNoExist(
-            patientFirstname,
-            patientLastname,
-            patientBirthdate,
-            patientRef,
-            encryptionStr,
-            dbconn
-         )
-
-         # Get a stay.
-         # NOTE: We may not find a stay for the analysis, it doesnt matter, we still want to
-         #       record the information so that we can deduce the infectious status
-         stay = StayCtrl.retrieveOneStayContainingDateTime(patient, requestTime, dbconn)
-
-         analysisResult = AnalysisResult(
-            patient = patient,
-            stay = stay,
-            sampleMaterialType = sample,
-            requestTime = requestTime,
-            resultTime = resultTime,
-            result = result,
-            resultRawText = resultRawText,
-            requestType = requestType,
-         )
-
-         analysisResult = AnalysisResultCtrl.upsert!(
-            analysisResult,
-            analysisRef,
-            encryptionStr,
-            dbconn
-         )
 
       end # `for r in eachrow(df)`
 
-   catch e
-      errorDescription = TRAQUERUtil.formatExceptionAndStackTraceCore(
-         e, stacktrace(catch_backtrace())
-      )
+      return dfOfRowsInError
 
-      push!(
-         dfOfRowsInError,
-         (
-            lineNumInSrcFile = lineNumInSrcFile,
-            error = errorDescription
-         )
-      )
-   finally
-       TRAQUERUtil.closeDBConn(dbconn)
-   end
+   end # ENDOF createDBConnAndExecute do function
 
-   return dfOfRowsInError
 
 end

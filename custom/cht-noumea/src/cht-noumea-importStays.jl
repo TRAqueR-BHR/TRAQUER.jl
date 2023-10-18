@@ -43,6 +43,8 @@ function Custom.importStays(
        )
     end
 
+    # Create a line number column (used in particular to know the lines where we had problems)
+    dfStays.lineNumInSrcFile = 2:nrow(dfStays)+1
 
     @time dfOfRowsInError = TRAQUER.Custom.importStays(
         dfStays,
@@ -129,143 +131,144 @@ function Custom.importStays(
     encryptionStr::AbstractString
 )
 
-    # Create an empty DataFrame for storing problems
-    dfOfRowsInError = DataFrame(
-        lineNumInSrcFile = Vector{Int}(),
-        error = Vector{String}()
-    )
+    TRAQUERUtil.createDBConnAndExecute() do dbconn
 
-    dbconn = TRAQUERUtil.openDBConn()
-    _tz = TRAQUERUtil.getTimeZone()
+        # Create an empty DataFrame for storing problems
+        dfOfRowsInError = DataFrame(
+            lineNumInSrcFile = Vector{Int}(),
+            error = Vector{String}()
+        )
 
-    lineNumInSrcFile = 0
+        _tz = TRAQUERUtil.getTimeZone()
 
-    try
+        lineNumInSrcFile = 0
 
         for r in eachrow(df)
 
-            # Keep track of the line number in the src CSV file
-            lineNumInSrcFile = r.lineNumInSrcFile
+            try
 
-            unitCodeName = string(r.CODE_UF_LOCA)
-            unitName = r.NOM_UF_LOCA
-            ref = string(r.NIP)
-            firstname = string(r.PRENOM)
-            lastname = string(r.NOM)
-            birthdate::Date = r.DATE_NAISSANCE |> n -> Date(n,DateFormat("d/m/y"))
+                # Keep track of the line number in the src CSV file
+                lineNumInSrcFile = r.lineNumInSrcFile
 
-            # Check if NIP_PATIENT is missing or empty.
-            # This can happen because some test NIPs are 0s only and we removed the 0s in the
-            # calling function
-            if ismissing(ref) || isempty(ref)
-                continue
+                unitCodeName = string(r.CODE_UF_LOCA)
+                unitName = r.NOM_UF_LOCA
+                ref = string(r.NIP)
+                firstname = string(r.PRENOM)
+                lastname = string(r.NOM)
+                birthdate::Date = r.DATE_NAISSANCE |> n -> Date(n,DateFormat("d/m/y"))
+
+                # Check if NIP_PATIENT is missing or empty.
+                # This can happen because some test NIPs are 0s only and we removed the 0s in the
+                # calling function
+                if ismissing(ref) || isempty(ref)
+                    continue
+                end
+
+                # Ignore consultations
+                if contains(r.NOM_UF_LOCA," CS") || contains(r.NOM_UF_LOCA," CS ")
+                    continue
+                end
+
+                # Hospitalization in/out
+                hospitalizationInDateStr = string(r.DATE_ENTREE_SEJOUR)
+                hospitalizationInTimeStr = string(r.HEURE_ENTREE_SEJ)
+                hospitalizationInTime = TRAQUERUtil.convertStringToZonedDateTime(
+                    hospitalizationInDateStr,
+                    hospitalizationInTimeStr,
+                    _tz
+                )
+                hospitalizationOutDateStr = passmissing(string)(r.DATE_SORTIE_SEJOUR)
+                hospitalizationOutTimeStr = string(r.HEURE_SORTIE_SEJOUR)
+                hospitalizationOutTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
+                    hospitalizationOutDateStr,
+                    hospitalizationOutTimeStr,
+                    _tz
+                )
+
+                # Unit in/out
+                inDateStr = string(r.DATE_ENTREE_MVT)
+                inTimeStr =string(r.HEURE_ENT_MVT)
+                inTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
+                    inDateStr,
+                    inTimeStr,
+                    _tz
+                )
+                outDateAsStr = passmissing(string)(r.DATE_SORTIE_MVT)
+                outTimeAsStr = passmissing(string)(r.HEURE_SOR_MVT)
+                outTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
+                    outDateAsStr,
+                    outTimeAsStr,
+                    _tz
+                )
+
+                # Room
+                room = passmissing(String)(r.NUMEROT_LIT) # String7 -> String
+
+                # Sector
+                sector = passmissing(string)(r.NOM_SECTEUR)
+
+                # Out label
+                outLabel = passmissing(string)(r.LIB_MODE_SORTIE)
+                diedDuringStay::Bool = if (
+                    !ismissing(outLabel)
+                    && TRAQUERUtil.rmAccentsAndLowercase(outLabel) === "deces"
+                )
+                    true
+                else
+                    false
+                end
+
+                # Get a unit
+                unit = UnitCtrl.createUnitIfNotExists(unitCodeName,unitName,dbconn)
+
+                # Get a patient
+                patient = PatientCtrl.createPatientIfNoExist(
+                    firstname,
+                    lastname,
+                    birthdate,
+                    ref,
+                    encryptionStr,
+                    dbconn)
+
+                if ismissing(patient)
+                    error("Unable to find patient for firstname[$firstname]"
+                    * " lastname[$lastname] birthdate[$birthdateAsStr]."
+                    * " Maybe a file of checks has not been integrated.")
+                end
+
+                # Retrieve the stay
+                stay = Stay(
+                    patient = patient,
+                    unit = unit,
+                    inTime = inTime,
+                    outTime = outTime,
+                    hospitalizationInTime = hospitalizationInTime,
+                    hospitalizationOutTime = hospitalizationOutTime,
+                    hospitalizationOutComment = outLabel,
+                    room = room,
+                    sector = sector,
+                    patientDiedDuringStay = diedDuringStay
+                )
+                StayCtrl.upsert!(stay, dbconn)
+
+            catch e
+                errorDescription = TRAQUERUtil.formatExceptionAndStackTraceCore(
+                    e, stacktrace(catch_backtrace())
+                )
+
+                push!(
+                    dfOfRowsInError,
+                    (
+                        lineNumInSrcFile = lineNumInSrcFile,
+                        error = errorDescription
+                    )
+                )
             end
-
-            # Ignore consultations
-            if contains(r.NOM_UF_LOCA," CS") || contains(r.NOM_UF_LOCA," CS ")
-                continue
-            end
-
-            # Hospitalization in/out
-            hospitalizationInDateStr = string(r.DATE_ENTREE_SEJOUR)
-            hospitalizationInTimeStr = string(r.HEURE_ENTREE_SEJ)
-            hospitalizationInTime = TRAQUERUtil.convertStringToZonedDateTime(
-                hospitalizationInDateStr,
-                hospitalizationInTimeStr,
-                _tz
-            )
-            hospitalizationOutDateStr = passmissing(string)(r.DATE_SORTIE_SEJOUR)
-            hospitalizationOutTimeStr = string(r.HEURE_SORTIE_SEJOUR)
-            hospitalizationOutTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
-                hospitalizationOutDateStr,
-                hospitalizationOutTimeStr,
-                _tz
-            )
-
-            # Unit in/out
-            inDateStr = string(r.DATE_ENTREE_MVT)
-            inTimeStr =string(r.HEURE_ENT_MVT)
-            inTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
-                inDateStr,
-                inTimeStr,
-                _tz
-            )
-            outDateAsStr = passmissing(string)(r.DATE_SORTIE_MVT)
-            outTimeAsStr = passmissing(string)(r.HEURE_SOR_MVT)
-            outTime = passmissing(TRAQUERUtil.convertStringToZonedDateTime)(
-                outDateAsStr,
-                outTimeAsStr,
-                _tz
-            )
-
-            # Room
-            room = passmissing(String)(r.NUMEROT_LIT) # String7 -> String
-
-            # Sector
-            sector = passmissing(string)(r.NOM_SECTEUR)
-
-            # Out label
-            outLabel = passmissing(string)(r.LIB_MODE_SORTIE)
-            diedDuringStay::Bool = if (
-                !ismissing(outLabel)
-                && TRAQUERUtil.rmAccentsAndLowercase(outLabel) === "deces"
-            )
-                true
-            else
-                false
-            end
-
-            # Get a unit
-            unit = UnitCtrl.createUnitIfNotExists(unitCodeName,unitName,dbconn)
-
-            # Get a patient
-            patient = PatientCtrl.createPatientIfNoExist(
-                firstname,
-                lastname,
-                birthdate,
-                ref,
-                encryptionStr,
-                dbconn)
-
-            if ismissing(patient)
-                error("Unable to find patient for firstname[$firstname]"
-                * " lastname[$lastname] birthdate[$birthdateAsStr]."
-                * " Maybe a file of checks has not been integrated.")
-            end
-
-            # Retrieve the stay
-            stay = Stay(
-                patient = patient,
-                unit = unit,
-                inTime = inTime,
-                outTime = outTime,
-                hospitalizationInTime = hospitalizationInTime,
-                hospitalizationOutTime = hospitalizationOutTime,
-                hospitalizationOutComment = outLabel,
-                room = room,
-                sector = sector,
-                patientDiedDuringStay = diedDuringStay
-            )
-            StayCtrl.upsert!(stay, dbconn)
 
         end # `for r in eachrow(df)`
 
-    catch e
-        errorDescription = TRAQUERUtil.formatExceptionAndStackTraceCore(
-            e, stacktrace(catch_backtrace())
-        )
+        return dfOfRowsInError
 
-        push!(
-            dfOfRowsInError,
-            (
-                lineNumInSrcFile = lineNumInSrcFile,
-                error = errorDescription
-            )
-        )
-    finally
-        TRAQUERUtil.closeDBConn(dbconn)
-    end
-
-    return dfOfRowsInError
+    end # ENDOF createDBConnAndExecute do function
 
 end
