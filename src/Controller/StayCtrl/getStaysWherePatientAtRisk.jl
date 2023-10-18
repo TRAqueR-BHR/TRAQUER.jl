@@ -176,7 +176,7 @@ function StayCtrl.getStaysWherePatientAtRisk(
             # Drop the stays that ended before the last negative result. The stay of the
             # negative result is considered at risk because the patient may have become
             # positive during that stay
-            if ismissing(lastNegativeResult)
+            if !ismissing(lastNegativeResult)
                 filter!(
                     s -> begin
                        #  Negative analysis result:            ⬇
