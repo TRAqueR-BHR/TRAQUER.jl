@@ -60,6 +60,14 @@ Isolation:              📢                  📢
 All stays:            [===][===]  [====][=======][======]    [====][=======][======]
 stays at risk:          ✓           ✓       ✓                 ✓
 
+# Case where the infectious status is not in a stay
+
+Hospitalization:             [========]  [=====================]   [======================]
+outbreak.refTime:
+Infectious status:      🍎                                           🍏
+Isolation:                     📢                  📢
+All stays:                   [===][===]  [====][=======][======]    [====][=======][======]
+stays at risk:                 ✓           ✓       ✓                 ✓
 
 
 """
@@ -219,10 +227,16 @@ function StayCtrl.getStaysWherePatientAtRisk(
 
                 # Look for an isolation time for that hospitalization
                 # NOTE: We assume that there is only one isolation time declared
+                # per hospitalization, if there are several then we take the first
+                # one that comes (TODO: Do better than this).
+                # One could think "A new isolation should be declared for every stay", the
+                # answer is no because knowing that we have 'new_stay' events, we can
+                # consider that the subsequent stays are not at risk
                 stayWithIsolationForSameHospitalization = filter(
                     st -> st.hospitalizationInTime == s.hospitalizationInTime,
                     staysWithIsolation
                 ) |> n -> if isempty(n) missing else first(n) end
+
                 if !ismissing(stayWithIsolationForSameHospitalization)
                     # If stay started before the isolationTime keep it
                     if s.inTime <= stayWithIsolationForSameHospitalization.isolationTime

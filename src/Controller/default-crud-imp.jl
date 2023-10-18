@@ -110,18 +110,14 @@ function Controller.update!(object::T
                 ;updateVectorProps::Union{Missing, Bool} = false,
                  editor::Union{Missing, Appuser} = missing) where T <: PostgresORM.IEntity
 
-@info "DEBUG1"
     Controller.preUpdate!(object)
-@info "DEBUG2"
     dbconn = openDBConnAndBeginTransaction()
 
     try
-@info "DEBUG3"
         # Update the entity itself
         PostgresORM.update_entity!(object,
                                    dbconn
                                   ;editor = editor)
-@info "DEBUG4"
         # Update the associations
         if updateVectorProps
             Controller.updateVectorProps!(
@@ -129,7 +125,6 @@ function Controller.update!(object::T
                 dbconn
                 ;editor = editor
             )
-            @info "DEBUG5!!"
         end
 
         Controller.postUpdate!(object)

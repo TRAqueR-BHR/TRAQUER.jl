@@ -27,7 +27,7 @@ function OutbreakUnitAssoCtrl.refreshOutbreakUnitAssos(
         push!(
             atRiskStays,
             StayCtrl.getStaysWherePatientAtRisk(carrierStatus, dbconn)...
-            )
+        )
     end
 
     # Create the associations

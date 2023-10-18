@@ -207,7 +207,7 @@ function ContactExposureCtrl.generateContactExposures(
     # If there are no carrier stay in the asso, the asso is probably created from scratch
     #   by the user
     if isempty(carrierStays)
-        error("It is Not supported to generate contact exposures without carriers stays")
+        @warn ("No carrier stay was found for OutbreakUnitAsso[$(asso.id)]")
         # push!(
         #     exposures,
         #     ContactExposureCtrl.generateContactExposures(
@@ -317,10 +317,6 @@ function ContactExposureCtrl.generateContactExposures(
     excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation::Bool = false
 )
 
-    @info "DEBUG carrierStay.id[$(carrierStay.id)]
-        inTime[$(carrierStay.inTime)],
-        outTime[$(carrierStay.outTime)], isolationTime[$(carrierStay.isolationTime)]"
-
     # #################################################################################### #
     # Compute the upper limit                                                              #
     # Upper limit of exposures is either the out time of the unit or the isolation time    #
@@ -357,12 +353,6 @@ function ContactExposureCtrl.generateContactExposures(
             && lastNegativeResultIfPatientBecameCarrierDuringHospitalization.requestTime < carrierStay.outTime
         )
             lowerLimit = lastNegativeResultIfPatientBecameCarrierDuringHospitalization.requestTime + Day(1)
-
-            @info "DEBUG
-                lastNegativeResultIfPatientBecameCarrierDuringHospitalization[$(lastNegativeResultIfPatientBecameCarrierDuringHospitalization.id)]
-                requestTime[$(lastNegativeResultIfPatientBecameCarrierDuringHospitalization.requestTime)]
-                "
-
 
         end
     end

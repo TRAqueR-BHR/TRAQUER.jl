@@ -39,7 +39,15 @@ function StayCtrl.retrieveOneStayContainingDateTime(
     if isempty(stays)
         return missing
     else
-        return first(stays)
+        # Check that the closest stay really embeds the infectious status,
+        # i.e. that it doesnt finish before the infectious status ref. time
+        closestStay = first(stays)
+
+        if !ismissing(closestStay.outTime) && closestStay.outTime < zonedDateTime
+            return missing
+        end
+
+        return closestStay
     end
 
 end
