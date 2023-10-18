@@ -764,7 +764,7 @@ new_route = route("/api/outbreak/save", req -> begin
 
     # Initialize results
     error = nothing
-    assos::Union{Vector{OutbreakUnitAsso},Missing} = missing
+    outbreak::Union{Outbreak,Missing} = missing
 
     status_code = try
 
@@ -778,9 +778,9 @@ new_route = route("/api/outbreak/save", req -> begin
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
 
         # Create the entity from the JSON Dict
-        outbreak::Outbreak = json2entity(Outbreak, obj)
+        outbreak = json2entity(Outbreak, obj)
 
-        assos = TRAQUERUtil.executeOnBgThread() do
+        TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
                 PostgresORM.update_entity!(outbreak, dbconn)
             end
@@ -813,7 +813,7 @@ new_route = route("/api/outbreak/save", req -> begin
     result::Union{Missing,String} = missing
     try
         if status_code == 200
-            result = String(JSON.json(assos)) # The client side doesn't really need the message
+            result = String(JSON.json(outbreak)) # The client side doesn't really need the message
         else
             result = String(JSON.json(string(error)))
         end
