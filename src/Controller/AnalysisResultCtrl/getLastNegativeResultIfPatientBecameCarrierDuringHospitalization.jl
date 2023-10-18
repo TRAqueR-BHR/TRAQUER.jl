@@ -14,6 +14,7 @@ function AnalysisResultCtrl.getLastNegativeResultIfPatientBecameCarrierDuringHos
     )
 
     # If patient was not at risk or just contact when hospitalized, look for a negative analysis
+    # between the beginning of the hospitalization and the end of the say
     if (
         ismissing(infectiousStatusAtHospitalization)
         || infectiousStatusAtHospitalization.infectiousStatus ∈
@@ -21,10 +22,10 @@ function AnalysisResultCtrl.getLastNegativeResultIfPatientBecameCarrierDuringHos
     )
 
         lastNegativeResult = AnalysisResultCtrl.getLastNegativeResultWithinPeriod(
-            atRiskStatus.patient,
+            stay.patient,
             infectiousAgent,
-            infectiousStatusStay.hospitalizationInTime,
-            atRiskStatus.refTime,
+            stay.hospitalizationInTime,
+            if ismissing(stay.outTime) now(TRAQUERUtil.getTimeZone()) else stay.outTime end,
             dbconn
         )
 

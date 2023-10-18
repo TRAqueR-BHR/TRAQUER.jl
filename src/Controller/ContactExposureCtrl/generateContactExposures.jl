@@ -343,7 +343,7 @@ function ContactExposureCtrl.generateContactExposures(
     # If patient was not at risk when entering the hospital and that he turned carrier during
     # the hospitalization after having some negative tests, use the last negative test as
     # the lower limit
-    if !ismissing(lastNegativeResult)
+    if !ismissing(lastNegativeResultIfPatientBecameCarrierDuringHospitalization)
         # If the stay is the one where the patient was last negative use the request time
         # as the lower limit plus one day (we consider that the patient cannot have turned
         # positive on the same day that he was tested negative)
