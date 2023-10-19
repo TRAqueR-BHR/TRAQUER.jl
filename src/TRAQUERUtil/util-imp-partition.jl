@@ -38,7 +38,7 @@ function TRAQUERUtil.createPartitionPatientNameIfNotExist(lastname::AbstractStri
         #
         # Create partition for 'patient_name_crypt'
         #
-        lastnameLowerCaseNoAccent = TRAQUERUtil.rmAccentsAndLowercase(lastname)
+        lastnameLowerCaseNoAccent = TRAQUERUtil.cleanStringForEncryptedValueCp(lastname)
         firstLetter = lastnameLowerCaseNoAccent[1]
         partitionedTable = "patient_name_crypt"
         partitionName = "$(partitionedTable)_$(firstLetter)"

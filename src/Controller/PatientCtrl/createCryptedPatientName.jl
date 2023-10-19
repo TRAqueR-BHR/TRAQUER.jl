@@ -4,15 +4,13 @@ function PatientCtrl.createCryptedPatientName(firstname::AbstractString,
                                               encryptionStr::AbstractString,
                                               dbconn::LibPQ.Connection)
 
-      # Create partition if needed
-      TRAQUERUtil.createPartitionPatientNameIfNotExist(lastname,
-                                                       dbconn)
-
       # The value used for comparion
-      # Eg, "François Abélard" -> "abelard francois"
       firstname_forCp = TRAQUERUtil.cleanStringForEncryptedValueCp(firstname)
       lastname_forCp = TRAQUERUtil.cleanStringForEncryptedValueCp(lastname)
       lastnameFirstLetter = lastname_forCp[1]
+
+      # Create partition if needed
+      TRAQUERUtil.createPartitionPatientNameIfNotExist(lastname, dbconn)
 
       insertQueryStr =
           "INSERT INTO public.patient_name_crypt(lastname_first_letter,

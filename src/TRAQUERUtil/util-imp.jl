@@ -268,11 +268,8 @@ function TRAQUERUtil.cleanStringForEncryptedValueCp(str)
              n -> TRAQUERUtil.normalizeWhites(n,
                                              # replace line returns by spaces
                                              true) |>
-             n -> split(n,r"[[:punct:]\s]") |>
-             n -> filter(x -> !isempty(x),n) |>
-             n -> sort(n) |>
-             n -> string.(n) |>
-             n -> join(n," ")
+             strip |> string |>
+             n -> replace(n, r"[[:punct:]]" => "")
     result
 end
 

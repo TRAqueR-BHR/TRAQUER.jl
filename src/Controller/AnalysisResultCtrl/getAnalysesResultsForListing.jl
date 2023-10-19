@@ -117,13 +117,13 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
             # Special treatment for filter on the crypted lastname
             elseif (nameInSelect == "lastname" && !ismissing(cryptPwd))
                 # Add a first filter on the first letter for performance
-                filterValue = lowercase(filterValue)
+                filterValue = TRAQUERUtil.cleanStringForEncryptedValueCp(filterValue)
                 queryStringShared *= "
                     AND pnc.lastname_first_letter = \$$(args_counter += 1)"
                 push!(queryArgs,filterValue[1])
                 # Add the filter itself
                 queryStringShared *= "
-                    AND pgp_sym_decrypt(pnc.lastname_crypt, \$1)
+                    AND pgp_sym_decrypt(pnc.lastname_for_cp_crypt, \$1)
                         ILIKE \$$(args_counter += 1) "
                 push!(queryArgs,(filterValue * "%"))
 
