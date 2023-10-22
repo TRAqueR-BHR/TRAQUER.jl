@@ -207,7 +207,7 @@ function Custom.importStays(
                     missing
                 else
                     # Eg. F114-D -> F114
-                    room = split(room, '-')[1]
+                    split(numeroLit, '-')[1]
                 end
 
                 # Sector
