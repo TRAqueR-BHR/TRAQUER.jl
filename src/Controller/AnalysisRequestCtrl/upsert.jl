@@ -9,15 +9,15 @@ function AnalysisRequestCtrl.upsert!(
     if ismissing(analysisRequest.requestType)
         error("Property AnalysisRequest.requestType is required")
     end
-    if ismissing(analysisRequest.creationTime)
-        error("Property AnalysisRequest.creationTime is required")
+    if ismissing(analysisRequest.requestTime)
+        error("Property AnalysisRequest.requestTime is required")
     end
 
     objectFilter = if ismissing(analysisRequest.id)
         AnalysisRequest(
             unit = Unit(id = analysisRequest.unit.id),
             requestType = analysisRequest.requestType,
-            creationTime = analysisRequest.creationTime
+            requestTime = analysisRequest.requestTime
         )
     else
         AnalysisRequest(id = analysisRequest.id)

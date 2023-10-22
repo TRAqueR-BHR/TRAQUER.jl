@@ -14,6 +14,8 @@ new_route = route("/api/authenticate", req -> begin
 
     appuser = missing
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
 
     status_code = try
 
@@ -23,8 +25,7 @@ new_route = route("/api/authenticate", req -> begin
 
     catch e
         # https://pkg.julialang.org/docs/julia/THl1k/1.1.1/manual/stacktraces.html#Error-handling-1
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom message if the file could not be retrieved
         error = e
@@ -42,8 +43,7 @@ new_route = route("/api/authenticate", req -> begin
             result = String(JSON.json(error))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -91,6 +91,8 @@ new_route = route("/api/appuser/retrieve-user-from-id", req -> begin
     # Initialize results
     appUser::Union{Missing,Appuser} = missing
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
 
     status_code = try
 
@@ -112,8 +114,7 @@ new_route = route("/api/appuser/retrieve-user-from-id", req -> begin
 
     catch e
         # https://pkg.julialang.org/docs/julia/THl1k/1.1.1/manual/stacktraces.html#Error-handling-1
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom message if the file could not be retrieved
         error = e
@@ -131,8 +132,7 @@ new_route = route("/api/appuser/retrieve-user-from-id", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -176,6 +176,8 @@ new_route = route("/api/appuser/save", req -> begin
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     appUser = missing
 
     status_code = try
@@ -214,8 +216,7 @@ new_route = route("/api/appuser/save", req -> begin
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom appUser if the file could not be retrieved
         error = e
@@ -234,8 +235,7 @@ new_route = route("/api/appuser/save", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -281,6 +281,8 @@ new_route = route("/api/appuser/get-all-users", req -> begin
     # Initialize results
     queryResult = missing
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
 
     status_code = try
 
@@ -293,8 +295,7 @@ new_route = route("/api/appuser/get-all-users", req -> begin
 
     catch e
         # https://pkg.julialang.org/docs/julia/THl1k/1.1.1/manual/stacktraces.html#Error-handling-1
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom message if the file could not be retrieved
         # error = e
@@ -313,8 +314,7 @@ new_route = route("/api/appuser/get-all-users", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 

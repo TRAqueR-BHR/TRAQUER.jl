@@ -2,7 +2,7 @@
 
 julia_version = "1.9.2"
 manifest_format = "2.0"
-project_hash = "8bf57e7790006f979cd4483ead5f034bd2000838"
+project_hash = "6b76161d12cb5f48592ed4c6cdec17b3c3896009"
 
 [[deps.Adapt]]
 deps = ["LinearAlgebra"]
@@ -264,6 +264,12 @@ git-tree-sha1 = "f2355693d6778a178ade15952b7ac47a4ff97996"
 uuid = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 version = "1.3.0"
 
+[[deps.Languages]]
+deps = ["InteractiveUtils", "JSON", "RelocatableFolders"]
+git-tree-sha1 = "85b0221304a723f3fc5221f33b471675e5f64e74"
+uuid = "8ef0a80b-9436-5d2c-a485-80b904378c43"
+version = "0.4.4"
+
 [[deps.LayerDicts]]
 git-tree-sha1 = "6087ad3521d6278ebe5c27ae55e7bbb15ca312cb"
 uuid = "6f188dcb-512c-564b-bc01-e0f76e72f166"
@@ -497,6 +503,12 @@ version = "1.3.3"
 git-tree-sha1 = "45e428421666073eab6f2da5c9d310d99bb12f9b"
 uuid = "189a3867-3050-52da-a836-e630ba90ab69"
 version = "1.2.2"
+
+[[deps.RelocatableFolders]]
+deps = ["SHA", "Scratch"]
+git-tree-sha1 = "ffdaf70d81cf6ff22c2b6e733c900c3321cab864"
+uuid = "05181044-ff0b-4ac5-8273-598c1e38db00"
+version = "1.0.1"
 
 [[deps.Requires]]
 deps = ["UUIDs"]

@@ -30,6 +30,8 @@ new_route = route("/api/outbreak-unit-asso/update-asso-and-refresh-exposures-and
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     success::Union{Bool,Missing} = missing
 
     status_code = try
@@ -70,8 +72,7 @@ new_route = route("/api/outbreak-unit-asso/update-asso-and-refresh-exposures-and
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -90,8 +91,7 @@ new_route = route("/api/outbreak-unit-asso/update-asso-and-refresh-exposures-and
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 

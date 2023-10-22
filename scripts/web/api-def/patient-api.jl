@@ -29,10 +29,9 @@ new_route = route("/api/patient/listing", req -> begin
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     query_result::Union{Dict,Missing} = missing
-
-    # Get current user
-    appuser::Union{Appuser,Missing} = missing
 
     status_code = try
 
@@ -138,10 +137,9 @@ new_route = route("/api/patient/get-decrypted", req -> begin
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     patientDecrypt::Union{PatientDecrypt,Missing} = missing
-
-    # Get current user
-    appuser::Union{Appuser,Missing} = missing
 
     status_code = try
 
@@ -246,9 +244,8 @@ new_route = route("/api/patient/get-patient-decrypted-info/:id", req -> begin
     # Initialize results
     patientDecryptInfo::Union{Missing,DataFrameRow} = missing
     error = nothing
-
-    # Get current user
-    appuser::Union{Appuser,Missing} = missing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
 
     status_code = try
 
@@ -341,9 +338,8 @@ new_route = route("/api/patient/create", req -> begin
     # Initialize results
     patient::Union{Missing,Patient} = missing
     error = nothing
-
-    # Get current user
-    appuser::Union{Appuser,Missing} = missing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
 
     status_code = try
 
@@ -448,9 +444,8 @@ new_route = route("/api/patient/update-name-and-birthdate", req -> begin
     # Initialize results
     patient::Union{Missing,Patient} = missing
     error = nothing
-
-    # Get current user
-    appuser::Union{Appuser,Missing} = missing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
 
     status_code = try
 

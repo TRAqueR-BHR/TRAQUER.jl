@@ -29,8 +29,7 @@ function cleanStringForEncryptedValueCp end
 function normalizeWhites end
 function removeDoubleSpaces end
 function removeDoubleLineReturns end
-function formatExceptionAndStackTrace end
-function formatExceptionAndStackTraceCore end
+
 function updateConf end
 function getTimeZone end
 function getTimeZoneAsStr end
@@ -103,9 +102,15 @@ function getDatabaseDumpRetentionPeriod end
 function sendemail end
 function getAdminEmail end
 function bccAdminForEveryEmail end
+function notifyAdmin end
 
 # Translation
 function getTranslation end
 function getUnitLanguage end
 function loadTranslation end
 function updateTranslation end
+
+# Exception
+function formatExceptionAndStackTrace end
+function formatExceptionAndStackTraceCore end
+function formatExceptionForFrontend end

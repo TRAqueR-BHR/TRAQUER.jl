@@ -8,8 +8,8 @@ include("../runtests-prerequisite.jl")
     )
 
     exposedFunction = ExposedFunction(
-        prettyName = "Medilegist.greet",
-        juliaName = "Medilegist.greet",
+        prettyName = "TRAQUER.greet",
+        juliaName = "TRAQUER.greet",
     )
 
     arguments = [

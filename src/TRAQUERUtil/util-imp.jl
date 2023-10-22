@@ -19,7 +19,9 @@ include("getSchedulerBlacklist.jl")
 include("getJuliaFunction.jl")
 include("util-db-dump.jl")
 include("util-email.jl")
+include("notifyAdmin.jl")
 include("translation/_include.jl")
+include("util-exception.jl")
 
 # see ~/.julia/config/startup.jl for setting the environment variable
 function TRAQUERUtil.loadConf()::ConfParse
@@ -71,12 +73,12 @@ end
 
     updateConf()::Bool
 
-Update Medilegist.translation singleton
+Update TRAQUER.translation singleton
 
 """
 function TRAQUERUtil.updateConf()::Bool
 
-    # NOTE: It would be easier to do `parse_conf!(Medilegist.translation)` but this errors
+    # NOTE: It would be easier to do `parse_conf!(TRAQUER.translation)` but this errors
     #        with SystemError: seek: Illegal seek
     conf = TRAQUERUtil.loadConf()
 
@@ -309,17 +311,6 @@ function TRAQUERUtil.removeDoubleLineReturns(str)
     return result
 end
 
-
-function TRAQUERUtil.formatExceptionAndStackTrace(ex::Exception,
-                          stackTrace::StackTrace
-                          ;maxLines = 20,
-                           stopAt = "Mux.")
-    message = TRAQUERUtil.formatExceptionAndStackTraceCore(ex,
-                              stackTrace
-                              ;maxLines = maxLines,
-                               stopAt = stopAt)
-    @error message
-end
 
 # TODO: We should manage to specify that the datatype is an Enum
 function TRAQUERUtil.listEnums(enumType::DataType

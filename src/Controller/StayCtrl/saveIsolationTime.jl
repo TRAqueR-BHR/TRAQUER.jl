@@ -11,8 +11,13 @@ function StayCtrl.saveIsolationTime(
         dbconn
     )
 
+    # If no stay is found throw a custom error, so that we can warn the user in a friendly way
     if ismissing(stay)
-        error("No stay found for patient[$(patient.id)] at time[$(isolationTime)]")
+        throw(
+            NoStayFoundError(
+                getTranslation("no_stay_found_at_time")
+            )
+        )
     end
 
     stay.isolationTime = isolationTime

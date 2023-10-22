@@ -31,6 +31,8 @@ new_route = route("/api/role/all-composed-roles/:appuser_type", req -> begin
     # Initialize results
     roles::Union{Missing,Vector{Role}} = missing
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
 
     status_code = try
 
@@ -48,8 +50,7 @@ new_route = route("/api/role/all-composed-roles/:appuser_type", req -> begin
 
     catch e
         # https://pkg.julialang.org/docs/julia/THl1k/1.1.1/manual/stacktraces.html#Error-handling-1
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom message if the file could not be retrieved
         error = e
@@ -67,8 +68,7 @@ new_route = route("/api/role/all-composed-roles/:appuser_type", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -116,6 +116,8 @@ new_route = route("/api/role/all-composed-roles", req -> begin
     # Initialize results
     roles::Union{Missing,Vector{Role}} = missing
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
 
     status_code = try
 
@@ -130,8 +132,7 @@ new_route = route("/api/role/all-composed-roles", req -> begin
 
     catch e
         # https://pkg.julialang.org/docs/julia/THl1k/1.1.1/manual/stacktraces.html#Error-handling-1
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom message if the file could not be retrieved
         error = e
@@ -149,8 +150,7 @@ new_route = route("/api/role/all-composed-roles", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -197,6 +197,8 @@ new_route = route("/api/role/composed-roles-for-listing", req -> begin
     # Initialize results
     queryResult = missing
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
 
     status_code = try
 
@@ -209,8 +211,7 @@ new_route = route("/api/role/composed-roles-for-listing", req -> begin
 
     catch e
         # https://pkg.julialang.org/docs/julia/THl1k/1.1.1/manual/stacktraces.html#Error-handling-1
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom message if the file could not be retrieved
         error = e
@@ -228,8 +229,7 @@ new_route = route("/api/role/composed-roles-for-listing", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 

@@ -60,5 +60,24 @@ function ContactExposureCtrl.refreshExposuresAndContactStatuses(
         InfectiousStatusCtrl.generateContactStatusFromExposure(exposure,dbconn)
     end
 
+    # Check if these patients can be considered not_at_risk give the analyses found after
+    # the exposure. NOTE: For convenience and because there is no risk to create duplicate
+    # statuses thanks to the `upsert!` function and also no risk to recreate a deleted
+    # status, use the same lower bound for all patients and use now for the upper bound
+    patients = getproperty.(newExposures, :contact) |> n -> unique(x -> x.id, n)
+    if !isempty(patients)
+        lowerBound = getproperty.(newExposures, :startTime) |> minimum
+        upperBound = now(getTimeZone())
+
+        for patient in patients
+            InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
+                patient,
+                (lowerBound, upperBound), # forAnalysesRequestsBetween::Tuple{Date,Date},
+                dbconn
+            )
+        end
+    end
+
+
 
 end

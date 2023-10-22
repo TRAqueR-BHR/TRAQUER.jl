@@ -80,6 +80,15 @@ function StayCtrl.getStaysWherePatientAtRisk(
     # the date where we stopped (useful when simulating)
     maxProcessingTime = ETLCtrl.getMaxProcessingTime(dbconn)
 
+    # Assume this function is used on at risk  statuses only
+    if atRiskStatus.infectiousStatus ∉ [
+        InfectiousStatusType.contact,
+        InfectiousStatusType.carrier,
+        InfectiousStatusType.suspicion
+    ]
+        error("Unsupported InfectiousStatusType[$atRiskStatus]")
+    end
+
 
     # ############################################################## #
     # Retrieve all stays that started before the max processing time #
@@ -134,33 +143,58 @@ function StayCtrl.getStaysWherePatientAtRisk(
     # Filter out the stays 'in the past' #
     # ################################## #
 
+    # 1. Fisrt filter based on the hospitalization date (for carrier/suspicion) or
+    #    the stay in time (for contact)
+
     # Get the stay where the patient got the status
     infectiousStatusStay = StayCtrl.retrieveOneStay(
         atRiskStatus,
         dbconn
     )
 
-    # There may be no stay for the infectious status (not the most common scenario)
-    if ismissing(infectiousStatusStay)
-        return Stay[]
+    # There may be no stay for the infectious status, for example when a status is created
+    # independly of any stay. In that case use the next stay in the history
+    if !ismissing(infectiousStatusStay)
+
+        # For 'contact' status, start at the stay during which the infectious status started
+        if atRiskStatus.infectiousStatus == InfectiousStatusType.contact
+
+            filter!(
+                s -> s.inTime >= infectiousStatusStay.inTime,
+                atRiskStays
+            )
+
+        # For 'carrier' and 'suspicion' status, take all the stays starting at the hospitalization
+        # where the infectious status got created
+        elseif atRiskStatus.infectiousStatus ∈ [
+            InfectiousStatusType.carrier, InfectiousStatusType.suspicion
+        ]
+            filter!(
+                s -> s.hospitalizationInTime >= infectiousStatusStay.hospitalizationInTime,
+                atRiskStays
+            )
+
+        else
+            error("Unsupported InfectiousStatusType[$atRiskStatus]")
+        end
+
+    # Drop all the stays that started before the status ref. time
+    else
+        filter!(
+            s -> s.inTime >= atRiskStatus.refTime,
+            atRiskStays
+        )
     end
 
-    # For 'contact' status, start at the stay during which the infectious status started
-    if atRiskStatus.infectiousStatus == InfectiousStatusType.contact
-        filter!(
-            s -> s.inTime >= infectiousStatusStay.inTime,
-            atRiskStays
-        )
-    # For 'carrier' and 'suspicion' status, take all the stays starting at the hospitalization
-    # where the infectious status got created or starting after the last negative result if
-    # the patient was not at risk when entering the hospital (i.e. no status or status 'not_at_risk')
-    elseif atRiskStatus.infectiousStatus ∈ [InfectiousStatusType.carrier, InfectiousStatusType.suspicion]
-
-        # A first filter to drop the stays before the hospitalization where the status got declared
-        filter!(
-            s -> s.hospitalizationInTime >= infectiousStatusStay.hospitalizationInTime,
-            atRiskStays
-        )
+    # 2. If the patient was not at risk when entering the hospital (i.e. no status or
+    # status 'not_at_risk'), only keep the stay where the patient became carrier/suspicion
+    # and the ones after
+    if (
+        !ismissing(infectiousStatusStay)
+        && atRiskStatus.infectiousStatus ∈ [
+            InfectiousStatusType.carrier, InfectiousStatusType.suspicion
+        ]
+    )
 
         # Get the status of the patient at the beginning of the hospitalization
         infectiousStatusAtHospitalization = InfectiousStatusCtrl.getInfectiousStatusAtTime(
@@ -207,9 +241,6 @@ function StayCtrl.getStaysWherePatientAtRisk(
 
         end
 
-
-    else
-        error("Unsupported InfectiousStatusType[$atRiskStatus]")
     end
 
     # #################################################################################### #

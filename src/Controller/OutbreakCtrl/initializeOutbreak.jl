@@ -21,30 +21,42 @@ function OutbreakCtrl.initializeOutbreak(
     dbconn::LibPQ.Connection
 )
 
-    # Create the outbreak
-    outbreak = Outbreak(
-        name = outbreakName,
-        infectiousAgent = firstInfectiousStatus.infectiousAgent,
-        refTime = refTime,
-        criticity = criticity) |>
-        n ->  PostgresORM.create_entity!(n, dbconn)
+    try
+        # Create the outbreak
+        outbreak = Outbreak(
+            name = outbreakName,
+            infectiousAgent = firstInfectiousStatus.infectiousAgent,
+            refTime = refTime,
+            criticity = criticity) |>
+            n ->  PostgresORM.create_entity!(n, dbconn)
 
-    # Initialize the outbreak using the association with the carrier infectious status.
-    # The infectious status may already be associated to an outbreak, in which case we
-    # want to keep the existing association
-    existingAssos = PostgresORM.retrieve_entity(
-        OutbreakInfectiousStatusAsso(infectiousStatus = firstInfectiousStatus),
-        false,
-        dbconn
-    )
-    firstInfectiousStatus.outbreakInfectiousStatusAssoes = [
-        existingAssos...,
-        OutbreakInfectiousStatusAsso(outbreak = outbreak)
-    ]
-    InfectiousStatusCtrl.updateOutbreakInfectiousStatusAssos(
-        firstInfectiousStatus, dbconn
-    )
+        # Initialize the outbreak using the association with the carrier infectious status.
+        # The infectious status may already be associated to an outbreak, in which case we
+        # want to keep the existing association
+        existingAssos = PostgresORM.retrieve_entity(
+            OutbreakInfectiousStatusAsso(infectiousStatus = firstInfectiousStatus),
+            false,
+            dbconn
+        )
+        firstInfectiousStatus.outbreakInfectiousStatusAssoes = [
+            existingAssos...,
+            OutbreakInfectiousStatusAsso(outbreak = outbreak)
+        ]
+        InfectiousStatusCtrl.updateOutbreakInfectiousStatusAssos(
+            firstInfectiousStatus, dbconn
+        )
 
-    return outbreak
+        return outbreak
+
+    catch e
+
+        # If unique constraint violation, throw custom error so that we can warn the user
+        # in a friendly way
+        if e isa LibPQ.Errors.UniqueViolation
+            throw(OutbreakNameAlreadyUsedError("$outbreakName $(getTranslation("is_already_used") |> lowercase)"))
+        else
+            rethrow()
+        end
+    end
 
 end

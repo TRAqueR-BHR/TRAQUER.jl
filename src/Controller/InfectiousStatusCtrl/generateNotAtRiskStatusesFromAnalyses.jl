@@ -48,7 +48,10 @@ function InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
             agent
         )
 
-        if infectiousStatus.infectiousStatus == InfectiousStatusType.not_at_risk
+        if (
+            !ismissing(infectiousStatus)
+            && infectiousStatus.infectiousStatus == InfectiousStatusType.not_at_risk
+        )
 
             # Upsert
             infectiousStatus.patient = patient

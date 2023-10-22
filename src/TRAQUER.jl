@@ -322,8 +322,14 @@ module Custom
     include(ENV["TRAQUER_CUSTOM_MODULE_DEFINITION_FILE"])
 end
 
+# Packages overwrite
+include("package-overwrite/ConfParser-overwrite.jl")
+
 # using
 include("using-for-imp.jl")
+
+# Some custom exceptions
+include("custom-exceptions.jl")
 
 # Default CRUD implementation
 include("Controller/default-crud-imp.jl")

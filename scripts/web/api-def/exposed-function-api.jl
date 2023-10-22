@@ -33,9 +33,8 @@ new_route = route("/api/exposed-function/get-functions", req -> begin
     # Initialize results
     functions::Union{Missing,Vector{ExposedFunction}} = missing
     error = nothing
-
-    # Get current user
-    appuser::Union{Appuser,Missing} = missing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
 
     status_code = try
 
@@ -125,9 +124,8 @@ new_route = route("/api/exposed-function/execute", req -> begin
     # Initialize results
     startSuccessful::Union{Missing,Bool} = missing
     error = nothing
-
-    # Get current user
-    appuser::Union{Appuser,Missing} = missing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
 
     status_code = try
 

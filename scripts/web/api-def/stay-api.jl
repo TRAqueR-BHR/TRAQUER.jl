@@ -30,6 +30,8 @@ new_route = route("/api/stay/get-carriers-or-contacts-stays-from-outbreak-unit-a
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     carrierStaysForlisting::Union{DataFrame,Missing} = missing
 
     status_code = try
@@ -79,8 +81,7 @@ new_route = route("/api/stay/get-carriers-or-contacts-stays-from-outbreak-unit-a
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -99,8 +100,7 @@ new_route = route("/api/stay/get-carriers-or-contacts-stays-from-outbreak-unit-a
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -146,6 +146,8 @@ new_route = route("/api/stay/get-stay-from-stay-filter", req -> begin
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     stays::Union{Vector{Stay},Missing} = missing
 
     status_code = try
@@ -183,8 +185,7 @@ new_route = route("/api/stay/get-stay-from-stay-filter", req -> begin
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -203,8 +204,7 @@ new_route = route("/api/stay/get-stay-from-stay-filter", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -251,6 +251,8 @@ new_route = route("/api/stay/get-patient-hospitalizations-dates", req -> begin
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     df::Union{DataFrame,Missing} = missing
 
     status_code = try
@@ -289,8 +291,7 @@ new_route = route("/api/stay/get-patient-hospitalizations-dates", req -> begin
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -309,8 +310,7 @@ new_route = route("/api/stay/get-patient-hospitalizations-dates", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -356,6 +356,8 @@ new_route = route("/api/stay/upsert", req -> begin
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     stay::Union{Missing,Stay} = missing
 
     status_code = try
@@ -404,8 +406,7 @@ new_route = route("/api/stay/upsert", req -> begin
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -424,8 +425,7 @@ new_route = route("/api/stay/upsert", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -470,6 +470,8 @@ new_route = route("/api/stay/listing", req -> begin
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     query_result::Union{Dict,Missing} = missing
 
     status_code = try
@@ -519,8 +521,7 @@ new_route = route("/api/stay/listing", req -> begin
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -539,8 +540,7 @@ new_route = route("/api/stay/listing", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -587,6 +587,8 @@ new_route = route("/api/stay/save-patient-isolation-date-from-event-requiring-at
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     stay::Union{Missing,Stay} = missing
 
     status_code = try
@@ -638,12 +640,16 @@ new_route = route("/api/stay/save-patient-isolation-date-from-event-requiring-at
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
-        # rethrow(e) # Do not rethrow the error because we do want to send a
-                     #  custom design if the file could not be retrieved
-        error = e
-        500 # status_code
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
+
+        # Custom status code for some exceptions
+        if e isa CapturedException && e.ex isa NoStayFoundError
+            error = e.ex.msg
+            409 # status_code
+        else
+            error = e
+            500 # status_code
+        end
 
     end
 
@@ -658,8 +664,7 @@ new_route = route("/api/stay/save-patient-isolation-date-from-event-requiring-at
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 

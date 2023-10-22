@@ -30,6 +30,8 @@ new_route = route("/api/infectious-status/listing", req -> begin
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     query_result::Union{Dict,Missing} = missing
 
     status_code = try
@@ -66,8 +68,7 @@ new_route = route("/api/infectious-status/listing", req -> begin
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -86,8 +87,7 @@ new_route = route("/api/infectious-status/listing", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -133,6 +133,8 @@ new_route = route("/api/infectious-status/upsert", req -> begin
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     infectiousStatus::Union{Missing,InfectiousStatus} = missing
 
     status_code = try
@@ -172,8 +174,7 @@ new_route = route("/api/infectious-status/upsert", req -> begin
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -192,8 +193,7 @@ new_route = route("/api/infectious-status/upsert", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -239,6 +239,8 @@ new_route = route("/api/infectious-status/delete", req -> begin
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     infectiousStatus::Union{Missing,InfectiousStatus} = missing
 
     status_code = try
@@ -273,8 +275,7 @@ new_route = route("/api/infectious-status/delete", req -> begin
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -293,8 +294,7 @@ new_route = route("/api/infectious-status/delete", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -340,6 +340,8 @@ new_route = route("/api/infectious-status/get-infectious-status-from-infectious-
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     infectiousStatuses::Union{Vector{InfectiousStatus},Missing} = missing
 
     status_code = try
@@ -378,8 +380,7 @@ new_route = route("/api/infectious-status/get-infectious-status-from-infectious-
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -398,8 +399,7 @@ new_route = route("/api/infectious-status/get-infectious-status-from-infectious-
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -445,6 +445,8 @@ new_route = route("/api/infectious-status/update-vector-property-outbreak-infect
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     infectiousStatus::Union{Missing,InfectiousStatus} = missing
 
     status_code = try
@@ -492,8 +494,7 @@ new_route = route("/api/infectious-status/update-vector-property-outbreak-infect
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -512,8 +513,7 @@ new_route = route("/api/infectious-status/update-vector-property-outbreak-infect
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 

@@ -30,6 +30,8 @@ new_route = route("/api/outbreak/get-outbreak-from-event-requiring-attention", r
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     outbreak::Union{Outbreak,Missing} = missing
 
     status_code = try
@@ -70,8 +72,7 @@ new_route = route("/api/outbreak/get-outbreak-from-event-requiring-attention", r
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -90,8 +91,7 @@ new_route = route("/api/outbreak/get-outbreak-from-event-requiring-attention", r
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -137,6 +137,8 @@ new_route = route("/api/outbreak/get-outbreak-from-outbreak-filter", req -> begi
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     outbreak::Union{Outbreak,Missing} = missing
 
     status_code = try
@@ -174,8 +176,7 @@ new_route = route("/api/outbreak/get-outbreak-from-outbreak-filter", req -> begi
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -194,8 +195,7 @@ new_route = route("/api/outbreak/get-outbreak-from-outbreak-filter", req -> begi
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -240,6 +240,8 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-infectious-status"
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     assos::Union{Vector{OutbreakUnitAsso},Missing} = missing
 
     status_code = try
@@ -279,8 +281,7 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-infectious-status"
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -299,8 +300,7 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-infectious-status"
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -346,12 +346,16 @@ new_route = route("/api/outbreak/initialize", req -> begin
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     outbreak::Union{Outbreak,Missing} = missing
 
     status_code = try
 
         # Get the user as extracted from the JWT
         appuser = req[:params][:appuser]
+
+        @info "appuser[$(appuser.id)]"
 
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
 
@@ -389,12 +393,18 @@ new_route = route("/api/outbreak/initialize", req -> begin
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
-        # rethrow(e) # Do not rethrow the error because we do want to send a
-                     #  custom design if the file could not be retrieved
-        error = e
-        500 # status_code
+
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
+
+
+        # Custom status code for some exceptions
+        if e isa CapturedException && e.ex isa OutbreakNameAlreadyUsedError
+            error = e.ex.msg
+            409 # status_code
+        else
+            error = e
+            500 # status_code
+        end
 
     end
 
@@ -409,8 +419,7 @@ new_route = route("/api/outbreak/initialize", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -456,6 +465,8 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-outbreak", req -> 
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     assos::Union{Vector{OutbreakUnitAsso},Missing} = missing
 
     status_code = try
@@ -493,8 +504,7 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-outbreak", req -> 
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -513,8 +523,7 @@ new_route = route("/api/outbreak/get-outbreak-unit-assos-from-outbreak", req -> 
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -560,6 +569,8 @@ new_route = route("/api/outbreak/get-outbreak-infectious-status-assos-from-infec
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     assos::Union{Vector{OutbreakInfectiousStatusAsso},Missing} = missing
 
     status_code = try
@@ -596,8 +607,7 @@ new_route = route("/api/outbreak/get-outbreak-infectious-status-assos-from-infec
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -616,8 +626,7 @@ new_route = route("/api/outbreak/get-outbreak-infectious-status-assos-from-infec
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -663,6 +672,8 @@ new_route = route("/api/outbreak/get-outbreaks-that-can-be-associated-to-infecti
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     outbreaks::Union{Vector{Outbreak},Missing} = missing
 
     status_code = try
@@ -697,8 +708,7 @@ new_route = route("/api/outbreak/get-outbreaks-that-can-be-associated-to-infecti
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -717,8 +727,7 @@ new_route = route("/api/outbreak/get-outbreaks-that-can-be-associated-to-infecti
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -764,6 +773,8 @@ new_route = route("/api/outbreak/save", req -> begin
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     outbreak::Union{Outbreak,Missing} = missing
 
     status_code = try
@@ -798,8 +809,7 @@ new_route = route("/api/outbreak/save", req -> begin
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -818,8 +828,7 @@ new_route = route("/api/outbreak/save", req -> begin
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 

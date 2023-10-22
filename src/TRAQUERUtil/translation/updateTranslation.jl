@@ -2,14 +2,14 @@
 
     updateTranslation()::Bool
 
-Update Medilegist.translation singleton
+Update TRAQUER.translation singleton
 
 """
 function TRAQUERUtil.updateTranslation()::Bool
 
-    # NOTE: It would be easier to do `parse_conf!(Medilegist.translation)` but this errors
+    # NOTE: It would be easier to do `parse_conf!(TRAQUER.translation)` but this errors
     #        with SystemError: seek: Illegal seek
     translations = TRAQUERUtil.loadTranslation()
-    ConfParser.merge!(Medilegist.translation,translations)
+    ConfParser.merge!(TRAQUER.translation,translations)
 
 end

@@ -202,7 +202,13 @@ function Custom.importStays(
                 )
 
                 # Room
-                room = passmissing(String)(r.NUMEROT_LIT) # String7 -> String
+                numeroLit = passmissing(String)(r.NUMEROT_LIT) # String7 -> String
+                room = if ismissing(numeroLit)
+                    missing
+                else
+                    # Eg. F114-D -> F114
+                    room = split(room, '-')[1]
+                end
 
                 # Sector
                 sector = passmissing(string)(r.NOM_SECTEUR)

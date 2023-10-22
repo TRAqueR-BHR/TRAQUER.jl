@@ -36,7 +36,7 @@ function TRAQUERUtil.executeOnWorkerTwoOrHigher(fct::Function,args...;kwargs...)
         1
     end
 
-    # res = with_logger(Medilegist.to_file_and_console_logger) do
+    # res = with_logger(TRAQUER.to_file_and_console_logger) do
         res = fetch(@spawnat _procid begin
                 fct(args...;kwargs...)
             end)
@@ -44,7 +44,7 @@ function TRAQUERUtil.executeOnWorkerTwoOrHigher(fct::Function,args...;kwargs...)
     # end
 
     # res = fetch(@spawnat _procid do
-    #     # with_logger(Medilegist.to_file_and_console_logger) do
+    #     # with_logger(TRAQUER.to_file_and_console_logger) do
     #         fct(args...;kwargs...)
     #     # end
     # end)

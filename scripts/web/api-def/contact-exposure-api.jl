@@ -30,6 +30,8 @@ new_route = route("/api/contact-exposure/simulate-contact-exposures", req -> beg
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     exposures::Union{Vector{ContactExposure},Missing} = missing
 
     status_code = try
@@ -70,8 +72,7 @@ new_route = route("/api/contact-exposure/simulate-contact-exposures", req -> beg
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -90,8 +91,7 @@ new_route = route("/api/contact-exposure/simulate-contact-exposures", req -> beg
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
@@ -136,6 +136,8 @@ new_route = route("/api/contact-exposure/patient-exposures-for-listing", req -> 
 
     # Initialize results
     error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
     df::Union{DataFrame,Missing} = missing
 
     status_code = try
@@ -172,8 +174,7 @@ new_route = route("/api/contact-exposure/patient-exposures-for-listing", req -> 
         200 # status code
 
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         # rethrow(e) # Do not rethrow the error because we do want to send a
                      #  custom design if the file could not be retrieved
         error = e
@@ -192,8 +193,7 @@ new_route = route("/api/contact-exposure/patient-exposures-for-listing", req -> 
             result = String(JSON.json(string(error)))
         end
     catch e
-        formatExceptionAndStackTrace(e,
-                                     stacktrace(catch_backtrace()))
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
         rethrow(e)
     end
 
