@@ -70,7 +70,7 @@ function InfectiousStatusCtrl.generateSuspicionStatusesFromAnalyses(
             # Insert new contact?:           true
 
             statusJustBefore = InfectiousStatusCtrl.getInfectiousStatusAtTime(
-                exposure.contact,
+                infectiousStatus.patient,
                 infectiousStatus.infectiousAgent,
                 infectiousStatus.refTime - Second(1), # We want the infectious status just
                                                             #  before the infectious status that

@@ -36,8 +36,6 @@ function TRAQUERUtil.formatExceptionAndStackTrace(
 
 
     # No need to notify the admin for expected errors
-    @info typeof(ex)
-    @info typeof(ex.ex)
     if ex isa CapturedException &&
         (
             ex.ex isa OutbreakNameAlreadyUsedError

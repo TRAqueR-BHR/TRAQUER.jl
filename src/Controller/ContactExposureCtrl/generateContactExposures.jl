@@ -4,7 +4,9 @@ function ContactExposureCtrl.generateContactExposures(
     lowerLimit::ZonedDateTime,
     upperTimeLimit::Union{ZonedDateTime,Missing},
     carrierStayRoom::Union{String,Missing},
+    carrierStaySector::Union{String,Missing},
     sameRoomOnly::Bool,
+    sameSectorOnly::Union{Missing,Bool},
     dbconn::LibPQ.Connection
     ;carrier::Union{Missing,Patient} = missing,
     simulate::Bool = false,
@@ -118,15 +120,33 @@ function ContactExposureCtrl.generateContactExposures(
         )
     end
 
+    # Fix possible inconsistency between sameRoomOnly and sameSectorOnly
+    if sameSectorOnly === true
+        sameRoomOnly = false
+    end
+
     # Filter on same room if needed
     if sameRoomOnly
-        # If restriction on same room only that there is no room to filter then we consider that
-        # that there is no exposure
+        # If restriction on same room only and that there is no room to filter then
+        # consider that there is no exposure
         if ismissing(carrierStayRoom)
             contactStays = Stay[]
         else
             filter!(
                 s -> s.unit.id == carrierStayUnit.id && s.room === carrierStayRoom,
+                contactStays
+            )
+        end
+
+    # Filter on same sector if needed
+    elseif sameSectorOnly === true
+        # If restriction on same sector only and that there is no sector to filter then
+        # consider that there is no exposure
+        if ismissing(carrierStaySector)
+            contactStays = Stay[]
+        else
+            filter!(
+                s -> s.unit.id == carrierStayUnit.id && s.sector === carrierStaySector,
                 contactStays
             )
         end
@@ -229,6 +249,7 @@ function ContactExposureCtrl.generateContactExposures(
                     outbreak,
                     carrierStay,
                     asso.sameRoomOnly,
+                    asso.sameSectorOnly,
                     dbconn
                     ;simulate = simulate,
                     excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation =
@@ -281,8 +302,7 @@ function ContactExposureCtrl.generateContactExposures(
 
 end
 
-"""
-"""
+# TODO: Is this method used? delete if not
 function ContactExposureCtrl.generateContactExposures(
     outbreak::Outbreak,
     unit::Unit,
@@ -299,7 +319,9 @@ function ContactExposureCtrl.generateContactExposures(
         startTime,
         endTime,
         missing, # room
+        missing, # sector
         false, # sameRoomOnly::Bool,
+        false, # sameSectorOnly::Union{Missing,Bool}
         dbconn
         ;simulate = simulate,
         excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation =
@@ -312,7 +334,11 @@ end
 
 
 function ContactExposureCtrl.generateContactExposures(
-    outbreak::Outbreak, carrierStay::Stay, sameRoomOnly::Bool, dbconn::LibPQ.Connection
+    outbreak::Outbreak,
+    carrierStay::Stay,
+    sameRoomOnly::Bool,
+    sameSectorOnly::Union{Missing,Bool},
+    dbconn::LibPQ.Connection
     ;simulate::Bool = false,
     excludeIfLessThanMinimumNumberOfHoursForContactStatusCreation::Bool = false
 )
@@ -363,7 +389,9 @@ function ContactExposureCtrl.generateContactExposures(
         lowerLimit,
         upperTime,
         carrierStay.room,
+        carrierStay.sector,
         sameRoomOnly,
+        sameSectorOnly,
         dbconn
         ;carrier = carrierStay.patient,
         simulate = simulate,

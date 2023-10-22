@@ -11,10 +11,20 @@ function TaskWaitingForUserExecutionCtrl.executePendingTasks(encryptionStr::Stri
             end
             t.success = true
         catch e
+
+            # Update instance of TaskWaitingForUserExecution
             t.success = false
-            t.errorMsg = TRAQUERUtil.formatExceptionAndStackTraceCore(
+            errorMsg = TRAQUERUtil.formatExceptionAndStackTraceCore(
                 e, stacktrace(catch_backtrace())
             )
+            t.errorMsg = errorMsg
+
+            # Notify admin of error
+            TRAQUERUtil.notifyAdmin(
+                "Error in $(TRAQUERUtil.getInstanceCodeName()) (executePendingTasks)" ,
+                errorMsg
+            )
+
         finally
             t.endOrErrorTime = now(getTimeZone())
             TRAQUERUtil.createDBConnAndExecute() do dbconn

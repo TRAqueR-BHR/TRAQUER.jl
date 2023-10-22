@@ -17,7 +17,7 @@ function SchedulerCtrl.checkIfAnythingNeedsToBeExecuted()
         (
             _module = ETLCtrl,
             _functionName = :createPendingTask,
-            _execution_times = SchedulerCtrl.every1Minutes
+            _execution_times = SchedulerCtrl.every5Minutes
         )
         (
             _module = TRAQUER,

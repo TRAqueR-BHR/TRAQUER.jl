@@ -16,6 +16,12 @@ function OutbreakUnitAssoCtrl.upsert!(asso::OutbreakUnitAsso, dbconn::LibPQ.Conn
         if ismissing(asso.sameRoomOnly)
             asso.sameRoomOnly = existing.sameRoomOnly
         end
+
+        # Dont want to erase by mistake the sameSectorOnly attribute
+        if ismissing(asso.sameSectorOnly)
+            asso.sameSectorOnly = existing.sameSectorOnly
+        end
+
         PostgresORM.update_entity!(asso,dbconn)
 
     end
