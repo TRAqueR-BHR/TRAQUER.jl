@@ -93,6 +93,8 @@ function moveInputFileToProcessingDir end
 function getSchedulerBlacklist end
 function getJuliaFunction end
 
+function getTaskWaitingForUserExecutionBlacklist end
+
 function dumpDatabase end
 function cleanOldDatabaseDumps end
 function dumpDatabaseAndCleanOldDumps end

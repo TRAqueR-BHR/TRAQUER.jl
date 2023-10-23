@@ -3,7 +3,14 @@ function TaskWaitingForUserExecutionCtrl.executePendingTasks(encryptionStr::Stri
     tasks::Vector{TaskWaitingForUserExecution} =
         TaskWaitingForUserExecutionCtrl.getPendingTasksAndSetAsStarted()
 
+
     for t in tasks
+
+        # Function may have been blacklisted
+        if ("$(string(f._module)).$(string(f._functionName))" ∈ TRAQUERUtil.getSchedulerBlacklist())
+            continue
+        end
+
         try
             fct = TRAQUERUtil.getJuliaFunction(t.name)
             executeOnBgThread() do

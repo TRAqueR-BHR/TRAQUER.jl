@@ -1,4 +1,5 @@
 function ETLCtrl.integrateAndProcessNewStaysAndAnalyses(cryptStr::String)
+
     @info "##### ETLCtrl.integrateAndProcessNewStaysAndAnalyses"
     # error("NASTY ERROR")
     ETLCtrl.importStays(cryptStr)

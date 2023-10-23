@@ -41,6 +41,9 @@ function TaskWaitingForUserExecutionCtrl.getPendingTasksAndSetAsStarted()::Vecto
             dbconn
         )
 
+        # Ignore the tasks in the blacklist
+        filter!(x -> x.name ∉ TRAQUERUtil.getTaskWaitingForUserExecutionBlacklist(), tasks)
+
         # Ignore the tasks where there is another task running for that same function
         filter!(x -> x.name ∉ unfinishedTasksNames, tasks)
 
