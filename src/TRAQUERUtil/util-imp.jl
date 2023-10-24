@@ -23,6 +23,7 @@ include("notifyAdmin.jl")
 include("translation/_include.jl")
 include("util-exception.jl")
 include("getTaskWaitingForUserExecutionBlacklist.jl")
+include("excel.jl")
 
 # see ~/.julia/config/startup.jl for setting the environment variable
 function TRAQUERUtil.loadConf()::ConfParse

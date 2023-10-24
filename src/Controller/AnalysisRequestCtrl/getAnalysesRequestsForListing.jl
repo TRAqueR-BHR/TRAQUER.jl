@@ -274,6 +274,8 @@ function AnalysisRequestCtrl.getAnalysesRequestsForListing(
         end
         objects.request_type = passmissing(TRAQUERUtil.string2enum).(
             ANALYSIS_REQUEST_TYPE, objects.request_type)
+        objects.status = passmissing(TRAQUERUtil.string2enum).(
+            ANALYSIS_REQUEST_STATUS_TYPE, objects.status)
 
     catch e
         rethrow(e)

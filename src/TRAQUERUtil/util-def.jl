@@ -116,3 +116,7 @@ function updateTranslation end
 function formatExceptionAndStackTrace end
 function formatExceptionAndStackTraceCore end
 function formatExceptionForFrontend end
+
+# Excel
+function prepareDataFrameForSerializationToExcel end
+function serializeDataFrameToExcel end
