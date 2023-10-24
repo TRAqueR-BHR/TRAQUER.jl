@@ -74,7 +74,7 @@ function Custom.convertETLInputDataToRequestAndResultType(
                     result = missing
                 elseif valeur_resultat == "A"
                     result = AnalysisResultValueType.negative
-                elseif valeur_resultat == "NR"
+                elseif valeur_resultat == "NR" || startswith(lowercase(valeur_resultat),"non demand")
                     result = AnalysisResultValueType.cancelled
                 else
                     error(
