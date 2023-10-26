@@ -95,6 +95,34 @@ function PatientCtrl.getPatientsForListing(
                         ILIKE \$$(args_counter += 1) "
                 push!(queryArgs,(filterValue * "%"))
 
+            elseif (nameInSelect == "birthdate" && !ismissing(cryptPwd))
+
+                # Convert to Date if needed
+                if isa(filterValue,Date)
+                    # All good do nothing
+                elseif isa(filterValue,AbstractString)
+                    filterValue = TRAQUERUtil.string2date(filterValue)
+                else
+                    error(
+                        ("Unexpected type[$(typeof(filterValue))] for input"
+                        * " birthdate[$filterValue]")
+                    )
+                end
+
+                # Add a first filter on the year for performance
+                queryStringShared *= "
+                    AND pbc.year = \$$(args_counter += 1)"
+                push!(queryArgs,year(filterValue))
+
+                # Add the filter itself
+                queryStringShared *= "
+                    AND pgp_sym_decrypt(pbc.birthdate_crypt, \$1)
+                        = \$$(args_counter += 1) "
+                push!(
+                    queryArgs,
+                    string(filterValue)
+                )
+
             # Special treatment for filter on the crypted lastname
             elseif (nameInSelect == "lastname" && !ismissing(cryptPwd))
                 # Add a first filter on the first letter for performance
@@ -218,7 +246,6 @@ function PatientCtrl.getPatientsForListing(
         # ##################################### #
         # Transform the columns that need to be #
         # ##################################### #
-        @info "names(objects)" names(objects)
         objects.birthdate = passmissing(TRAQUERUtil.string2date).(objects.birthdate)
 
     catch e

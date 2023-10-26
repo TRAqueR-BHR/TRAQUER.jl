@@ -10,7 +10,8 @@ function Custom.importStays(
     csvFilepath::AbstractString,
     encryptionStr::AbstractString
     ;maxNumberOfLinesToIntegrate::Union{Integer,Missing} = missing,
-    moveFileToDoneDir::Bool = true
+    moveFileToDoneDir::Bool = true,
+    moveFileToProcessingDir::Bool = true
 )
 
     # Concatenate the pending dir to the path if user passed a file name instead of a file path
@@ -21,7 +22,11 @@ function Custom.importStays(
     @info "Start importing file[$csvFilepath]"
 
     # Move the file to the temporary processing dir
-    processingFilePath = TRAQUERUtil.moveInputFileToProcessingDir(csvFilepath)
+    processingFilePath = if moveFileToProcessingDir
+        TRAQUERUtil.moveInputFileToProcessingDir(csvFilepath)
+     else
+        csvFilepath
+     end
 
     # Create a directory for storing the problems of this file
     srcFileBasename = basename(csvFilepath)
@@ -69,11 +74,16 @@ function Custom.importStays(
     if moveFileToDoneDir
         TRAQUERUtil.moveStaysInputFileToDoneDir(processingFilePath)
     else
-        mv(processingFilePath, csvFilepath)
+        if moveFileToProcessingDir
+            # Move it back where it was
+            mv(processingFilePath, csvFilepath)
+        end
     end
 
     # Delete the temporary processing dir
-    rm(dirname(processingFilePath))
+    if moveFileToProcessingDir
+        rm(dirname(processingFilePath))
+    end
 
     # Remove the problem directory if there is nothing in it. This allows to only have
     # directories that correspond to integrations that didnt go well
@@ -165,7 +175,11 @@ function Custom.importStays(
                 end
 
                 # Ignore consultations
-                if contains(r.NOM_UF_LOCA," CS") || contains(r.NOM_UF_LOCA," CS ")
+                if (
+                       contains(r.NOM_UF_LOCA," CS")
+                    || contains(r.NOM_UF_LOCA," CS ")
+                    || contains(r.NOM_UF_LOCA," AMBU")
+                )
                     continue
                 end
 

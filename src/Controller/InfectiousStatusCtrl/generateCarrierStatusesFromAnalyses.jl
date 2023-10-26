@@ -12,7 +12,8 @@ function InfectiousStatusCtrl.generateCarrierStatusesFromAnalyses(
         WHERE p.id = \$1
         AND ar.request_time >= \$2
         AND ar.request_time <= \$3
-        AND ar.result = 'positive'"
+        AND ar.result = 'positive'
+        ORDER BY ar.request_time"
 
     queryArgs  = [
         patient.id,
@@ -33,6 +34,8 @@ function InfectiousStatusCtrl.generateCarrierStatusesFromAnalyses(
             infectiousAgent = TRAQUERUtil.analysisRequestType2InfectiousAgentCategory(
                 analysisRes.requestType
             )
+
+            @info "$infectiousAgent $(analysisRes.requestTime)"
 
             # Upsert
             infectiousStatus = InfectiousStatus(

@@ -8,7 +8,6 @@ function TaskWaitingForUserExecutionCtrl.executePendingTasks(encryptionStr::Stri
 
         # Function may have been blacklisted
         if (t.name ∈ TRAQUERUtil.getSchedulerBlacklist())
-            @info "Execution of function[$(t.name)] is blacklisted for that instance"
             continue
         end
 

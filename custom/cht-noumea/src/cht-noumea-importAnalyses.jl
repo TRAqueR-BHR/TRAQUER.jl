@@ -11,7 +11,8 @@ function Custom.importAnalyses(
    encryptionStr::AbstractString
    ;maxNumberOfLinesToIntegrate::Union{Integer,Missing} = missing,
    rangeToIntegrate::Union{Vector{<:Integer},UnitRange{<:Integer},Missing} = missing,
-   moveFileToDoneDir::Bool = true
+   moveFileToDoneDir::Bool = true,
+   moveFileToProcessingDir::Bool = true
 )
 
    # Concatenate the pending dir to the path if user passed a file name instead of a file path
@@ -22,7 +23,11 @@ function Custom.importAnalyses(
    @info "Start importing file[$csvFilepath]"
 
    # Move the file to the temporary processing dir
-   processingFilePath = TRAQUERUtil.moveInputFileToProcessingDir(csvFilepath)
+   processingFilePath = if moveFileToProcessingDir
+         TRAQUERUtil.moveInputFileToProcessingDir(csvFilepath)
+      else
+         csvFilepath
+      end
 
    # Create a directory for storing the problems of this file
    srcFileBasename = basename(csvFilepath)
@@ -50,7 +55,6 @@ function Custom.importAnalyses(
    # Limit to a range if any
    if !ismissing(rangeToIntegrate)
       rangeToIntegrate = rangeToIntegrate .- 1
-      @info rangeToIntegrate
       dfAnalyses = dfAnalyses[rangeToIntegrate,:]
    end
 
@@ -77,11 +81,16 @@ function Custom.importAnalyses(
    if moveFileToDoneDir
       TRAQUERUtil.moveAnalysesInputFileToDoneDir(processingFilePath)
    else
-      mv(processingFilePath, csvFilepath)
+      if moveFileToProcessingDir
+         # Move it back where it was
+         mv(processingFilePath, csvFilepath)
+      end
    end
 
    # Delete the temporary processing dir
-   rm(dirname(processingFilePath))
+   if moveFileToProcessingDir
+      rm(dirname(processingFilePath))
+   end
 
    # Remove the problem directory if there is nothing in it. This allows to only have
    # directories that correspond to integrations that didnt go well
@@ -185,7 +194,7 @@ function Custom.importAnalyses(
             patientRef = passmissing(String)(r.NIP_PATIENT)
             patientLastname = passmissing(String)(r.NOM) |>
                n -> if ismissing(n) "Non renseigné" else n end
-            patientFirstname = passmissing(String)(r.NOM) |>
+            patientFirstname = passmissing(String)(r.PRENOM) |>
                n -> if ismissing(n) "Non renseigné" else n end
             patientBirthdate::Date = r.DATE_NAISSANCE |> n -> Date(n,DateFormat("d/m/y"))
             analysisRef = String(r.analysis_ref)
