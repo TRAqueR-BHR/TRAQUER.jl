@@ -6,11 +6,9 @@ function TaskWaitingForUserExecutionCtrl.executePendingTasks(encryptionStr::Stri
 
     for t in tasks
 
-        fullyQualifiedFunctionName = "$(string(f._module)).$(string(f._functionName))"
-
         # Function may have been blacklisted
-        if (fullyQualifiedFunctionName ∈ TRAQUERUtil.getSchedulerBlacklist())
-            @info "Execution of function[$fullyQualifiedFunctionName] is blacklisted for that instance"
+        if (t.name ∈ TRAQUERUtil.getSchedulerBlacklist())
+            @info "Execution of function[$(t.name)] is blacklisted for that instance"
             continue
         end
 
