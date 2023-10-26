@@ -81,6 +81,7 @@ function readLineXOfFile end
 function dumpDatabase end
 function noEmail end
 function getDataDir end
+function getTeamEmailAddress end
 function getPendingInputFilesDir end
 function getProcessingInputFilesDir end
 function getDoneInputFilesDir end

@@ -297,7 +297,7 @@ module Controller
   end
 
   module TaskWaitingForUserExecutionCtrl
-      include("Controller/TaskWaitingForUserExecutionCtrl/TaskWaitingForUserExecutionCtrl-def.jl")
+      include("Controller/TaskWaitingForUserExecutionCtrl/_def.jl")
   end
 
   module WebApiUsageCtrl
@@ -306,7 +306,7 @@ module Controller
 
   module SchedulerCtrl
     using Dates
-    include("Controller/SchedulerCtrl/SchedulerCtrl-def.jl")
+    include("Controller/SchedulerCtrl/_def.jl")
   end
 
   module MaintenanceCtrl
@@ -384,13 +384,13 @@ include("Controller/ContactExposureCtrl/ContactExposureCtrl-imp.jl")
 include("Controller/UnitCtrl/UnitCtrl-imp.jl")
 
 # TaskWaitingForUserExecutionCtrl
-include("Controller/TaskWaitingForUserExecutionCtrl/TaskWaitingForUserExecutionCtrl-imp.jl")
+include("Controller/TaskWaitingForUserExecutionCtrl/_imp.jl")
 
 # WebApiUsageCtrl
 include("Controller/WebApiUsageCtrl/WebApiUsageCtrl-imp.jl")
 
 # SchedulerCtrl
-include("Controller/SchedulerCtrl/SchedulerCtrl-imp.jl")
+include("Controller/SchedulerCtrl/_imp.jl")
 
 # MaintenanceCtrl
 include("Controller/MaintenanceCtrl/MaintenanceCtrl-imp.jl")

@@ -12,6 +12,9 @@ function EventRequiringAttentionCtrl.upsert!(
     existing = PostgresORM.retrieve_one_entity(filterObject, false, dbconn)
 
     if ismissing(existing)
+        if ismissing(eventRequiringAttention.creationTime)
+            eventRequiringAttention.creationTime = now(getTimeZone())
+        end
         PostgresORM.create_entity!(eventRequiringAttention,dbconn)
     else
         eventRequiringAttention.id = existing.id

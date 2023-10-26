@@ -37,4 +37,4 @@
 @everywhere using TRAQUER.Enum.OutbreakCriticity
 
 @everywhere using PostgresORM, Dates, TimeZones, DataFrames, StringCases, UUIDs, Distributed
-@everywhere using Logging, LoggingExtras, CSV, Glob, ThreadPools, XLSX
+@everywhere using Logging, LoggingExtras, CSV, Glob, ThreadPools, XLSX, SplitApplyCombine

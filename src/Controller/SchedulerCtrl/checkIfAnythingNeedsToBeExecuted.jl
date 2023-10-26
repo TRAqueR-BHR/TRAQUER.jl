@@ -18,7 +18,12 @@ function SchedulerCtrl.checkIfAnythingNeedsToBeExecuted()
             _module = ETLCtrl,
             _functionName = :createPendingTask,
             _execution_times = SchedulerCtrl.every5Minutes
-        )
+        ),
+        (
+            _module = EventRequiringAttentionCtrl,
+            _functionName = :notifyTeamOfNewImportantEvents,
+            _execution_times = SchedulerCtrl.every5Minutes
+        ),
         (
             _module = TRAQUER,
             _functionName = :greet,

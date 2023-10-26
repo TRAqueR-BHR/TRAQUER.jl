@@ -5,6 +5,7 @@ mutable struct EventRequiringAttention <: IEventRequiringAttention
   id::Union{Missing,String}
   responseTime::Union{Missing,ZonedDateTime}
   responseComment::Union{Missing,String}
+  creationTime::Union{Missing,ZonedDateTime}
   isPending::Union{Missing,Bool}
   eventType::Union{Missing,EventRequiringAttentionType.EVENT_REQUIRING_ATTENTION_TYPE}
   refTime::Union{Missing,ZonedDateTime}
@@ -17,17 +18,19 @@ mutable struct EventRequiringAttention <: IEventRequiringAttention
     id = missing,
     responseTime = missing,
     responseComment = missing,
+    creationTime = missing,
     isPending = missing,
     eventType = missing,
     refTime = missing,
     responsesTypes = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
     x.responseUser = responseUser
     x.infectiousStatus = infectiousStatus
     x.id = id
     x.responseTime = responseTime
     x.responseComment = responseComment
+    x.creationTime = creationTime
     x.isPending = isPending
     x.eventType = eventType
     x.refTime = refTime

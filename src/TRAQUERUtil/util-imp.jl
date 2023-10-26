@@ -459,6 +459,15 @@ function TRAQUERUtil.noEmail()
 
 end
 
+function TRAQUERUtil.getTeamEmailAddress()
+    return TRAQUERUtil.getConf("default","team_email_address") |>
+        strip |>
+        string |>
+        n -> split(n,",") |>
+        n -> string.(n) |>
+        n -> if isempty(n)  missing else n end
+end
+
 function TRAQUERUtil.getAdminEmail()
     return TRAQUERUtil.getConf("admin","admin_email") |>
         strip |>

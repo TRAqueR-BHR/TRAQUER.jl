@@ -2,3 +2,4 @@ function checkIfAnyPendingTask end
 function getPendingTasksAndSetAsStarted end
 function createPendingTask end
 function executePendingTasks end
+function getLastSuccessfulExecution end

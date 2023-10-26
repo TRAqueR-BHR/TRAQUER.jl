@@ -3,6 +3,7 @@ function getMaxProcessingTime end
 function updateMaxProcessingTime end
 function checkIfAnythingNeedsToBeExecuted end
 function checkIfNeedsToExecuteFunction end
+function getLastExecution end
 
 every1Minutes = collect(Time("00:00:00"):Minute(1):Time("23:59:00"))
 every2Minutes = collect(Time("00:00:00"):Minute(2):Time("23:59:00"))
