@@ -6,6 +6,7 @@ function EventRequiringAttentionCtrl.requiresTeamNotification(
     # Some event types dont require notification
     if evt.eventType ∈ [
         EventRequiringAttentionType.analysis_in_progress,
+        EventRequiringAttentionType.analysis_done,
         EventRequiringAttentionType.death,
     ]
         return false

@@ -10,6 +10,7 @@ function Custom.importStays(
     csvFilepath::AbstractString,
     encryptionStr::AbstractString
     ;maxNumberOfLinesToIntegrate::Union{Integer,Missing} = missing,
+    rangeToIntegrate::Union{Vector{<:Integer},UnitRange{<:Integer},Missing} = missing,
     moveFileToDoneDir::Bool = true,
     moveFileToProcessingDir::Bool = true
 )
@@ -50,6 +51,12 @@ function Custom.importStays(
 
     # Create a line number column (used in particular to know the lines where we had problems)
     dfStays.lineNumInSrcFile = 2:nrow(dfStays)+1
+
+    # Limit to a range if any
+    if !ismissing(rangeToIntegrate)
+        rangeToIntegrate = rangeToIntegrate .- 1
+        dfStays = dfStays[rangeToIntegrate,:]
+    end
 
     @time dfOfRowsInError = TRAQUER.Custom.importStays(
         dfStays,
