@@ -20,6 +20,7 @@ include("getJuliaFunction.jl")
 include("util-db-dump.jl")
 include("util-email.jl")
 include("notifyAdmin.jl")
+include("notifyTeam.jl")
 include("translation/_include.jl")
 include("util-exception.jl")
 include("getTaskWaitingForUserExecutionBlacklist.jl")
@@ -464,6 +465,7 @@ function TRAQUERUtil.getTeamEmailAddress()
         strip |>
         string |>
         n -> split(n,",") |>
+        n -> strip.(n) |>
         n -> string.(n) |>
         n -> if isempty(n)  missing else n end
 end
@@ -473,6 +475,7 @@ function TRAQUERUtil.getAdminEmail()
         strip |>
         string |>
         n -> split(n,",") |>
+        n -> strip.(n) |>
         n -> string.(n) |>
         n -> if isempty(n)  missing else n end
 end

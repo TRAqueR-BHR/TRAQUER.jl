@@ -6,6 +6,6 @@ include("../runtests-prerequisite.jl")
         EventRequiringAttentionCtrl.getNewImportantEvents(dbconn)
     end
 
-    EventRequiringAttentionCtrl.createSummaryOfEvents(events)
+    EventRequiringAttentionCtrl.createSummaryOfEvents(events) |> println
 
 end

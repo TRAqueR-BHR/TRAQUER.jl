@@ -266,7 +266,6 @@ function StayCtrl.getStaysForListing(
         # ##################################### #
         # Transform the columns that need to be #
         # ##################################### #
-        @info "names(objects)" names(objects)
         if !ismissing(cryptPwd)
             objects.birthdate = passmissing(TRAQUERUtil.string2date).(objects.birthdate)
         end

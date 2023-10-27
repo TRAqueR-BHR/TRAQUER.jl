@@ -1,5 +1,20 @@
 function EventRequiringAttentionCtrl.notifyTeamOfNewImportantEvents(dbconn::LibPQ.Connection)
-    # TODO
+
+    events = TRAQUERUtil.createDBConnAndExecute() do dbconn
+        EventRequiringAttentionCtrl.getNewImportantEvents(dbconn)
+    end
+
+    if isempty(events)
+        return
+    end
+
+    summary = EventRequiringAttentionCtrl.createSummaryOfEvents(events)
+
+    subject = getTranslation("new_events_require_your_attention")
+    message = summary
+
+    TRAQUERUtil.notifyTeam(subject, message)
+
 end
 
 function EventRequiringAttentionCtrl.notifyTeamOfNewImportantEvents()

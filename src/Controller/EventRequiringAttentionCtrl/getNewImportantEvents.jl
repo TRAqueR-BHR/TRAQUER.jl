@@ -23,17 +23,17 @@ function EventRequiringAttentionCtrl.getNewImportantEvents(dbconn::LibPQ.Connect
     lastEvents = "SELECT e.*
     FROM event_requiring_attention e
     WHERE e.is_pending = 't'
-    --AND e.creation_time IS NOT NULL
-    --AND e.creation_time >= \$1
+    AND e.creation_time IS NOT NULL
+    AND e.creation_time >= \$1
     ORDER BY e.creation_time DESC
     " |>
     n -> PostgresORM.execute_query_and_handle_result(
             n,
             EventRequiringAttention,
             [
-                # lowerLimit
+                lowerLimit
             ],
-            false,
+            true, # we want details of the infectious status
             dbconn
         )
 

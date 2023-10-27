@@ -18,8 +18,6 @@ function SchedulerCtrl.checkIfNeedsToExecuteFunction(
 
             timediff = (Time(_now) - _time) / Nanosecond(1000000000)
 
-            # @info "timediff[$timediff]"
-
             if (timediff < 0 || timediff > 60) continue end
 
             # If we are less than 60 seconds after the expected execution time

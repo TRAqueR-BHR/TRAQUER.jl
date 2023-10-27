@@ -73,7 +73,6 @@ function Controller.updateVectorProps!(
     dbconn::LibPQ.Connection
     ;editor::Union{Missing,Appuser} = missing
 )
-    @info "HREERERERE"
     AppuserCtrl.updateAppuserAppuserRoleAssos!(
         object,
         dbconn
@@ -86,8 +85,6 @@ function AppuserCtrl.updateAppuserAppuserRoleAssos!(
     dbconn::LibPQ.Connection,
     ;editor::Union{Missing,Appuser} = missing
 )
-
-    @info "## length(appuserAppuserRoleAssoes)[$(length(object.appuserAppuserRoleAssoes))]"
 
     PostgresORM.update_vector_property!(object, # updated_object
                             :appuserAppuserRoleAssoes, # updated_property
@@ -238,9 +235,6 @@ function AppuserCtrl.retrieveActiveAppusers(caller::Appuser
         @info restrictedToRolesIDs
         filter!(x -> x in restrictedToRolesIDs, roleIDsAccessibleToUser)
     end
-
-    # @info roleIDsAccessibleToUser
-
 
     queryString = "
     SELECT DISTINCT appuser.*

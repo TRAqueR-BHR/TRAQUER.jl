@@ -106,6 +106,7 @@ function sendemail end
 function getAdminEmail end
 function bccAdminForEveryEmail end
 function notifyAdmin end
+function notifyTeam end
 
 # Translation
 function getTranslation end

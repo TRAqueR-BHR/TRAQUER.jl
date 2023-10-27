@@ -35,8 +35,6 @@ function InfectiousStatusCtrl.generateCarrierStatusesFromAnalyses(
                 analysisRes.requestType
             )
 
-            @info "$infectiousAgent $(analysisRes.requestTime)"
-
             # Upsert
             infectiousStatus = InfectiousStatus(
                 patient = analysisRes.patient,

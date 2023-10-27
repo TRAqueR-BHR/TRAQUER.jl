@@ -1,7 +1,5 @@
 function SchedulerCtrl.getLastExecution(fct::Function, dbconn::LibPQ.Connection)
 
-    @info string(fct)
-
     tasks = "
         SELECT t.*
         FROM misc.scheduled_task_execution t
