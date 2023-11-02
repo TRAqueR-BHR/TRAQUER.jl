@@ -310,7 +310,7 @@ module Controller
   end
 
   module MaintenanceCtrl
-    include("Controller/MaintenanceCtrl/MaintenanceCtrl-def.jl")
+    include("Controller/MaintenanceCtrl/_def.jl")
   end
 
   # Default CRUD actions are the base of the Controller module
@@ -393,7 +393,7 @@ include("Controller/WebApiUsageCtrl/WebApiUsageCtrl-imp.jl")
 include("Controller/SchedulerCtrl/_imp.jl")
 
 # MaintenanceCtrl
-include("Controller/MaintenanceCtrl/MaintenanceCtrl-imp.jl")
+include("Controller/MaintenanceCtrl/_imp.jl")
 
 # Custom implementation
 include(ENV["TRAQUER_CUSTOM_MODULE_IMPLEMENTATION_FILE"])

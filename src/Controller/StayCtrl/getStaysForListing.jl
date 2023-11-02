@@ -201,7 +201,13 @@ function StayCtrl.getStaysForListing(
 
             # For the SQL query
             _order = (paramsDict["sorting"] == 1) ? " ASC " : " DESC "
-            push!(sortings,nameInWhereClause * _order)
+
+            # Special treatment for stay.in_time
+            if nameInSelect == "in_time"
+                push!(sortings,"s.in_date" * _order)
+            else
+                push!(sortings,nameInWhereClause * _order)
+            end
 
             # For the final dataframe sort
             _rev = (paramsDict["sorting"] == 1) ? false : true
@@ -256,10 +262,12 @@ function StayCtrl.getStaysForListing(
 
     objects = missing
 
+    println(queryString)
+
     dbconn = TRAQUERUtil.openDBConn()
     try
 
-        objects = execute_plain_query(queryString,
+        @time objects = execute_plain_query(queryString,
                                      [queryArgs...,pageSize,offset], # queryArgs
                                       dbconn)
 

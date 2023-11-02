@@ -14,7 +14,7 @@ outbreak.refTime:                            ⬇(= infectiousStatus.startTime = 
 Infectious status:                           🍎
 Isolation:                                      📢
 All stays:           [======]  [========][=========][========]   [========]
-stays at risk:                      ✓         ✓
+stays at risk:                      ✓         ✓                      ✓
 
 
 # Case where a carrier comes back for a new hospitalization:
@@ -24,7 +24,7 @@ outbreak.refTime:           ⬇(= hospitalizationInTime)
 Infectious status:     🍎
 Isolation:                            📢
 All stays:           [===]  [=====][====][===]    [========]
-stays at risk:         ✓       ✓     ✓
+stays at risk:         ✓       ✓     ✓               ✓
 
 
 # Case where we have several carriers. In that case the outbreak ref time is the lowest time
@@ -41,7 +41,7 @@ stays at risk:                                ✓               ✓
 
 
 
-# TODO
+# Case where the patient patient comes back many times
 
 Hospitalization:      [========]  [=====================]   [======================]
 outbreak.refTime:
@@ -51,7 +51,7 @@ All stays:            [===][===]  [====][=======][======]    [====][=======][===
 stays at risk:          ✓           ✓       ✓                 ✓
 
 
-# TODO
+# Case where the patient becomes negative after a few hospitalizations
 
 Hospitalization:      [========]  [=====================]   [======================]
 outbreak.refTime:

@@ -9,6 +9,9 @@ JOIN patient_birthdate_crypt pbc
 JOIN patient_name_crypt pnc
     ON  pnc.lastname_first_letter = p.lastname_first_letter
     AND pnc.id = p.name_crypt_id
+JOIN patient_ref_crypt prc
+    ON prc.one_char = p.ref_one_char
+    AND prc.id = p.ref_crypt_id
 WHERE pnc.lastname_first_letter = 'r'
 	AND pgp_sym_decrypt(pnc.lastname_for_cp_crypt, 'aaaaaaaxxxxxcccccc') = 'rosaine'
 	AND pgp_sym_decrypt(pnc.firstname_for_cp_crypt, 'aaaaaaaxxxxxcccccc') = 'michel'
