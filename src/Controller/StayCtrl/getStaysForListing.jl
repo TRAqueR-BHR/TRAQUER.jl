@@ -27,6 +27,16 @@ function StayCtrl.getStaysForListing(
     end
 
     queryStringShared = "
+    SELECT s.*,
+           u.name AS unit_name,
+
+           -- The following are for joining with the main query
+           p.birth_year AS patient_birth_year,
+           p.birthdate_crypt_id AS patient_birthdate_crypt_id,
+           p.lastname_first_letter AS patient_lastname_first_letter,
+           p.name_crypt_id AS patient_name_crypt_id,
+           p.ref_one_char AS patient_ref_one_char,
+           p.ref_crypt_id AS patient_ref_crypt_id
     FROM stay s
     JOIN unit u
         ON s.unit_id = u.id
@@ -226,12 +236,25 @@ function StayCtrl.getStaysForListing(
         orderByClause = " ORDER BY " * join(sortings,",")
     end
 
+    queryStringShared *= "
+    LIMIT \$$(args_counter += 1) "
+    queryStringShared *= "
+    OFFSET \$$(args_counter += 1)"
+
+    # NOTE: This will equal to missing if pageSize is missing
+    #       which results in passing NULL to the query which does work
+    offset = (pageNum - 1) * pageSize
+
+    queryStringUsing = "
+        WITH prequery AS (
+            $queryStringShared
+        )
+    "
 
     queryString *= (
         queryStringUsing
         *"
-        SELECT s.*,
-               u.name AS unit_name
+        SELECT prequery.*
         "
 
     )
@@ -246,19 +269,22 @@ function StayCtrl.getStaysForListing(
         "
     end
 
-    queryString *= queryStringShared
-
-    if (length(sortings) > 0)
-        queryString *= " ORDER BY " * join(sortings,",")
+    queryString *= "
+        FROM prequery
+        "
+    if !ismissing(cryptPwd)
+        queryString *= "
+            JOIN patient_birthdate_crypt pbc
+              ON  pbc.year = prequery.patient_birth_year
+              AND pbc.id = prequery.patient_birthdate_crypt_id
+            JOIN patient_name_crypt pnc
+              ON  pnc.lastname_first_letter = prequery.patient_lastname_first_letter
+              AND pnc.id = prequery.patient_name_crypt_id
+            JOIN patient_ref_crypt prc
+              ON  prc.one_char = prequery.patient_ref_one_char
+              AND prc.id = prequery.patient_ref_crypt_id
+        "
     end
-    queryString *= "
-    LIMIT \$$(args_counter += 1) "
-    queryString *= "
-    OFFSET \$$(args_counter += 1)"
-
-    # NOTE: This will equal to missing if pageSize is missing
-    #       which results in passing NULL to the query which does work
-    offset = (pageNum - 1) * pageSize
 
     objects = missing
 
