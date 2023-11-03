@@ -249,8 +249,6 @@ function StayCtrl.getStaysForListing(
     #       which results in passing NULL to the query which does work
     offset = (pageNum - 1) * pageSize
 
-
-
     queryString *= (
         "
         WITH prequery AS (
@@ -260,7 +258,6 @@ function StayCtrl.getStaysForListing(
         *"
         SELECT prequery.*
         "
-
     )
 
     # Add some columns for the decrypted values
