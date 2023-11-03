@@ -213,8 +213,7 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
 
             # For the final dataframe sort
             _rev = (paramsDict["sorting"] == 1) ? false : true
-            push!(dfSortings,
-                  order(Symbol(nameInSelect), rev = _rev))
+            push!(dfSortings, order(Symbol(nameInSelect), rev = _rev))
 
         end
 
@@ -309,6 +308,8 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
 
     totalRecords = typemax(Int64)
 
+    # Final sorting of the dataframe because the final query does not guarantee to respect
+    # the order of the prequery
     if length(dfSortings) > 0
         sort!(objects,dfSortings)
     end
