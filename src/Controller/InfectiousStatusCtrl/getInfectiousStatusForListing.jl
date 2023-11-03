@@ -199,9 +199,12 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
         #       various types of joins no longer preserve the order of the
         #       left dataframe
         #       (see https://github.com/JuliaData/DataFrames.jl/blob/main/NEWS.md#other-relevant-changes)
+
+        # Add default sorting on 'event_ref_time'
         if paramsDict["field"] == "event_ref_time" && ismissing(paramsDict["sorting"])
             paramsDict["sorting"] = -1
         end
+
         if !ismissing(paramsDict["sorting"])
 
             # For the SQL query
