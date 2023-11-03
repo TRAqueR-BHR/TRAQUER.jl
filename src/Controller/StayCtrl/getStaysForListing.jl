@@ -290,7 +290,7 @@ function StayCtrl.getStaysForListing(
 
     objects = missing
 
-    println(queryString)
+    # println(queryString)
 
     dbconn = TRAQUERUtil.openDBConn()
     try

@@ -307,7 +307,7 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
 
     try
 
-        println(queryString)
+        # println(queryString)
 
         objects = execute_plain_query(queryString,
                                      [queryArgs...,pageSize,offset], # queryArgs

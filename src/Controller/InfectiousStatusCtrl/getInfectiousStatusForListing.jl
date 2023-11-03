@@ -309,7 +309,7 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
     dbconn = TRAQUERUtil.openDBConn()
     try
 
-        println(queryString)
+        # println(queryString)
 
         objects = execute_plain_query(queryString,
                                      [queryArgs...,pageSize,offset], # queryArgs
