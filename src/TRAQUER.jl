@@ -24,7 +24,7 @@ module TRAQUERUtil
            getConf, formatExceptionAndStackTrace, json2entity, getTimeZone,
            executeOnBgThread, createDBConnAndExecute, isMissingOrNothing,
            json2Entity, getTranslation
-    include("./TRAQUERUtil/util-def.jl")
+    include("./TRAQUERUtil/_def.jl")
 
 end # module TRAQUERUtil
 
@@ -237,11 +237,11 @@ end  # module ORM
 module Controller
 
   module AppuserCtrl
-    include("Controller/AppuserCtrl/AppuserCtrl-def.jl")
+    include("Controller/AppuserCtrl/_def.jl")
   end
 
   module ETLCtrl
-    include("Controller/ETLCtrl/ETLCtrl-def.jl")
+    include("Controller/ETLCtrl/_def.jl")
   end
 
   module ExposedFunctionCtrl
@@ -253,11 +253,11 @@ module Controller
   end
 
   module PatientCtrl
-    include("Controller/PatientCtrl/PatientCtrl-def.jl")
+    include("Controller/PatientCtrl/_def.jl")
   end
 
   module StayCtrl
-    include("Controller/StayCtrl/StayCtrl-def.jl")
+    include("Controller/StayCtrl/_def.jl")
   end
 
   module UnitCtrl
@@ -281,11 +281,11 @@ module Controller
   end
 
   module OutbreakCtrl
-    include("Controller/OutbreakCtrl/OutbreakCtrl-def.jl")
+    include("Controller/OutbreakCtrl/_def.jl")
   end
 
   module OutbreakUnitAssoCtrl
-    include("Controller/OutbreakUnitAssoCtrl/OutbreakUnitAssoCtrl-def.jl")
+    include("Controller/OutbreakUnitAssoCtrl/_def.jl")
   end
 
   module EventRequiringAttentionCtrl
@@ -293,7 +293,7 @@ module Controller
   end
 
   module ContactExposureCtrl
-    include("Controller/ContactExposureCtrl/ContactExposureCtrl-def.jl")
+    include("Controller/ContactExposureCtrl/_def.jl")
   end
 
   module TaskWaitingForUserExecutionCtrl
@@ -335,17 +335,16 @@ include("custom-exceptions.jl")
 include("Controller/default-crud-imp.jl")
 
 # TRAQUERUtil
-# include("TRAQUERUtil/using.jl")
-include("TRAQUERUtil/util-imp.jl")
+include("TRAQUERUtil/_imp.jl")
 
 # AppuserCtrl
-include("Controller/AppuserCtrl/AppuserCtrl-imp.jl")
+include("Controller/AppuserCtrl/_imp.jl")
 
 # PatientCtrl
-include("Controller/PatientCtrl/PatientCtrl-imp.jl")
+include("Controller/PatientCtrl/_imp.jl")
 
 # StayCtrl
-include("Controller/StayCtrl/StayCtrl-imp.jl")
+include("Controller/StayCtrl/_imp.jl")
 
 # AnalysisResultCtrl
 include("Controller/AnalysisResultCtrl/_imp.jl")
@@ -354,7 +353,7 @@ include("Controller/AnalysisResultCtrl/_imp.jl")
 include("Controller/AnalysisRequestCtrl/_imp.jl")
 
 # ETLCtrl
-include("Controller/ETLCtrl/ETLCtrl-imp.jl")
+include("Controller/ETLCtrl/_imp.jl")
 
 # ExposedFunctionCtrl
 include("Controller/ExposedFunctionCtrl/_imp.jl")
@@ -369,16 +368,16 @@ include("Controller/InfectiousStatusCtrl/_imp.jl")
 include("Controller/DeletedInfectiousStatusCtrl/_imp.jl")
 
 # OutbreakCtrl
-include("Controller/OutbreakCtrl/OutbreakCtrl-imp.jl")
+include("Controller/OutbreakCtrl/_imp.jl")
 
 # OutbreakUnitAssoCtrl
-include("Controller/OutbreakUnitAssoCtrl/OutbreakUnitAssoCtrl-imp.jl")
+include("Controller/OutbreakUnitAssoCtrl/_imp.jl")
 
 # EventRequiringAttentionCtrl
 include("Controller/EventRequiringAttentionCtrl/_imp.jl")
 
 # ContactExposureCtrl
-include("Controller/ContactExposureCtrl/ContactExposureCtrl-imp.jl")
+include("Controller/ContactExposureCtrl/_imp.jl")
 
 # UnitCtrl
 include("Controller/UnitCtrl/UnitCtrl-imp.jl")
