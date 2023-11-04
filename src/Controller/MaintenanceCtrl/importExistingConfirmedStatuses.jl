@@ -2,6 +2,7 @@ function MaintenanceCtrl.importExistingConfirmedStatuses(
     filePath::String,
     cryptStr::String,
     dbconn::LibPQ.Connection
+    ;stopAfterXLines::Union{Missing,Int} = missing
 )
 
     df = XLSX.readtable(filePath,1) |> DataFrame
@@ -25,7 +26,11 @@ function MaintenanceCtrl.importExistingConfirmedStatuses(
         InfectiousStatusType.INFECTIOUS_STATUS_TYPE, df.infectious_status
     )
 
-    for r in eachrow(df)
+    for (idx, r) in enumerate(eachrow(df))
+
+        if !ismissing(stopAfterXLines) && idx > stopAfterXLines
+            return
+        end
 
         patient = PatientCtrl.createPatientIfNoExist(
             r.firstname,
@@ -43,6 +48,32 @@ function MaintenanceCtrl.importExistingConfirmedStatuses(
             refTime = r.infectious_status_ref_time,
             isConfirmed = true,
         )
+
+        # Check that we dont already have the same infectious status around that date.
+        # This is needed because the import will likely happens after the integration and
+        # processing of stays and analyses and therefore the creation of carrier statuses
+        existingInfectiousStatus = InfectiousStatusCtrl.getInfectiousStatusAtTime(
+            patient,
+            r.infectious_agent,
+            r.infectious_status_ref_time + Day(2),
+            false,
+            dbconn
+            ;statusesOfInterest = [r.infectious_status]
+        )
+        if !ismissing(existingInfectiousStatus)
+            continue
+        end
+        existingInfectiousStatus = InfectiousStatusCtrl.getInfectiousStatusAtTime(
+            patient,
+            r.infectious_agent,
+            r.infectious_status_ref_time - Day(2),
+            false,
+            dbconn
+            ;statusesOfInterest = [r.infectious_status]
+        )
+        if !ismissing(existingInfectiousStatus)
+            continue
+        end
 
         InfectiousStatusCtrl.upsert!(
             infectiousStatus,
