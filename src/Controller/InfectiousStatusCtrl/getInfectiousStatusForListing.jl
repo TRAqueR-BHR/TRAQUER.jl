@@ -15,7 +15,7 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
 
     args_counter = 0
     queryString = ""
-    queryStringUsing = ""
+    prequeryString = ""
     queryArgs::Vector{Any} = []
 
     # If crypt password is given, set it as the first argument of the query
@@ -23,7 +23,37 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
         push!(queryArgs,cryptPwd)
     end
 
-    queryStringShared = "
+    prequeryString = "
+        SELECT  p.id AS patient_id,
+                p.traquer_ref AS traquer_ref,
+                p.is_hospitalized AS patient_is_hospitalized,
+                ist.id AS infectious_status_id,
+                ist.ref_time AS ref_time,
+                ist.infectious_status,
+                ist.infectious_agent,
+                ist.is_confirmed,
+                ist.is_current,
+                era.id AS event_id,
+                era.response_time AS event_response_time,
+                era.response_user_id AS event_response_user_id,
+                era.response_comment AS event_response_comment,
+                era.responses_types AS event_responses_types,
+                era.event_type AS event_type,
+                era.ref_time AS event_ref_time,
+                era.is_pending AS event_is_pending,
+                patient_current_unit.code_name AS current_unit_code_name,
+                patient_current_unit.name AS current_unit_name,
+                o.id AS outbreak_id,
+                o.name AS outbreak_name,
+
+                -- The following are for joining with the main query
+                p.birth_year AS patient_birth_year,
+                p.birthdate_crypt_id AS patient_birthdate_crypt_id,
+                p.lastname_first_letter AS patient_lastname_first_letter,
+                p.name_crypt_id AS patient_name_crypt_id,
+                p.ref_one_char AS patient_ref_one_char,
+                p.ref_crypt_id AS patient_ref_crypt_id
+
         FROM infectious_status ist
         INNER JOIN event_requiring_attention era
           ON era.infectious_status_id = ist.id
@@ -38,7 +68,7 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
     "
 
     if !ismissing(cryptPwd)
-        queryStringShared *= "
+        prequeryString *= "
           INNER JOIN patient_birthdate_crypt pbc
             ON  pbc.year = p.birth_year
             AND pbc.id = p.birthdate_crypt_id
@@ -51,7 +81,7 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
         "
     end
 
-    queryStringShared *= "
+    prequeryString *= "
     WHERE 1 = 1 -- for convenience
     "
 
@@ -94,11 +124,11 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
             if (nameInSelect == "patient_ref" && !ismissing(cryptPwd))
                 # Add a first filter on the first letter for performance
                 filterValue = lowercase(filterValue)
-                queryStringShared *= "
+                prequeryString *= "
                     AND prc.one_char = \$$(args_counter += 1)"
                 push!(queryArgs, PatientCtrl.getRefOneChar(filterValue))
                 # Add the filter itself
-                queryStringShared *= "
+                prequeryString *= "
                     AND pgp_sym_decrypt(prc.ref_crypt, \$1)
                         ILIKE \$$(args_counter += 1) "
                 push!(queryArgs,(filterValue * "%"))
@@ -107,11 +137,11 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
             elseif (nameInSelect == "lastname" && !ismissing(cryptPwd))
                 # Add a first filter on the first letter for performance
                 filterValue = TRAQUERUtil.cleanStringForEncryptedValueCp(filterValue)
-                queryStringShared *= "
+                prequeryString *= "
                     AND pnc.lastname_first_letter = \$$(args_counter += 1)"
                 push!(queryArgs,filterValue[1])
                 # Add the filter itself
-                queryStringShared *= "
+                prequeryString *= "
                     AND pgp_sym_decrypt(pnc.lastname_for_cp_crypt, \$1)
                         ILIKE \$$(args_counter += 1) "
                 push!(queryArgs,(filterValue * "%"))
@@ -120,7 +150,7 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
             elseif (nameInSelect == "firstname" && !ismissing(cryptPwd))
                 filterValue = lowercase(filterValue)
                 # Add the filter itself
-                queryStringShared *= "
+                prequeryString *= "
                     AND pgp_sym_decrypt(pnc.firstname_crypt, \$1)
                         ILIKE \$$(args_counter += 1) "
                 push!(queryArgs,(filterValue * "%"))
@@ -140,12 +170,12 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
                 end
 
                 # Add a first filter on the year for performance
-                queryStringShared *= "
+                prequeryString *= "
                     AND pbc.year = \$$(args_counter += 1)"
                 push!(queryArgs,year(filterValue))
 
                 # Add the filter itself
-                queryStringShared *= "
+                prequeryString *= "
                     AND pgp_sym_decrypt(pbc.birthdate_crypt, \$1)
                         = \$$(args_counter += 1) "
                 push!(
@@ -160,15 +190,15 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
                 # For arrays of string
                 if (haskey(paramsDict,"attributeTest")
                  && uppercase(paramsDict["attributeTest"]) == "IN")
-                    queryStringShared *= " AND $nameInWhereClause = ANY(\$$(args_counter += 1)) "
+                    prequeryString *= " AND $nameInWhereClause = ANY(\$$(args_counter += 1)) "
                     push!(queryArgs, unique(filterValue))
                 else
-                    queryStringShared *= " AND $nameInWhereClause ILIKE \$$(args_counter += 1) "
+                    prequeryString *= " AND $nameInWhereClause ILIKE \$$(args_counter += 1) "
                     push!(queryArgs,("%" * filterValue * "%"))
                 end
 
             elseif (paramsDict["attributeType"] == "enum")
-                queryStringShared *= " AND $nameInWhereClause = ANY(\$$(args_counter += 1)) "
+                prequeryString *= " AND $nameInWhereClause = ANY(\$$(args_counter += 1)) "
                 if isa(filterValue, String)
                     push!(queryArgs, [filterValue])
                 elseif isa(filterValue, Vector{String})
@@ -186,7 +216,7 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
                     )
                 end
             else
-                queryStringShared *= " AND $nameInWhereClause = \$$(args_counter += 1) "
+                prequeryString *= " AND $nameInWhereClause = \$$(args_counter += 1) "
                 push!(queryArgs, filterValue)
             end
 
@@ -199,9 +229,12 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
         #       various types of joins no longer preserve the order of the
         #       left dataframe
         #       (see https://github.com/JuliaData/DataFrames.jl/blob/main/NEWS.md#other-relevant-changes)
+
+        # Add default sorting on 'event_ref_time'
         if paramsDict["field"] == "event_ref_time" && ismissing(paramsDict["sorting"])
             paramsDict["sorting"] = -1
         end
+
         if !ismissing(paramsDict["sorting"])
 
             # For the SQL query
@@ -210,8 +243,7 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
 
             # For the final dataframe sort
             _rev = (paramsDict["sorting"] == 1) ? false : true
-            push!(dfSortings,
-                  order(Symbol(nameInSelect), rev = _rev))
+            push!(dfSortings, order(Symbol(nameInSelect), rev = _rev))
 
         end
 
@@ -220,37 +252,29 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
     # Create the 'ORDER BY' part
     # NOTE : 'ORDER BY' doit utilisé dans la pré-requête mais aussi dans
     #         la  requête principale
-    orderByClause = ""
     if (length(sortings) > 0)
-        orderByClause = " ORDER BY " * join(sortings,",")
+        prequeryString *= " ORDER BY " * join(sortings,",")
     end
+    prequeryString *= "
+    LIMIT \$$(args_counter += 1) "
+    prequeryString *= "
+    OFFSET \$$(args_counter += 1)"
+
+    # NOTE: This will equal to missing if pageSize is missing
+    #       which results in passing NULL to the query which does work
+    offset = (pageNum - 1) * pageSize
 
 
-    queryString *= (queryStringUsing
-        * "SELECT p.id AS patient_id,
-                  p.traquer_ref AS traquer_ref,
-                  p.birthdate_crypt_id AS birthdate_crypt_id,
-                  p.birthdate_crypt_id AS birth_year,
-                  p.is_hospitalized AS patient_is_hospitalized,
-                  ist.id AS infectious_status_id,
-                  ist.ref_time AS ref_time,
-                  ist.infectious_status,
-                  ist.infectious_agent,
-                  ist.is_confirmed,
-                  ist.is_current,
-                  era.id AS event_id,
-                  era.response_time AS event_response_time,
-                  era.response_user_id AS event_response_user_id,
-                  era.response_comment AS event_response_comment,
-                  era.responses_types AS event_responses_types,
-                  era.event_type AS event_type,
-                  era.ref_time AS event_ref_time,
-                  era.is_pending AS event_is_pending,
-                  patient_current_unit.code_name AS current_unit_code_name,
-                  patient_current_unit.name AS current_unit_name,
-                  o.id AS outbreak_id,
-                  o.name AS outbreak_name
-                  ")
+    queryString *= (
+        "
+        WITH prequery AS (
+            $prequeryString
+        )
+        "
+        *"
+        SELECT prequery.*
+        "
+    )
 
     # Add some columns for the decrypted values
     if !ismissing(cryptPwd)
@@ -262,24 +286,30 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
         "
     end
 
-    queryString *= queryStringShared
-
-    if (length(sortings) > 0)
-        queryString *= " ORDER BY " * join(sortings,",")
+    queryString *= "
+        FROM prequery
+        "
+    # Add the required joins for the crypted values
+    if !ismissing(cryptPwd)
+        queryString *= "
+            JOIN patient_birthdate_crypt pbc
+              ON  pbc.year = prequery.patient_birth_year
+              AND pbc.id = prequery.patient_birthdate_crypt_id
+            JOIN patient_name_crypt pnc
+              ON  pnc.lastname_first_letter = prequery.patient_lastname_first_letter
+              AND pnc.id = prequery.patient_name_crypt_id
+            JOIN patient_ref_crypt prc
+              ON  prc.one_char = prequery.patient_ref_one_char
+              AND prc.id = prequery.patient_ref_crypt_id
+        "
     end
-    queryString *= "
-    LIMIT \$$(args_counter += 1) "
-    queryString *= "
-    OFFSET \$$(args_counter += 1)"
-
-    # NOTE: This will equal to missing if pageSize is missing
-    #       which results in passing NULL to the query which does work
-    offset = (pageNum - 1) * pageSize
 
     objects = missing
 
     dbconn = TRAQUERUtil.openDBConn()
     try
+
+        # println(queryString)
 
         objects = execute_plain_query(queryString,
                                      [queryArgs...,pageSize,offset], # queryArgs
@@ -306,6 +336,8 @@ function InfectiousStatusCtrl.getInfectiousStatusForListing(
 
     totalRecords = typemax(Int64)
 
+    # Final sorting of the dataframe because the final query does not guarantee to respect
+    # the order of the prequery
     if length(dfSortings) > 0
         sort!(objects,dfSortings)
     end

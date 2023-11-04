@@ -1,7 +1,8 @@
 function InfectiousStatusCtrl.upsert!(
     infectiousStatus::InfectiousStatus,
     dbconn::LibPQ.Connection
-    ;createEventForStatus::Bool = true
+    ;createEventForStatus::Bool = true,
+    setNewEventAsPending::Bool = true
 )
 
     # Do not create the status if it was deleted
@@ -41,7 +42,7 @@ function InfectiousStatusCtrl.upsert!(
             # Create the event requiring attention
             eventRequiringAttention = EventRequiringAttention(
                 infectiousStatus = infectiousStatus,
-                isPending = true,
+                isPending = if setNewEventAsPending true else false end,
                 eventType = EventRequiringAttentionType.new_status,
                 refTime = infectiousStatus.refTime
             )

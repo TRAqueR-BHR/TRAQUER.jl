@@ -16,7 +16,7 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
 
     args_counter = 0
     queryString = ""
-    queryStringUsing = ""
+    prequeryString = ""
     queryArgs::Vector{Any} = []
 
     # If crypt password is given, set it as the first argument of the query
@@ -24,7 +24,18 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
         push!(queryArgs,cryptPwd)
     end
 
-    queryStringShared = "
+    prequeryString = "
+    SELECT a.*,
+
+           -- The following are for joining with the main query
+           p.birth_year AS patient_birth_year,
+           p.birthdate_crypt_id AS patient_birthdate_crypt_id,
+           p.lastname_first_letter AS patient_lastname_first_letter,
+           p.name_crypt_id AS patient_name_crypt_id,
+           p.ref_one_char AS patient_ref_one_char,
+           p.ref_crypt_id AS patient_ref_crypt_id
+
+
     FROM analysis_result a
     LEFT JOIN stay s -- an analysis may not have a corresponding stay
         ON a.stay_id = s.id
@@ -33,7 +44,7 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
     "
 
     if !ismissing(cryptPwd)
-        queryStringShared *= "
+        prequeryString *= "
         JOIN analysis_ref_crypt arc
             ON a.ref_one_char = arc.one_char
             AND a.ref_crypt_id = arc.id
@@ -43,13 +54,13 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
         JOIN patient_name_crypt pnc
             ON  pnc.lastname_first_letter = p.lastname_first_letter
             AND pnc.id = p.name_crypt_id
-        INNER JOIN patient_ref_crypt prc
+        JOIN patient_ref_crypt prc
             ON  prc.one_char = p.ref_one_char
             AND prc.id = p.ref_crypt_id
         "
     end
 
-    queryStringShared *= "
+    prequeryString *= "
     WHERE 1 = 1 -- for convenience
     "
 
@@ -92,11 +103,11 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
             if (nameInSelect == "analysis_ref" && !ismissing(cryptPwd))
                 # Add a first filter on the first letter for performance
                 filterValue = lowercase(filterValue)
-                queryStringShared *= "
+                prequeryString *= "
                     AND arc.one_char = \$$(args_counter += 1)"
                 push!(queryArgs, AnalysisResultCtrl.getRefOneChar(filterValue))
                 # Add the filter itself
-                queryStringShared *= "
+                prequeryString *= "
                     AND pgp_sym_decrypt(arc.ref_crypt, \$1)
                         ILIKE \$$(args_counter += 1) "
                 push!(queryArgs,(filterValue * "%"))
@@ -105,11 +116,11 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
             elseif (nameInSelect == "patient_ref" && !ismissing(cryptPwd))
                 # Add a first filter on the first letter for performance
                 filterValue = lowercase(filterValue)
-                queryStringShared *= "
+                prequeryString *= "
                     AND prc.one_char = \$$(args_counter += 1)"
                 push!(queryArgs, PatientCtrl.getRefOneChar(filterValue))
                 # Add the filter itself
-                queryStringShared *= "
+                prequeryString *= "
                     AND pgp_sym_decrypt(prc.ref_crypt, \$1)
                         ILIKE \$$(args_counter += 1) "
                 push!(queryArgs,(filterValue * "%"))
@@ -118,11 +129,11 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
             elseif (nameInSelect == "lastname" && !ismissing(cryptPwd))
                 # Add a first filter on the first letter for performance
                 filterValue = TRAQUERUtil.cleanStringForEncryptedValueCp(filterValue)
-                queryStringShared *= "
+                prequeryString *= "
                     AND pnc.lastname_first_letter = \$$(args_counter += 1)"
                 push!(queryArgs,filterValue[1])
                 # Add the filter itself
-                queryStringShared *= "
+                prequeryString *= "
                     AND pgp_sym_decrypt(pnc.lastname_for_cp_crypt, \$1)
                         ILIKE \$$(args_counter += 1) "
                 push!(queryArgs,(filterValue * "%"))
@@ -132,7 +143,7 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
                 # Add a first filter on the first letter for performance
                 filterValue = lowercase(filterValue)
                 # Add the filter itself
-                queryStringShared *= "
+                prequeryString *= "
                     AND pgp_sym_decrypt(pnc.firstname_crypt, \$1)
                         ILIKE \$$(args_counter += 1) "
                 push!(queryArgs,(filterValue * "%"))
@@ -152,12 +163,12 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
                 end
 
                 # Add a first filter on the year for performance
-                queryStringShared *= "
+                prequeryString *= "
                     AND pbc.year = \$$(args_counter += 1)"
                 push!(queryArgs,year(filterValue))
 
                 # Add the filter itself
-                queryStringShared *= "
+                prequeryString *= "
                     AND pgp_sym_decrypt(pbc.birthdate_crypt, \$1)
                         = \$$(args_counter += 1) "
                 push!(
@@ -172,15 +183,15 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
                 # For arrays of string
                 if (haskey(paramsDict,"attributeTest")
                  && uppercase(paramsDict["attributeTest"]) == "IN")
-                    queryStringShared *= " AND $nameInWhereClause = ANY(\$$(args_counter += 1)) "
+                    prequeryString *= " AND $nameInWhereClause = ANY(\$$(args_counter += 1)) "
                     push!(queryArgs, unique(filterValue))
                 else
-                    queryStringShared *= " AND $nameInWhereClause ILIKE \$$(args_counter += 1) "
+                    prequeryString *= " AND $nameInWhereClause ILIKE \$$(args_counter += 1) "
                     push!(queryArgs,("%" * filterValue * "%"))
                 end
 
             elseif (paramsDict["attributeType"] == "enum")
-                queryStringShared *= " AND $nameInWhereClause = ANY(\$$(args_counter += 1)) "
+                prequeryString *= " AND $nameInWhereClause = ANY(\$$(args_counter += 1)) "
                 if isa(filterValue, String)
                     push!(queryArgs, [filterValue])
                 elseif isa(filterValue, Vector{String})
@@ -198,7 +209,7 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
                     )
                 end
             else
-                queryStringShared *= " AND $nameInWhereClause = \$$(args_counter += 1) "
+                prequeryString *= " AND $nameInWhereClause = \$$(args_counter += 1) "
                 push!(queryArgs, filterValue)
             end
 
@@ -211,6 +222,12 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
         #       various types of joins no longer preserve the order of the
         #       left dataframe
         #       (see https://github.com/JuliaData/DataFrames.jl/blob/main/NEWS.md#other-relevant-changes)
+
+        # Add default sorting on 'request_time'
+        if paramsDict["field"] == "request_time" && ismissing(paramsDict["sorting"])
+            paramsDict["sorting"] = -1
+        end
+
         if !ismissing(paramsDict["sorting"])
 
             # For the SQL query
@@ -219,25 +236,36 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
 
             # For the final dataframe sort
             _rev = (paramsDict["sorting"] == 1) ? false : true
-            push!(dfSortings,
-                  order(Symbol(nameInSelect), rev = _rev))
+            push!(dfSortings, order(Symbol(nameInSelect), rev = _rev))
 
         end
 
     end # ENDOF for paramsDict in filtersAndSortings
 
     # Create the 'ORDER BY' part
-    # NOTE : 'ORDER BY' doit utilisé dans la pré-requête mais aussi dans
-    #         la  requête principale
-    orderByClause = ""
+    # NOTE : 'ORDER BY' must also appear in the final query because  final query does not
+    #         guarantee to keep the order from prequery
     if (length(sortings) > 0)
-        orderByClause = " ORDER BY " * join(sortings,",")
+        prequeryString *= " ORDER BY " * join(sortings,",")
     end
+    prequeryString *= "
+    LIMIT \$$(args_counter += 1) "
+    prequeryString *= "
+    OFFSET \$$(args_counter += 1)"
 
+    # NOTE: This will equal to missing if pageSize is missing
+    #       which results in passing NULL to the query which does work
+    offset = (pageNum - 1) * pageSize
 
     queryString *= (
-        queryStringUsing
-        *"SELECT a.*"
+        "
+        WITH prequery AS (
+            $prequeryString
+        )
+        "
+        *"
+        SELECT prequery.*
+        "
     )
 
     # Add some columns for the decrypted values
@@ -251,25 +279,35 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
         "
     end
 
-    queryString *= queryStringShared
+    queryString *= "
+        FROM prequery
+    "
 
-    if (length(sortings) > 0)
-        queryString *= " ORDER BY " * join(sortings,",")
+    # Add the required joins for the crypted values
+    if !ismissing(cryptPwd)
+        queryString *= "
+            JOIN analysis_ref_crypt arc
+                ON arc.one_char = prequery.ref_one_char
+                AND arc.id = prequery.ref_crypt_id
+            JOIN patient_birthdate_crypt pbc
+                ON  pbc.year = prequery.patient_birth_year
+                AND pbc.id = prequery.patient_birthdate_crypt_id
+            JOIN patient_name_crypt pnc
+                ON  pnc.lastname_first_letter = prequery.patient_lastname_first_letter
+                AND pnc.id = prequery.patient_name_crypt_id
+            JOIN patient_ref_crypt prc
+                ON  prc.one_char = prequery.patient_ref_one_char
+                AND prc.id = prequery.patient_ref_crypt_id
+        "
     end
-    queryString *= "
-    LIMIT \$$(args_counter += 1) "
-    queryString *= "
-    OFFSET \$$(args_counter += 1)"
-
-    # NOTE: This will equal to missing if pageSize is missing
-    #       which results in passing NULL to the query which does work
-    offset = (pageNum - 1) * pageSize
 
     objects = missing
 
     dbconn = TRAQUERUtil.openDBConn()
 
     try
+
+        # println(queryString)
 
         objects = execute_plain_query(queryString,
                                      [queryArgs...,pageSize,offset], # queryArgs
@@ -294,6 +332,8 @@ function AnalysisResultCtrl.getAnalysesResultsForListing(
 
     totalRecords = typemax(Int64)
 
+    # Final sorting of the dataframe because the final query does not guarantee to respect
+    # the order of the prequery
     if length(dfSortings) > 0
         sort!(objects,dfSortings)
     end

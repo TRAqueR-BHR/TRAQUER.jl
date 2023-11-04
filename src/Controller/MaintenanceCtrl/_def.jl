@@ -1,3 +1,4 @@
 function resetDatabase end
 function resetInfectiousStatusesOutbreaksAndExposures end
 function resetInfectiousStatusesOutbreaksAndExposuresAndReprocessPatientData end
+function importExistingConfirmedStatuses end
