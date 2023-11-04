@@ -1,0 +1,16 @@
+function setJWT! end
+function enrichWithMD5Password! end
+function prePersist! end
+function preUpdate! end
+function updateVectorProps! end
+function updateAppuserAppuserRoleAssos! end
+function enrichWithVectorProps! end
+function enrichUserWithRoles! end
+function retrieveAppuser end
+function retrieveAppusers end
+function retrieveActiveAppusers end
+function authenticate end
+function getComposedRolesAccessibleToUser end
+function getComposedRolesForListing end
+function getAppusersForListing end
+function upsert! end

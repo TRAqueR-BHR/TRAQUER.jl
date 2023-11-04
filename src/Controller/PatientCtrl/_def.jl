@@ -1,0 +1,17 @@
+function createPatientIfNoExist end
+function createPatient end
+function createCryptedPatientName end
+function createCryptedPatientBirthdate end
+function createCryptedPatientRef end
+function retrievePatientsFromLastname end
+function retrievePatientsFromBirthdate end
+function retrievePatientsFromRef end
+function retrievePatients end
+function retrieveOnePatient end
+function getRefOneChar end
+function getPatientDecrypt end
+function getPatientsForListing end
+
+function getPatientDecryptedInfoFromId end
+function getPatientsDecryptedInfoFromIds end
+function updatePatientNameAndBirthdate end
