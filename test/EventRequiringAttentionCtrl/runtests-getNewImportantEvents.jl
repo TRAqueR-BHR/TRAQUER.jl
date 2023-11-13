@@ -6,7 +6,4 @@ include("../runtests-prerequisite.jl")
         EventRequiringAttentionCtrl.getNewImportantEvents(dbconn)
     end
 
-    SplitApplyCombine.group(x -> x.eventType, events)
-    SplitApplyCombine.groupreduce(x -> x.eventType, events)
-
 end
