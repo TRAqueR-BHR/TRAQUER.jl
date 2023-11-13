@@ -15,6 +15,12 @@ function EventRequiringAttentionCtrl.notifyTeamOfNewImportantEvents(dbconn::LibP
 
     TRAQUERUtil.notifyTeam(subject, message)
 
+    # Update the database
+    "UPDATE event_requiring_attention
+    SET is_notification_sent = 't'
+    WHERE id = ANY(\$1)" |>
+    n -> PostgresORM.execute_plain_query(n, [getproperty.(events, :id)], dbconn)
+
 end
 
 function EventRequiringAttentionCtrl.notifyTeamOfNewImportantEvents()

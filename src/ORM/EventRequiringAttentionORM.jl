@@ -11,13 +11,14 @@ const columns_selection_and_mapping = Dict(
   :responseUser => "response_user_id", 
   :infectiousStatus => "infectious_status_id", 
   :id => "id", 
+  :refTime => "ref_time", 
+  :responsesTypes => "responses_types", 
+  :isPending => "is_pending", 
+  :eventType => "event_type", 
+  :isNotificationSent => "is_notification_sent", 
   :responseTime => "response_time", 
   :responseComment => "response_comment", 
   :creationTime => "creation_time", 
-  :isPending => "is_pending", 
-  :eventType => "event_type", 
-  :refTime => "ref_time", 
-  :responsesTypes => "responses_types", 
 )
 
 

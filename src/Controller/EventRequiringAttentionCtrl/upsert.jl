@@ -15,6 +15,10 @@ function EventRequiringAttentionCtrl.upsert!(
         if ismissing(eventRequiringAttention.creationTime)
             eventRequiringAttention.creationTime = now(getTimeZone())
         end
+        if ismissing(eventRequiringAttention.isNotificationSent)
+            eventRequiringAttention.isNotificationSent = false
+        end
+
         PostgresORM.create_entity!(eventRequiringAttention,dbconn)
     else
         eventRequiringAttention.id = existing.id
