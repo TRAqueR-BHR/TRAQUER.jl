@@ -556,7 +556,7 @@ api_routes = (api_routes..., new_route) # append the route
 
 
 #
-# Save patient isolation date of a stay that best matches the event requiring attention
+# Save patient isolation time of a stay that best matches the event requiring attention
 #
 new_route = route("/api/stay/save-patient-isolation-date-from-event-requiring-attention", req -> begin
 
@@ -614,6 +614,126 @@ new_route = route("/api/stay/save-patient-isolation-date-from-event-requiring-at
                 return StayCtrl.saveIsolationTime(
                     eventRequiringAttention,
                     isolationTime,
+                    dbconn
+                )
+            end
+        end
+
+        # Log API usage
+        apiOutTime = now(getTimeZone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
+
+        # Log API usage
+        apiOutTime = now(getTimeZone())
+        WebApiUsageCtrl.logAPIUsage(
+            appuser,
+            apiURL,
+            apiInTime,
+            apiOutTime
+        )
+
+        200 # status code
+
+    catch e
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
+
+        # Custom status code for some exceptions
+        if e isa CapturedException && e.ex isa NoStayFoundError
+            error = e.ex.msg
+            409 # status_code
+        else
+            error = e
+            500 # status_code
+        end
+
+    end
+
+    #
+    # Prepare the result
+    #
+    result::Union{Missing,String} = missing
+    try
+        if status_code == 200
+            result = String(JSON.json(stay)) # The client side doesn't really need the message
+        else
+            result = String(JSON.json(string(error)))
+        end
+    catch e
+        formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()), appuser)
+        rethrow(e)
+    end
+
+    # Send the result
+    Dict(:body => result,
+         :headers => Dict("Content-Type" => "application/json",
+                          "Access-Control-Allow-Origin" => "*"),
+         :status => status_code
+        )
+
+end)
+api_routes = (api_routes..., new_route) # append the route
+
+
+#
+# Delete isolation time of a stay
+#
+new_route = route("/api/stay/delete-isolation-time", req -> begin
+
+    # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
+    if req[:method] == "OPTIONS"
+        return(respFor_OPTIONS_req())
+    end
+
+    apiURL = "/api/stay/delete-isolation-time"
+    @info "API $apiURL"
+    apiInTime = now(getTimeZone())
+
+    # Check if the user is allowed
+    status_code = TRAQUERUtil.initialize_http_response_status_code(req)
+
+    if status_code != 200
+        return Dict(:body => String(JSON.json(missing)),
+                    :headers => Dict("Content-Type" => "text/plain",
+                                      "Access-Control-Allow-Origin" => "*"),
+                    :status => status_code
+                     )
+    end
+
+
+    #
+    # Heart of the API
+    #
+
+    # Initialize results
+    error = nothing
+    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+                                               # available in the catch block
+    stay::Union{Missing,Stay} = missing
+
+    status_code = try
+
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
+
+        obj = JSON.parse(String(req[:data]))
+        obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(obj)
+
+        stay = json2entity(Stay, obj)
+
+        # Get the user as extracted from the JWT
+        appuser = req[:params][:appuser]
+
+        TRAQUERUtil.executeOnBgThread() do
+            stay = TRAQUERUtil.createDBConnAndExecute() do dbconn
+                return StayCtrl.deleteIsolationTime(
+                    stay,
                     dbconn
                 )
             end
