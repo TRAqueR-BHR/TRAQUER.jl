@@ -64,7 +64,33 @@ function InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
 
     end
 
+end
 
 
+
+function InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
+    dbconn::LibPQ.Connection
+)
+
+    patients = "
+        SELECT p.*
+        FROM infectious_status ist
+        JOIN patient p
+        ON ist.patient_id = p.id
+        WHERE ist.infectious_status = 'carrier'" |>
+        n -> PostgresORM.execute_query_and_handle_result(n, Patient, missing, false, dbconn)
+
+    forAnalysesRequestsBetween = (
+        ZonedDateTime(DateTime("1970-01-01"), TRAQUERUtil.getTimeZone()),
+        now(TRAQUERUtil.getTimeZone())
+    )
+
+    for patient in patients
+        InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
+            patient,
+            forAnalysesRequestsBetween,
+            dbconn
+        )
+    end
 
 end

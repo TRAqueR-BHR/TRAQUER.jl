@@ -109,7 +109,6 @@ function StayCtrl.getStaysWherePatientAtRisk(
         dbconn
     )
 
-
     # ##################################################################################### #
     # Look for an infectious status 'not_at_risk' after the 'carrier' ref. time for this    #
     # same infectious agent. It will allow to exclude the stays that started after the      #

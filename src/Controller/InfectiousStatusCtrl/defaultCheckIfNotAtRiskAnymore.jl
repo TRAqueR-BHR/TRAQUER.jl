@@ -113,7 +113,7 @@ function InfectiousStatusCtrl.defaultCheckIfNotAtRiskAnymore(
         return InfectiousStatus(
             infectiousAgent = infectiousAgent,
             infectiousStatus = InfectiousStatusType.not_at_risk,
-            refTime = last(analyses).requestTime,
+            refTime = last(negativeAnalysesAfterLastInfectiousStatus).requestTime,
             isConfirmed = false,
         )
     end

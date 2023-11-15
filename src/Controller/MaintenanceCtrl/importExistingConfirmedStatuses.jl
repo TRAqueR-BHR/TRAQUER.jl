@@ -83,6 +83,17 @@ function MaintenanceCtrl.importExistingConfirmedStatuses(
 
         InfectiousStatusCtrl.updateCurrentStatus(patient, dbconn)
 
+        # Check if the patient can be turned not_at_risk thanks to some negative analyses
+        forAnalysesRequestsBetween = (
+            ZonedDateTime(DateTime("1970-01-01"), TRAQUERUtil.getTimeZone()),
+            now(TRAQUERUtil.getTimeZone())
+        )
+        InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
+            patient,
+            forAnalysesRequestsBetween,
+            dbconn
+        )
+
     end
 
     return df

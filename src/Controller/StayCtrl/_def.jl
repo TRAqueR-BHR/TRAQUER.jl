@@ -11,3 +11,4 @@ function getStaysForListing end
 function isStayAtRisk end
 function fixMissingHospitalizationOutTime end
 function saveIsolationTime end
+function deleteIsolationTime end
