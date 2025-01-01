@@ -35,10 +35,16 @@ end
 function TRAQUERUtil.serializeDataFrameToExcel(
     df::DataFrame,
     fullPath::String
+    ;translate::Bool = true,
+    dropIdColumns::Bool = true
 )
     XLSX.writetable(
         fullPath,
-        TRAQUERUtil.prepareDataFrameForSerializationToExcel(df)
+        TRAQUERUtil.prepareDataFrameForSerializationToExcel(
+            df
+            ;translate = translate,
+            dropIdColumns = dropIdColumns
+        )
         ;overwrite=true
     )
 
