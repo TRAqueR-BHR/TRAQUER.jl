@@ -11,14 +11,22 @@ new_route = route("/api/authenticate", req -> begin
     apiURL = "/api/authenticate"
     @info "API $apiURL"
     apiInTime = now(getTimeZone())
-
+@info "here1.0"
+    try 
+       appuser = missing
+    catch e
+       @error e
+       @error stacktrace(catch_backtrace())
+    end
     appuser = missing
+    @info "here2"
     error = nothing
-    appuser::Union{Nothing, Appuser} = nothing # Needs to be declared here to have it
+    @info "here3"
+    appuser::Union{Appuser,Missing} = missing # Needs to be declared here to have it
                                                # available in the catch block
-
+@info "here4"
     status_code = try
-
+@info "here5"
         appuser = AppuserCtrl.authenticate(obj["login"],
                                            obj["password"])
         200
