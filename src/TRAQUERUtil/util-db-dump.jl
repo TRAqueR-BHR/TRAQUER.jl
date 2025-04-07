@@ -3,32 +3,47 @@ function TRAQUERUtil.dumpDatabaseAndCleanOldDumps()
     TRAQUERUtil.cleanOldDatabaseDumps()
 end
 
-function TRAQUERUtil.dumpDatabase(;dumpFilePath::Union{String,Missing} = missing)
-
-    # Create the target directory if not exists
-    targetDir = TRAQUERUtil.getDatabaseDumpDir()
-    mkpath(targetDir)
+function TRAQUERUtil.dumpDatabase(
+    ;dumpFilePath::Union{String,Missing} = missing,
+    schemaOnly::Bool = false
+)
+   
 
     # Get the connection details
     databaseName = TRAQUERUtil.getConf("database","database")
     user = TRAQUERUtil.getConf("database","user")
     host = TRAQUERUtil.getConf("database","host_for_dump")
     port = TRAQUERUtil.getConf("database","port_for_dump")
-
-    # Create the filename
-    timestampSuffix = now(TRAQUERUtil.getTimezone()) |>
-        n -> Dates.format(n,Dates.DateFormat("yyyy-mm-ddTHH:MM"))
-
-    dumpFileName = "$databaseName-$timestampSuffix.dump"
+    
 
     # Build the dump file path if it was not given as an argument
     if ismissing(dumpFilePath)
+        # Create the target directory if not exists
+        targetDir = TRAQUERUtil.getDatabaseDumpDir()
+        mkpath(targetDir)
+
+        # Create the filename
+        timestampSuffix = now(TRAQUERUtil.getTimezone()) |>
+            n -> Dates.format(n,Dates.DateFormat("yyyy-mm-ddTHH:MM"))
+
+        dumpFileName = if schemaOnly
+            "$databaseName-schema-$timestampSuffix.dump"
+        else
+            "$databaseName-$timestampSuffix.dump"
+        end
+
         dumpFilePath = joinpath(targetDir,dumpFileName)
     end
 
     # Dump
-    cmd = `pg_dump -Fc -h $host -p $port -U $user -f $dumpFilePath $databaseName`
+    cmd = if schemaOnly
+        `pg_dump -Fc -s -h $host -p $port -U $user -f $dumpFilePath $databaseName`
+    else
+        `pg_dump -Fc -h $host -p $port -U $user -f $dumpFilePath $databaseName`
+    end
     run(cmd)
+
+    @info "Dump created at $dumpFilePath"
 
 end
 
