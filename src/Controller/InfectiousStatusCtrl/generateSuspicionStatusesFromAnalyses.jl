@@ -42,7 +42,7 @@ function InfectiousStatusCtrl.generateSuspicionStatusesFromAnalyses(
                 infectiousAgent = infectiousAgent,
                 infectiousStatus = InfectiousStatusType.suspicion,
                 refTime = analysisRes.requestTime,
-                isConfirmed = false,
+                isConfirmed = false, # Overwritten if exising infectious status
             )
 
             # Check that the patient is not already a carrier for this infectious agent,
@@ -96,7 +96,11 @@ function InfectiousStatusCtrl.generateSuspicionStatusesFromAnalyses(
                 end
             end
 
-            InfectiousStatusCtrl.upsert!(infectiousStatus, dbconn)
+            InfectiousStatusCtrl.upsert!(
+                infectiousStatus,
+                dbconn
+                ;preserveIsConfirmedPropertyOfExisting = true
+            )
 
         end
 

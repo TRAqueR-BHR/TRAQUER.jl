@@ -47,6 +47,7 @@ function InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
             analysesResults,
             agent
         )
+        infectiousStatus.isConfirmed = false # Will be overwritten if exising infectious status
 
         if (
             !ismissing(infectiousStatus)
@@ -55,7 +56,11 @@ function InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
 
             # Upsert
             infectiousStatus.patient = patient
-            InfectiousStatusCtrl.upsert!(infectiousStatus, dbconn)
+            InfectiousStatusCtrl.upsert!(
+                infectiousStatus,
+                dbconn
+                ;preserveIsConfirmedPropertyOfExisting = true
+            )
 
             # As always, refresh the current status of the patient
             InfectiousStatusCtrl.updateCurrentStatus(patient, dbconn)

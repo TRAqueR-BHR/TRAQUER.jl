@@ -48,7 +48,7 @@ function InfectiousStatusCtrl.generateContactStatusFromExposure(
             infectiousAgent = exposureRow.infectious_agent,
             infectiousStatus = InfectiousStatusType.contact,
             refTime = exposureRow.exposure_start_time,
-            isConfirmed = false,
+            isConfirmed = false
         )
 
         # Check that the patient is not already a carrier for this infectious agent,
@@ -84,6 +84,13 @@ function InfectiousStatusCtrl.generateContactStatusFromExposure(
             false, # retrieveComplexProps::Bool,
             dbconn
         )
+        statusAtExactTime = InfectiousStatusCtrl.getInfectiousStatusAtTime(
+            exposure.contact,
+            infectiousStatus.infectiousAgent,
+            infectiousStatus.refTime,
+            false, # retrieveComplexProps::Bool,
+            dbconn
+        )
 
         if !ismissing(statusJustBefore)
             if statusJustBefore.infectiousStatus ∈ [InfectiousStatusType.carrier, InfectiousStatusType.suspicion]
@@ -102,7 +109,11 @@ function InfectiousStatusCtrl.generateContactStatusFromExposure(
         end
 
         # Upsert
-        InfectiousStatusCtrl.upsert!(infectiousStatus, dbconn)
+        InfectiousStatusCtrl.upsert!(
+            infectiousStatus,
+            dbconn
+            ;preserveIsConfirmedPropertyOfExisting = true
+        )
         InfectiousStatusCtrl.upsert!(
             OutbreakInfectiousStatusAsso(
                 infectiousStatus = infectiousStatus,

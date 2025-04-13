@@ -2,7 +2,8 @@ function InfectiousStatusCtrl.upsert!(
     infectiousStatus::InfectiousStatus,
     dbconn::LibPQ.Connection
     ;createEventForStatus::Bool = true,
-    setNewEventAsPending::Bool = true
+    setNewEventAsPending::Bool = true,
+    preserveIsConfirmedPropertyOfExisting::Bool = false
 )
 
     # Do not create the status if it was deleted
@@ -50,6 +51,9 @@ function InfectiousStatusCtrl.upsert!(
         end
     else
         infectiousStatus.id = existing.id
+        if preserveIsConfirmedPropertyOfExisting
+            infectiousStatus.isConfirmed = existing.isConfirmed
+        end
         PostgresORM.update_entity!(infectiousStatus,dbconn)
     end
 

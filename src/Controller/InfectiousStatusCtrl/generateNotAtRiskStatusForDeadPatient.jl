@@ -26,11 +26,15 @@ function InfectiousStatusCtrl.generateNotAtRiskStatusForDeadPatient(
                 infectiousAgent = ist.infectiousAgent,
                 infectiousStatus = InfectiousStatusType.not_at_risk,
                 refTime = if !ismissing((stay.outTime)) stay.outTime else stay.inTime end,
-                isConfirmed = false,
+                isConfirmed = false, # Overwritten if existing infectious status
             )
 
             # Upsert
-            InfectiousStatusCtrl.upsert!(newStatus, dbconn)
+            InfectiousStatusCtrl.upsert!(
+                newStatus,
+                dbconn
+                ;preserveIsConfirmedPropertyOfExisting = true
+            )
 
             # As always, refresh the current status of the patient
             InfectiousStatusCtrl.updateCurrentStatus(stay.patient, dbconn)

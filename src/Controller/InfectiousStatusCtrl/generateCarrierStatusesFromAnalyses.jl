@@ -41,10 +41,10 @@ function InfectiousStatusCtrl.generateCarrierStatusesFromAnalyses(
                 infectiousAgent = infectiousAgent,
                 infectiousStatus = InfectiousStatusType.carrier,
                 refTime = analysisRes.requestTime,
-                isConfirmed = false,
+                isConfirmed = false # Ignored if existing infectious status
             )
 
-            # Check if we already have a carrier infectious status at that date, if yes
+            # Check if we already have a carrier infectious status before that date, if yes
             # set the updatedRefTime
             statusJustBefore = InfectiousStatusCtrl.getInfectiousStatusAtTime(
                 analysisRes.patient,
@@ -52,6 +52,13 @@ function InfectiousStatusCtrl.generateCarrierStatusesFromAnalyses(
                 infectiousStatus.refTime - Second(1), # We want the infectious status just
                                                       #  before the infectious status that
                                                       #  we could potentially create
+                false, # retrieveComplexProps::Bool,
+                dbconn
+            )
+            statusAtExactTime = InfectiousStatusCtrl.getInfectiousStatusAtTime(
+                analysisRes.patient,
+                infectiousStatus.infectiousAgent,
+                infectiousStatus.refTime,
                 false, # retrieveComplexProps::Bool,
                 dbconn
             )
@@ -69,7 +76,12 @@ function InfectiousStatusCtrl.generateCarrierStatusesFromAnalyses(
                 end
             end
 
-            InfectiousStatusCtrl.upsert!(infectiousStatus, dbconn)
+
+            InfectiousStatusCtrl.upsert!(
+                infectiousStatus,
+                dbconn
+                ;preserveIsConfirmedPropertyOfExisting = true
+            )
 
         end
 
