@@ -47,9 +47,13 @@ function AnalysisResultCtrl.upsert!(
         # overwriting the existing record with missing
         analysisResult.analysisRefCrypt = existingAnalysisResult.analysisRefCrypt
 
-        # Reset the processing time so that the analyis gets processed again with the
-        # additional information
-        analysisResult.sysProcessingTime = missing
+        # We only want to reprocess if the result is different from existing
+        if existingAnalysisResult.result !== analysisResult.result
+            # Reset the processing time so that the analyis gets processed again with the
+            # additional information
+            analysisResult.sysProcessingTime = missing
+        end
+
         PostgresORM.update_entity!(analysisResult,dbconn)
 
     end
