@@ -3,6 +3,18 @@ include("../../../../../test/runtests-prerequisite.jl")
 # Cleaning
 TRAQUERUtil.createDBConnAndExecute() do dbconn
 
+    "DELETE FROM patient" |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
+    "DELETE FROM patient_ref_crypt" |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
+    "DELETE FROM patient_name_crypt" |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
+    "DELETE FROM patient_birthdate_crypt" |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
     "DELETE FROM stay" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
@@ -30,38 +42,38 @@ dfAnalyses = DataFrame(
     XLSX.readtable("custom/demo/test/sample-input-data/accidental_discovery_and_epidemic/demo-analyses SALIOU.XLSX",1)
 )
 
-TRAQUERUtil.createDBConnAndExecute() do dbconn
-    TRAQUER.Custom.importStays(dfStays,getDefaultEncryptionStr())
-end
-
-TRAQUERUtil.createDBConnAndExecute() do dbconn
-    TRAQUER.Custom.importAnalyses(dfAnalyses, getDefaultEncryptionStr())
-end
-
 # Process the date at different point in time
+
+# Just after patient1 for positive
 TRAQUERUtil.createDBConnAndExecute() do dbconn
-    ETLCtrl.processNewlyIntegratedData(
-        dbconn
-        ;forceProcessingTime = ZonedDateTime(
-            DateTime("2022-05-10T00:00:00"), TRAQUERUtil.getTimeZone()
-        )
-    )
+    _time = ZonedDateTime(DateTime("2022-05-08T18:00:00"), TRAQUERUtil.getTimeZone())
+    TRAQUER.Custom.importStays(dfStays,getDefaultEncryptionStr() ;ignoreEventsAfter = _time)
+    TRAQUER.Custom.importAnalyses(dfAnalyses, getDefaultEncryptionStr();ignoreEventsAfter = _time)
+    ETLCtrl.processNewlyIntegratedData(dbconn ;forceProcessingTime = _time)
 end
+
+# After patient14 got positive
 TRAQUERUtil.createDBConnAndExecute() do dbconn
-    ETLCtrl.processNewlyIntegratedData(
-        dbconn
-        ;forceProcessingTime = ZonedDateTime(
-            DateTime("2022-05-15T00:00:00"), TRAQUERUtil.getTimeZone()
-        )
-    )
+    _time = ZonedDateTime(DateTime("2022-05-10T00:00:00"), TRAQUERUtil.getTimeZone())
+    TRAQUER.Custom.importStays(dfStays,getDefaultEncryptionStr() ;ignoreEventsAfter = _time)
+    TRAQUER.Custom.importAnalyses(dfAnalyses, getDefaultEncryptionStr();ignoreEventsAfter = _time)
+    ETLCtrl.processNewlyIntegratedData(dbconn ;forceProcessingTime = _time)
 end
+
+# After patient34 entered unit orthopedie
 TRAQUERUtil.createDBConnAndExecute() do dbconn
-    ETLCtrl.processNewlyIntegratedData(
-        dbconn
-        ;forceProcessingTime = ZonedDateTime(
-            DateTime("2022-08-01T00:00:00"), TRAQUERUtil.getTimeZone()
-        )
-    )
+    _time = ZonedDateTime(DateTime("2022-05-30T11:30:00"), TRAQUERUtil.getTimeZone())
+    TRAQUER.Custom.importStays(dfStays,getDefaultEncryptionStr() ;ignoreEventsAfter = _time)
+    TRAQUER.Custom.importAnalyses(dfAnalyses, getDefaultEncryptionStr();ignoreEventsAfter = _time)
+    ETLCtrl.processNewlyIntegratedData(dbconn ;forceProcessingTime = _time)
+end
+
+# After patient34 got positive
+TRAQUERUtil.createDBConnAndExecute() do dbconn
+    _time = ZonedDateTime(DateTime("2022-06-01T12:00:00"), TRAQUERUtil.getTimeZone())
+    TRAQUER.Custom.importStays(dfStays,getDefaultEncryptionStr() ;ignoreEventsAfter = _time)
+    TRAQUER.Custom.importAnalyses(dfAnalyses, getDefaultEncryptionStr();ignoreEventsAfter = _time)
+    ETLCtrl.processNewlyIntegratedData(dbconn ;forceProcessingTime = _time)
 end
 
 # ####################### #

@@ -52,6 +52,8 @@ function AnalysisResultCtrl.upsert!(
             # Reset the processing time so that the analyis gets processed again with the
             # additional information
             analysisResult.sysProcessingTime = missing
+        else
+            analysisResult.sysProcessingTime = existingAnalysisResult.sysProcessingTime
         end
 
         PostgresORM.update_entity!(analysisResult,dbconn)

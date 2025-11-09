@@ -23,7 +23,7 @@ module TRAQUERUtil
            commitDBTransaction,rollbackDBTransaction,closeDBConn,
            getConf, formatExceptionAndStackTrace, json2entity, getTimeZone,
            executeOnBgThread, createDBConnAndExecute, isMissingOrNothing,
-           json2Entity, getTranslation
+           json2Entity, getTranslation, createZDT, createHospitalZonedDateTime
     include("./TRAQUERUtil/_def.jl")
 
 end # module TRAQUERUtil

@@ -1,7 +1,9 @@
 function Custom.importAnalyses(
     df::DataFrame,
     encryptionStr::AbstractString
-    ;stopAfterXLines::Number = Inf64)
+    ;stopAfterXLines::Number = Inf64,
+    ignoreEventsAfter::Union{Missing,ZonedDateTime} = missing
+)
 
     @info (
       "\n# #################################### #"
@@ -61,6 +63,21 @@ function Custom.importAnalyses(
                n -> TRAQUERUtil.string2enum(ANALYSIS_REQUEST_TYPE, n)
             result = passmissing(string)(r.result) |>
                n -> TRAQUERUtil.string2enum(ANALYSIS_RESULT_VALUE_TYPE, n)
+
+            # We may want to simulate that we are at a given point in time, in which case
+            # some information need to be ignored
+            if !ismissing(ignoreEventsAfter)
+               if requestTime > ignoreEventsAfter
+                   continue
+               end
+               if (
+                  requestTime <= ignoreEventsAfter
+                  && !ismissing(resultTime)
+                  && resultTime > ignoreEventsAfter
+               )
+                  resultTime = missing
+               end
+           end
 
             # Get a patient
             patient =

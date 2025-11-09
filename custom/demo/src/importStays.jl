@@ -1,6 +1,9 @@
-function Custom.importStays(df::DataFrame,
-                             encryptionStr::AbstractString
-                            ;randomData::Bool = false)
+function Custom.importStays(
+    df::DataFrame,
+    encryptionStr::AbstractString
+    ;randomData::Bool = false,
+    ignoreEventsAfter::Union{Missing,ZonedDateTime} = missing
+)
 
     @info (
           "\n# ################################## #"
@@ -39,6 +42,20 @@ function Custom.importStays(df::DataFrame,
             hospitalizationOutTime =  passmissing(ZonedDateTime)(
                 r.hospitalization_out_time, getTimeZone()
             )
+
+            # We may want to simulate that we are at a given point in time, in which case
+            # some information need to be ignored
+            if !ismissing(ignoreEventsAfter)
+                if inTime > ignoreEventsAfter
+                    continue
+                end
+                if inTime <= ignoreEventsAfter && !ismissing(outTime) && outTime > ignoreEventsAfter
+                    outTime = missing
+                end
+                if !ismissing(hospitalizationOutTime) && hospitalizationOutTime > ignoreEventsAfter
+                    hospitalizationOutTime = missing
+                end
+            end
 
             room = passmissing(string)(r.room)
 

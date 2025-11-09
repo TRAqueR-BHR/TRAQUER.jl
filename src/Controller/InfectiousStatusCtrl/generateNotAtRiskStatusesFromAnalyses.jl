@@ -47,12 +47,13 @@ function InfectiousStatusCtrl.generateNotAtRiskStatusesFromAnalyses(
             analysesResults,
             agent
         )
-        infectiousStatus.isConfirmed = false # Will be overwritten if exising infectious status
 
         if (
             !ismissing(infectiousStatus)
             && infectiousStatus.infectiousStatus == InfectiousStatusType.not_at_risk
         )
+
+            infectiousStatus.isConfirmed = false # Will be overwritten if exising infectious status
 
             # Upsert
             infectiousStatus.patient = patient

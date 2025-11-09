@@ -71,6 +71,7 @@ function ETLCtrl.processNewlyIntegratedData(
     newStays = PostgresORM.execute_query_and_handle_result(
         newStaysQueryStr, Stay, newStaysQueryParams, false, dbconn
     )
+    println(newAnalysesQueryStr)
     newAnalyses = PostgresORM.execute_query_and_handle_result(
         newAnalysesQueryStr, AnalysisResult, newAnalysesQueryParams, false, dbconn
     )

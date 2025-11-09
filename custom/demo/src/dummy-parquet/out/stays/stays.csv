@@ -1,0 +1,3 @@
+patientFirstname,patientLastname,patientBirthdate,patientRef,unitCodeName,unitName,inTime,outTime,hospitalizationInTime,hospitalizationOutTime,hospitalizationOutComment,room,sector,patientDiedDuringStay
+André,Kerouec,1980-01-01,P123456,REA1,Service de réanimation post-opératoire,2024-10-01T08:00:00.0,,2024-10-01T08:00:00.0,,,137,,
+André,Kerouec,1980-01-01,P123456,REA1,Service de réanimation post-opératoire,2024-10-01T08:00:00.0,2024-10-03T08:00:00.0,2024-10-01T08:00:00.0,,,137,,

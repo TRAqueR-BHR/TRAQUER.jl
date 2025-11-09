@@ -6,8 +6,9 @@ function OutbreakUnitAssoCtrl.refreshOutbreakUnitAssosAndRefreshContacts(
     n -> PostgresORM.execute_query_and_handle_result(n, Outbreak, missing, false, dbconn)
 
     # TODO: Restrict the outbreaks based on the hint
-    OutbreakUnitAssoCtrl.refreshOutbreakUnitAssos.(outbreaks, dbconn)
-    ContactExposureCtrl.refreshExposuresAndContactStatuses.(outbreaks, dbconn)
+    OutbreakUnitAssoCtrl.refreshOutbreakUnitAssosAndRefreshContacts.(outbreaks, dbconn)
+    # OutbreakUnitAssoCtrl.refreshOutbreakUnitAssos.(outbreaks, dbconn)
+    # ContactExposureCtrl.refreshExposuresAndContactStatuses.(outbreaks, dbconn)
 end
 
 function OutbreakUnitAssoCtrl.refreshOutbreakUnitAssosAndRefreshContacts(
