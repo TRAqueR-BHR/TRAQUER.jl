@@ -4,6 +4,7 @@ function Custom.generateDummyAnalysesParquetFile()
     mkpath(dirPath)
     filePath = joinpath(dirPath,"analyses.parquet")
     filePathXLSX = joinpath(dirPath,"analyses.xlsx")
+    filePathCSV = joinpath(dirPath,"analyses.csv")
 
     # ###################### #
     # Initialize the columns #
@@ -17,11 +18,11 @@ function Custom.generateDummyAnalysesParquetFile()
 
     # Analysis
     analysisRef = String[]
-    requestTime = DateTime[]
+    requestTime = ZonedDateTime[]
     requestType = AnalysisRequestType.ANALYSIS_REQUEST_TYPE[]
     sampleMaterialType::Vector{Union{Missing, SampleMaterialType.SAMPLE_MATERIAL_TYPE}} =
         SampleMaterialType.SAMPLE_MATERIAL_TYPE[]
-    resultTime::Vector{Union{Missing, DateTime}} = DateTime[]
+    resultTime::Vector{Union{Missing, ZonedDateTime}} = ZonedDateTime[]
     result::Vector{Union{Missing, AnalysisResultValueType.ANALYSIS_RESULT_VALUE_TYPE}} =
         AnalysisResultValueType.ANALYSIS_RESULT_VALUE_TYPE[]
     bacteriaName::Vector{Union{Missing, String}} = String[]
@@ -43,7 +44,7 @@ function Custom.generateDummyAnalysesParquetFile()
     push!(patientBirthdate, Date(1980,1,1))
     push!(patientRef, "P123456")
     push!(analysisRef, "A123456")
-    push!(requestTime, DateTime(2024,10,1,23))
+    push!(requestTime, DateTime(2024,10,1,23)|>createHZDT)
     push!(requestType, AnalysisRequestType.bacterial_culture_carbapenemase_producing_enterobacteriaceae)
     push!(sampleMaterialType, SampleMaterialType.tissue)
     push!(resultTime, missing)
@@ -56,10 +57,10 @@ function Custom.generateDummyAnalysesParquetFile()
     push!(patientBirthdate, Date(1980,1,1))
     push!(patientRef, "P123456")
     push!(analysisRef, "A123456")
-    push!(requestTime, DateTime(2024,10,1,23))
+    push!(requestTime, DateTime(2024,10,1,23)|>createHZDT)
     push!(requestType, AnalysisRequestType.bacterial_culture_carbapenemase_producing_enterobacteriaceae)
     push!(sampleMaterialType, SampleMaterialType.tissue)
-    push!(resultTime, DateTime(2024,10,2,15))
+    push!(resultTime, DateTime(2024,10,2,15)|>createHZDT)
     push!(result, AnalysisResultValueType.positive)
     push!(bacteriaName, "Klebsiella pneumoniae")
 
@@ -107,25 +108,25 @@ function Custom.generateDummyAnalysesParquetFile()
     # ##################################### #
     # Write the DataFrame to a Parquet file #
     # ##################################### #
-    Parquet2.writefile(
-        filePath,
-        df
-        ;
-        # column_metadata = Dict(
-        #     "requestType" => Dict(
-        #         "allowed_values" => instances(AnalysisRequestType.ANALYSIS_REQUEST_TYPE) |>
-        #             collect |>
-        #             n -> string.(n) |>
-        #             n -> join(n, ", ")
-        #     )
-        # ),
-        # metadata=Dict(
-        #     "requestType" => instances(AnalysisRequestType.ANALYSIS_REQUEST_TYPE) |>
-        #         collect |>
-        #         n -> string.(n) |>
-        #         n -> join(n, ", ")
-        # ),  # file wide metadata
-    )
+    # Parquet2.writefile(
+    #     filePath,
+    #     df
+    #     ;
+    #     # column_metadata = Dict(
+    #     #     "requestType" => Dict(
+    #     #         "allowed_values" => instances(AnalysisRequestType.ANALYSIS_REQUEST_TYPE) |>
+    #     #             collect |>
+    #     #             n -> string.(n) |>
+    #     #             n -> join(n, ", ")
+    #     #     )
+    #     # ),
+    #     # metadata=Dict(
+    #     #     "requestType" => instances(AnalysisRequestType.ANALYSIS_REQUEST_TYPE) |>
+    #     #         collect |>
+    #     #         n -> string.(n) |>
+    #     #         n -> join(n, ", ")
+    #     # ),  # file wide metadata
+    # )
 
     TRAQUERUtil.serializeDataFrameToExcel(
         df,
@@ -133,6 +134,12 @@ function Custom.generateDummyAnalysesParquetFile()
         ;translate = false,
         dropIdColumns = false
     )
+
+    # ################################### #
+    # Write the DataFrame to a CSV file  #
+    # ################################### #
+    @info "Writing CSV file to $filePathCSV"
+    CSV.write(filePathCSV, df)
 
     nothing
 

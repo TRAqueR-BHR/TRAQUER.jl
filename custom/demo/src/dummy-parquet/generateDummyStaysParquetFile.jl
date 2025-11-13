@@ -21,10 +21,10 @@ function Custom.generateDummyStaysParquetFile()
     unitName = String[]
 
     # Stay
-    inTime = DateTime[]
-    outTime::Vector{Union{Missing, DateTime}} = DateTime[]
-    hospitalizationInTime = DateTime[]
-    hospitalizationOutTime::Vector{Union{Missing, DateTime}} = DateTime[]
+    inTime = ZonedDateTime[]
+    outTime::Vector{Union{Missing, ZonedDateTime}} = ZonedDateTime[]
+    hospitalizationInTime = ZonedDateTime[]
+    hospitalizationOutTime::Vector{Union{Missing, ZonedDateTime}} = ZonedDateTime[]
     hospitalizationOutComment::Vector{Union{Missing, String}} = String[]
     room::Vector{Union{Missing, String}} = String[]
     sector::Vector{Union{Missing, String}} = String[]
@@ -49,9 +49,9 @@ function Custom.generateDummyStaysParquetFile()
     push!(patientRef, "P123456")
     push!(unitCodeName, "REA1")
     push!(unitName, "Service de réanimation post-opératoire")
-    push!(inTime, DateTime(2024,10,1,8))
+    push!(inTime, DateTime(2024,10,1,8)|>createHZDT)
     push!(outTime, missing)
-    push!(hospitalizationInTime, DateTime(2024,10,1,8))
+    push!(hospitalizationInTime, DateTime(2024,10,1,8)|>createHZDT)
     push!(hospitalizationOutTime, missing)
     push!(hospitalizationOutComment, missing)
     push!(room, "137")
@@ -65,9 +65,9 @@ function Custom.generateDummyStaysParquetFile()
     push!(patientRef, "P123456")
     push!(unitCodeName, "REA1")
     push!(unitName, "Service de réanimation post-opératoire")
-    push!(inTime, DateTime(2024,10,1,8))
-    push!(outTime, DateTime(2024,10,3,8))
-    push!(hospitalizationInTime, DateTime(2024,10,1,8))
+    push!(inTime, DateTime(2024,10,1,8)|>createHZDT)
+    push!(outTime, DateTime(2024,10,3,8)|>createHZDT)
+    push!(hospitalizationInTime, DateTime(2024,10,1,8)|>createHZDT)
     push!(hospitalizationOutTime, missing)
     push!(hospitalizationOutComment, missing)
     push!(room, "137")
@@ -121,10 +121,10 @@ function Custom.generateDummyStaysParquetFile()
     # ##################################### #
     # Write the DataFrame to a Parquet file #
     # ##################################### #
-    Parquet2.writefile(
-        filePath,
-        df
-    )
+    # Parquet2.writefile(
+    #     filePath,
+    #     df
+    # )
 
     TRAQUERUtil.serializeDataFrameToExcel(
         df,

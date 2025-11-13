@@ -3,7 +3,7 @@ using LibPQ
 
 projectVersion=Pkg.project().version |> string
 
-function restoreDevDatabase(databaseName::String)
+function restoreDevDatabase(databaseName::String,dumpFilename::String)
     user = TRAQUERUtil.getConf("database","user")
     host = TRAQUERUtil.getConf("database","host_for_dump")
     port = TRAQUERUtil.getConf("database","port_for_dump")

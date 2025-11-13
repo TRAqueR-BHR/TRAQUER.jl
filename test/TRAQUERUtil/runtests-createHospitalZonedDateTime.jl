@@ -8,6 +8,6 @@ include("prerequisite.jl")
     utc_dt = dt - Hour(1)  # Paris is UTC+1 in January
     zdt = TRAQUERUtil.createHospitalZonedDateTime(dt)
     @test TimeZones.astimezone(zdt, tz"UTC") == ZonedDateTime(utc_dt, tz"UTC")
-    TRAQUERUtil.createZDT(dt) # Test the alias function as well
-    createZDT(dt) # Test that the symbol of the function has been exported correctly
+    TRAQUERUtil.createHZDT(dt) # Test the alias function as well
+    createHZDT(dt) # Test that the symbol of the function has been exported correctly
 end

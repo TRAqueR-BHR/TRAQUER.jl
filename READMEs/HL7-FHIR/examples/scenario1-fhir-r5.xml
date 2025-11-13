@@ -365,9 +365,8 @@
         <!-- Positive/negative -->
         <valueCodeableConcept>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/v2-0078"/>
-            <code value="POS"/>
-            <display value="Positive"/>
+            <system value="https://traquer.org"/>
+            <code value="positive"/>
           </coding>
         </valueCodeableConcept>
         <specimen>

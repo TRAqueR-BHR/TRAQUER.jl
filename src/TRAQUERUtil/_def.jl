@@ -73,7 +73,7 @@ function json2entity end
 function browserDateString2date end
 function browserDateString2ZonedDateTime end
 function createHospitalZonedDateTime end
-const createZDT = TRAQUERUtil.createHospitalZonedDateTime
+const createHZDT = TRAQUERUtil.createHospitalZonedDateTime
 function isMissingOrNothing end
 function copyLinesToDestFile end
 function readFirstNLinesOfFile end

@@ -25,7 +25,7 @@ Eg. one line for the request and one line for the result.
 - Optional: No
 
 ## Column: requestTime
-- Type: DateTime
+- Type: ZonedDateTime
 - Optional: No
 - Note: In the timezone of the hospital
 
@@ -114,7 +114,7 @@ Eg. one line for the request and one line for the result.
   - cancelled
 
 ## Column: resultTime
-- Type: DateTime
+- Type: ZonedDateTime
 - Optional: Yes
 - Note: In the timezone of the hospital
 

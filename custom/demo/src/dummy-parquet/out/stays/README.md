@@ -29,22 +29,22 @@ Eg. one line for when the patient arrives in the unit and one line for when he l
 - Optional: No
 
 ## Column: inTime
-- Type: DateTime
+- Type: ZonedDateTime
 - Optional: No
 - Note: In the timezone of the hospital
 
 ## Column: outTime
-- Type: DateTime
+- Type: ZonedDateTime
 - Optional: Yes
 - Note: In the timezone of the hospital
 
 ## Column: hospitalizationInTime
-- Type: DateTime
+- Type: ZonedDateTime
 - Optional: No
 - Note: In the timezone of the hospital
 
 ## Column: hospitalizationOutTime
-- Type: DateTime
+- Type: ZonedDateTime
 - Optional: Yes
 - Note: In the timezone of the hospital
 
