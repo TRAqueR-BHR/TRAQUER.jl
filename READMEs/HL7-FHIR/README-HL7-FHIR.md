@@ -35,7 +35,7 @@ Traquer supports **FHIR R5** specifications.
 
 ## Examples
 An example file is provided in :
-- [scenario1-fhir-r5.xml](./examples/scenario1-fhir-r5.xml)
+- (https://github.com/TRAqueR-BHR/TRAQUER.jl/blob/main/READMEs/HL7-FHIR/examples/scenario1-fhir-r5.xml)
 
 ## Coding/Terminology of medical and biological names
 Traquer has its own coding system (see list of possible values in the sections below) but is
