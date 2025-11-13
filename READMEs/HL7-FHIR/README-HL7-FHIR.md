@@ -18,8 +18,7 @@ As a reminder, the type of data that Traquer is interested in is:
 
 The overal list of FHIR resources is available at (https://hl7.org/fhir/resourcelist.html)
 
-### General note on the interpretation of FHIR resources and tolerance of Traquer to these
-### variations
+### General note on the interpretation of FHIR and tolerance of Traquer to these variations
 
 Hospitals and healthcare providers may implement FHIR resources differently based on
 their specific workflows, systems, and requirements.
