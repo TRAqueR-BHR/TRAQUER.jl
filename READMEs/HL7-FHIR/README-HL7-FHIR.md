@@ -94,6 +94,14 @@ Unit: REA1 (Service de réanimation post-opératoire)
 
 #### Encounter Resource
 
+__Note about interpretation of the Encounter resource:__ Some institutions may choose to
+represent each patient movement as a separate `Encounter` resource, while others may use a
+single `Encounter` resource for the entire stay, recording location changes within that
+resource.
+
+In the following example, we illustrate the latter approach with a single `Encounter` resource
+
+
 The `Encounter` resource tracks the patient's stay and includes a `location` array that
 records:
 - Which specific location (room/sector/unit) the patient occupied
@@ -108,7 +116,8 @@ sector, otherwise unit).
 
 ```xml
 <Bundle xmlns="http://hl7.org/fhir">
-  <type value="transaction"/>
+
+  [...]
 
   <!-- Unit Location: Cardiac Surgery -->
   <entry>
