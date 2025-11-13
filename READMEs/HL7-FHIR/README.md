@@ -119,12 +119,12 @@ stool) and `ServiceRequest` represents the order/request for that analysis (e.g.
 culture).
 
 In Traquer terminilogy, the following analysis types are supported:
-```
-molecular_analysis_carbapenemase_producing_enterobacteriaceae
-bacterial_culture_carbapenemase_producing_enterobacteriaceae
-molecular_analysis_vancomycin_resistant_enterococcus
-bacterial_culture_vancomycin_resistant_enterococcus
-```
+
+  - molecular_analysis_carbapenemase_producing_enterobacteriaceae
+  - bacterial_culture_carbapenemase_producing_enterobacteriaceae
+  - molecular_analysis_vancomycin_resistant_enterococcus
+  - bacterial_culture_vancomycin_resistant_enterococcus
+
 
 ### Analysis result
 An analysis result is typically represented as an `Observation` resource.
