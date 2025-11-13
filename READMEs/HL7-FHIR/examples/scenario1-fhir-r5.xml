@@ -263,6 +263,9 @@
           <reference value="urn:uuid:enc-1"/>
         </encounter>
         <authoredOn value="2024-10-01T23:00:00+02:00"/>
+        <requester>
+          <reference value="urn:uuid:org-rea1"/>
+        </requester>
         <specimen>
           <reference value="urn:uuid:spec-a123456"/>
         </specimen>
