@@ -1,0 +1,374 @@
+<Bundle xmlns="http://hl7.org/fhir">
+  <type value="transaction"/>
+
+  <!-- Organization (hospital) -->
+  <entry>
+    <fullUrl value="urn:uuid:org-1"/>
+    <resource>
+      <Organization>
+        <id value="org-1"/>
+        <name value="Your Hospital"/>
+      </Organization>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Organization"/>
+    </request>
+  </entry>
+
+  <!-- Organization: Cardiac Surgery Unit -->
+  <entry>
+    <fullUrl value="urn:uuid:org-chir-card"/>
+    <resource>
+      <Organization>
+        <id value="org-chir-card"/>
+        <identifier>
+          <system value="urn:unit-code"/>
+          <value value="CHIR-CARD"/>
+        </identifier>
+        <name value="Service de chirurgie cardiaque"/>
+        <partOf>
+          <reference value="urn:uuid:org-1"/>
+        </partOf>
+      </Organization>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Organization"/>
+    </request>
+  </entry>
+
+  <!-- Organization: ICU REA1 -->
+  <entry>
+    <fullUrl value="urn:uuid:org-rea1"/>
+    <resource>
+      <Organization>
+        <id value="org-rea1"/>
+        <identifier>
+          <system value="urn:unit-code"/>
+          <value value="REA1"/>
+        </identifier>
+        <name value="Service de réanimation post-opératoire"/>
+        <partOf>
+          <reference value="urn:uuid:org-1"/>
+        </partOf>
+      </Organization>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Organization"/>
+    </request>
+  </entry>
+
+  <!-- Location: Cardiac Surgery Unit -->
+  <entry>
+    <fullUrl value="urn:uuid:loc-chir-card"/>
+    <resource>
+      <Location>
+        <id value="loc-chir-card"/>
+        <identifier>
+          <system value="urn:unit-code"/>
+          <value value="CHIR-CARD"/>
+        </identifier>
+        <name value="Service de chirurgie cardiaque"/>
+        <managingOrganization>
+          <reference value="urn:uuid:org-chir-card"/>
+        </managingOrganization>
+      </Location>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Location"/>
+    </request>
+  </entry>
+
+  <!-- Location: ICU REA1 -->
+  <entry>
+    <fullUrl value="urn:uuid:loc-rea1"/>
+    <resource>
+      <Location>
+        <id value="loc-rea1"/>
+        <identifier>
+          <system value="urn:unit-code"/>
+          <value value="REA1"/>
+        </identifier>
+        <name value="Service de réanimation post-opératoire"/>
+        <managingOrganization>
+          <reference value="urn:uuid:org-rea1"/>
+        </managingOrganization>
+      </Location>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Location"/>
+    </request>
+  </entry>
+
+  <!-- Location: Sector 2 within REA1 -->
+  <entry>
+    <fullUrl value="urn:uuid:loc-rea1-sector2"/>
+    <resource>
+      <Location>
+        <id value="loc-rea1-sector2"/>
+        <identifier>
+          <system value="urn:sector-code"/>
+          <value value="REA1-S2"/>
+        </identifier>
+        <name value="Secteur 2"/>
+        <managingOrganization>
+          <reference value="urn:uuid:org-rea1"/>
+        </managingOrganization>
+        <partOf>
+          <reference value="urn:uuid:loc-rea1"/>
+        </partOf>
+      </Location>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Location"/>
+    </request>
+  </entry>
+
+  <!-- Location: Room 302 in Sector 2 -->
+  <entry>
+    <fullUrl value="urn:uuid:loc-room302"/>
+    <resource>
+      <Location>
+        <id value="loc-room302"/>
+        <identifier>
+          <system value="urn:room-code"/>
+          <value value="REA1-S2-302"/>
+        </identifier>
+        <name value="Chambre 302"/>
+        <managingOrganization>
+          <reference value="urn:uuid:org-rea1"/>
+        </managingOrganization>
+        <partOf>
+          <reference value="urn:uuid:loc-rea1-sector2"/>
+        </partOf>
+      </Location>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Location"/>
+    </request>
+  </entry>
+
+  <!-- Patient P123456 -->
+  <entry>
+    <fullUrl value="urn:uuid:pat-p123456"/>
+    <resource>
+      <Patient>
+        <id value="pat-p123456"/>
+        <identifier>
+          <system value="urn:patient-ref"/>
+          <value value="P123456"/>
+        </identifier>
+        <name>
+          <family value="Kerouec"/>
+          <given value="André"/>
+        </name>
+        <birthDate value="1980-01-01"/>
+        <managingOrganization>
+          <reference value="urn:uuid:org-1"/>
+        </managingOrganization>
+      </Patient>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Patient"/>
+    </request>
+  </entry>
+
+  <!-- Encounter: overall hospitalization -->
+  <!-- It is also accepted to represent patient movements as separate Encounter resources -->
+  <entry>
+    <fullUrl value="urn:uuid:enc-1"/>
+    <resource>
+      <Encounter>
+        <id value="enc-1"/>
+        <!-- Patient is still in hospital, so status is in-progress -->
+        <status value="in-progress"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/> <!-- inpatient -->
+          </coding>
+        </class>
+        <subject>
+          <reference value="urn:uuid:pat-p123456"/>
+        </subject>
+        <!-- R5 CHANGE: period renamed to actualPeriod -->
+        <actualPeriod>
+          <start value="2024-09-01T17:00:00+02:00"/>
+          <!-- end omitted because patient is still in hospital -->
+        </actualPeriod>
+        <!-- Location history corresponds to unit movements -->
+        <!-- First location: Cardiac Surgery (completed) -->
+        <location>
+          <location>
+            <reference value="urn:uuid:loc-chir-card"/>
+            <display value="Service de chirurgie cardiaque"/>
+          </location>
+          <period>
+            <start value="2024-09-01T17:00:00+02:00"/>
+            <end value="2024-10-01T08:00:00+02:00"/>
+          </period>
+        </location>
+        <!-- Second location: ICU REA1, Room 302 (current location) -->
+        <location>
+          <location>
+            <reference value="urn:uuid:loc-room302"/>
+            <display value="Chambre 302, Secteur 2, REA1"/>
+          </location>
+          <period>
+            <start value="2024-10-01T08:00:00+02:00"/>
+            <!-- end omitted because patient is still at this location -->
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Encounter"/>
+    </request>
+  </entry>
+
+  <!-- ServiceRequest: CPE screening -->
+  <entry>
+    <fullUrl value="urn:uuid:sr-a123456"/>
+    <resource>
+      <ServiceRequest>
+        <id value="sr-a123456"/>
+        <identifier>
+          <system value="urn:analysis-ref"/>
+          <value value="A123456"/>
+        </identifier>
+        <status value="completed"/>
+        <intent value="order"/>
+        <!-- R5 CHANGE: code is now CodeableReference with concept wrapper -->
+        <code>
+          <concept>
+            <coding>
+              <system value="https://traquer.org"/>
+              <code value="bacterial_culture_carbapenemase_producing_enterobacteriaceae"/>
+              <display value="Carbapenem resistant Enterobacteriaceae [Presence] in Stool by Organism specific culture"/>
+            </coding>
+          </concept>
+        </code>
+        <subject>
+          <reference value="urn:uuid:pat-p123456"/>
+        </subject>
+        <encounter>
+          <reference value="urn:uuid:enc-1"/>
+        </encounter>
+        <authoredOn value="2024-10-01T23:00:00+02:00"/>
+        <specimen>
+          <reference value="urn:uuid:spec-a123456"/>
+        </specimen>
+      </ServiceRequest>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="ServiceRequest"/>
+    </request>
+  </entry>
+
+  <!-- Specimen: stool / rectal swab -->
+  <entry>
+    <fullUrl value="urn:uuid:spec-a123456"/>
+    <resource>
+      <Specimen>
+        <id value="spec-a123456"/>
+        <type>
+          <!-- Prefer SNOMED: 258608002 = Stool specimen; 119376003 = Rectal swab -->
+          <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="258608002"/>
+            <display value="Stool specimen"/>
+          </coding>
+          <text value="tissue"/>
+        </type>
+        <subject>
+          <reference value="urn:uuid:pat-p123456"/>
+        </subject>
+        <receivedTime value="2024-10-01T23:00:00+02:00"/>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Specimen"/>
+    </request>
+  </entry>
+
+  <!-- Observation: CPE result -->
+  <entry>
+    <fullUrl value="urn:uuid:obs-a123456"/>
+    <resource>
+      <Observation>
+        <id value="obs-a123456"/>
+        <basedOn>
+          <reference value="urn:uuid:sr-a123456"/>
+        </basedOn>
+        <status value="final"/>
+        <category>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/observation-category"/>
+            <code value="laboratory"/>
+          </coding>
+        </category>
+        <code>
+          <!-- Use the same test code as ServiceRequest -->
+          <coding>
+            <system value="https://traquer.org"/>
+            <code value="bacterial_culture_carbapenemase_producing_enterobacteriaceae"/>
+            <display value="Bacterial culture of carbapenemase producing enterobacteriaceae"/>
+          </coding>
+        </code>
+        <subject>
+          <reference value="urn:uuid:pat-p123456"/>
+        </subject>
+        <encounter>
+          <reference value="urn:uuid:enc-1"/>
+        </encounter>
+        <effectiveDateTime value="2024-10-02T15:00:00+02:00"/>
+        <issued value="2024-10-02T15:00:00+02:00"/>
+        <!-- Positive/negative -->
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v2-0078"/>
+            <code value="POS"/>
+            <display value="Positive"/>
+          </coding>
+        </valueCodeableConcept>
+        <specimen>
+          <reference value="urn:uuid:spec-a123456"/>
+        </specimen>
+        <!-- Organism identified -->
+        <component>
+          <code>
+            <coding>
+              <system value="https://traquer.org"/>
+              <code value="630-4"/>
+              <display value="Bacteria identified in Specimen"/>
+            </coding>
+          </code>
+          <valueCodeableConcept>
+            <coding>
+              <system value="http://snomed.info/sct"/>
+              <code value="6387005"/>
+              <display value="Klebsiella pneumoniae"/>
+            </coding>
+            <text value="Klebsiella pneumoniae"/>
+          </valueCodeableConcept>
+        </component>
+      </Observation>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Observation"/>
+    </request>
+  </entry>
+
+
+</Bundle>
