@@ -31,9 +31,11 @@ Traquer tries to accommodate these variations as much as possible.
 
 ## Supported FHIR Versions
 
-Traquer supports **FHIR R5** specifications. Example files are provided
-for this version:
-- `examples/scenario1-fhir-r5.xml` - FHIR R5 example
+Traquer supports **FHIR R5** specifications.
+
+## Examples
+An example file is provided in :
+- `./examples/scenario1-fhir-r5.xml`
 
 ## Coding/Terminology of medical and biological names
 Traquer has its own coding system (see list of possible values in the sections below) but is
@@ -94,13 +96,13 @@ Unit: REA1 (Service de réanimation post-opératoire)
 
 #### Encounter Resource
 
-__Note about interpretation of the Encounter resource:__ Some institutions may choose to
-represent each patient movement as a separate `Encounter` resource, while others may use a
-single `Encounter` resource for the entire stay, recording location changes within that
+__Note about interpretation of the Encounter resource:__
+Some institutions may choose to represent each patient movement as a separate `Encounter`
+resource, while others may use a single `Encounter` resource for the entire stay, recording
+location changes within that resource.
+
+In the following example, we illustrate the latter approach with a single `Encounter`
 resource.
-
-In the following example, we illustrate the latter approach with a single `Encounter` resource
-
 
 The `Encounter` resource tracks the patient's stay and includes a `location` array that
 records:
@@ -111,197 +113,11 @@ records:
 The most specific location available should be referenced (room if available, otherwise
 sector, otherwise unit).
 
-#### XML Example (FHIR R5)
-
-
-```xml
-<Bundle xmlns="http://hl7.org/fhir">
-
-  [...]
-
-  <!-- Unit Location: Cardiac Surgery -->
-  <entry>
-    <resource>
-      <Location>
-        <id value="loc-chir-card"/>
-        <identifier>
-          <system value="urn:unit-code"/>
-          <value value="CHIR-CARD"/>
-        </identifier>
-        <name value="Service de chirurgie cardiaque"/>
-        [...]
-      </Location>
-    </resource>
-  </entry>
-
-  <!-- Unit Location: ICU REA1 -->
-  <entry>
-    <resource>
-      <Location>
-        <id value="loc-rea1"/>
-        <identifier>
-          <system value="urn:unit-code"/>
-          <value value="REA1"/>
-        </identifier>
-        <name value="Service de réanimation post-opératoire"/>
-        [...]
-      </Location>
-    </resource>
-  </entry>
-
-  <!-- Sector Location (optional) -->
-  <entry>
-    <resource>
-      <Location>
-        <id value="loc-rea1-sector2"/>
-        <identifier>
-          <system value="urn:sector-code"/>
-          <value value="REA1-S2"/>
-        </identifier>
-        <name value="Secteur 2"/>
-        <partOf>
-          <reference value="urn:uuid:loc-rea1"/>
-        </partOf>
-        [...]
-      </Location>
-    </resource>
-  </entry>
-
-  <!-- Room Location (optional) -->
-  <entry>
-    <resource>
-      <Location>
-        <id value="loc-room302"/>
-        <identifier>
-          <system value="urn:room-code"/>
-          <value value="REA1-S2-302"/>
-        </identifier>
-        <name value="Chambre 302"/>
-        <partOf>
-          <reference value="urn:uuid:loc-rea1-sector2"/>
-        </partOf>
-        [...]
-      </Location>
-    </resource>
-  </entry>
-
-  <!-- Patient -->
-  <entry>
-    <resource>
-      <Patient>
-        <id value="pat-p123456"/>
-        <identifier>
-          <system value="urn:patient-ref"/>
-          <value value="P123456"/>
-        </identifier>
-        [...]
-      </Patient>
-    </resource>
-  </entry>
-
-  <!-- Encounter with location history (multiple movements) -->
-  <entry>
-    <resource>
-      <Encounter>
-        <id value="enc-1"/>
-        <!-- Patient is still in hospital, so status is in-progress -->
-        <status value="in-progress"/>
-        <subject>
-          <reference value="urn:uuid:pat-p123456"/>
-        </subject>
-        <!-- Overall hospitalization period -->
-        <actualPeriod>
-          <start value="2024-09-01T17:00:00+02:00"/>
-          <!-- end omitted because patient is still in hospital -->
-        </actualPeriod>
-        <!-- First location: Cardiac Surgery -->
-        <location>
-          <location>
-            <reference value="urn:uuid:loc-chir-card"/>
-            <display value="Service de chirurgie cardiaque"/>  <!-- optional reminder -->
-          </location>
-          <period>
-            <start value="2024-09-01T17:00:00+02:00"/>
-            <end value="2024-10-01T08:00:00+02:00"/>
-          </period>
-        </location>
-        <!-- Second location: ICU REA1, Room 302 -->
-        <location>
-          <location>
-            <reference value="urn:uuid:loc-room302"/>
-            <display value="Chambre 302, Secteur 2, REA1"/> <!-- optional reminder -->
-          </location>
-          <period>
-            <start value="2024-10-01T08:00:00+02:00"/>
-            <end value="2024-10-03T08:00:00+02:00"/>
-          </period>
-        </location>
-        [...]
-      </Encounter>
-    </resource>
-  </entry>
-
-  [...]
-</Bundle>
-```
-
 ### Analysis requests
 An analysis request is typically represented as a `ServiceRequest` and `Specimen` resource.
 Where `Specimen` represents the biological sample taken from the patient for analysis (e.g.
 stool) and `ServiceRequest` represents the order/request for that analysis (e.g. bacterial
 culture).
 
-```
-<entry>
-    <fullUrl value="urn:uuid:sr-a123456"/>
-    <resource>
-      <ServiceRequest>
-        <id value="sr-a123456"/>
-        <identifier>
-          <system value="urn:analysis-ref"/>
-          <value value="A123456"/>
-        </identifier>
-        <status value="completed"/>
-        <intent value="order"/>
-        <!-- R5 CHANGE: code is now CodeableReference with concept wrapper -->
-        <code>
-          <concept>
-            <coding>
-              <system value="https://traquer.org"/>
-              <code value="101552-8"/>
-              <display value="Carbapenem resistant Enterobacteriaceae [Presence] in Stool by Organism specific culture"/>
-            </coding>
-            <text value="bacterial_culture_carbapenemase_producing_enterobacteriaceae"/>
-          </concept>
-        </code>
-        <subject>
-          <reference value="urn:uuid:pat-p123456"/>
-        </subject>
-        <encounter>
-          <reference value="urn:uuid:enc-1"/>
-        </encounter>
-        <authoredOn value="2024-10-01T23:00:00+02:00"/>
-        <specimen>
-          <reference value="urn:uuid:spec-a123456"/>
-        </specimen>
-      </ServiceRequest>
-    </resource>
-    <request>
-      <method value="POST"/>
-      <url value="ServiceRequest"/>
-    </request>
-  </entry>
-```
-
 ### Analysis result
 An analysis result is typically represented as an `Observation` resource.
-
-### Complete Examples
-
-Full working examples are available in the `examples/` directory:
-- **`scenario1.xml`** - Complete FHIR R4 example with patient location, analysis request, and results
-- **`scenario1-r5.xml`** - Complete FHIR R5 example (migrated from R4)
-
-Both files have been validated against their respective FHIR schemas (`xsd/r4/` and `xsd/r5/`).
-
-For migration guidance between versions, see [`MIGRATION-R4-TO-R5.md`](MIGRATION-R4-TO-R5.md).
