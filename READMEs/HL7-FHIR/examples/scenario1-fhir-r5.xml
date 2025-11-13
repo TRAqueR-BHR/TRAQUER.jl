@@ -1,4 +1,27 @@
 <Bundle xmlns="http://hl7.org/fhir">
+  <!--
+    FHIR R5 Example: Patient Hospitalization with Unit Movements
+
+    Patient Journey in This Example:
+    1. Sept 1, 17:00 - Admitted to Cardiac Surgery (CHIR-CARD)
+    2. Oct 1, 08:00  - Transferred to ICU REA1, Room 302
+    3. Oct 1, 23:00  - CPE screening requested and specimen collected
+    4. Oct 2, 15:00  - Positive CPE result (Klebsiella pneumoniae)
+    5. Current       - Still hospitalized in ICU REA1
+
+
+    Key Points:
+    - One Encounter represents the entire hospitalization episode
+    - Each unit movement is tracked as a separate Encounter.location element
+    - Each location has a period (start/end datetime) showing when the patient was there
+    - Locations are ordered chronologically within the Encounter
+    - The Encounter.actualPeriod spans the entire hospitalization
+
+    Alternative Approach:
+    It is also valid to represent each unit movement as a SEPARATE Encounter resource
+    with partOf references linking child encounters to a parent encounter. However,
+    this example uses the single-encounter pattern with multiple locations.
+  -->
   <type value="transaction"/>
 
   <!-- Organization (hospital) -->
@@ -295,7 +318,10 @@
         <subject>
           <reference value="urn:uuid:pat-p123456"/>
         </subject>
-        <receivedTime value="2024-10-01T23:00:00+02:00"/>
+        <collection>
+          <collectedDateTime value="2024-10-01T22:30:00+02:00"/>
+        </collection>
+
       </Specimen>
     </resource>
     <request>
