@@ -118,7 +118,7 @@ Where `Specimen` represents the biological sample taken from the patient for ana
 stool) and `ServiceRequest` represents the order/request for that analysis (e.g. bacterial
 culture).
 
-In Traquer terminilogy, the following analysis types are supported:
+In Traquer terminology, the following analysis types are supported:
 
   - molecular_analysis_carbapenemase_producing_enterobacteriaceae
   - bacterial_culture_carbapenemase_producing_enterobacteriaceae
