@@ -97,13 +97,13 @@ end
 ```
 
 ## Check existence of a pending special extraction
-This diagram illustrates the flow of checking if a extraction with a specific perimeter of
+This diagram illustrates the flow of checking if an extraction with a specific perimeter of
 units and time window is needed. Those special extractions are needed when Traquer is
 missing data to compute the outbreak.
 
 ```mermaid
 sequenceDiagram
-title Check pending for special extraction
+title Check pending special extractions
 %% Participants
 participant HC as Hospital file exchange client
 participant TS as Traquer server side
@@ -112,7 +112,7 @@ HC->>TS: Request pending special extraction for units and time window
 activate HC
 activate TS
 TS->>TS: Check if a special extraction is pending
-TS->>HC: Return pending status (List[Patient], List[Unit], TimeWindow)
+TS->>HC: Return parameters for the expected extraction: List[Patient], List[Unit], TimeWindow
 deactivate TS
 deactivate HC
 ```
