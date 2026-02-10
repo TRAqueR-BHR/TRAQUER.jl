@@ -128,3 +128,20 @@ In Traquer terminology, the following analysis types are supported:
 
 ### Analysis result
 An analysis result is typically represented as an `Observation` resource.
+
+### PBKDF2
+Generate AES-256 key using a master password with PBKDF2 and OpenSSL
+```
+openssl enc -pbkdf2 -md sha256 -salt -pass pass:mysecret -aes-256-cbc -P
+salt=79ED486A79C38C15
+key=C81D02AFF7413C97AF3B6ED3E928FFC1F7C127FED1E9139333FEFA29DA8CA123
+iv =00103E600BF1D43EFC155EE2B1176D38
+```
+
+Regenerate the same key with a fixed salt and 10,000 iterations
+```
+openssl enc -pbkdf2 -md sha256 -S 79ED486A79C38C15 -pass pass:mysecret -aes-256-cbc -iter 10000 -P
+salt=79ED486A79C38C15
+key=C81D02AFF7413C97AF3B6ED3E928FFC1F7C127FED1E9139333FEFA29DA8CA123
+iv =00103E600BF1D43EFC155EE2B1176D38
+```
