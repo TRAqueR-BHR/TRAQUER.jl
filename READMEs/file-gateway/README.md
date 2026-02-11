@@ -1,5 +1,9 @@
 # File gateway
 
+NOTE: The following documentation intentionaly ommits the machine-2-machine authentication.
+But in practice, all requests from the hospital file exchange client to Traquer server side
+must be authenticated using mTLS x.509 certificates.
+
 ## Get a file exchange passphrase
 
 The hospital client needs to get the latest file exchange passphrase from Traquer in order
