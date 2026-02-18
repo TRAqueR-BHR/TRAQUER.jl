@@ -318,6 +318,11 @@ module Controller
 
 end # module Controller
 
+module WebAPI
+    using Mux, JSON, HTTP, JWTs, TimeZones
+    include("WebAPI/_def.jl")
+end # module WebAPI
+
 module Custom
     include(ENV["TRAQUER_CUSTOM_MODULE_DEFINITION_FILE"])
 end
@@ -393,6 +398,9 @@ include("Controller/SchedulerCtrl/_imp.jl")
 
 # MaintenanceCtrl
 include("Controller/MaintenanceCtrl/_imp.jl")
+
+# WebAPI
+include("WebAPI/_imp.jl")
 
 # Custom implementation
 include(ENV["TRAQUER_CUSTOM_MODULE_IMPLEMENTATION_FILE"])
