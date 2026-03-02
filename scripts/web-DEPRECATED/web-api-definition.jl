@@ -24,9 +24,9 @@ apis_paths_wo_jwt = [
 api_routes = ()
 mux_filters = ()
 # Loop over the files in "/scripts/web/api-def/" to populate the  api routes and the mux filters
-folderFor_web_src = pwd() * "/scripts/web/api-def/"
+folderFor_web_src = pwd() * "/scripts/web-DEPRECATED/api-def/"
 for f in filter(x -> occursin(r".jl$", x),
-                readdir(pwd() * "/scripts/web/api-def"))
+                readdir(pwd() * "/scripts/web-DEPRECATED/api-def"))
   # println(f)
   include(folderFor_web_src * f)
 end

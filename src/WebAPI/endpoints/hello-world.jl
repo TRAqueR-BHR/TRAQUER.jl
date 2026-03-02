@@ -3,21 +3,20 @@
 #
 # curl http://localhost:8095/api/hello
 #
-new_route = route("/api/hello", req -> begin
+function WebAPI.handle_hello(req)
 
-    if req[:method] == "OPTIONS"
-        return respFor_OPTIONS_req()
-    end
+    req[:method] == "OPTIONS" && return WebAPI._respFor_OPTIONS_req()
 
     @info "API /api/hello"
 
     Dict(
-        :body    => String(JSON.json(Dict("message" => "Hello from TRAQUER.WebAPI!"))),
+        :body    => String(JSON.json(Dict("message" => "Hello! from TRAQUER.WebAPI!"))),
         :status  => 200,
         :headers => Dict(
             "Content-Type"                => "application/json",
             "Access-Control-Allow-Origin" => "*",
         ),
     )
-end)
-api_routes = (api_routes..., new_route)
+end
+
+api_routes = (api_routes..., route("/api/hello", WebAPI.handle_hello))
