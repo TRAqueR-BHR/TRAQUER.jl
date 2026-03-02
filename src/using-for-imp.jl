@@ -18,6 +18,9 @@ using PostgresORM,  LibPQ, TimeZones, Dates, ConfParser, Unicode, StringCases, J
 using ..TRAQUER, ..TRAQUERUtil
 using Base.StackTraces
 using ..WebAPI
+import .WebAPI
+import .WebAPI.Endpoints
+import .WebAPI.Filters
 using ..Controller.AnalysisResultCtrl,
       ..Controller.AnalysisRequestCtrl,
       ..Controller.StayCtrl,

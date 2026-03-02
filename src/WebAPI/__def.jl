@@ -1,6 +1,4 @@
 include("utils/__def.jl")
-include("filters/__def.jl")
-include("endpoints/__def.jl")
 
 """
     build_app()
