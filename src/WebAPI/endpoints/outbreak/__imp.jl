@@ -1,0 +1,8 @@
+include("get-from-event.jl")
+include("get-from-filter.jl")
+include("get-unit-assos-from-infectious-status.jl")
+include("initialize.jl")
+include("get-unit-assos-from-outbreak.jl")
+include("get-infectious-status-assos.jl")
+include("get-associable.jl")
+include("save.jl")

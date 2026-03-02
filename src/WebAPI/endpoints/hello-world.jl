@@ -19,4 +19,3 @@ function WebAPI.handle_hello(req)
     )
 end
 
-api_routes = (api_routes..., route("/api/hello", WebAPI.handle_hello))

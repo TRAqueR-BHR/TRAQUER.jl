@@ -1,0 +1,3 @@
+
+function handle_contact_exposure_simulate end
+function handle_contact_exposure_patient_for_listing end

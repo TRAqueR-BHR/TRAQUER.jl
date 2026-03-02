@@ -1,0 +1,6 @@
+
+function handle_patient_listing end
+function handle_patient_get_decrypted end
+function handle_patient_get_decrypted_info end
+function handle_patient_create end
+function handle_patient_update_name_and_birthdate end

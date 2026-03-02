@@ -1,85 +1,18 @@
 function handle_hello end
 
-# appuser
-function handle_authenticate end
-function handle_appuser_retrieve_user_from_id end
-function handle_appuser_save end
-function handle_appuser_get_all_users end
-
-# analysis
-function handle_analysis_get_from_patient end
-function handle_analysis_upsert end
-function handle_analysis_listing end
-
-# analysis-request
-function handle_analysis_request_save end
-function handle_analysis_request_listing end
-function handle_analysis_request_listing_as_xlsx end
-
-# contact-exposure
-function handle_contact_exposure_simulate end
-function handle_contact_exposure_patient_for_listing end
-
-# enum
-function handle_enum_possible_values end
-
-# event-requiring-attention
-function handle_event_requiring_attention_get end
-function handle_event_requiring_attention_update end
-
-# exposed-function
-function handle_exposed_function_get end
-function handle_exposed_function_execute end
-
-# infectious-status
-function handle_infectious_status_listing end
-function handle_infectious_status_upsert end
-function handle_infectious_status_delete end
-function handle_infectious_status_get_from_filter end
-function handle_infectious_status_update_outbreak_assos end
-
-# misc
-function handle_misc_get_frontend_version end
-function handle_misc_dataset_password_header_name end
-function handle_misc_process_newly_integrated_data end
-function handle_misc_reset_data end
-
-# outbreak
-function handle_outbreak_get_from_event end
-function handle_outbreak_get_from_filter end
-function handle_outbreak_get_unit_assos_from_infectious_status end
-function handle_outbreak_initialize end
-function handle_outbreak_get_unit_assos_from_outbreak end
-function handle_outbreak_get_infectious_status_assos end
-function handle_outbreak_get_associable end
-function handle_outbreak_save end
-
-# outbreak-unit-asso
-function handle_outbreak_unit_asso_update_and_refresh end
-
-# patient
-function handle_patient_listing end
-function handle_patient_get_decrypted end
-function handle_patient_get_decrypted_info end
-function handle_patient_create end
-function handle_patient_update_name_and_birthdate end
-
-# role
-function handle_role_all_composed_by_type end
-function handle_role_all_composed end
-function handle_role_composed_for_listing end
-
-# stay
-function handle_stay_get_carriers_or_contacts end
-function handle_stay_get_from_filter end
-function handle_stay_get_hospitalization_dates end
-function handle_stay_upsert end
-function handle_stay_listing end
-function handle_stay_save_isolation_date end
-function handle_stay_delete_isolation_time end
-
-# task-waiting-for-user-execution
-function handle_task_execute_pending end
-
-# unit
-function handle_unit_get_all end
+include("appuser/__def.jl")
+include("analysis/__def.jl")
+include("analysis-request/__def.jl")
+include("contact-exposure/__def.jl")
+include("enum/__def.jl")
+include("event-requiring-attention/__def.jl")
+include("exposed-function/__def.jl")
+include("infectious-status/__def.jl")
+include("misc/__def.jl")
+include("outbreak/__def.jl")
+include("outbreak-unit-asso/__def.jl")
+include("patient/__def.jl")
+include("role/__def.jl")
+include("stay/__def.jl")
+include("task-waiting-for-user-execution/__def.jl")
+include("unit/__def.jl")

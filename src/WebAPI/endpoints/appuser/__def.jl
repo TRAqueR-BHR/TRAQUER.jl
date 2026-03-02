@@ -1,0 +1,5 @@
+
+function handle_authenticate end
+function handle_appuser_retrieve_user_from_id end
+function handle_appuser_save end
+function handle_appuser_get_all_users end

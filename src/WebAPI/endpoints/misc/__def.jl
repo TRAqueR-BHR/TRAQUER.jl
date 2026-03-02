@@ -1,0 +1,5 @@
+
+function handle_misc_get_frontend_version end
+function handle_misc_dataset_password_header_name end
+function handle_misc_process_newly_integrated_data end
+function handle_misc_reset_data end

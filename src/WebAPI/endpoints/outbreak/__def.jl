@@ -1,0 +1,9 @@
+
+function handle_outbreak_get_from_event end
+function handle_outbreak_get_from_filter end
+function handle_outbreak_get_unit_assos_from_infectious_status end
+function handle_outbreak_initialize end
+function handle_outbreak_get_unit_assos_from_outbreak end
+function handle_outbreak_get_infectious_status_assos end
+function handle_outbreak_get_associable end
+function handle_outbreak_save end

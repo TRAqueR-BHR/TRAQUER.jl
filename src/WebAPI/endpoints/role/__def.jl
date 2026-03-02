@@ -1,0 +1,4 @@
+
+function handle_role_all_composed_by_type end
+function handle_role_all_composed end
+function handle_role_composed_for_listing end
