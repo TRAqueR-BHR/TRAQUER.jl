@@ -20,7 +20,7 @@ function WebAPI.mux_get_appuser_from_jwt(app, req)
         end
         req[:params][:appuser] = missing
 
-        if (req[:path] in apis_paths_wo_jwt ||
+        if (req[:path] in WebAPI.apis_paths_wo_jwt ||
             (length(req[:path]) >= 2 && req[:path][1] == "file-upload" &&
                 req[:path][2] == "get-pdf"))
             @info "[$(string(req[:uri]))] does not require JWT authentication"
