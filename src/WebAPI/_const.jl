@@ -8,5 +8,5 @@ const apis_paths_wo_jwt = [
     ["authenticate"],
     ["misc", "get-current-frontend-version"],
     ["ws_io"],
-    # ["api", "hello"],   # hello-world is public
+    ["api", "hello"],   # hello-world is public
 ]
