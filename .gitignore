@@ -6,6 +6,7 @@ logs/*
 
 conf/*
 !conf/.gitkeep
+!conf/tpl.conf
 
 docs/build/*
 
