@@ -21,7 +21,7 @@ function TRAQUERUtil.formatExceptionAndStackTrace(
     appuser::Union{Appuser,Missing} = missing
 )
 
-@warn "HERE1.2"
+    @warn "HERE1.2"
     message = ""
     if !ismissing(appuser)
         message *= "Error raised by user[$(appuser.email)]. "
@@ -33,6 +33,8 @@ function TRAQUERUtil.formatExceptionAndStackTrace(
         ;maxLines = maxLines,
         stopAt = stopAt
     )
+
+    @error "Formatted exception:\n $message"
 
 
     # No need to notify the admin for expected errors

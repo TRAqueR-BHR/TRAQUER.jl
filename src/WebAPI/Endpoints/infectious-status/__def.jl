@@ -1,0 +1,6 @@
+
+function handle_infectious_status_listing end
+function handle_infectious_status_upsert end
+function handle_infectious_status_delete end
+function handle_infectious_status_get_from_filter end
+function handle_infectious_status_update_outbreak_assos end

@@ -1,0 +1,18 @@
+function handle_hello end
+
+include("appuser/__def.jl")
+include("analysis/__def.jl")
+include("analysis-request/__def.jl")
+include("contact-exposure/__def.jl")
+include("enum/__def.jl")
+include("event-requiring-attention/__def.jl")
+include("exposed-function/__def.jl")
+include("infectious-status/__def.jl")
+include("misc/__def.jl")
+include("outbreak/__def.jl")
+include("outbreak-unit-asso/__def.jl")
+include("patient/__def.jl")
+include("role/__def.jl")
+include("stay/__def.jl")
+include("task-waiting-for-user-execution/__def.jl")
+include("unit/__def.jl")

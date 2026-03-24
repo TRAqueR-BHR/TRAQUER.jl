@@ -1,0 +1,3 @@
+
+function handle_event_requiring_attention_get end
+function handle_event_requiring_attention_update end

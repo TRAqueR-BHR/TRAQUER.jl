@@ -1,4 +1,4 @@
-include("prerequisite.jl")
+include("../prerequisite.jl")
 
 @everywhere using Mux, HTTP
 
@@ -20,7 +20,7 @@ include("prerequisite.jl")
 #   module used by the API has changed.
 # NOTE: Do not restart Mux.serve()
 
-@everywhere include("web/web-api-definition.jl")
+@everywhere include("web-api-definition.jl")
 
 Mux.serve(
     web_api, Mux.localhost, 8095
