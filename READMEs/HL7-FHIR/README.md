@@ -36,6 +36,32 @@ Traquer supports **FHIR R5** specifications.
 ## Examples
 [Example file](https://github.com/TRAqueR-BHR/TRAQUER.jl/blob/main/READMEs/HL7-FHIR/examples/scenario1-fhir-r5.xml)
 
+## Resource identifiers and references
+
+### `id` vs `identifier`
+
+Each FHIR resource has two distinct ways to be identified:
+
+- **`<id>`**: The technical/logical ID within the FHIR server. It is part of the resource's
+  URL (e.g., `Patient/patient-601856351`) and is used for referencing resources. It has no
+  meaning outside the FHIR system.
+
+- **`<identifier><value>`**: A business identifier from the source system (e.g., the
+  hospital's patient number / IPP). It is domain-meaningful and known to clinicians and
+  hospital information systems. A resource can have multiple `<identifier>` entries (IPP,
+  INS, social security number, etc.).
+
+### Referencing resources with `<reference>`
+
+Resources are referenced using the `<reference>` element, with the following convention for
+the value property: `value="<ResourceType>/<FHIR ID>"`.
+For example if a Patient was declared with the FHIR ID `patient-601856351`, the reference
+would be `Patient/patient-601856351`.
+
+Important note: Traquer does not persist FHIR IDs therefore any reference to a resource must
+be resolvable within the same file. For example, if a `Location` resource is referenced in
+an `Encounter` resource, the `Location` resource must be declared in the same file.
+
 ## Coding/Terminology of medical and biological names
 Traquer has its own coding system (see list of possible values in the sections below) but is
 compatible with standard coding systems (eg. LOINC (https://loinc.org), SNOMED CT...). You

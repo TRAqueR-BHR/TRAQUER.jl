@@ -1,3 +1,5 @@
+include("__prerequisite.jl")
+
 using Test
 using TimeZones
 using TRAQUER

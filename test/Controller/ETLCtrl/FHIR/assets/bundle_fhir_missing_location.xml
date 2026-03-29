@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Bundle xmlns="http://hl7.org/fhir">
+    <type value="transaction" />
+    <entry>
+        <fullUrl value="urn:uuid:org-29000" />
+        <resource>
+            <Organization>
+                <id value="org-29000" />
+                <name value="CHU de Brest" />
+            </Organization>
+        </resource>
+        <request>
+            <method value="PUT" />
+            <url value="Organization/org-29000" />
+        </request>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:patient-601856351" />
+        <resource>
+            <Patient>
+                <id value="patient-601856351" />
+                <identifier>
+                    <value value="601856351" />
+                </identifier>
+                <name>
+                    <family value="Dupont" />
+                    <given value="Jean" />
+                </name>
+                <birthDate value="1989-04-12" />
+            </Patient>
+        </resource>
+        <request>
+            <method value="PUT" />
+            <url value="Patient/patient-601856351" />
+        </request>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:loc-CARDIO" />
+        <resource>
+            <Location>
+                <id value="loc-CARDIO" />
+                <identifier>
+                    <value value="CARDIO" />
+                </identifier>
+                <name value="Cardiologie" />
+                <description value="Cardiologie" />
+                <managingOrganization>
+                    <reference value="Organization/org-29000" />
+                </managingOrganization>
+            </Location>
+        </resource>
+        <request>
+            <method value="PUT" />
+            <url value="Location/loc-CARDIO" />
+        </request>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:enc-93517915" />
+        <resource>
+            <Encounter>
+                <id value="enc-93517915" />
+                <identifier>
+                    <value value="93517915" />
+                </identifier>
+                <status value="completed" />
+                <class>
+                    <coding>
+                        <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode" />
+                        <code value="IMP" />
+                        <display value="HC" />
+                    </coding>
+                </class>
+                <subject>
+                    <reference value="Patient/patient-601856351" />
+                </subject>
+                <serviceProvider>
+                    <reference value="Organization/org-29000" />
+                </serviceProvider>
+                <actualPeriod>
+                    <start value="2024-02-19" />
+                    <end value="2024-02-29" />
+                </actualPeriod>
+                <location>
+                    <location>
+                        <reference value="Location/loc-CARDIO" />
+                        <display value="Cardiologie" />
+                    </location>
+                    <period>
+                        <start value="2024-02-19" />
+                        <end value="2024-02-22" />
+                    </period>
+                </location>
+                <location>
+                    <!-- loc-MISSING is referenced here but has no corresponding entry in this bundle -->
+                    <location>
+                        <reference value="Location/loc-MISSING" />
+                        <display value="Unknown unit" />
+                    </location>
+                    <period>
+                        <start value="2024-02-22" />
+                        <end value="2024-02-29" />
+                    </period>
+                </location>
+            </Encounter>
+        </resource>
+        <request>
+            <method value="PUT" />
+            <url value="Encounter/enc-93517915" />
+        </request>
+    </entry>
+</Bundle>

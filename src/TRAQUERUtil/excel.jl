@@ -49,3 +49,8 @@ function TRAQUERUtil.serializeDataFrameToExcel(
     )
 
 end
+
+function TRAQUERUtil.convertExcelToCSV(excelFilePath::String, csvFilePath::String)
+    df = DataFrame(XLSX.readtable(excelFilePath, 1))
+    CSV.write(csvFilePath, df)
+end

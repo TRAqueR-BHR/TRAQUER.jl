@@ -1,0 +1,9 @@
+function loadXMLFile end
+function validateAgainstSchema end
+function validatePatientsData end
+function validateAnalysesData end
+function validateStaysData end
+function validateUnitsData end
+function checkReferenceIsDeclared end
+function checkAllReferencesAreDeclared end
+function formatXMLFile end

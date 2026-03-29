@@ -1,0 +1,5 @@
+include("checkAllReferencesAreDeclared.jl")
+include("checkReferenceIsDeclared.jl")
+include("formatXMLFile.jl")
+include("loadXMLFile.jl")
+include("validateAgainstSchema.jl")
