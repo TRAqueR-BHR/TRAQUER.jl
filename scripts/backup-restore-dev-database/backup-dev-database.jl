@@ -1,7 +1,7 @@
 include("prerequisite.jl")
 
 dumpFilePath = joinpath(
-    "/home/medilegist/CODE/TRAQUER.jl/misc/dev-database-dumps",
-    "medilegist-$projectVersion.dump"
+    "/home/traquer/CODE/TRAQUER.jl/misc/dev-database-dumps",
+    "traquer-$projectVersion.dump"
 )
 TRAQUERUtil.dumpDatabase(;dumpFilePath = dumpFilePath)
