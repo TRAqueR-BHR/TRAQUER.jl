@@ -30,6 +30,11 @@ try
     """ |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
+    """
+    COMMENT ON TABLE ETL.fhir_xml_error IS 'Problems found in a FHIR XML file';
+    """|>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
 
 
 catch e

@@ -1,3 +1,6 @@
+"""
+Problems found in a FHIR XML file
+"""
 mutable struct FhirXmlError <: IFhirXmlError 
 
   id::Union{Missing,String}
