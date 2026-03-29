@@ -30,7 +30,7 @@ end # module TRAQUERUtil
 
 module Model
     export AnalysisRefCrypt, AnalysisRequest, AnalysisResult, AppuserRoleAsso,
-           ContactExposure, FrontendVersion, InfectiousStatus,
+           ContactExposure, FhirXmlError, FrontendVersion, InfectiousStatus,
            EventRequiringAttention, Modification, Outbreak,
            OutbreakInfectiousStatusAsso, Patient, PatientBirthdateCrypt,
            PatientCurrentStatus, PatientNameCrypt, PatientRefCrypt, Role, RoleRoleAsso,
@@ -60,6 +60,7 @@ module Model
     include("Model/AnalysisResult.jl")
     include("Model/AppuserRoleAsso.jl")
     include("Model/ContactExposure.jl")
+    include("Model/FhirXmlError.jl")
     include("Model/FrontendVersion.jl")
     include("Model/InfectiousStatus.jl")
     include("Model/DeletedInfectiousStatus.jl")
@@ -117,6 +118,11 @@ module ORM
         using ..ORM, ...Model
         using PostgresORM
         include("./ORM/ExposedFunctionORM.jl")
+    end
+    module FhirXmlErrorORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/FhirXmlErrorORM.jl")
     end
     module FrontendVersionORM
         using ..ORM, ...Model

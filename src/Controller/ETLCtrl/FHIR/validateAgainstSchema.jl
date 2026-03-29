@@ -14,19 +14,35 @@ function ETLCtrl.FHIR.validateAgainstSchema(xmlFilePath::String, xsdFilePath::St
 
     validationOutput = String(take!(stderrBuffer))
 
-    errorLines::Vector{String} = filter(
+    rawLines = filter(
         !isempty,
         split(validationOutput, '\n')
     )
 
     # Always drop the last line that tells whether the file is valid or not
-    if !isempty(errorLines)
-        pop!(errorLines)
+    if !isempty(rawLines)
+        pop!(rawLines)
+    end
+
+    # xmllint lines follow the format: "{fileName}:{lineNumber}: {errorMessage}"
+    linePattern = r"^(.+):([0-9]+): (.+)$"
+
+    errors::Vector{Model.FhirXmlError} = map(rawLines) do line
+        m = match(linePattern, line)
+        if m !== nothing
+            Model.FhirXmlError(
+                fileName     = String(m[1]),
+                lineNumber   = Int32(parse(Int, m[2])),
+                errorMessage = String(m[3]),
+            )
+        else
+            Model.FhirXmlError(errorMessage = line)
+        end
     end
 
     if success(process)
-        return (true, errorLines)
+        return (true, errors)
     else
-        return (false, errorLines)
+        return (false, errors)
     end
 end

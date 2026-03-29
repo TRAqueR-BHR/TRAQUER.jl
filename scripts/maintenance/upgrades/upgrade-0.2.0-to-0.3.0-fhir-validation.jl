@@ -24,7 +24,8 @@ try
         file_name TEXT NOT NULL,
         line_number INT NOT NULL,
         error_message TEXT NOT NULL,
-        created_at TIMESTAMPTZ DEFAULT NOW()
+        created_at TIMESTAMPTZ DEFAULT NOW(),
+        CONSTRAINT fhir_xml_error_pkey PRIMARY KEY (id)
     );
     """ |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
