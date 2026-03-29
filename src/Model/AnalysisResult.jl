@@ -1,3 +1,6 @@
+"""
+This table holds result. Suppose in real life a patient has its faeces analysed for two different analyses and that each analysis has two results. This will result in four rows in the database
+"""
 mutable struct AnalysisResult <: IAnalysisResult 
 
   patient::Union{Missing,Model.IPatient}

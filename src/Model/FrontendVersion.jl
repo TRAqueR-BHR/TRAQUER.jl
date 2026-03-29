@@ -1,7 +1,10 @@
+"""
+A table that gives the expected version of the frontend
+"""
 mutable struct FrontendVersion <: IFrontendVersion 
 
   id::Union{Missing,String}
-  name::Union{Missing,String}
+  name::Union{Missing,String} # efwf w 
   forceReloadIfDifferentVersion::Union{Missing,Bool}
 
   FrontendVersion(args::NamedTuple) = FrontendVersion(;args...)
