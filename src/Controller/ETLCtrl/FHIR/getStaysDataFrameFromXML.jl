@@ -28,6 +28,24 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
         isnothing(n) ? missing : n["value"]
     end
 
+    # Helper: parse a date string (yyyy-mm-dd) to Date, or missing
+    function parse_date(s)::Union{Date, Missing}
+        ismissing(s) && return missing
+        Date(s, dateformat"yyyy-mm-dd")
+    end
+
+    # Helper: parse a FHIR dateTime string to ZonedDateTime, or missing.
+    # Handles full ISO-8601 with offset (e.g. "2022-04-04T10:00:00+00:00")
+    # and date-only values (e.g. "2022-05-12") treated as midnight UTC.
+    function parse_zdt(s)::Union{ZonedDateTime, Missing}
+        ismissing(s) && return missing
+        # date-only: "yyyy-mm-dd"
+        if occursin(r"^\d{4}-\d{2}-\d{2}$", s)
+            return ZonedDateTime(DateTime(s, dateformat"yyyy-mm-dd"), tz"UTC")
+        end
+        TRAQUERUtil.convertStringToZonedDateTime(s)
+    end
+
     # ── Patient lookup: FHIR id → (patient_ref, firstname, lastname, birthdate)
     patients = Dict{String, NamedTuple}()
     for pat in EzXML.findall("//fhir:Patient", root, ns)
@@ -78,15 +96,15 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
                 patient_ref              = pat_info.patient_ref,
                 firstname                = pat_info.firstname,
                 lastname                 = pat_info.lastname,
-                birthdate                = pat_info.birthdate,
-                hospitalization_in_time  = hosp_in,
-                hospitalization_out_time = hosp_out,
+                birthdate                = parse_date(pat_info.birthdate),
+                hospitalization_in_time  = parse_zdt(hosp_in),
+                hospitalization_out_time = parse_zdt(hosp_out),
                 unit_code_name           = unit_code_name,
                 unit_name                = unit_name,
                 sector                   = missing,
                 room                     = missing,
-                unit_in_time             = unit_in,
-                unit_out_time            = unit_out,
+                unit_in_time             = parse_zdt(unit_in),
+                unit_out_time            = parse_zdt(unit_out),
             ))
         end
     end
