@@ -33,13 +33,15 @@ function ETLCtrl.Excel.convertExcelToFHIR(
     # ── Helpers ──────────────────────────────────────────────────────────────
 
     """Format a date/datetime value to an ISO-8601 FHIR string.
-    FHIR R5 requires a timezone offset on all dateTime values."""
+    FHIR R5 requires a numeric UTC offset (e.g. +01:00) on all dateTime values.
+    The offset is resolved per-value so that DST transitions are handled correctly."""
+    tz = TRAQUERUtil.getTimeZone()
     function fmt(val)
         ismissing(val) && return missing
         if val isa DateTime
             (Dates.hour(val) == 0 && Dates.minute(val) == 0 && Dates.second(val) == 0) ?
                 Dates.format(val, "yyyy-mm-dd") :
-                Dates.format(val, "yyyy-mm-ddTHH:MM:SS") * "+00:00"
+                Dates.format(ZonedDateTime(val, tz), "yyyy-mm-ddTHH:MM:SSzzz")
         elseif val isa Date
             Dates.format(val, "yyyy-mm-dd")
         else
@@ -49,7 +51,7 @@ function ETLCtrl.Excel.convertExcelToFHIR(
                 dt = DateTime(s)
                 return (Dates.hour(dt) == 0 && Dates.minute(dt) == 0 && Dates.second(dt) == 0) ?
                     Dates.format(dt, "yyyy-mm-dd") :
-                    Dates.format(dt, "yyyy-mm-ddTHH:MM:SS") * "+00:00"
+                    Dates.format(ZonedDateTime(dt, tz), "yyyy-mm-ddTHH:MM:SSzzz")
             catch
             end
             s
