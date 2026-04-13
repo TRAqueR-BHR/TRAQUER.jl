@@ -383,5 +383,22 @@ $(rstrip(String(take!(loc_buf))))
         write(f, xml_content)
     end
 
-    return xml_content
+    # Format the xml output
+    ETLCtrl.FHIR.formatXMLFile(xmlOutputFilePath)
+
+    # Make sure the xml passes the FHIR schema validation (throws if invalid)
+    _valid, _errors = ETLCtrl.FHIR.validateAgainstSchema(
+        xmlOutputFilePath,
+        "src/Controller/ETLCtrl/FHIR/xsd/r5/fhir-r5-single.xsd"
+    )
+
+    if _valid == false
+        error_msg = "Generated XML file does not conform to FHIR schema. Errors:\n"
+        for e in _errors
+            error_msg *= "  - $(e.fileName):$(e.lineNumber): $(e.errorMessage)\n"
+        end
+        throw(ErrorException(error_msg))
+    end
+
+    return read(xmlOutputFilePath, String)
 end
