@@ -60,27 +60,29 @@ include("__prerequisite.jl")
         :unit_out_time
     ]
 
-    # Check that the column types match for
+    # Check that both dataframes match for the columns of interest
     for (i, r) in enumerate(eachrow(srcDF))
-        @info "Comparing row $i with patient_ref=$(r.patient_ref) and unit_in_time=$(r.unit_in_time)"
         for col in colsOfInterest
-            # @info "Comparing column $col: $(r[col]) vs $(df[df.patient_ref .== r.patient_ref .&& df.unit_in_time .== r.unit_in_time, col][1])"
-            @info "Comparing column $col"
-            try
+            errorContext = "patient_ref=$(r.patient_ref), unit_in_time=$(r.unit_in_time), "*
+                "column = $col: "*
+                "excel value = $(srcDF[i,col]) of type $(typeof(srcDF[i,col])) vs "*
+                "xml value = $(df[i,col]) of type $(typeof(df[i,col]))"
+            _match = try
                 if !isequal(srcDF[i,col], df[i,col])
-                    @info "Mismatch in row $i, "*
-                        "column $col: excel[$(srcDF[i,col]) $(typeof(srcDF[i,col]))]"*
-                        " vs xml[$(df[i,col]) $(typeof(df[i,col]))]"
+                    false
+                else
+                    true
                 end
             catch e
-                @error "Error comparing row $i, column $col:"*
-                    "excel[$(srcDF[i,col]) $(typeof(srcDF[i,col]))]"*
-                    " vs xml[$(df[i,col]) $(typeof(df[i,col]))]"*
-                    "$e"
+                error("Error comparing row for $errorContext: $e")
             end
+            if !_match
+                error("Mismatch for $errorContext")
+            end
+
+
         end
     end
-
 
 
 end
