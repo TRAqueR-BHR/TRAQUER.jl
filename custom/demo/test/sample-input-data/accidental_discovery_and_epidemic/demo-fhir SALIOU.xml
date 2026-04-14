@@ -871,7 +871,7 @@
           </location>
           <period>
             <start value="2022-04-27T10:00:00+02:00"/>
-            <end value="2022-05-12"/>
+            <end value="2022-05-12T00:00:00+02:00"/>
           </period>
         </location>
         <location>
@@ -880,7 +880,7 @@
             <display value="Cardiologie"/>
           </location>
           <period>
-            <start value="2022-05-12"/>
+            <start value="2022-05-12T00:00:00+02:00"/>
             <end value="2022-05-17T10:00:00+02:00"/>
           </period>
         </location>
@@ -1502,7 +1502,7 @@
           <reference value="Organization/org-demo"/>
         </serviceProvider>
         <actualPeriod>
-          <start value="2022-05-11"/>
+          <start value="2022-05-11T00:00:00+02:00"/>
           <end value="2022-05-27T10:00:00+02:00"/>
         </actualPeriod>
         <location>
@@ -1511,7 +1511,7 @@
             <display value="Réanimation"/>
           </location>
           <period>
-            <start value="2022-05-11"/>
+            <start value="2022-05-11T00:00:00+02:00"/>
             <end value="2022-05-14T15:00:00+02:00"/>
           </period>
         </location>

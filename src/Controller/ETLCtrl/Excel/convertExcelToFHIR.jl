@@ -80,6 +80,30 @@ function ETLCtrl.Excel.convertExcelToFHIR(
         missing
     end
 
+    """Format a date/datetime value to a full ISO-8601 string with timezone offset (always ZonedDateTime).
+    Used for unit_in_time, unit_out_time, hospitalization_in_time, hospitalization_out_time."""
+    function fmt_zdt(val)
+        ismissing(val) && return missing
+        if val isa ZonedDateTime
+            return Dates.format(val, "yyyy-mm-ddTHH:MM:SSzzz")
+        elseif val isa DateTime
+            return Dates.format(ZonedDateTime(val, tz), "yyyy-mm-ddTHH:MM:SSzzz")
+        elseif val isa Date
+            return Dates.format(ZonedDateTime(DateTime(val), tz), "yyyy-mm-ddTHH:MM:SSzzz")
+        else
+            s = string(val)
+            try
+                dt = DateTime(s)
+                return Dates.format(ZonedDateTime(dt, tz), "yyyy-mm-ddTHH:MM:SSzzz")
+            catch; end
+            try
+                d = Date(s)
+                return Dates.format(ZonedDateTime(DateTime(d), tz), "yyyy-mm-ddTHH:MM:SSzzz")
+            catch; end
+            s
+        end
+    end
+
     """Build a FHIR Location id from a unit code name."""
     loc_id(code) = "loc-" * replace(string(code), r"\s+" => "-")
 
@@ -187,7 +211,7 @@ function ETLCtrl.Excel.convertExcelToFHIR(
         loc_buf = IOBuffer()
         for lr in eachrow(grp)
             lid     = loc_id(lr.unit_code_name)
-            uin_str = fmt(lr.unit_in_time)
+            uin_str = fmt_zdt(lr.unit_in_time)
             print(loc_buf, """
                 <location>
                     <location>
@@ -198,7 +222,7 @@ function ETLCtrl.Excel.convertExcelToFHIR(
                         <start value="$(uin_str)" />""")
             if !ismissing(lr.unit_out_time)
                 print(loc_buf, """
-                        <end value="$(fmt(lr.unit_out_time))" />""")
+                        <end value="$(fmt_zdt(lr.unit_out_time))" />""")
             end
             println(loc_buf, """
                     </period>
@@ -225,10 +249,10 @@ function ETLCtrl.Excel.convertExcelToFHIR(
                     <reference value="Organization/$(org_id)" />
                 </serviceProvider>
                 <actualPeriod>
-                    <start value="$(fmt(hosp_in))" />""")
+                    <start value="$(fmt_zdt(hosp_in))" />""")
         if !ismissing(hosp_out)
             print(io, """
-                    <end value="$(fmt(hosp_out))" />""")
+                    <end value="$(fmt_zdt(hosp_out))" />""")
         end
         print(io, """
                 </actualPeriod>
