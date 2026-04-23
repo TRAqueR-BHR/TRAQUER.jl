@@ -81,8 +81,10 @@ You can validate your FHIR XML files against the schemas using the following com
 Here are the main FHIR resources used to represent the different types of data used by
 Traquer:
   - Units/Sectors/Rooms: `Location` (https://hl7.org/fhir/location.html)
-  - Patient stay and movements: `Encounter` (https://hl7.org/fhir/encounter.html)
-  - Analysis requests and samples: `ServiceRequest` (https://hl7.org/fhir/servicerequest.html) + `Specimen` (https://hl7.org/fhir/specimen.html)
+  - Patient stays and movements: `Encounter` (https://hl7.org/fhir/encounter.html)
+  - Analysis requests: `ServiceRequest` (https://hl7.org/fhir/servicerequest.html)
+  - Analysis samples: `Specimen` (https://hl7.org/fhir/specimen.html)
+  - Workflow tracking of an analysis request (e.g. sample was taken and sent to the lab but result is not yet available): `Task` (https://hl7.org/fhir/task.html)
   - Analysis results: `Observation` (https://hl7.org/fhir/observation.html)
 
 ### Patient stay and movements
@@ -96,6 +98,7 @@ As stated in (https://hl7.org/fhir/location.html#bnr):
 > organization, whereas the Organization is intended to represent the more conceptual
 > hierarchies, such as a ward. Location may also be used to represent virtual locations, for
 > example for telehealth visits.
+> In Traquer, we are interested into the physical locations of the patient (where they are located in the hospital) and not the organizational structure of the hospital, therefore we use the `Location` resource to represent units, sectors and rooms. Organization resources are ignored at integration.
 
 Units/Sectors/Rooms are represented using the `Location` resouces.
 Patient stay and movements are represented using the `Encounter` resource.
