@@ -1,4 +1,4 @@
-include("../runtests-prerequisite.jl")
+include("__prerequisite.jl")
 
 @testset "Test TRAQUERUtil.readLineXOfFile" begin
     filename = "test/TRAQUERUtil/assets/test-readLineXOfFile.csv"

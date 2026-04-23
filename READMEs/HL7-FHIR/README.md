@@ -36,6 +36,32 @@ Traquer supports **FHIR R5** specifications.
 ## Examples
 [Example file](https://github.com/TRAqueR-BHR/TRAQUER.jl/blob/main/READMEs/HL7-FHIR/examples/scenario1-fhir-r5.xml)
 
+## Resource identifiers and references
+
+### `id` vs `identifier`
+
+Each FHIR resource has two distinct ways to be identified:
+
+- **`<id>`**: The technical/logical ID within the FHIR server. It is part of the resource's
+  URL (e.g., `Patient/patient-601856351`) and is used for referencing resources. It has no
+  meaning outside the FHIR system.
+
+- **`<identifier><value>`**: A business identifier from the source system (e.g., the
+  hospital's patient number / IPP). It is domain-meaningful and known to clinicians and
+  hospital information systems. A resource can have multiple `<identifier>` entries (IPP,
+  INS, social security number, etc.).
+
+### Referencing resources with `<reference>`
+
+Resources are referenced using the `<reference>` element, with the following convention for
+the value property: `value="<ResourceType>/<FHIR ID>"`.
+For example if a Patient was declared with the FHIR ID `patient-601856351`, the reference
+would be `Patient/patient-601856351`.
+
+Important note: Traquer does not persist FHIR IDs therefore any reference to a resource must
+be resolvable within the same file. For example, if a `Location` resource is referenced in
+an `Encounter` resource, the `Location` resource must be declared in the same file.
+
 ## Coding/Terminology of medical and biological names
 Traquer has its own coding system (see list of possible values in the sections below) but is
 compatible with standard coding systems (eg. LOINC (https://loinc.org), SNOMED CT...). You
@@ -55,8 +81,10 @@ You can validate your FHIR XML files against the schemas using the following com
 Here are the main FHIR resources used to represent the different types of data used by
 Traquer:
   - Units/Sectors/Rooms: `Location` (https://hl7.org/fhir/location.html)
-  - Patient stay and movements: `Encounter` (https://hl7.org/fhir/encounter.html)
-  - Analysis requests and samples: `ServiceRequest` (https://hl7.org/fhir/servicerequest.html) + `Specimen` (https://hl7.org/fhir/specimen.html)
+  - Patient stays and movements: `Encounter` (https://hl7.org/fhir/encounter.html)
+  - Analysis requests: `ServiceRequest` (https://hl7.org/fhir/servicerequest.html)
+  - Analysis samples: `Specimen` (https://hl7.org/fhir/specimen.html)
+  - Workflow tracking of an analysis request (e.g. sample was taken and sent to the lab but result is not yet available): `Task` (https://hl7.org/fhir/task.html)
   - Analysis results: `Observation` (https://hl7.org/fhir/observation.html)
 
 ### Patient stay and movements
@@ -70,6 +98,7 @@ As stated in (https://hl7.org/fhir/location.html#bnr):
 > organization, whereas the Organization is intended to represent the more conceptual
 > hierarchies, such as a ward. Location may also be used to represent virtual locations, for
 > example for telehealth visits.
+> In Traquer, we are interested into the physical locations of the patient (where they are located in the hospital) and not the organizational structure of the hospital, therefore we use the `Location` resource to represent units, sectors and rooms. Organization resources are ignored at integration.
 
 Units/Sectors/Rooms are represented using the `Location` resouces.
 Patient stay and movements are represented using the `Encounter` resource.

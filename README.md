@@ -1,10 +1,11 @@
 # TRAQUER.jl
 
-## Loom presenatation
+## Loom presentation
 
 https://www.loom.com/share/8d03385a9ef54b9ba7c8e3042c54b3ba
 
 see custom/demo/test/sample-input-data/accidental_discovery_and_epidemic/integration-test-accidental_discovery_and_epidemic.jl
+see custom/demo/test/sample-input-data/accidental_discovery_and_epidemic/
 
 ## Status
 An event (`EventRequiringAttention`) is alway related to an infectious status (`InfectiousStatus`).

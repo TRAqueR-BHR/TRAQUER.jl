@@ -124,3 +124,4 @@ function formatExceptionForFrontend end
 # Excel
 function prepareDataFrameForSerializationToExcel end
 function serializeDataFrameToExcel end
+function convertExcelToCSV end

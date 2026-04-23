@@ -1,5 +1,4 @@
-include("../runtests-prerequisite.jl")
-
+include("__prerequisite.jl")
 @testset "Test TRAQUERUtil.infectiousAgentCategory2AnalysisRequestTypes" begin
 
     TRAQUERUtil.infectiousAgentCategory2AnalysisRequestTypes(

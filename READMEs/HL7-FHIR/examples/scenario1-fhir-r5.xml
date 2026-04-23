@@ -24,65 +24,6 @@
   -->
   <type value="transaction"/>
 
-  <!-- Organization (hospital) -->
-  <entry>
-    <fullUrl value="urn:uuid:org-1"/>
-    <resource>
-      <Organization>
-        <id value="org-1"/>
-        <name value="Your Hospital"/>
-      </Organization>
-    </resource>
-    <request>
-      <method value="POST"/>
-      <url value="Organization"/>
-    </request>
-  </entry>
-
-  <!-- Organization: Cardiac Surgery Unit -->
-  <entry>
-    <fullUrl value="urn:uuid:org-chir-card"/>
-    <resource>
-      <Organization>
-        <id value="org-chir-card"/>
-        <identifier>
-          <system value="urn:unit-code"/>
-          <value value="CHIR-CARD"/>
-        </identifier>
-        <name value="Service de chirurgie cardiaque"/>
-        <partOf>
-          <reference value="urn:uuid:org-1"/>
-        </partOf>
-      </Organization>
-    </resource>
-    <request>
-      <method value="POST"/>
-      <url value="Organization"/>
-    </request>
-  </entry>
-
-  <!-- Organization: ICU REA1 -->
-  <entry>
-    <fullUrl value="urn:uuid:org-rea1"/>
-    <resource>
-      <Organization>
-        <id value="org-rea1"/>
-        <identifier>
-          <system value="urn:unit-code"/>
-          <value value="REA1"/>
-        </identifier>
-        <name value="Service de réanimation post-opératoire"/>
-        <partOf>
-          <reference value="urn:uuid:org-1"/>
-        </partOf>
-      </Organization>
-    </resource>
-    <request>
-      <method value="POST"/>
-      <url value="Organization"/>
-    </request>
-  </entry>
-
   <!-- Location: Cardiac Surgery Unit -->
   <entry>
     <fullUrl value="urn:uuid:loc-chir-card"/>
@@ -94,9 +35,6 @@
           <value value="CHIR-CARD"/>
         </identifier>
         <name value="Service de chirurgie cardiaque"/>
-        <managingOrganization>
-          <reference value="urn:uuid:org-chir-card"/>
-        </managingOrganization>
       </Location>
     </resource>
     <request>
@@ -116,9 +54,6 @@
           <value value="REA1"/>
         </identifier>
         <name value="Service de réanimation post-opératoire"/>
-        <managingOrganization>
-          <reference value="urn:uuid:org-rea1"/>
-        </managingOrganization>
       </Location>
     </resource>
     <request>
@@ -138,9 +73,6 @@
           <value value="REA1-S2"/>
         </identifier>
         <name value="Secteur 2"/>
-        <managingOrganization>
-          <reference value="urn:uuid:org-rea1"/>
-        </managingOrganization>
         <partOf>
           <reference value="urn:uuid:loc-rea1"/>
         </partOf>
@@ -163,9 +95,6 @@
           <value value="REA1-S2-302"/>
         </identifier>
         <name value="Chambre 302"/>
-        <managingOrganization>
-          <reference value="urn:uuid:org-rea1"/>
-        </managingOrganization>
         <partOf>
           <reference value="urn:uuid:loc-rea1-sector2"/>
         </partOf>
@@ -192,9 +121,6 @@
           <given value="André"/>
         </name>
         <birthDate value="1980-01-01"/>
-        <managingOrganization>
-          <reference value="urn:uuid:org-1"/>
-        </managingOrganization>
       </Patient>
     </resource>
     <request>
@@ -287,7 +213,7 @@
         </encounter>
         <authoredOn value="2024-10-01T23:00:00+02:00"/>
         <requester>
-          <reference value="urn:uuid:org-rea1"/>
+          <reference value="urn:uuid:loc-rea1"/>
         </requester>
         <specimen>
           <reference value="urn:uuid:spec-a123456"/>
@@ -395,6 +321,444 @@
     <request>
       <method value="POST"/>
       <url value="Observation"/>
+    </request>
+  </entry>
+
+  <!--
+    ==================================================================================
+    SCENARIO 2: Ongoing Analysis (no result yet) — Task represents work in progress
+
+    Patient Journey in This Example:bacterial_culture_carbapenemase_producing_enterobacteriaceae
+    1. Apr 20, 09:00 - Patient admitted to Hematology Unit (HEMA1)
+    2. Apr 21, 14:00 - MRSA screening requested, specimen collected
+    3. Apr 21, 14:30 - Bacterial culture started (Task status: in-progress)
+    4. Current       - Culture still underway, no Observation result yet
+
+    Key Points:
+    - ServiceRequest status is "active" (not yet completed)
+    - No Observation resource exists yet (no result)
+    - A Task resource tracks the lab work currently being performed
+    - Task.focus references the ServiceRequest
+    - Task.status = "in-progress" reflects the culture being underway
+    ==================================================================================
+  -->
+
+  <!-- Location: Hematology Unit -->
+  <entry>
+    <fullUrl value="urn:uuid:loc-hema1"/>
+    <resource>
+      <Location>
+        <id value="loc-hema1"/>
+        <identifier>
+          <system value="urn:unit-code"/>
+          <value value="HEMA1"/>
+        </identifier>
+        <name value="Service d'hématologie"/>
+      </Location>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Location"/>
+    </request>
+  </entry>
+
+  <!-- Patient P654321 -->
+  <entry>
+    <fullUrl value="urn:uuid:pat-p654321"/>
+    <resource>
+      <Patient>
+        <id value="pat-p654321"/>
+        <identifier>
+          <system value="urn:patient-ref"/>
+          <value value="P654321"/>
+        </identifier>
+        <name>
+          <family value="Dupont"/>
+          <given value="Marie"/>
+        </name>
+        <birthDate value="1955-06-15"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Patient"/>
+    </request>
+  </entry>
+
+  <!-- Encounter: hospitalization of P654321 (ongoing) -->
+  <entry>
+    <fullUrl value="urn:uuid:enc-2"/>
+    <resource>
+      <Encounter>
+        <id value="enc-2"/>
+        <status value="in-progress"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/> <!-- inpatient -->
+          </coding>
+        </class>
+        <subject>
+          <reference value="urn:uuid:pat-p654321"/>
+        </subject>
+        <actualPeriod>
+          <start value="2026-04-20T09:00:00+02:00"/>
+          <!-- end omitted because patient is still in hospital -->
+        </actualPeriod>
+        <!-- Current location: Hematology Unit (ongoing) -->
+        <location>
+          <location>
+            <reference value="urn:uuid:loc-hema1"/>
+            <display value="Service d'hématologie"/>
+          </location>
+          <period>
+            <start value="2026-04-20T09:00:00+02:00"/>
+            <!-- end omitted because patient is still at this location -->
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Encounter"/>
+    </request>
+  </entry>
+
+  <!-- ServiceRequest: Carbapenem Enterobacteriaceae screening (active — no result yet) -->
+  <entry>
+    <fullUrl value="urn:uuid:sr-b654321"/>
+    <resource>
+      <ServiceRequest>
+        <id value="sr-b654321"/>
+        <identifier>
+          <system value="urn:analysis-ref"/>
+          <value value="B654321"/>
+        </identifier>
+        <!-- active: order placed, work started, but not yet completed -->
+        <status value="active"/>
+        <intent value="order"/>
+        <code>
+          <concept>
+            <coding>
+              <system value="https://traquer.org"/>
+              <code value="bacterial_culture_carbapenemase_producing_enterobacteriaceae"/>
+              <display value="Carbapenem resistant Enterobacteriaceae [Presence] in Stool by Organism specific culture"/>
+            </coding>
+          </concept>
+        </code>
+        <subject>
+          <reference value="urn:uuid:pat-p654321"/>
+        </subject>
+        <encounter>
+          <reference value="urn:uuid:enc-2"/>
+        </encounter>
+        <authoredOn value="2026-04-21T14:00:00+02:00"/>
+        <requester>
+          <reference value="urn:uuid:loc-hema1"/>
+        </requester>
+        <specimen>
+          <reference value="urn:uuid:spec-b654321"/>
+        </specimen>
+      </ServiceRequest>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="ServiceRequest"/>
+    </request>
+  </entry>
+
+  <!-- Specimen: nasal swab -->
+  <entry>
+    <fullUrl value="urn:uuid:spec-b654321"/>
+    <resource>
+      <Specimen>
+        <id value="spec-b654321"/>
+        <type>
+          <!-- SNOMED: 472901003 = Swab from nasal sinus -->
+          <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="472901003"/>
+            <display value="Swab from nasal sinus"/>
+          </coding>
+          <text value="Nasal swab"/>
+        </type>
+        <subject>
+          <reference value="urn:uuid:pat-p654321"/>
+        </subject>
+        <collection>
+          <collectedDateTime value="2026-04-21T14:00:00+02:00"/>
+        </collection>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Specimen"/>
+    </request>
+  </entry>
+
+  <!-- Task: bacterial culture in progress (no result yet) -->
+  <!--
+    The Task resource tracks the actual laboratory work being performed.
+    It sits between the ServiceRequest (the order) and the eventual
+    Observation (the result, which does not exist yet).
+
+    Task.status = "in-progress" : culture plates are incubating
+    Task.focus  → ServiceRequest: the order this task fulfils
+    Task.for    → Patient: the patient concerned
+    No output is present because the Observation has not been produced yet.
+  -->
+  <entry>
+    <fullUrl value="urn:uuid:task-b654321"/>
+    <resource>
+      <Task>
+        <id value="task-b654321"/>
+        <!-- in-progress: the bacterial culture is actively underway -->
+        <status value="in-progress"/>
+        <intent value="order"/>
+        <code>
+          <coding>
+            <system value="http://hl7.org/fhir/CodeSystem/task-code"/>
+            <code value="fulfill"/>
+            <display value="Fulfill the focal request"/>
+          </coding>
+        </code>
+        <description value="Bacterial culture for MRSA screening — incubation in progress"/>
+        <!-- focus: the ServiceRequest this Task is fulfilling -->
+        <!-- R5: Task.focus is a backbone element using valueReference (not a plain Reference) -->
+        <focus>
+          <valueReference>
+            <reference value="urn:uuid:sr-b654321"/>
+          </valueReference>
+        </focus>
+        <!-- for: the patient this task concerns -->
+        <for>
+          <reference value="urn:uuid:pat-p654321"/>
+        </for>
+        <encounter>
+          <reference value="urn:uuid:enc-2"/>
+        </encounter>
+        <executionPeriod>
+          <!-- Culture started when the specimen was received in the lab -->
+          <start value="2026-04-21T14:30:00+02:00"/>
+          <!-- end omitted: culture still in progress -->
+        </executionPeriod>
+        <!-- No output element: Observation does not exist yet -->
+      </Task>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Task"/>
+    </request>
+  </entry>
+
+  <!--
+    ==================================================================================
+    SCENARIO 3: Order placed, nothing started yet — Task status: requested
+
+    Patient Journey in This Example:
+    1. Apr 22, 10:00 - Patient admitted to Nephrology Unit (NEPHRO1)
+    2. Apr 23, 09:00 - VRE screening ordered, specimen collected
+    3. Current       - Task created but lab work not yet started
+
+    Key Points:
+    - ServiceRequest status is "active" (order placed)
+    - Task.status = "requested": the task exists but execution has not begun
+    - No executionPeriod.start yet (nothing has happened in the lab)
+    - No Observation resource (no result)
+    ==================================================================================
+  -->
+
+  <!-- Location: Nephrology Unit -->
+  <entry>
+    <fullUrl value="urn:uuid:loc-nephro1"/>
+    <resource>
+      <Location>
+        <id value="loc-nephro1"/>
+        <identifier>
+          <system value="urn:unit-code"/>
+          <value value="NEPHRO1"/>
+        </identifier>
+        <name value="Service de néphrologie"/>
+      </Location>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Location"/>
+    </request>
+  </entry>
+
+  <!-- Patient P789012 -->
+  <entry>
+    <fullUrl value="urn:uuid:pat-p789012"/>
+    <resource>
+      <Patient>
+        <id value="pat-p789012"/>
+        <identifier>
+          <system value="urn:patient-ref"/>
+          <value value="P789012"/>
+        </identifier>
+        <name>
+          <family value="Martin"/>
+          <given value="Jean"/>
+        </name>
+        <birthDate value="1942-03-22"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Patient"/>
+    </request>
+  </entry>
+
+  <!-- Encounter: hospitalization of P789012 (ongoing) -->
+  <entry>
+    <fullUrl value="urn:uuid:enc-3"/>
+    <resource>
+      <Encounter>
+        <id value="enc-3"/>
+        <status value="in-progress"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/> <!-- inpatient -->
+          </coding>
+        </class>
+        <subject>
+          <reference value="urn:uuid:pat-p789012"/>
+        </subject>
+        <actualPeriod>
+          <start value="2026-04-22T10:00:00+02:00"/>
+          <!-- end omitted because patient is still in hospital -->
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="urn:uuid:loc-nephro1"/>
+            <display value="Service de néphrologie"/>
+          </location>
+          <period>
+            <start value="2026-04-22T10:00:00+02:00"/>
+            <!-- end omitted because patient is still at this location -->
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Encounter"/>
+    </request>
+  </entry>
+
+  <!-- ServiceRequest: VRE screening (active — order placed, nothing started) -->
+  <entry>
+    <fullUrl value="urn:uuid:sr-c789012"/>
+    <resource>
+      <ServiceRequest>
+        <id value="sr-c789012"/>
+        <identifier>
+          <system value="urn:analysis-ref"/>
+          <value value="C789012"/>
+        </identifier>
+        <status value="active"/>
+        <intent value="order"/>
+        <code>
+          <concept>
+            <coding>
+              <system value="https://traquer.org"/>
+              <code value="bacterial_culture_vancomycin_resistant_enterococcus"/>
+              <display value="VRE screen [Presence] in Specimen by Organism specific culture"/>
+            </coding>
+          </concept>
+        </code>
+        <subject>
+          <reference value="urn:uuid:pat-p789012"/>
+        </subject>
+        <encounter>
+          <reference value="urn:uuid:enc-3"/>
+        </encounter>
+        <authoredOn value="2026-04-23T09:00:00+02:00"/>
+        <requester>
+          <reference value="urn:uuid:loc-nephro1"/>
+        </requester>
+        <specimen>
+          <reference value="urn:uuid:spec-c789012"/>
+        </specimen>
+      </ServiceRequest>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="ServiceRequest"/>
+    </request>
+  </entry>
+
+  <!-- Specimen: rectal swab -->
+  <entry>
+    <fullUrl value="urn:uuid:spec-c789012"/>
+    <resource>
+      <Specimen>
+        <id value="spec-c789012"/>
+        <type>
+          <!-- SNOMED: 119376003 = Tissue specimen from rectum (rectal swab) -->
+          <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="119376003"/>
+            <display value="Tissue specimen from rectum"/>
+          </coding>
+          <text value="Rectal swab"/>
+        </type>
+        <subject>
+          <reference value="urn:uuid:pat-p789012"/>
+        </subject>
+        <collection>
+          <collectedDateTime value="2026-04-23T09:00:00+02:00"/>
+        </collection>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Specimen"/>
+    </request>
+  </entry>
+
+  <!-- Task: VRE culture not yet started (requested) -->
+  <!--
+    Task.status = "requested": the task has been created to fulfil the order
+    but no lab work has begun yet. There is no executionPeriod because
+    execution has not started. No output element because no result exists.
+  -->
+  <entry>
+    <fullUrl value="urn:uuid:task-c789012"/>
+    <resource>
+      <Task>
+        <id value="task-c789012"/>
+        <!-- requested: task created, awaiting execution -->
+        <status value="requested"/>
+        <intent value="order"/>
+        <code>
+          <coding>
+            <system value="http://hl7.org/fhir/CodeSystem/task-code"/>
+            <code value="fulfill"/>
+            <display value="Fulfill the focal request"/>
+          </coding>
+        </code>
+        <description value="Bacterial culture for VRE screening — not yet started"/>
+        <focus>
+          <valueReference>
+            <reference value="urn:uuid:sr-c789012"/>
+          </valueReference>
+        </focus>
+        <for>
+          <reference value="urn:uuid:pat-p789012"/>
+        </for>
+        <encounter>
+          <reference value="urn:uuid:enc-3"/>
+        </encounter>
+        <!-- No executionPeriod: lab has not started working on this yet -->
+        <!-- No output element: Observation does not exist yet -->
+      </Task>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Task"/>
     </request>
   </entry>
 

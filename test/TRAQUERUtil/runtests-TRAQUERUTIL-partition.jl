@@ -1,3 +1,5 @@
+include("__prerequisite.jl")
+
 @testset "Test TRAQUERUtil.createTablesPartitionsOnYearMonthForLastYears" begin
 
         TRAQUERUtil.createTablesPartitionsOnYearMonthForLastYears()

@@ -6,11 +6,11 @@ module TRAQUER
 A function that says hello
 """
 function greet()
-  @info "Hello"
+    @info "Hello"
 end
 
 function greet(str::AbstractString)
-  @info "Hello $str"
+    @info "Hello $str"
 end
 
 
@@ -30,7 +30,7 @@ end # module TRAQUERUtil
 
 module Model
     export AnalysisRefCrypt, AnalysisRequest, AnalysisResult, AppuserRoleAsso,
-           ContactExposure, FrontendVersion, InfectiousStatus,
+           ContactExposure, FhirXmlError, FrontendVersion, InfectiousStatus,
            EventRequiringAttention, Modification, Outbreak,
            OutbreakInfectiousStatusAsso, Patient, PatientBirthdateCrypt,
            PatientCurrentStatus, PatientNameCrypt, PatientRefCrypt, Role, RoleRoleAsso,
@@ -60,6 +60,7 @@ module Model
     include("Model/AnalysisResult.jl")
     include("Model/AppuserRoleAsso.jl")
     include("Model/ContactExposure.jl")
+    include("Model/FhirXmlError.jl")
     include("Model/FrontendVersion.jl")
     include("Model/InfectiousStatus.jl")
     include("Model/DeletedInfectiousStatus.jl")
@@ -117,6 +118,11 @@ module ORM
         using ..ORM, ...Model
         using PostgresORM
         include("./ORM/ExposedFunctionORM.jl")
+    end
+    module FhirXmlErrorORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/FhirXmlErrorORM.jl")
     end
     module FrontendVersionORM
         using ..ORM, ...Model
@@ -237,11 +243,17 @@ end  # module ORM
 module Controller
 
   module AppuserCtrl
-    include("Controller/AppuserCtrl/_def.jl")
+      include("Controller/AppuserCtrl/_def.jl")
   end
 
   module ETLCtrl
     include("Controller/ETLCtrl/_def.jl")
+    module FHIR
+        include("Controller/ETLCtrl/FHIR/__def.jl")
+    end
+    module Excel
+        include("Controller/ETLCtrl/Excel/__def.jl")
+    end
   end
 
   module ExposedFunctionCtrl
@@ -368,6 +380,12 @@ include("Controller/AnalysisRequestCtrl/_imp.jl")
 
 # ETLCtrl
 include("Controller/ETLCtrl/_imp.jl")
+
+# ETLCtrl.FHIR
+include("Controller/ETLCtrl/FHIR/__imp.jl")
+
+# ETLCtrl.Excel
+include("Controller/ETLCtrl/Excel/__imp.jl")
 
 # ExposedFunctionCtrl
 include("Controller/ExposedFunctionCtrl/_imp.jl")

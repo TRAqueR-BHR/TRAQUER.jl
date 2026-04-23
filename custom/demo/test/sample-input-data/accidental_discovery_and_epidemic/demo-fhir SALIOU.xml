@@ -1,0 +1,4047 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Bundle xmlns="http://hl7.org/fhir">
+  <type value="transaction"/>
+  <entry>
+    <fullUrl value="urn:uuid:org-demo"/>
+    <resource>
+      <Organization>
+        <id value="org-demo"/>
+        <name value="Demo Hospital"/>
+      </Organization>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Organization/org-demo"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-26"/>
+    <resource>
+      <Patient>
+        <id value="patient-26"/>
+        <identifier>
+          <value value="26"/>
+        </identifier>
+        <name>
+          <family value="FREMONT"/>
+          <given value="Béatrice"/>
+        </name>
+        <birthDate value="2000-02-02"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-26"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-5"/>
+    <resource>
+      <Patient>
+        <id value="patient-5"/>
+        <identifier>
+          <value value="5"/>
+        </identifier>
+        <name>
+          <family value="LEGRAND"/>
+          <given value="Anne"/>
+        </name>
+        <birthDate value="1984-05-13"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-5"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-20"/>
+    <resource>
+      <Patient>
+        <id value="patient-20"/>
+        <identifier>
+          <value value="20"/>
+        </identifier>
+        <name>
+          <family value="CALVI"/>
+          <given value="Yves"/>
+        </name>
+        <birthDate value="1951-08-25"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-20"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-12"/>
+    <resource>
+      <Patient>
+        <id value="patient-12"/>
+        <identifier>
+          <value value="12"/>
+        </identifier>
+        <name>
+          <family value="GOACHET"/>
+          <given value="Annie"/>
+        </name>
+        <birthDate value="1979-11-06"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-12"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-27"/>
+    <resource>
+      <Patient>
+        <id value="patient-27"/>
+        <identifier>
+          <value value="27"/>
+        </identifier>
+        <name>
+          <family value="KA"/>
+          <given value="Pauline"/>
+        </name>
+        <birthDate value="1980-08-19"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-27"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-33"/>
+    <resource>
+      <Patient>
+        <id value="patient-33"/>
+        <identifier>
+          <value value="33"/>
+        </identifier>
+        <name>
+          <family value="DIVI"/>
+          <given value="Cornec"/>
+        </name>
+        <birthDate value="1982-09-09"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-33"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-8"/>
+    <resource>
+      <Patient>
+        <id value="patient-8"/>
+        <identifier>
+          <value value="8"/>
+        </identifier>
+        <name>
+          <family value="BARON"/>
+          <given value="Raoul"/>
+        </name>
+        <birthDate value="1965-03-07"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-8"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-29"/>
+    <resource>
+      <Patient>
+        <id value="patient-29"/>
+        <identifier>
+          <value value="29"/>
+        </identifier>
+        <name>
+          <family value="AURIOL"/>
+          <given value="Louis"/>
+        </name>
+        <birthDate value="1985-09-03"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-29"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-17"/>
+    <resource>
+      <Patient>
+        <id value="patient-17"/>
+        <identifier>
+          <value value="17"/>
+        </identifier>
+        <name>
+          <family value="PERCHE"/>
+          <given value="Alexandre"/>
+        </name>
+        <birthDate value="1942-05-11"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-17"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-14"/>
+    <resource>
+      <Patient>
+        <id value="patient-14"/>
+        <identifier>
+          <value value="14"/>
+        </identifier>
+        <name>
+          <family value="CULIER"/>
+          <given value="Gérard"/>
+        </name>
+        <birthDate value="1939-12-12"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-14"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-36"/>
+    <resource>
+      <Patient>
+        <id value="patient-36"/>
+        <identifier>
+          <value value="36"/>
+        </identifier>
+        <name>
+          <family value="TATIN"/>
+          <given value="Laura"/>
+        </name>
+        <birthDate value="1957-05-03"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-36"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-13"/>
+    <resource>
+      <Patient>
+        <id value="patient-13"/>
+        <identifier>
+          <value value="13"/>
+        </identifier>
+        <name>
+          <family value="BIHAN"/>
+          <given value="Bruno"/>
+        </name>
+        <birthDate value="1954-03-23"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-13"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-1"/>
+    <resource>
+      <Patient>
+        <id value="patient-1"/>
+        <identifier>
+          <value value="1"/>
+        </identifier>
+        <name>
+          <family value="ORVILIER"/>
+          <given value="Pierre"/>
+        </name>
+        <birthDate value="1953-12-09"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-1"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-10"/>
+    <resource>
+      <Patient>
+        <id value="patient-10"/>
+        <identifier>
+          <value value="10"/>
+        </identifier>
+        <name>
+          <family value="TROMEUR"/>
+          <given value="Paul"/>
+        </name>
+        <birthDate value="1968-10-24"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-10"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-19"/>
+    <resource>
+      <Patient>
+        <id value="patient-19"/>
+        <identifier>
+          <value value="19"/>
+        </identifier>
+        <name>
+          <family value="RAIMU"/>
+          <given value="Thomas"/>
+        </name>
+        <birthDate value="1957-08-14"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-19"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-6"/>
+    <resource>
+      <Patient>
+        <id value="patient-6"/>
+        <identifier>
+          <value value="6"/>
+        </identifier>
+        <name>
+          <family value="LEGOFF"/>
+          <given value="Alain"/>
+        </name>
+        <birthDate value="1954-08-14"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-6"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-21"/>
+    <resource>
+      <Patient>
+        <id value="patient-21"/>
+        <identifier>
+          <value value="21"/>
+        </identifier>
+        <name>
+          <family value="MONDOR"/>
+          <given value="Henri"/>
+        </name>
+        <birthDate value="1988-05-11"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-21"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-23"/>
+    <resource>
+      <Patient>
+        <id value="patient-23"/>
+        <identifier>
+          <value value="23"/>
+        </identifier>
+        <name>
+          <family value="DEFRISE"/>
+          <given value="Estelle"/>
+        </name>
+        <birthDate value="2000-12-24"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-23"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-15"/>
+    <resource>
+      <Patient>
+        <id value="patient-15"/>
+        <identifier>
+          <value value="15"/>
+        </identifier>
+        <name>
+          <family value="FLEUR"/>
+          <given value="Elianne"/>
+        </name>
+        <birthDate value="1985-07-14"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-15"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-24"/>
+    <resource>
+      <Patient>
+        <id value="patient-24"/>
+        <identifier>
+          <value value="24"/>
+        </identifier>
+        <name>
+          <family value="LEROY"/>
+          <given value="Albert"/>
+        </name>
+        <birthDate value="1990-05-18"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-24"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-11"/>
+    <resource>
+      <Patient>
+        <id value="patient-11"/>
+        <identifier>
+          <value value="11"/>
+        </identifier>
+        <name>
+          <family value="KERMARREC"/>
+          <given value="Etienne"/>
+        </name>
+        <birthDate value="1985-04-15"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-11"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-18"/>
+    <resource>
+      <Patient>
+        <id value="patient-18"/>
+        <identifier>
+          <value value="18"/>
+        </identifier>
+        <name>
+          <family value="GUMOT"/>
+          <given value="Clarence"/>
+        </name>
+        <birthDate value="1989-02-19"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-18"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-37"/>
+    <resource>
+      <Patient>
+        <id value="patient-37"/>
+        <identifier>
+          <value value="37"/>
+        </identifier>
+        <name>
+          <family value="HENRY"/>
+          <given value="Pierre"/>
+        </name>
+        <birthDate value="1984-04-12"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-37"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-31"/>
+    <resource>
+      <Patient>
+        <id value="patient-31"/>
+        <identifier>
+          <value value="31"/>
+        </identifier>
+        <name>
+          <family value="EDERSSON"/>
+          <given value="Helene"/>
+        </name>
+        <birthDate value="1986-07-14"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-31"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-9"/>
+    <resource>
+      <Patient>
+        <id value="patient-9"/>
+        <identifier>
+          <value value="9"/>
+        </identifier>
+        <name>
+          <family value="MARTIN"/>
+          <given value="Nicolas"/>
+        </name>
+        <birthDate value="1949-11-06"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-9"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-34"/>
+    <resource>
+      <Patient>
+        <id value="patient-34"/>
+        <identifier>
+          <value value="34"/>
+        </identifier>
+        <name>
+          <family value="RENFLIER"/>
+          <given value="Kévin"/>
+        </name>
+        <birthDate value="1999-08-15"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-34"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-16"/>
+    <resource>
+      <Patient>
+        <id value="patient-16"/>
+        <identifier>
+          <value value="16"/>
+        </identifier>
+        <name>
+          <family value="CABON"/>
+          <given value="Solenn"/>
+        </name>
+        <birthDate value="1972-04-08"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-16"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:patient-7"/>
+    <resource>
+      <Patient>
+        <id value="patient-7"/>
+        <identifier>
+          <value value="7"/>
+        </identifier>
+        <name>
+          <family value="MEUR"/>
+          <given value="Pierre"/>
+        </name>
+        <birthDate value="1978-07-11"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-7"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:loc-rea"/>
+    <resource>
+      <Location>
+        <id value="loc-rea"/>
+        <identifier>
+          <value value="rea"/>
+        </identifier>
+        <name value="Réanimation"/>
+        <managingOrganization>
+          <reference value="Organization/org-demo"/>
+        </managingOrganization>
+      </Location>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Location/loc-rea"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:loc-chir-vis"/>
+    <resource>
+      <Location>
+        <id value="loc-chir-vis"/>
+        <identifier>
+          <value value="chir vis"/>
+        </identifier>
+        <name value="chirurgie viscérale"/>
+        <managingOrganization>
+          <reference value="Organization/org-demo"/>
+        </managingOrganization>
+      </Location>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Location/loc-chir-vis"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:loc-urg"/>
+    <resource>
+      <Location>
+        <id value="loc-urg"/>
+        <identifier>
+          <value value="urg"/>
+        </identifier>
+        <name value="Urgences"/>
+        <managingOrganization>
+          <reference value="Organization/org-demo"/>
+        </managingOrganization>
+      </Location>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Location/loc-urg"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:loc-cardio"/>
+    <resource>
+      <Location>
+        <id value="loc-cardio"/>
+        <identifier>
+          <value value="cardio"/>
+        </identifier>
+        <name value="Cardiologie"/>
+        <managingOrganization>
+          <reference value="Organization/org-demo"/>
+        </managingOrganization>
+      </Location>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Location/loc-cardio"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:loc-ortho"/>
+    <resource>
+      <Location>
+        <id value="loc-ortho"/>
+        <identifier>
+          <value value="ortho"/>
+        </identifier>
+        <name value="Orthopédie"/>
+        <managingOrganization>
+          <reference value="Organization/org-demo"/>
+        </managingOrganization>
+      </Location>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Location/loc-ortho"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:loc-SSR"/>
+    <resource>
+      <Location>
+        <id value="loc-SSR"/>
+        <identifier>
+          <value value="SSR"/>
+        </identifier>
+        <name value="Soins de suite"/>
+        <managingOrganization>
+          <reference value="Organization/org-demo"/>
+        </managingOrganization>
+      </Location>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Location/loc-SSR"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-1"/>
+    <resource>
+      <Encounter>
+        <id value="enc-1"/>
+        <status value="in-progress"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-26"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-04-04T10:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-rea"/>
+            <display value="Réanimation"/>
+          </location>
+          <period>
+            <start value="2022-04-04T10:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-1"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-2"/>
+    <resource>
+      <Encounter>
+        <id value="enc-2"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-5"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-04-24T09:00:00+02:00"/>
+          <end value="2022-06-12T10:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-04-24T09:00:00+02:00"/>
+            <end value="2022-06-12T10:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-2"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-3"/>
+    <resource>
+      <Encounter>
+        <id value="enc-3"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-20"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-04-24T11:00:00+02:00"/>
+          <end value="2022-06-01T11:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-04-24T11:00:00+02:00"/>
+            <end value="2022-06-01T11:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-3"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-4"/>
+    <resource>
+      <Encounter>
+        <id value="enc-4"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-12"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-04-24T10:00:00+02:00"/>
+          <end value="2022-07-13T11:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-04-25T10:00:00+02:00"/>
+            <end value="2022-07-13T11:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-4"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-5"/>
+    <resource>
+      <Encounter>
+        <id value="enc-5"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-27"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-04-27T10:00:00+02:00"/>
+          <end value="2022-05-17T10:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-rea"/>
+            <display value="Réanimation"/>
+          </location>
+          <period>
+            <start value="2022-04-27T10:00:00+02:00"/>
+            <end value="2022-05-12T00:00:00+02:00"/>
+          </period>
+        </location>
+        <location>
+          <location>
+            <reference value="Location/loc-cardio"/>
+            <display value="Cardiologie"/>
+          </location>
+          <period>
+            <start value="2022-05-12T00:00:00+02:00"/>
+            <end value="2022-05-17T10:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-5"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-6"/>
+    <resource>
+      <Encounter>
+        <id value="enc-6"/>
+        <status value="in-progress"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-33"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-04-29T10:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-rea"/>
+            <display value="Réanimation"/>
+          </location>
+          <period>
+            <start value="2022-04-29T10:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-6"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-7"/>
+    <resource>
+      <Encounter>
+        <id value="enc-7"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-8"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-04-30T09:00:00+02:00"/>
+          <end value="2022-05-13T10:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-04-30T09:00:00+02:00"/>
+            <end value="2022-05-13T10:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-7"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-8"/>
+    <resource>
+      <Encounter>
+        <id value="enc-8"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-29"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-01T11:00:00+02:00"/>
+          <end value="2022-06-15T09:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-rea"/>
+            <display value="Réanimation"/>
+          </location>
+          <period>
+            <start value="2022-05-01T11:00:00+02:00"/>
+            <end value="2022-05-24T10:00:00+02:00"/>
+          </period>
+        </location>
+        <location>
+          <location>
+            <reference value="Location/loc-SSR"/>
+            <display value="Soins de suite"/>
+          </location>
+          <period>
+            <start value="2022-05-24T10:00:00+02:00"/>
+            <end value="2022-06-15T09:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-8"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-9"/>
+    <resource>
+      <Encounter>
+        <id value="enc-9"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-17"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-03T10:00:00+02:00"/>
+          <end value="2022-05-27T14:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-03T10:00:00+02:00"/>
+            <end value="2022-05-27T14:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-9"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-10"/>
+    <resource>
+      <Encounter>
+        <id value="enc-10"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-14"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-03T20:00:00+02:00"/>
+          <end value="2022-05-19T11:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-03T20:00:00+02:00"/>
+            <end value="2022-05-19T11:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-10"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-11"/>
+    <resource>
+      <Encounter>
+        <id value="enc-11"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-36"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-04T09:00:00+02:00"/>
+          <end value="2022-05-17T11:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-rea"/>
+            <display value="Réanimation"/>
+          </location>
+          <period>
+            <start value="2022-05-04T09:00:00+02:00"/>
+            <end value="2022-05-17T11:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-11"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-12"/>
+    <resource>
+      <Encounter>
+        <id value="enc-12"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-13"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-04T10:00:00+02:00"/>
+          <end value="2022-05-11T09:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-04T10:00:00+02:00"/>
+            <end value="2022-05-11T09:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-12"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-13"/>
+    <resource>
+      <Encounter>
+        <id value="enc-13"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-1"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-04T11:00:00+02:00"/>
+          <end value="2022-05-26T10:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-urg"/>
+            <display value="Urgences"/>
+          </location>
+          <period>
+            <start value="2022-05-04T11:00:00+02:00"/>
+            <end value="2022-05-04T17:00:00+02:00"/>
+          </period>
+        </location>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-04T17:00:00+02:00"/>
+            <end value="2022-05-05T16:00:00+02:00"/>
+          </period>
+        </location>
+        <location>
+          <location>
+            <reference value="Location/loc-rea"/>
+            <display value="Réanimation"/>
+          </location>
+          <period>
+            <start value="2022-05-05T16:00:00+02:00"/>
+            <end value="2022-05-15T11:00:00+02:00"/>
+          </period>
+        </location>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-15T11:00:00+02:00"/>
+            <end value="2022-05-26T10:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-13"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-14"/>
+    <resource>
+      <Encounter>
+        <id value="enc-14"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-10"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-04T11:00:00+02:00"/>
+          <end value="2022-05-14T10:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-04T11:00:00+02:00"/>
+            <end value="2022-05-14T10:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-14"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-15"/>
+    <resource>
+      <Encounter>
+        <id value="enc-15"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-19"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-04T11:00:00+02:00"/>
+          <end value="2022-05-30T11:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-04T11:00:00+02:00"/>
+            <end value="2022-05-30T11:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-15"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-16"/>
+    <resource>
+      <Encounter>
+        <id value="enc-16"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-6"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-06T22:22:00+02:00"/>
+          <end value="2022-05-17T10:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-07T10:00:00+02:00"/>
+            <end value="2022-05-17T10:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-16"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-17"/>
+    <resource>
+      <Encounter>
+        <id value="enc-17"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-21"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-07T10:00:00+02:00"/>
+          <end value="2022-05-28T11:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-rea"/>
+            <display value="Réanimation"/>
+          </location>
+          <period>
+            <start value="2022-05-07T10:00:00+02:00"/>
+            <end value="2022-05-20T14:00:00+02:00"/>
+          </period>
+        </location>
+        <location>
+          <location>
+            <reference value="Location/loc-cardio"/>
+            <display value="cardiologie"/>
+          </location>
+          <period>
+            <start value="2022-05-20T14:00:00+02:00"/>
+            <end value="2022-05-28T11:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-17"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-18"/>
+    <resource>
+      <Encounter>
+        <id value="enc-18"/>
+        <status value="in-progress"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-23"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-08T11:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-rea"/>
+            <display value="Réanimation"/>
+          </location>
+          <period>
+            <start value="2022-05-08T11:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-18"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-19"/>
+    <resource>
+      <Encounter>
+        <id value="enc-19"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-15"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-07T11:00:00+02:00"/>
+          <end value="2022-06-22T14:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-09T11:00:00+02:00"/>
+            <end value="2022-06-11T14:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-19"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-20"/>
+    <resource>
+      <Encounter>
+        <id value="enc-20"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-24"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-11T00:00:00+02:00"/>
+          <end value="2022-05-27T10:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-rea"/>
+            <display value="Réanimation"/>
+          </location>
+          <period>
+            <start value="2022-05-11T00:00:00+02:00"/>
+            <end value="2022-05-14T15:00:00+02:00"/>
+          </period>
+        </location>
+        <location>
+          <location>
+            <reference value="Location/loc-ortho"/>
+            <display value="Orthopédie"/>
+          </location>
+          <period>
+            <start value="2022-05-14T10:00:00+02:00"/>
+            <end value="2022-05-27T10:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-20"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-21"/>
+    <resource>
+      <Encounter>
+        <id value="enc-21"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-11"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-11T10:00:00+02:00"/>
+          <end value="2022-06-06T10:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-11T10:00:00+02:00"/>
+            <end value="2022-06-06T10:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-21"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-22"/>
+    <resource>
+      <Encounter>
+        <id value="enc-22"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-18"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-11T11:00:00+02:00"/>
+          <end value="2022-05-18T17:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-11T11:00:00+02:00"/>
+            <end value="2022-05-18T17:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-22"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-23"/>
+    <resource>
+      <Encounter>
+        <id value="enc-23"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-37"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-11T17:00:00+02:00"/>
+          <end value="2022-06-03T11:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-rea"/>
+            <display value="Réanimation"/>
+          </location>
+          <period>
+            <start value="2022-05-11T17:00:00+02:00"/>
+            <end value="2022-05-22T17:00:00+02:00"/>
+          </period>
+        </location>
+        <location>
+          <location>
+            <reference value="Location/loc-SSR"/>
+            <display value="Soins de suite"/>
+          </location>
+          <period>
+            <start value="2022-05-22T17:00:00+02:00"/>
+            <end value="2022-06-03T11:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-23"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-24"/>
+    <resource>
+      <Encounter>
+        <id value="enc-24"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-31"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-11T22:00:00+02:00"/>
+          <end value="2022-05-29T11:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-rea"/>
+            <display value="Réanimation"/>
+          </location>
+          <period>
+            <start value="2022-05-11T22:00:00+02:00"/>
+            <end value="2022-05-16T11:00:00+02:00"/>
+          </period>
+        </location>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-16T11:00:00+02:00"/>
+            <end value="2022-05-29T11:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-24"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-25"/>
+    <resource>
+      <Encounter>
+        <id value="enc-25"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-9"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-11T10:00:00+02:00"/>
+          <end value="2022-05-25T10:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-13T10:00:00+02:00"/>
+            <end value="2022-05-25T10:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-25"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-26"/>
+    <resource>
+      <Encounter>
+        <id value="enc-26"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-34"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-13T23:00:00+02:00"/>
+          <end value="2022-06-05T07:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-rea"/>
+            <display value="Réanimation"/>
+          </location>
+          <period>
+            <start value="2022-05-13T23:00:00+02:00"/>
+            <end value="2022-05-30T11:00:00+02:00"/>
+          </period>
+        </location>
+        <location>
+          <location>
+            <reference value="Location/loc-ortho"/>
+            <display value="Orthopédie"/>
+          </location>
+          <period>
+            <start value="2022-05-30T11:00:00+02:00"/>
+            <end value="2022-06-05T07:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-26"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-27"/>
+    <resource>
+      <Encounter>
+        <id value="enc-27"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-16"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-05-15T10:00:00+02:00"/>
+          <end value="2022-05-20T15:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-15T10:00:00+02:00"/>
+            <end value="2022-05-20T15:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-27"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-28"/>
+    <resource>
+      <Encounter>
+        <id value="enc-28"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="Patient/patient-7"/>
+        </subject>
+        <serviceProvider>
+          <reference value="Organization/org-demo"/>
+        </serviceProvider>
+        <actualPeriod>
+          <start value="2022-07-18T10:00:00+02:00"/>
+          <end value="2022-07-24T09:00:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="Location/loc-chir-vis"/>
+            <display value="chirurgie viscérale"/>
+          </location>
+          <period>
+            <start value="2022-05-18T10:00:00+02:00"/>
+            <end value="2022-07-24T09:00:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-28"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-1"/>
+    <resource>
+      <Specimen>
+        <id value="spec-1"/>
+        <identifier>
+          <value value="1"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-29"/>
+        </subject>
+        <receivedTime value="2022-05-02"/>
+        <collection>
+          <collectedDateTime value="2022-05-02"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-01"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-1"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-2"/>
+    <resource>
+      <Specimen>
+        <id value="spec-2"/>
+        <identifier>
+          <value value="2"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-1"/>
+        </subject>
+        <receivedTime value="2022-05-08T17:00:00+02:00"/>
+        <collection>
+          <collectedDateTime value="2022-05-08T17:00:00+02:00"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-08T17:00:00+02:00"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-2"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-3"/>
+    <resource>
+      <Specimen>
+        <id value="spec-3"/>
+        <identifier>
+          <value value="3"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-5"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-3"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-4"/>
+    <resource>
+      <Specimen>
+        <id value="spec-4"/>
+        <identifier>
+          <value value="4"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-6"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-4"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-5"/>
+    <resource>
+      <Specimen>
+        <id value="spec-5"/>
+        <identifier>
+          <value value="5"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-8"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-5"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-6"/>
+    <resource>
+      <Specimen>
+        <id value="spec-6"/>
+        <identifier>
+          <value value="6"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-10"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-6"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-7"/>
+    <resource>
+      <Specimen>
+        <id value="spec-7"/>
+        <identifier>
+          <value value="7"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-12"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-7"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-8"/>
+    <resource>
+      <Specimen>
+        <id value="spec-8"/>
+        <identifier>
+          <value value="8"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-13"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-8"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-9"/>
+    <resource>
+      <Specimen>
+        <id value="spec-9"/>
+        <identifier>
+          <value value="9"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-14"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-9"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-10"/>
+    <resource>
+      <Specimen>
+        <id value="spec-10"/>
+        <identifier>
+          <value value="10"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-15"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-10"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-11"/>
+    <resource>
+      <Specimen>
+        <id value="spec-11"/>
+        <identifier>
+          <value value="11"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-17"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-11"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-12"/>
+    <resource>
+      <Specimen>
+        <id value="spec-12"/>
+        <identifier>
+          <value value="12"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-19"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-12"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-13"/>
+    <resource>
+      <Specimen>
+        <id value="spec-13"/>
+        <identifier>
+          <value value="13"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-20"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-13"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-14"/>
+    <resource>
+      <Specimen>
+        <id value="spec-14"/>
+        <identifier>
+          <value value="14"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-21"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-14"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-15"/>
+    <resource>
+      <Specimen>
+        <id value="spec-15"/>
+        <identifier>
+          <value value="15"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-23"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-15"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-16"/>
+    <resource>
+      <Specimen>
+        <id value="spec-16"/>
+        <identifier>
+          <value value="16"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-26"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-16"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-17"/>
+    <resource>
+      <Specimen>
+        <id value="spec-17"/>
+        <identifier>
+          <value value="17"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-27"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-17"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-18"/>
+    <resource>
+      <Specimen>
+        <id value="spec-18"/>
+        <identifier>
+          <value value="18"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-29"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-18"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-19"/>
+    <resource>
+      <Specimen>
+        <id value="spec-19"/>
+        <identifier>
+          <value value="19"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-33"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-19"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-20"/>
+    <resource>
+      <Specimen>
+        <id value="spec-20"/>
+        <identifier>
+          <value value="20"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-36"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-10"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-20"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-21"/>
+    <resource>
+      <Specimen>
+        <id value="spec-21"/>
+        <identifier>
+          <value value="21"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-24"/>
+        </subject>
+        <receivedTime value="2022-05-11"/>
+        <collection>
+          <collectedDateTime value="2022-05-11"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-11"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-21"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-22"/>
+    <resource>
+      <Specimen>
+        <id value="spec-22"/>
+        <identifier>
+          <value value="22"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-31"/>
+        </subject>
+        <receivedTime value="2022-05-12"/>
+        <collection>
+          <collectedDateTime value="2022-05-12"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-11"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-22"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-23"/>
+    <resource>
+      <Specimen>
+        <id value="spec-23"/>
+        <identifier>
+          <value value="23"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-37"/>
+        </subject>
+        <receivedTime value="2022-05-12"/>
+        <collection>
+          <collectedDateTime value="2022-05-12"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-11"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-23"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-24"/>
+    <resource>
+      <Specimen>
+        <id value="spec-24"/>
+        <identifier>
+          <value value="24"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-34"/>
+        </subject>
+        <receivedTime value="2022-05-14"/>
+        <collection>
+          <collectedDateTime value="2022-05-14"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-13"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-24"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-25"/>
+    <resource>
+      <Specimen>
+        <id value="spec-25"/>
+        <identifier>
+          <value value="25"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-27"/>
+        </subject>
+        <receivedTime value="2022-05-16"/>
+        <collection>
+          <collectedDateTime value="2022-05-16"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-16"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-25"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-26"/>
+    <resource>
+      <Specimen>
+        <id value="spec-26"/>
+        <identifier>
+          <value value="26"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-18"/>
+        </subject>
+        <receivedTime value="2022-05-17"/>
+        <collection>
+          <collectedDateTime value="2022-05-17"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-17"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-26"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-27"/>
+    <resource>
+      <Specimen>
+        <id value="spec-27"/>
+        <identifier>
+          <value value="27"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-7"/>
+        </subject>
+        <receivedTime value="2022-05-20"/>
+        <collection>
+          <collectedDateTime value="2022-05-20"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-20"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-27"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-28"/>
+    <resource>
+      <Specimen>
+        <id value="spec-28"/>
+        <identifier>
+          <value value="28"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-9"/>
+        </subject>
+        <receivedTime value="2022-05-20"/>
+        <collection>
+          <collectedDateTime value="2022-05-20"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-20"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-28"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-29"/>
+    <resource>
+      <Specimen>
+        <id value="spec-29"/>
+        <identifier>
+          <value value="29"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-11"/>
+        </subject>
+        <receivedTime value="2022-05-20"/>
+        <collection>
+          <collectedDateTime value="2022-05-20"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-20"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-29"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-30"/>
+    <resource>
+      <Specimen>
+        <id value="spec-30"/>
+        <identifier>
+          <value value="30"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-16"/>
+        </subject>
+        <receivedTime value="2022-05-20"/>
+        <collection>
+          <collectedDateTime value="2022-05-20"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-20"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-30"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-31"/>
+    <resource>
+      <Specimen>
+        <id value="spec-31"/>
+        <identifier>
+          <value value="31"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-21"/>
+        </subject>
+        <receivedTime value="2022-05-20"/>
+        <collection>
+          <collectedDateTime value="2022-05-20"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-20"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-31"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-32"/>
+    <resource>
+      <Specimen>
+        <id value="spec-32"/>
+        <identifier>
+          <value value="32"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-24"/>
+        </subject>
+        <receivedTime value="2022-05-20"/>
+        <collection>
+          <collectedDateTime value="2022-05-20"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-20"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-32"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-33"/>
+    <resource>
+      <Specimen>
+        <id value="spec-33"/>
+        <identifier>
+          <value value="33"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-31"/>
+        </subject>
+        <receivedTime value="2022-05-20"/>
+        <collection>
+          <collectedDateTime value="2022-05-20"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-20"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-33"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-34"/>
+    <resource>
+      <Specimen>
+        <id value="spec-34"/>
+        <identifier>
+          <value value="34"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-37"/>
+        </subject>
+        <receivedTime value="2022-05-20"/>
+        <collection>
+          <collectedDateTime value="2022-05-20"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-05-20"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-34"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-35"/>
+    <resource>
+      <Specimen>
+        <id value="spec-35"/>
+        <identifier>
+          <value value="35"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-34"/>
+        </subject>
+        <receivedTime value="2022-06-01"/>
+        <collection>
+          <collectedDateTime value="2022-06-01"/>
+        </collection>
+        <processing>
+          <description value="Validation du résultat"/>
+          <timeDateTime value="2022-06-01"/>
+        </processing>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-35"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-1"/>
+    <resource>
+      <Observation>
+        <id value="obs-1"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-29"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-8"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-01"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-1"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-1"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-2"/>
+    <resource>
+      <Observation>
+        <id value="obs-2"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-1"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-13"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-08T17:00:00+02:00"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="POS"/>
+            <display value="Positive"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-2"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-2"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-3"/>
+    <resource>
+      <Observation>
+        <id value="obs-3"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-5"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-2"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-3"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-3"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-4"/>
+    <resource>
+      <Observation>
+        <id value="obs-4"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-6"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-16"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-4"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-4"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-5"/>
+    <resource>
+      <Observation>
+        <id value="obs-5"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-8"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-7"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-5"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-5"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-6"/>
+    <resource>
+      <Observation>
+        <id value="obs-6"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-10"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-14"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-6"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-6"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-7"/>
+    <resource>
+      <Observation>
+        <id value="obs-7"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-12"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-4"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-7"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-7"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-8"/>
+    <resource>
+      <Observation>
+        <id value="obs-8"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-13"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-12"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-8"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-8"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-9"/>
+    <resource>
+      <Observation>
+        <id value="obs-9"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-14"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-10"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="POS"/>
+            <display value="Positive"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-9"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-9"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-10"/>
+    <resource>
+      <Observation>
+        <id value="obs-10"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-15"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-19"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-10"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-10"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-11"/>
+    <resource>
+      <Observation>
+        <id value="obs-11"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-17"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-9"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-11"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-11"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-12"/>
+    <resource>
+      <Observation>
+        <id value="obs-12"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-19"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-15"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-12"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-12"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-13"/>
+    <resource>
+      <Observation>
+        <id value="obs-13"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-20"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-3"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-13"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-13"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-14"/>
+    <resource>
+      <Observation>
+        <id value="obs-14"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-21"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-17"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-14"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-14"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-15"/>
+    <resource>
+      <Observation>
+        <id value="obs-15"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-23"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-18"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-15"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-15"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-16"/>
+    <resource>
+      <Observation>
+        <id value="obs-16"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-26"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-1"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-16"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-16"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-17"/>
+    <resource>
+      <Observation>
+        <id value="obs-17"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-27"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-5"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-17"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-17"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-18"/>
+    <resource>
+      <Observation>
+        <id value="obs-18"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-29"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-8"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-18"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-18"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-19"/>
+    <resource>
+      <Observation>
+        <id value="obs-19"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-33"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-6"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-19"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-19"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-20"/>
+    <resource>
+      <Observation>
+        <id value="obs-20"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-36"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-11"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-10"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-20"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-20"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-21"/>
+    <resource>
+      <Observation>
+        <id value="obs-21"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-24"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-20"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-11"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-21"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-21"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-22"/>
+    <resource>
+      <Observation>
+        <id value="obs-22"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-31"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-24"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-11"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-22"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-22"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-23"/>
+    <resource>
+      <Observation>
+        <id value="obs-23"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-37"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-23"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-11"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-23"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-23"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-24"/>
+    <resource>
+      <Observation>
+        <id value="obs-24"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-34"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-26"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-13"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-24"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-24"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-25"/>
+    <resource>
+      <Observation>
+        <id value="obs-25"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-27"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-5"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-16"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-25"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-25"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-26"/>
+    <resource>
+      <Observation>
+        <id value="obs-26"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-18"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-22"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-17"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-26"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-26"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-27"/>
+    <resource>
+      <Observation>
+        <id value="obs-27"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-7"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-28"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-20"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-27"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-27"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-28"/>
+    <resource>
+      <Observation>
+        <id value="obs-28"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-9"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-25"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-20"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-28"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-28"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-29"/>
+    <resource>
+      <Observation>
+        <id value="obs-29"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-11"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-21"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-20"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-29"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-29"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-30"/>
+    <resource>
+      <Observation>
+        <id value="obs-30"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-16"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-27"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-20"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-30"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-30"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-31"/>
+    <resource>
+      <Observation>
+        <id value="obs-31"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-21"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-17"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-20"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-31"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-31"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-32"/>
+    <resource>
+      <Observation>
+        <id value="obs-32"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-24"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-20"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-20"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-32"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-32"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-33"/>
+    <resource>
+      <Observation>
+        <id value="obs-33"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-31"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-24"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-20"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-33"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-33"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-34"/>
+    <resource>
+      <Observation>
+        <id value="obs-34"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-37"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-23"/>
+        </encounter>
+        <effectiveDateTime value="2022-05-20"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="NEG"/>
+            <display value="Negative"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-34"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-34"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:obs-35"/>
+    <resource>
+      <Observation>
+        <id value="obs-35"/>
+        <status value="final"/>
+        <code>
+          <text value="stool"/>
+        </code>
+        <subject>
+          <reference value="Patient/patient-34"/>
+        </subject>
+        <encounter>
+          <reference value="Encounter/enc-26"/>
+        </encounter>
+        <effectiveDateTime value="2022-06-01"/>
+        <interpretation>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"/>
+            <code value="POS"/>
+            <display value="Positive"/>
+          </coding>
+        </interpretation>
+        <specimen>
+          <reference value="Specimen/spec-35"/>
+        </specimen>
+      </Observation>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Observation/obs-35"/>
+    </request>
+  </entry>
+</Bundle>

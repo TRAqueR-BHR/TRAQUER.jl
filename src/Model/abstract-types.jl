@@ -16,6 +16,7 @@ abstract type IPatientNameCrypt <: IEntity end
 abstract type IAnalysisRequest <: IEntity end
 abstract type IUnit <: IEntity end
 abstract type IModification <: IEntity end
+abstract type IFhirXmlError <: IEntity end
 abstract type IExposedFunction <: IEntity end
 abstract type IWebApiUsage <: IEntity end
 abstract type IScheduledTaskExecution <: IEntity end
