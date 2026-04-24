@@ -84,28 +84,6 @@
     </request>
   </entry>
 
-  <!-- Location: Room 302 in Sector 2 -->
-  <entry>
-    <fullUrl value="urn:uuid:loc-room302"/>
-    <resource>
-      <Location>
-        <id value="loc-room302"/>
-        <identifier>
-          <system value="urn:room-code"/>
-          <value value="REA1-S2-302"/>
-        </identifier>
-        <name value="Chambre 302"/>
-        <partOf>
-          <reference value="urn:uuid:loc-rea1-sector2"/>
-        </partOf>
-      </Location>
-    </resource>
-    <request>
-      <method value="POST"/>
-      <url value="Location"/>
-    </request>
-  </entry>
-
   <!-- Patient P123456 -->
   <entry>
     <fullUrl value="urn:uuid:pat-p123456"/>
@@ -164,12 +142,23 @@
             <end value="2024-10-01T08:00:00+02:00"/>
           </period>
         </location>
-        <!-- Second location: ICU REA1, Room 302 (current location) -->
+        <!-- Second location: ICU REA1, Sector 2, Room 302 (current location) -->
         <location>
           <location>
-            <reference value="urn:uuid:loc-room302"/>
-            <display value="Chambre 302, Secteur 2, REA1"/>
+            <reference value="urn:uuid:loc-rea1-sector2"/>
+            <display value="Secteur 2, REA1"/>
           </location>
+          <!-- form: explicitly marks this location entry as a room using the standard
+               location-physical-type coding system. The text value carries the room
+               identifier as known in the source system. -->
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="302"/>
+          </form>
           <period>
             <start value="2024-10-01T08:00:00+02:00"/>
             <!-- end omitted because patient is still at this location -->
