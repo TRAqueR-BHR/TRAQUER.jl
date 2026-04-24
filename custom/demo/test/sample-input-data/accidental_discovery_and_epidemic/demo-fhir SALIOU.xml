@@ -714,6 +714,14 @@
             <reference value="Location/loc-rea"/>
             <display value="Réanimation"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z6"/>
+          </form>
           <period>
             <start value="2022-04-04T10:00:00+02:00"/>
           </period>
@@ -752,6 +760,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A01"/>
+          </form>
           <period>
             <start value="2022-04-24T09:00:00+02:00"/>
             <end value="2022-06-12T10:00:00+02:00"/>
@@ -791,6 +807,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A18"/>
+          </form>
           <period>
             <start value="2022-04-24T11:00:00+02:00"/>
             <end value="2022-06-01T11:00:00+02:00"/>
@@ -830,6 +854,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A10"/>
+          </form>
           <period>
             <start value="2022-04-25T10:00:00+02:00"/>
             <end value="2022-07-13T11:00:00+02:00"/>
@@ -869,6 +901,14 @@
             <reference value="Location/loc-rea"/>
             <display value="Réanimation"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z7"/>
+          </form>
           <period>
             <start value="2022-04-27T10:00:00+02:00"/>
             <end value="2022-05-12T00:00:00+02:00"/>
@@ -879,6 +919,14 @@
             <reference value="Location/loc-cardio"/>
             <display value="Cardiologie"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z8"/>
+          </form>
           <period>
             <start value="2022-05-12T00:00:00+02:00"/>
             <end value="2022-05-17T10:00:00+02:00"/>
@@ -917,6 +965,14 @@
             <reference value="Location/loc-rea"/>
             <display value="Réanimation"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z13"/>
+          </form>
           <period>
             <start value="2022-04-29T10:00:00+02:00"/>
           </period>
@@ -955,6 +1011,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A06"/>
+          </form>
           <period>
             <start value="2022-04-30T09:00:00+02:00"/>
             <end value="2022-05-13T10:00:00+02:00"/>
@@ -994,6 +1058,14 @@
             <reference value="Location/loc-rea"/>
             <display value="Réanimation"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z9"/>
+          </form>
           <period>
             <start value="2022-05-01T11:00:00+02:00"/>
             <end value="2022-05-24T10:00:00+02:00"/>
@@ -1004,6 +1076,14 @@
             <reference value="Location/loc-SSR"/>
             <display value="Soins de suite"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z10"/>
+          </form>
           <period>
             <start value="2022-05-24T10:00:00+02:00"/>
             <end value="2022-06-15T09:00:00+02:00"/>
@@ -1043,6 +1123,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A04"/>
+          </form>
           <period>
             <start value="2022-05-03T10:00:00+02:00"/>
             <end value="2022-05-27T14:00:00+02:00"/>
@@ -1082,6 +1170,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A05"/>
+          </form>
           <period>
             <start value="2022-05-03T20:00:00+02:00"/>
             <end value="2022-05-19T11:00:00+02:00"/>
@@ -1121,6 +1217,14 @@
             <reference value="Location/loc-rea"/>
             <display value="Réanimation"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z16"/>
+          </form>
           <period>
             <start value="2022-05-04T09:00:00+02:00"/>
             <end value="2022-05-17T11:00:00+02:00"/>
@@ -1160,6 +1264,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A08"/>
+          </form>
           <period>
             <start value="2022-05-04T10:00:00+02:00"/>
             <end value="2022-05-11T09:00:00+02:00"/>
@@ -1199,6 +1311,14 @@
             <reference value="Location/loc-urg"/>
             <display value="Urgences"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="B89"/>
+          </form>
           <period>
             <start value="2022-05-04T11:00:00+02:00"/>
             <end value="2022-05-04T17:00:00+02:00"/>
@@ -1209,6 +1329,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A14"/>
+          </form>
           <period>
             <start value="2022-05-04T17:00:00+02:00"/>
             <end value="2022-05-05T16:00:00+02:00"/>
@@ -1219,6 +1347,14 @@
             <reference value="Location/loc-rea"/>
             <display value="Réanimation"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A10"/>
+          </form>
           <period>
             <start value="2022-05-05T16:00:00+02:00"/>
             <end value="2022-05-15T11:00:00+02:00"/>
@@ -1229,6 +1365,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A06"/>
+          </form>
           <period>
             <start value="2022-05-15T11:00:00+02:00"/>
             <end value="2022-05-26T10:00:00+02:00"/>
@@ -1268,6 +1412,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A12"/>
+          </form>
           <period>
             <start value="2022-05-04T11:00:00+02:00"/>
             <end value="2022-05-14T10:00:00+02:00"/>
@@ -1307,6 +1459,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A19"/>
+          </form>
           <period>
             <start value="2022-05-04T11:00:00+02:00"/>
             <end value="2022-05-30T11:00:00+02:00"/>
@@ -1346,6 +1506,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A02"/>
+          </form>
           <period>
             <start value="2022-05-07T10:00:00+02:00"/>
             <end value="2022-05-17T10:00:00+02:00"/>
@@ -1385,6 +1553,14 @@
             <reference value="Location/loc-rea"/>
             <display value="Réanimation"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z1"/>
+          </form>
           <period>
             <start value="2022-05-07T10:00:00+02:00"/>
             <end value="2022-05-20T14:00:00+02:00"/>
@@ -1395,6 +1571,14 @@
             <reference value="Location/loc-cardio"/>
             <display value="cardiologie"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z2"/>
+          </form>
           <period>
             <start value="2022-05-20T14:00:00+02:00"/>
             <end value="2022-05-28T11:00:00+02:00"/>
@@ -1433,6 +1617,14 @@
             <reference value="Location/loc-rea"/>
             <display value="Réanimation"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z3"/>
+          </form>
           <period>
             <start value="2022-05-08T11:00:00+02:00"/>
           </period>
@@ -1471,6 +1663,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A14"/>
+          </form>
           <period>
             <start value="2022-05-09T11:00:00+02:00"/>
             <end value="2022-06-11T14:00:00+02:00"/>
@@ -1510,6 +1710,14 @@
             <reference value="Location/loc-rea"/>
             <display value="Réanimation"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z4"/>
+          </form>
           <period>
             <start value="2022-05-11T00:00:00+02:00"/>
             <end value="2022-05-14T15:00:00+02:00"/>
@@ -1520,6 +1728,14 @@
             <reference value="Location/loc-ortho"/>
             <display value="Orthopédie"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z5"/>
+          </form>
           <period>
             <start value="2022-05-14T10:00:00+02:00"/>
             <end value="2022-05-27T10:00:00+02:00"/>
@@ -1559,6 +1775,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A11"/>
+          </form>
           <period>
             <start value="2022-05-11T10:00:00+02:00"/>
             <end value="2022-06-06T10:00:00+02:00"/>
@@ -1598,6 +1822,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A07"/>
+          </form>
           <period>
             <start value="2022-05-11T11:00:00+02:00"/>
             <end value="2022-05-18T17:00:00+02:00"/>
@@ -1637,6 +1869,14 @@
             <reference value="Location/loc-rea"/>
             <display value="Réanimation"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z17"/>
+          </form>
           <period>
             <start value="2022-05-11T17:00:00+02:00"/>
             <end value="2022-05-22T17:00:00+02:00"/>
@@ -1647,6 +1887,14 @@
             <reference value="Location/loc-SSR"/>
             <display value="Soins de suite"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z18"/>
+          </form>
           <period>
             <start value="2022-05-22T17:00:00+02:00"/>
             <end value="2022-06-03T11:00:00+02:00"/>
@@ -1686,6 +1934,14 @@
             <reference value="Location/loc-rea"/>
             <display value="Réanimation"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A10"/>
+          </form>
           <period>
             <start value="2022-05-11T22:00:00+02:00"/>
             <end value="2022-05-16T11:00:00+02:00"/>
@@ -1696,6 +1952,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z12"/>
+          </form>
           <period>
             <start value="2022-05-16T11:00:00+02:00"/>
             <end value="2022-05-29T11:00:00+02:00"/>
@@ -1735,6 +1999,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A07"/>
+          </form>
           <period>
             <start value="2022-05-13T10:00:00+02:00"/>
             <end value="2022-05-25T10:00:00+02:00"/>
@@ -1774,6 +2046,14 @@
             <reference value="Location/loc-rea"/>
             <display value="Réanimation"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z14"/>
+          </form>
           <period>
             <start value="2022-05-13T23:00:00+02:00"/>
             <end value="2022-05-30T11:00:00+02:00"/>
@@ -1784,6 +2064,14 @@
             <reference value="Location/loc-ortho"/>
             <display value="Orthopédie"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="Z15"/>
+          </form>
           <period>
             <start value="2022-05-30T11:00:00+02:00"/>
             <end value="2022-06-05T07:00:00+02:00"/>
@@ -1823,6 +2111,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A20"/>
+          </form>
           <period>
             <start value="2022-05-15T10:00:00+02:00"/>
             <end value="2022-05-20T15:00:00+02:00"/>
@@ -1862,6 +2158,14 @@
             <reference value="Location/loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="A02"/>
+          </form>
           <period>
             <start value="2022-05-18T10:00:00+02:00"/>
             <end value="2022-07-24T09:00:00+02:00"/>
@@ -2887,6 +3191,56 @@
     <request>
       <method value="PUT"/>
       <url value="Specimen/spec-35"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-36"/>
+    <resource>
+      <Specimen>
+        <id value="spec-36"/>
+        <identifier>
+          <value value="36"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-6"/>
+        </subject>
+        <receivedTime value="2022-05-10"/>
+        <collection>
+          <collectedDateTime value="2022-05-10"/>
+        </collection>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-36"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:spec-37"/>
+    <resource>
+      <Specimen>
+        <id value="spec-37"/>
+        <identifier>
+          <value value="37"/>
+        </identifier>
+        <type>
+          <text value="stool"/>
+        </type>
+        <subject>
+          <reference value="Patient/patient-16"/>
+        </subject>
+        <receivedTime value="2022-05-20"/>
+        <collection>
+          <collectedDateTime value="2022-05-20"/>
+        </collection>
+      </Specimen>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Specimen/spec-37"/>
     </request>
   </entry>
   <entry>

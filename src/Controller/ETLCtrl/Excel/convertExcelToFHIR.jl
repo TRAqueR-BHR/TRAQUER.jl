@@ -14,6 +14,10 @@ The stays Excel file is expected to have columns:
   hospitalization_in_time, hospitalization_out_time,
   room, out (devenir)
 
+The `room` value is emitted as a FHIR `form` element on each `Encounter.location` entry,
+using the `http://terminology.hl7.org/CodeSystem/location-physical-type` coding system
+with code `ro` (Room) and the room identifier as the `<text>` value.
+
 The analyses Excel file is expected to have columns:
   patient_ref, analysis_ref, request_time, result_time,
   sample, request_type, result, result_raw_text
@@ -217,7 +221,19 @@ function ETLCtrl.Excel.convertExcelToFHIR(
                     <location>
                         <reference value="Location/$(lid)" />
                         <display value="$(esc(lr.unit_name))" />
-                    </location>
+                    </location>""")
+            if !ismissing(lr.room) && !isempty(strip(string(lr.room)))
+                print(loc_buf, """
+                    <form>
+                        <coding>
+                            <system value="http://terminology.hl7.org/CodeSystem/location-physical-type" />
+                            <code value="ro" />
+                            <display value="Room" />
+                        </coding>
+                        <text value="$(esc(lr.room))" />
+                    </form>""")
+            end
+            print(loc_buf, """
                     <period>
                         <start value="$(uin_str)" />""")
             if !ismissing(lr.unit_out_time)
