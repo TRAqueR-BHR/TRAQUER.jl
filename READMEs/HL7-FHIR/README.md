@@ -110,7 +110,7 @@ The location hierarchy follows this structure:
 
 #### Location Resource Structure
 
-Each location level is represented as a separate `Location` resource with:
+Each location level (unit, sector) is represented as a separate `Location` resource with:
 - `identifier`: A system-specific code for the location
 - `name`: Human-readable name for the location
 - `partOf`: Reference to the parent location (for hierarchical relationships)
@@ -118,9 +118,36 @@ Each location level is represented as a separate `Location` resource with:
 **Example hierarchy:**
 ```
 Unit: REA1 (Service de réanimation post-opératoire)
-├── Sector: REA1-S2 (Secteur 2)
-    └── Room: REA1-S2-302 (Chambre 302)
+└── Sector: REA1-S2 (Secteur 2)
 ```
+
+Rooms are **not** represented as separate `Location` resources. Instead, the room
+identifier is carried directly on the `Encounter.location` entry using the `<form>`
+element, with the standard `location-physical-type` coding system:
+
+```xml
+<location>
+  <location>
+    <reference value="Location/loc-rea1-sector2"/>
+    <display value="Secteur 2, REA1"/>
+  </location>
+  <form>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+      <code value="ro"/>
+      <display value="Room"/>
+    </coding>
+    <text value="302"/>
+  </form>
+  <period>
+    <start value="2024-10-01T08:00:00+02:00"/>
+  </period>
+</location>
+```
+
+The `<location>` reference points to the most specific *declared* `Location` resource
+(sector if available, otherwise unit), and `<form>` carries the room identifier from
+the source system.
 
 #### Encounter Resource
 
@@ -138,8 +165,9 @@ records:
 - The time period for each location
 - Location changes during the stay
 
-The most specific location available should be referenced (room if available, otherwise
-sector, otherwise unit).
+The most specific declared `Location` resource should be referenced (sector if available,
+otherwise unit). The room identifier, when available, is expressed via `<form>` on the
+`Encounter.location` entry (see above).
 
 ### Analysis requests
 An analysis request is typically represented as a `ServiceRequest` and `Specimen` resource.
