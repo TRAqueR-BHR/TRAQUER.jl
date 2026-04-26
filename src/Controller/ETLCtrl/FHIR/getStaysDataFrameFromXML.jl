@@ -35,13 +35,16 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
     end
 
     # Helper: parse a FHIR dateTime string to ZonedDateTime, or missing.
-    # Handles full ISO-8601 with offset (e.g. "2022-04-04T10:00:00+00:00")
-    # and date-only values (e.g. "2022-05-12") treated as midnight UTC.
+    # Handles full ISO-8601 with offset (e.g. "2022-04-04T10:00:00+02:00")
+    # and date-only values (e.g. "2022-05-12") treated as midnight for the hospital timezone.
     function parse_zdt(s)::Union{ZonedDateTime, Missing}
         ismissing(s) && return missing
         # date-only: "yyyy-mm-dd"
         if occursin(r"^\d{4}-\d{2}-\d{2}$", s)
-            return ZonedDateTime(DateTime(s, dateformat"yyyy-mm-dd"), tz"UTC")
+            return ZonedDateTime(
+                DateTime(s, dateformat"yyyy-mm-dd"),
+                TRAQUERUtil.getTimeZone()
+            )
         end
         TRAQUERUtil.convertStringToZonedDateTime(s)
     end
