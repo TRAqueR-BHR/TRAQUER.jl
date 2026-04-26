@@ -4718,41 +4718,6 @@
     </request>
   </entry>
   <entry>
-    <fullUrl value="urn:uuid:task-37"/>
-    <resource>
-      <Task>
-        <id value="task-37"/>
-        <status value="in-progress"/>
-        <intent value="order"/>
-        <code>
-          <coding>
-            <system value="http://hl7.org/fhir/CodeSystem/task-code"/>
-            <code value="fulfill"/>
-            <display value="Fulfill the focal request"/>
-          </coding>
-        </code>
-        <focus>
-          <valueReference>
-            <reference value="ServiceRequest/sr-37"/>
-          </valueReference>
-        </focus>
-        <for>
-          <reference value="Patient/patient-16"/>
-        </for>
-        <encounter>
-          <reference value="Encounter/enc-27"/>
-        </encounter>
-        <executionPeriod>
-          <start value="2022-05-20"/>
-        </executionPeriod>
-      </Task>
-    </resource>
-    <request>
-      <method value="PUT"/>
-      <url value="Task/task-37"/>
-    </request>
-  </entry>
-  <entry>
     <fullUrl value="urn:uuid:obs-1"/>
     <resource>
       <Observation>
