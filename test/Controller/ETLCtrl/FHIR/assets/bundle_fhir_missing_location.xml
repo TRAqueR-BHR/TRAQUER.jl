@@ -45,7 +45,7 @@
                 <name value="Cardiologie" />
                 <description value="Cardiologie" />
                 <managingOrganization>
-                    <reference value="Organization/org-29000" />
+                    <reference value="urn:uuid:org-29000" />
                 </managingOrganization>
             </Location>
         </resource>
@@ -71,10 +71,10 @@
                     </coding>
                 </class>
                 <subject>
-                    <reference value="Patient/patient-601856351" />
+                    <reference value="urn:uuid:patient-601856351" />
                 </subject>
                 <serviceProvider>
-                    <reference value="Organization/org-29000" />
+                    <reference value="urn:uuid:org-29000" />
                 </serviceProvider>
                 <actualPeriod>
                     <start value="2024-02-19" />
@@ -82,7 +82,7 @@
                 </actualPeriod>
                 <location>
                     <location>
-                        <reference value="Location/loc-CARDIO" />
+                        <reference value="urn:uuid:loc-CARDIO" />
                         <display value="Cardiologie" />
                     </location>
                     <period>
@@ -93,7 +93,7 @@
                 <location>
                     <!-- loc-MISSING is referenced here but has no corresponding entry in this bundle -->
                     <location>
-                        <reference value="Location/loc-MISSING" />
+                        <reference value="urn:uuid:loc-MISSING" />
                         <display value="Unknown unit" />
                     </location>
                     <period>

@@ -670,14 +670,14 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-26"/>
+          <reference value="urn:uuid:patient-26"/>
         </subject>
         <actualPeriod>
           <start value="2022-04-04T10:00:00+02:00"/>
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-rea"/>
+            <reference value="urn:uuid:loc-rea"/>
             <display value="Réanimation"/>
           </location>
           <form>
@@ -712,7 +712,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-5"/>
+          <reference value="urn:uuid:patient-5"/>
         </subject>
         <actualPeriod>
           <start value="2022-04-24T09:00:00+02:00"/>
@@ -720,7 +720,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -756,7 +756,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-20"/>
+          <reference value="urn:uuid:patient-20"/>
         </subject>
         <actualPeriod>
           <start value="2022-04-24T11:00:00+02:00"/>
@@ -764,7 +764,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -800,7 +800,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-12"/>
+          <reference value="urn:uuid:patient-12"/>
         </subject>
         <actualPeriod>
           <start value="2022-04-24T10:00:00+02:00"/>
@@ -808,7 +808,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -844,7 +844,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-27"/>
+          <reference value="urn:uuid:patient-27"/>
         </subject>
         <actualPeriod>
           <start value="2022-04-27T10:00:00+02:00"/>
@@ -852,7 +852,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-rea"/>
+            <reference value="urn:uuid:loc-rea"/>
             <display value="Réanimation"/>
           </location>
           <form>
@@ -870,7 +870,7 @@
         </location>
         <location>
           <location>
-            <reference value="Location/loc-cardio"/>
+            <reference value="urn:uuid:loc-cardio"/>
             <display value="Cardiologie"/>
           </location>
           <form>
@@ -906,14 +906,14 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-33"/>
+          <reference value="urn:uuid:patient-33"/>
         </subject>
         <actualPeriod>
           <start value="2022-04-29T10:00:00+02:00"/>
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-rea"/>
+            <reference value="urn:uuid:loc-rea"/>
             <display value="Réanimation"/>
           </location>
           <form>
@@ -948,7 +948,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-8"/>
+          <reference value="urn:uuid:patient-8"/>
         </subject>
         <actualPeriod>
           <start value="2022-04-30T09:00:00+02:00"/>
@@ -956,7 +956,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -992,7 +992,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-29"/>
+          <reference value="urn:uuid:patient-29"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-01T11:00:00+02:00"/>
@@ -1000,7 +1000,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-rea"/>
+            <reference value="urn:uuid:loc-rea"/>
             <display value="Réanimation"/>
           </location>
           <form>
@@ -1018,7 +1018,7 @@
         </location>
         <location>
           <location>
-            <reference value="Location/loc-SSR"/>
+            <reference value="urn:uuid:loc-SSR"/>
             <display value="Soins de suite"/>
           </location>
           <form>
@@ -1054,7 +1054,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-17"/>
+          <reference value="urn:uuid:patient-17"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-03T10:00:00+02:00"/>
@@ -1062,7 +1062,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -1098,7 +1098,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-14"/>
+          <reference value="urn:uuid:patient-14"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-03T20:00:00+02:00"/>
@@ -1106,7 +1106,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -1142,7 +1142,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-36"/>
+          <reference value="urn:uuid:patient-36"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-04T09:00:00+02:00"/>
@@ -1150,7 +1150,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-rea"/>
+            <reference value="urn:uuid:loc-rea"/>
             <display value="Réanimation"/>
           </location>
           <form>
@@ -1186,7 +1186,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-13"/>
+          <reference value="urn:uuid:patient-13"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-04T10:00:00+02:00"/>
@@ -1194,7 +1194,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -1230,7 +1230,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-1"/>
+          <reference value="urn:uuid:patient-1"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-04T11:00:00+02:00"/>
@@ -1238,7 +1238,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-urg"/>
+            <reference value="urn:uuid:loc-urg"/>
             <display value="Urgences"/>
           </location>
           <form>
@@ -1256,7 +1256,7 @@
         </location>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -1274,7 +1274,7 @@
         </location>
         <location>
           <location>
-            <reference value="Location/loc-rea"/>
+            <reference value="urn:uuid:loc-rea"/>
             <display value="Réanimation"/>
           </location>
           <form>
@@ -1292,7 +1292,7 @@
         </location>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -1328,7 +1328,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-10"/>
+          <reference value="urn:uuid:patient-10"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-04T11:00:00+02:00"/>
@@ -1336,7 +1336,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -1372,7 +1372,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-19"/>
+          <reference value="urn:uuid:patient-19"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-04T11:00:00+02:00"/>
@@ -1380,7 +1380,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -1416,7 +1416,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-6"/>
+          <reference value="urn:uuid:patient-6"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-06T22:22:00+02:00"/>
@@ -1424,7 +1424,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -1460,7 +1460,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-21"/>
+          <reference value="urn:uuid:patient-21"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-07T10:00:00+02:00"/>
@@ -1468,7 +1468,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-rea"/>
+            <reference value="urn:uuid:loc-rea"/>
             <display value="Réanimation"/>
           </location>
           <form>
@@ -1486,7 +1486,7 @@
         </location>
         <location>
           <location>
-            <reference value="Location/loc-cardio"/>
+            <reference value="urn:uuid:loc-cardio"/>
             <display value="cardiologie"/>
           </location>
           <form>
@@ -1522,14 +1522,14 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-23"/>
+          <reference value="urn:uuid:patient-23"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-08T11:00:00+02:00"/>
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-rea"/>
+            <reference value="urn:uuid:loc-rea"/>
             <display value="Réanimation"/>
           </location>
           <form>
@@ -1564,7 +1564,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-15"/>
+          <reference value="urn:uuid:patient-15"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-07T11:00:00+02:00"/>
@@ -1572,7 +1572,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -1608,7 +1608,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-24"/>
+          <reference value="urn:uuid:patient-24"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-11T00:00:00+02:00"/>
@@ -1616,7 +1616,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-rea"/>
+            <reference value="urn:uuid:loc-rea"/>
             <display value="Réanimation"/>
           </location>
           <form>
@@ -1634,7 +1634,7 @@
         </location>
         <location>
           <location>
-            <reference value="Location/loc-ortho"/>
+            <reference value="urn:uuid:loc-ortho"/>
             <display value="Orthopédie"/>
           </location>
           <form>
@@ -1670,7 +1670,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-11"/>
+          <reference value="urn:uuid:patient-11"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-11T10:00:00+02:00"/>
@@ -1678,7 +1678,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -1714,7 +1714,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-18"/>
+          <reference value="urn:uuid:patient-18"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-11T11:00:00+02:00"/>
@@ -1722,7 +1722,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -1758,7 +1758,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-37"/>
+          <reference value="urn:uuid:patient-37"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-11T17:00:00+02:00"/>
@@ -1766,7 +1766,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-rea"/>
+            <reference value="urn:uuid:loc-rea"/>
             <display value="Réanimation"/>
           </location>
           <form>
@@ -1784,7 +1784,7 @@
         </location>
         <location>
           <location>
-            <reference value="Location/loc-SSR"/>
+            <reference value="urn:uuid:loc-SSR"/>
             <display value="Soins de suite"/>
           </location>
           <form>
@@ -1820,7 +1820,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-31"/>
+          <reference value="urn:uuid:patient-31"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-11T22:00:00+02:00"/>
@@ -1828,7 +1828,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-rea"/>
+            <reference value="urn:uuid:loc-rea"/>
             <display value="Réanimation"/>
           </location>
           <form>
@@ -1846,7 +1846,7 @@
         </location>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -1882,7 +1882,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-9"/>
+          <reference value="urn:uuid:patient-9"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-11T10:00:00+02:00"/>
@@ -1890,7 +1890,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -1926,7 +1926,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-34"/>
+          <reference value="urn:uuid:patient-34"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-13T23:00:00+02:00"/>
@@ -1934,7 +1934,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-rea"/>
+            <reference value="urn:uuid:loc-rea"/>
             <display value="Réanimation"/>
           </location>
           <form>
@@ -1952,7 +1952,7 @@
         </location>
         <location>
           <location>
-            <reference value="Location/loc-ortho"/>
+            <reference value="urn:uuid:loc-ortho"/>
             <display value="Orthopédie"/>
           </location>
           <form>
@@ -1988,7 +1988,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-16"/>
+          <reference value="urn:uuid:patient-16"/>
         </subject>
         <actualPeriod>
           <start value="2022-05-15T10:00:00+02:00"/>
@@ -1996,7 +1996,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -2032,7 +2032,7 @@
           </coding>
         </class>
         <subject>
-          <reference value="Patient/patient-7"/>
+          <reference value="urn:uuid:patient-7"/>
         </subject>
         <actualPeriod>
           <start value="2022-07-18T10:00:00+02:00"/>
@@ -2040,7 +2040,7 @@
         </actualPeriod>
         <location>
           <location>
-            <reference value="Location/loc-chir-vis"/>
+            <reference value="urn:uuid:loc-chir-vis"/>
             <display value="chirurgie viscérale"/>
           </location>
           <form>
@@ -2083,17 +2083,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-29"/>
+          <reference value="urn:uuid:patient-29"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-8"/>
+          <reference value="urn:uuid:enc-8"/>
         </encounter>
         <authoredOn value="2022-05-02"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-1"/>
+          <reference value="urn:uuid:spec-1"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2122,17 +2122,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-1"/>
+          <reference value="urn:uuid:patient-1"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-13"/>
+          <reference value="urn:uuid:enc-13"/>
         </encounter>
         <authoredOn value="2022-05-08T17:00:00+02:00"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-2"/>
+          <reference value="urn:uuid:spec-2"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2161,17 +2161,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-5"/>
+          <reference value="urn:uuid:patient-5"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-2"/>
+          <reference value="urn:uuid:enc-2"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-3"/>
+          <reference value="urn:uuid:spec-3"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2200,17 +2200,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-6"/>
+          <reference value="urn:uuid:patient-6"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-16"/>
+          <reference value="urn:uuid:enc-16"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-4"/>
+          <reference value="urn:uuid:spec-4"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2239,17 +2239,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-8"/>
+          <reference value="urn:uuid:patient-8"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-7"/>
+          <reference value="urn:uuid:enc-7"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-5"/>
+          <reference value="urn:uuid:spec-5"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2278,17 +2278,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-10"/>
+          <reference value="urn:uuid:patient-10"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-14"/>
+          <reference value="urn:uuid:enc-14"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-6"/>
+          <reference value="urn:uuid:spec-6"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2317,17 +2317,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-12"/>
+          <reference value="urn:uuid:patient-12"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-4"/>
+          <reference value="urn:uuid:enc-4"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-7"/>
+          <reference value="urn:uuid:spec-7"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2356,17 +2356,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-13"/>
+          <reference value="urn:uuid:patient-13"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-12"/>
+          <reference value="urn:uuid:enc-12"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-8"/>
+          <reference value="urn:uuid:spec-8"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2395,17 +2395,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-14"/>
+          <reference value="urn:uuid:patient-14"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-10"/>
+          <reference value="urn:uuid:enc-10"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-9"/>
+          <reference value="urn:uuid:spec-9"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2434,17 +2434,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-15"/>
+          <reference value="urn:uuid:patient-15"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-19"/>
+          <reference value="urn:uuid:enc-19"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-10"/>
+          <reference value="urn:uuid:spec-10"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2473,17 +2473,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-17"/>
+          <reference value="urn:uuid:patient-17"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-9"/>
+          <reference value="urn:uuid:enc-9"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-11"/>
+          <reference value="urn:uuid:spec-11"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2512,17 +2512,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-19"/>
+          <reference value="urn:uuid:patient-19"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-15"/>
+          <reference value="urn:uuid:enc-15"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-12"/>
+          <reference value="urn:uuid:spec-12"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2551,17 +2551,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-20"/>
+          <reference value="urn:uuid:patient-20"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-3"/>
+          <reference value="urn:uuid:enc-3"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-13"/>
+          <reference value="urn:uuid:spec-13"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2590,17 +2590,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-21"/>
+          <reference value="urn:uuid:patient-21"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-17"/>
+          <reference value="urn:uuid:enc-17"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-14"/>
+          <reference value="urn:uuid:spec-14"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2629,17 +2629,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-23"/>
+          <reference value="urn:uuid:patient-23"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-18"/>
+          <reference value="urn:uuid:enc-18"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-15"/>
+          <reference value="urn:uuid:spec-15"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2668,17 +2668,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-26"/>
+          <reference value="urn:uuid:patient-26"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-1"/>
+          <reference value="urn:uuid:enc-1"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-16"/>
+          <reference value="urn:uuid:spec-16"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2707,17 +2707,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-27"/>
+          <reference value="urn:uuid:patient-27"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-5"/>
+          <reference value="urn:uuid:enc-5"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-17"/>
+          <reference value="urn:uuid:spec-17"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2746,17 +2746,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-29"/>
+          <reference value="urn:uuid:patient-29"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-8"/>
+          <reference value="urn:uuid:enc-8"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-18"/>
+          <reference value="urn:uuid:spec-18"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2785,17 +2785,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-33"/>
+          <reference value="urn:uuid:patient-33"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-6"/>
+          <reference value="urn:uuid:enc-6"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-19"/>
+          <reference value="urn:uuid:spec-19"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2824,17 +2824,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-36"/>
+          <reference value="urn:uuid:patient-36"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-11"/>
+          <reference value="urn:uuid:enc-11"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-20"/>
+          <reference value="urn:uuid:spec-20"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2863,17 +2863,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-24"/>
+          <reference value="urn:uuid:patient-24"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-20"/>
+          <reference value="urn:uuid:enc-20"/>
         </encounter>
         <authoredOn value="2022-05-11"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-21"/>
+          <reference value="urn:uuid:spec-21"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2902,17 +2902,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-31"/>
+          <reference value="urn:uuid:patient-31"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-24"/>
+          <reference value="urn:uuid:enc-24"/>
         </encounter>
         <authoredOn value="2022-05-12"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-22"/>
+          <reference value="urn:uuid:spec-22"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2941,17 +2941,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-37"/>
+          <reference value="urn:uuid:patient-37"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-23"/>
+          <reference value="urn:uuid:enc-23"/>
         </encounter>
         <authoredOn value="2022-05-12"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-23"/>
+          <reference value="urn:uuid:spec-23"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -2980,17 +2980,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-34"/>
+          <reference value="urn:uuid:patient-34"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-26"/>
+          <reference value="urn:uuid:enc-26"/>
         </encounter>
         <authoredOn value="2022-05-14"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-24"/>
+          <reference value="urn:uuid:spec-24"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3019,17 +3019,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-27"/>
+          <reference value="urn:uuid:patient-27"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-5"/>
+          <reference value="urn:uuid:enc-5"/>
         </encounter>
         <authoredOn value="2022-05-16"/>
         <requester>
-          <reference value="Location/loc-cardio"/>
+          <reference value="urn:uuid:loc-cardio"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-25"/>
+          <reference value="urn:uuid:spec-25"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3058,17 +3058,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-18"/>
+          <reference value="urn:uuid:patient-18"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-22"/>
+          <reference value="urn:uuid:enc-22"/>
         </encounter>
         <authoredOn value="2022-05-17"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-26"/>
+          <reference value="urn:uuid:spec-26"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3097,17 +3097,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-7"/>
+          <reference value="urn:uuid:patient-7"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-28"/>
+          <reference value="urn:uuid:enc-28"/>
         </encounter>
         <authoredOn value="2022-05-20"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-27"/>
+          <reference value="urn:uuid:spec-27"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3136,17 +3136,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-9"/>
+          <reference value="urn:uuid:patient-9"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-25"/>
+          <reference value="urn:uuid:enc-25"/>
         </encounter>
         <authoredOn value="2022-05-20"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-28"/>
+          <reference value="urn:uuid:spec-28"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3175,17 +3175,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-11"/>
+          <reference value="urn:uuid:patient-11"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-21"/>
+          <reference value="urn:uuid:enc-21"/>
         </encounter>
         <authoredOn value="2022-05-20"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-29"/>
+          <reference value="urn:uuid:spec-29"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3214,17 +3214,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-16"/>
+          <reference value="urn:uuid:patient-16"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-27"/>
+          <reference value="urn:uuid:enc-27"/>
         </encounter>
         <authoredOn value="2022-05-20"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-30"/>
+          <reference value="urn:uuid:spec-30"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3253,17 +3253,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-21"/>
+          <reference value="urn:uuid:patient-21"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-17"/>
+          <reference value="urn:uuid:enc-17"/>
         </encounter>
         <authoredOn value="2022-05-20"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-31"/>
+          <reference value="urn:uuid:spec-31"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3292,17 +3292,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-24"/>
+          <reference value="urn:uuid:patient-24"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-20"/>
+          <reference value="urn:uuid:enc-20"/>
         </encounter>
         <authoredOn value="2022-05-20"/>
         <requester>
-          <reference value="Location/loc-ortho"/>
+          <reference value="urn:uuid:loc-ortho"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-32"/>
+          <reference value="urn:uuid:spec-32"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3331,17 +3331,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-31"/>
+          <reference value="urn:uuid:patient-31"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-24"/>
+          <reference value="urn:uuid:enc-24"/>
         </encounter>
         <authoredOn value="2022-05-20"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-33"/>
+          <reference value="urn:uuid:spec-33"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3370,17 +3370,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-37"/>
+          <reference value="urn:uuid:patient-37"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-23"/>
+          <reference value="urn:uuid:enc-23"/>
         </encounter>
         <authoredOn value="2022-05-20"/>
         <requester>
-          <reference value="Location/loc-rea"/>
+          <reference value="urn:uuid:loc-rea"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-34"/>
+          <reference value="urn:uuid:spec-34"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3409,17 +3409,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-34"/>
+          <reference value="urn:uuid:patient-34"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-26"/>
+          <reference value="urn:uuid:enc-26"/>
         </encounter>
         <authoredOn value="2022-06-01"/>
         <requester>
-          <reference value="Location/loc-ortho"/>
+          <reference value="urn:uuid:loc-ortho"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-35"/>
+          <reference value="urn:uuid:spec-35"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3448,17 +3448,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-6"/>
+          <reference value="urn:uuid:patient-6"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-16"/>
+          <reference value="urn:uuid:enc-16"/>
         </encounter>
         <authoredOn value="2022-05-10"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-36"/>
+          <reference value="urn:uuid:spec-36"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3487,17 +3487,17 @@
           </concept>
         </code>
         <subject>
-          <reference value="Patient/patient-16"/>
+          <reference value="urn:uuid:patient-16"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-27"/>
+          <reference value="urn:uuid:enc-27"/>
         </encounter>
         <authoredOn value="2022-05-20"/>
         <requester>
-          <reference value="Location/loc-chir-vis"/>
+          <reference value="urn:uuid:loc-chir-vis"/>
         </requester>
         <specimen>
-          <reference value="Specimen/spec-37"/>
+          <reference value="urn:uuid:spec-37"/>
         </specimen>
       </ServiceRequest>
     </resource>
@@ -3518,11 +3518,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-29"/>
+          <reference value="urn:uuid:patient-29"/>
         </subject>
         <receivedTime value="2022-05-02"/>
         <request>
-          <reference value="ServiceRequest/sr-1"/>
+          <reference value="urn:uuid:sr-1"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-02"/>
@@ -3550,11 +3550,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-1"/>
+          <reference value="urn:uuid:patient-1"/>
         </subject>
         <receivedTime value="2022-05-08T17:00:00+02:00"/>
         <request>
-          <reference value="ServiceRequest/sr-2"/>
+          <reference value="urn:uuid:sr-2"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-08T17:00:00+02:00"/>
@@ -3582,11 +3582,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-5"/>
+          <reference value="urn:uuid:patient-5"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-3"/>
+          <reference value="urn:uuid:sr-3"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -3614,11 +3614,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-6"/>
+          <reference value="urn:uuid:patient-6"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-4"/>
+          <reference value="urn:uuid:sr-4"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -3646,11 +3646,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-8"/>
+          <reference value="urn:uuid:patient-8"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-5"/>
+          <reference value="urn:uuid:sr-5"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -3678,11 +3678,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-10"/>
+          <reference value="urn:uuid:patient-10"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-6"/>
+          <reference value="urn:uuid:sr-6"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -3710,11 +3710,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-12"/>
+          <reference value="urn:uuid:patient-12"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-7"/>
+          <reference value="urn:uuid:sr-7"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -3742,11 +3742,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-13"/>
+          <reference value="urn:uuid:patient-13"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-8"/>
+          <reference value="urn:uuid:sr-8"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -3774,11 +3774,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-14"/>
+          <reference value="urn:uuid:patient-14"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-9"/>
+          <reference value="urn:uuid:sr-9"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -3806,11 +3806,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-15"/>
+          <reference value="urn:uuid:patient-15"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-10"/>
+          <reference value="urn:uuid:sr-10"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -3838,11 +3838,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-17"/>
+          <reference value="urn:uuid:patient-17"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-11"/>
+          <reference value="urn:uuid:sr-11"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -3870,11 +3870,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-19"/>
+          <reference value="urn:uuid:patient-19"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-12"/>
+          <reference value="urn:uuid:sr-12"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -3902,11 +3902,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-20"/>
+          <reference value="urn:uuid:patient-20"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-13"/>
+          <reference value="urn:uuid:sr-13"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -3934,11 +3934,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-21"/>
+          <reference value="urn:uuid:patient-21"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-14"/>
+          <reference value="urn:uuid:sr-14"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -3966,11 +3966,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-23"/>
+          <reference value="urn:uuid:patient-23"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-15"/>
+          <reference value="urn:uuid:sr-15"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -3998,11 +3998,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-26"/>
+          <reference value="urn:uuid:patient-26"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-16"/>
+          <reference value="urn:uuid:sr-16"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -4030,11 +4030,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-27"/>
+          <reference value="urn:uuid:patient-27"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-17"/>
+          <reference value="urn:uuid:sr-17"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -4062,11 +4062,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-29"/>
+          <reference value="urn:uuid:patient-29"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-18"/>
+          <reference value="urn:uuid:sr-18"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -4094,11 +4094,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-33"/>
+          <reference value="urn:uuid:patient-33"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-19"/>
+          <reference value="urn:uuid:sr-19"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -4126,11 +4126,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-36"/>
+          <reference value="urn:uuid:patient-36"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-20"/>
+          <reference value="urn:uuid:sr-20"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -4158,11 +4158,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-24"/>
+          <reference value="urn:uuid:patient-24"/>
         </subject>
         <receivedTime value="2022-05-11"/>
         <request>
-          <reference value="ServiceRequest/sr-21"/>
+          <reference value="urn:uuid:sr-21"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-11"/>
@@ -4190,11 +4190,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-31"/>
+          <reference value="urn:uuid:patient-31"/>
         </subject>
         <receivedTime value="2022-05-12"/>
         <request>
-          <reference value="ServiceRequest/sr-22"/>
+          <reference value="urn:uuid:sr-22"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-12"/>
@@ -4222,11 +4222,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-37"/>
+          <reference value="urn:uuid:patient-37"/>
         </subject>
         <receivedTime value="2022-05-12"/>
         <request>
-          <reference value="ServiceRequest/sr-23"/>
+          <reference value="urn:uuid:sr-23"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-12"/>
@@ -4254,11 +4254,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-34"/>
+          <reference value="urn:uuid:patient-34"/>
         </subject>
         <receivedTime value="2022-05-14"/>
         <request>
-          <reference value="ServiceRequest/sr-24"/>
+          <reference value="urn:uuid:sr-24"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-14"/>
@@ -4286,11 +4286,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-27"/>
+          <reference value="urn:uuid:patient-27"/>
         </subject>
         <receivedTime value="2022-05-16"/>
         <request>
-          <reference value="ServiceRequest/sr-25"/>
+          <reference value="urn:uuid:sr-25"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-16"/>
@@ -4318,11 +4318,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-18"/>
+          <reference value="urn:uuid:patient-18"/>
         </subject>
         <receivedTime value="2022-05-17"/>
         <request>
-          <reference value="ServiceRequest/sr-26"/>
+          <reference value="urn:uuid:sr-26"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-17"/>
@@ -4350,11 +4350,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-7"/>
+          <reference value="urn:uuid:patient-7"/>
         </subject>
         <receivedTime value="2022-05-20"/>
         <request>
-          <reference value="ServiceRequest/sr-27"/>
+          <reference value="urn:uuid:sr-27"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-20"/>
@@ -4382,11 +4382,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-9"/>
+          <reference value="urn:uuid:patient-9"/>
         </subject>
         <receivedTime value="2022-05-20"/>
         <request>
-          <reference value="ServiceRequest/sr-28"/>
+          <reference value="urn:uuid:sr-28"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-20"/>
@@ -4414,11 +4414,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-11"/>
+          <reference value="urn:uuid:patient-11"/>
         </subject>
         <receivedTime value="2022-05-20"/>
         <request>
-          <reference value="ServiceRequest/sr-29"/>
+          <reference value="urn:uuid:sr-29"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-20"/>
@@ -4446,11 +4446,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-16"/>
+          <reference value="urn:uuid:patient-16"/>
         </subject>
         <receivedTime value="2022-05-20"/>
         <request>
-          <reference value="ServiceRequest/sr-30"/>
+          <reference value="urn:uuid:sr-30"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-20"/>
@@ -4478,11 +4478,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-21"/>
+          <reference value="urn:uuid:patient-21"/>
         </subject>
         <receivedTime value="2022-05-20"/>
         <request>
-          <reference value="ServiceRequest/sr-31"/>
+          <reference value="urn:uuid:sr-31"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-20"/>
@@ -4510,11 +4510,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-24"/>
+          <reference value="urn:uuid:patient-24"/>
         </subject>
         <receivedTime value="2022-05-20"/>
         <request>
-          <reference value="ServiceRequest/sr-32"/>
+          <reference value="urn:uuid:sr-32"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-20"/>
@@ -4542,11 +4542,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-31"/>
+          <reference value="urn:uuid:patient-31"/>
         </subject>
         <receivedTime value="2022-05-20"/>
         <request>
-          <reference value="ServiceRequest/sr-33"/>
+          <reference value="urn:uuid:sr-33"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-20"/>
@@ -4574,11 +4574,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-37"/>
+          <reference value="urn:uuid:patient-37"/>
         </subject>
         <receivedTime value="2022-05-20"/>
         <request>
-          <reference value="ServiceRequest/sr-34"/>
+          <reference value="urn:uuid:sr-34"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-20"/>
@@ -4606,11 +4606,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-34"/>
+          <reference value="urn:uuid:patient-34"/>
         </subject>
         <receivedTime value="2022-06-01"/>
         <request>
-          <reference value="ServiceRequest/sr-35"/>
+          <reference value="urn:uuid:sr-35"/>
         </request>
         <collection>
           <collectedDateTime value="2022-06-01"/>
@@ -4638,11 +4638,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-6"/>
+          <reference value="urn:uuid:patient-6"/>
         </subject>
         <receivedTime value="2022-05-10"/>
         <request>
-          <reference value="ServiceRequest/sr-36"/>
+          <reference value="urn:uuid:sr-36"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-10"/>
@@ -4666,11 +4666,11 @@
           <text value="stool"/>
         </type>
         <subject>
-          <reference value="Patient/patient-16"/>
+          <reference value="urn:uuid:patient-16"/>
         </subject>
         <receivedTime value="2022-05-20"/>
         <request>
-          <reference value="ServiceRequest/sr-37"/>
+          <reference value="urn:uuid:sr-37"/>
         </request>
         <collection>
           <collectedDateTime value="2022-05-20"/>
@@ -4698,14 +4698,14 @@
         </code>
         <focus>
           <valueReference>
-            <reference value="ServiceRequest/sr-36"/>
+            <reference value="urn:uuid:sr-36"/>
           </valueReference>
         </focus>
         <for>
-          <reference value="Patient/patient-6"/>
+          <reference value="urn:uuid:patient-6"/>
         </for>
         <encounter>
-          <reference value="Encounter/enc-16"/>
+          <reference value="urn:uuid:enc-16"/>
         </encounter>
         <executionPeriod>
           <start value="2022-05-10"/>
@@ -4723,17 +4723,17 @@
       <Observation>
         <id value="obs-1"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-1"/>
+          <reference value="urn:uuid:sr-1"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-29"/>
+          <reference value="urn:uuid:patient-29"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-8"/>
+          <reference value="urn:uuid:enc-8"/>
         </encounter>
         <effectiveDateTime value="2022-05-01"/>
         <interpretation>
@@ -4744,7 +4744,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-1"/>
+          <reference value="urn:uuid:spec-1"/>
         </specimen>
       </Observation>
     </resource>
@@ -4759,17 +4759,17 @@
       <Observation>
         <id value="obs-2"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-2"/>
+          <reference value="urn:uuid:sr-2"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-1"/>
+          <reference value="urn:uuid:patient-1"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-13"/>
+          <reference value="urn:uuid:enc-13"/>
         </encounter>
         <effectiveDateTime value="2022-05-08T17:00:00+02:00"/>
         <interpretation>
@@ -4780,7 +4780,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-2"/>
+          <reference value="urn:uuid:spec-2"/>
         </specimen>
       </Observation>
     </resource>
@@ -4795,17 +4795,17 @@
       <Observation>
         <id value="obs-3"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-3"/>
+          <reference value="urn:uuid:sr-3"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-5"/>
+          <reference value="urn:uuid:patient-5"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-2"/>
+          <reference value="urn:uuid:enc-2"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -4816,7 +4816,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-3"/>
+          <reference value="urn:uuid:spec-3"/>
         </specimen>
       </Observation>
     </resource>
@@ -4831,17 +4831,17 @@
       <Observation>
         <id value="obs-4"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-4"/>
+          <reference value="urn:uuid:sr-4"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-6"/>
+          <reference value="urn:uuid:patient-6"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-16"/>
+          <reference value="urn:uuid:enc-16"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -4852,7 +4852,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-4"/>
+          <reference value="urn:uuid:spec-4"/>
         </specimen>
       </Observation>
     </resource>
@@ -4867,17 +4867,17 @@
       <Observation>
         <id value="obs-5"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-5"/>
+          <reference value="urn:uuid:sr-5"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-8"/>
+          <reference value="urn:uuid:patient-8"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-7"/>
+          <reference value="urn:uuid:enc-7"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -4888,7 +4888,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-5"/>
+          <reference value="urn:uuid:spec-5"/>
         </specimen>
       </Observation>
     </resource>
@@ -4903,17 +4903,17 @@
       <Observation>
         <id value="obs-6"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-6"/>
+          <reference value="urn:uuid:sr-6"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-10"/>
+          <reference value="urn:uuid:patient-10"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-14"/>
+          <reference value="urn:uuid:enc-14"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -4924,7 +4924,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-6"/>
+          <reference value="urn:uuid:spec-6"/>
         </specimen>
       </Observation>
     </resource>
@@ -4939,17 +4939,17 @@
       <Observation>
         <id value="obs-7"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-7"/>
+          <reference value="urn:uuid:sr-7"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-12"/>
+          <reference value="urn:uuid:patient-12"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-4"/>
+          <reference value="urn:uuid:enc-4"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -4960,7 +4960,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-7"/>
+          <reference value="urn:uuid:spec-7"/>
         </specimen>
       </Observation>
     </resource>
@@ -4975,17 +4975,17 @@
       <Observation>
         <id value="obs-8"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-8"/>
+          <reference value="urn:uuid:sr-8"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-13"/>
+          <reference value="urn:uuid:patient-13"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-12"/>
+          <reference value="urn:uuid:enc-12"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -4996,7 +4996,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-8"/>
+          <reference value="urn:uuid:spec-8"/>
         </specimen>
       </Observation>
     </resource>
@@ -5011,17 +5011,17 @@
       <Observation>
         <id value="obs-9"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-9"/>
+          <reference value="urn:uuid:sr-9"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-14"/>
+          <reference value="urn:uuid:patient-14"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-10"/>
+          <reference value="urn:uuid:enc-10"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -5032,7 +5032,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-9"/>
+          <reference value="urn:uuid:spec-9"/>
         </specimen>
       </Observation>
     </resource>
@@ -5047,17 +5047,17 @@
       <Observation>
         <id value="obs-10"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-10"/>
+          <reference value="urn:uuid:sr-10"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-15"/>
+          <reference value="urn:uuid:patient-15"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-19"/>
+          <reference value="urn:uuid:enc-19"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -5068,7 +5068,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-10"/>
+          <reference value="urn:uuid:spec-10"/>
         </specimen>
       </Observation>
     </resource>
@@ -5083,17 +5083,17 @@
       <Observation>
         <id value="obs-11"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-11"/>
+          <reference value="urn:uuid:sr-11"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-17"/>
+          <reference value="urn:uuid:patient-17"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-9"/>
+          <reference value="urn:uuid:enc-9"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -5104,7 +5104,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-11"/>
+          <reference value="urn:uuid:spec-11"/>
         </specimen>
       </Observation>
     </resource>
@@ -5119,17 +5119,17 @@
       <Observation>
         <id value="obs-12"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-12"/>
+          <reference value="urn:uuid:sr-12"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-19"/>
+          <reference value="urn:uuid:patient-19"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-15"/>
+          <reference value="urn:uuid:enc-15"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -5140,7 +5140,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-12"/>
+          <reference value="urn:uuid:spec-12"/>
         </specimen>
       </Observation>
     </resource>
@@ -5155,17 +5155,17 @@
       <Observation>
         <id value="obs-13"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-13"/>
+          <reference value="urn:uuid:sr-13"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-20"/>
+          <reference value="urn:uuid:patient-20"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-3"/>
+          <reference value="urn:uuid:enc-3"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -5176,7 +5176,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-13"/>
+          <reference value="urn:uuid:spec-13"/>
         </specimen>
       </Observation>
     </resource>
@@ -5191,17 +5191,17 @@
       <Observation>
         <id value="obs-14"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-14"/>
+          <reference value="urn:uuid:sr-14"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-21"/>
+          <reference value="urn:uuid:patient-21"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-17"/>
+          <reference value="urn:uuid:enc-17"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -5212,7 +5212,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-14"/>
+          <reference value="urn:uuid:spec-14"/>
         </specimen>
       </Observation>
     </resource>
@@ -5227,17 +5227,17 @@
       <Observation>
         <id value="obs-15"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-15"/>
+          <reference value="urn:uuid:sr-15"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-23"/>
+          <reference value="urn:uuid:patient-23"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-18"/>
+          <reference value="urn:uuid:enc-18"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -5248,7 +5248,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-15"/>
+          <reference value="urn:uuid:spec-15"/>
         </specimen>
       </Observation>
     </resource>
@@ -5263,17 +5263,17 @@
       <Observation>
         <id value="obs-16"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-16"/>
+          <reference value="urn:uuid:sr-16"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-26"/>
+          <reference value="urn:uuid:patient-26"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-1"/>
+          <reference value="urn:uuid:enc-1"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -5284,7 +5284,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-16"/>
+          <reference value="urn:uuid:spec-16"/>
         </specimen>
       </Observation>
     </resource>
@@ -5299,17 +5299,17 @@
       <Observation>
         <id value="obs-17"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-17"/>
+          <reference value="urn:uuid:sr-17"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-27"/>
+          <reference value="urn:uuid:patient-27"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-5"/>
+          <reference value="urn:uuid:enc-5"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -5320,7 +5320,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-17"/>
+          <reference value="urn:uuid:spec-17"/>
         </specimen>
       </Observation>
     </resource>
@@ -5335,17 +5335,17 @@
       <Observation>
         <id value="obs-18"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-18"/>
+          <reference value="urn:uuid:sr-18"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-29"/>
+          <reference value="urn:uuid:patient-29"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-8"/>
+          <reference value="urn:uuid:enc-8"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -5356,7 +5356,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-18"/>
+          <reference value="urn:uuid:spec-18"/>
         </specimen>
       </Observation>
     </resource>
@@ -5371,17 +5371,17 @@
       <Observation>
         <id value="obs-19"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-19"/>
+          <reference value="urn:uuid:sr-19"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-33"/>
+          <reference value="urn:uuid:patient-33"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-6"/>
+          <reference value="urn:uuid:enc-6"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -5392,7 +5392,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-19"/>
+          <reference value="urn:uuid:spec-19"/>
         </specimen>
       </Observation>
     </resource>
@@ -5407,17 +5407,17 @@
       <Observation>
         <id value="obs-20"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-20"/>
+          <reference value="urn:uuid:sr-20"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-36"/>
+          <reference value="urn:uuid:patient-36"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-11"/>
+          <reference value="urn:uuid:enc-11"/>
         </encounter>
         <effectiveDateTime value="2022-05-10"/>
         <interpretation>
@@ -5428,7 +5428,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-20"/>
+          <reference value="urn:uuid:spec-20"/>
         </specimen>
       </Observation>
     </resource>
@@ -5443,17 +5443,17 @@
       <Observation>
         <id value="obs-21"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-21"/>
+          <reference value="urn:uuid:sr-21"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-24"/>
+          <reference value="urn:uuid:patient-24"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-20"/>
+          <reference value="urn:uuid:enc-20"/>
         </encounter>
         <effectiveDateTime value="2022-05-11"/>
         <interpretation>
@@ -5464,7 +5464,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-21"/>
+          <reference value="urn:uuid:spec-21"/>
         </specimen>
       </Observation>
     </resource>
@@ -5479,17 +5479,17 @@
       <Observation>
         <id value="obs-22"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-22"/>
+          <reference value="urn:uuid:sr-22"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-31"/>
+          <reference value="urn:uuid:patient-31"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-24"/>
+          <reference value="urn:uuid:enc-24"/>
         </encounter>
         <effectiveDateTime value="2022-05-11"/>
         <interpretation>
@@ -5500,7 +5500,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-22"/>
+          <reference value="urn:uuid:spec-22"/>
         </specimen>
       </Observation>
     </resource>
@@ -5515,17 +5515,17 @@
       <Observation>
         <id value="obs-23"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-23"/>
+          <reference value="urn:uuid:sr-23"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-37"/>
+          <reference value="urn:uuid:patient-37"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-23"/>
+          <reference value="urn:uuid:enc-23"/>
         </encounter>
         <effectiveDateTime value="2022-05-11"/>
         <interpretation>
@@ -5536,7 +5536,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-23"/>
+          <reference value="urn:uuid:spec-23"/>
         </specimen>
       </Observation>
     </resource>
@@ -5551,17 +5551,17 @@
       <Observation>
         <id value="obs-24"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-24"/>
+          <reference value="urn:uuid:sr-24"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-34"/>
+          <reference value="urn:uuid:patient-34"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-26"/>
+          <reference value="urn:uuid:enc-26"/>
         </encounter>
         <effectiveDateTime value="2022-05-13"/>
         <interpretation>
@@ -5572,7 +5572,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-24"/>
+          <reference value="urn:uuid:spec-24"/>
         </specimen>
       </Observation>
     </resource>
@@ -5587,17 +5587,17 @@
       <Observation>
         <id value="obs-25"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-25"/>
+          <reference value="urn:uuid:sr-25"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-27"/>
+          <reference value="urn:uuid:patient-27"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-5"/>
+          <reference value="urn:uuid:enc-5"/>
         </encounter>
         <effectiveDateTime value="2022-05-16"/>
         <interpretation>
@@ -5608,7 +5608,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-25"/>
+          <reference value="urn:uuid:spec-25"/>
         </specimen>
       </Observation>
     </resource>
@@ -5623,17 +5623,17 @@
       <Observation>
         <id value="obs-26"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-26"/>
+          <reference value="urn:uuid:sr-26"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-18"/>
+          <reference value="urn:uuid:patient-18"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-22"/>
+          <reference value="urn:uuid:enc-22"/>
         </encounter>
         <effectiveDateTime value="2022-05-17"/>
         <interpretation>
@@ -5644,7 +5644,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-26"/>
+          <reference value="urn:uuid:spec-26"/>
         </specimen>
       </Observation>
     </resource>
@@ -5659,17 +5659,17 @@
       <Observation>
         <id value="obs-27"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-27"/>
+          <reference value="urn:uuid:sr-27"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-7"/>
+          <reference value="urn:uuid:patient-7"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-28"/>
+          <reference value="urn:uuid:enc-28"/>
         </encounter>
         <effectiveDateTime value="2022-05-20"/>
         <interpretation>
@@ -5680,7 +5680,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-27"/>
+          <reference value="urn:uuid:spec-27"/>
         </specimen>
       </Observation>
     </resource>
@@ -5695,17 +5695,17 @@
       <Observation>
         <id value="obs-28"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-28"/>
+          <reference value="urn:uuid:sr-28"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-9"/>
+          <reference value="urn:uuid:patient-9"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-25"/>
+          <reference value="urn:uuid:enc-25"/>
         </encounter>
         <effectiveDateTime value="2022-05-20"/>
         <interpretation>
@@ -5716,7 +5716,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-28"/>
+          <reference value="urn:uuid:spec-28"/>
         </specimen>
       </Observation>
     </resource>
@@ -5731,17 +5731,17 @@
       <Observation>
         <id value="obs-29"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-29"/>
+          <reference value="urn:uuid:sr-29"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-11"/>
+          <reference value="urn:uuid:patient-11"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-21"/>
+          <reference value="urn:uuid:enc-21"/>
         </encounter>
         <effectiveDateTime value="2022-05-20"/>
         <interpretation>
@@ -5752,7 +5752,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-29"/>
+          <reference value="urn:uuid:spec-29"/>
         </specimen>
       </Observation>
     </resource>
@@ -5767,17 +5767,17 @@
       <Observation>
         <id value="obs-30"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-30"/>
+          <reference value="urn:uuid:sr-30"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-16"/>
+          <reference value="urn:uuid:patient-16"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-27"/>
+          <reference value="urn:uuid:enc-27"/>
         </encounter>
         <effectiveDateTime value="2022-05-20"/>
         <interpretation>
@@ -5788,7 +5788,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-30"/>
+          <reference value="urn:uuid:spec-30"/>
         </specimen>
       </Observation>
     </resource>
@@ -5803,17 +5803,17 @@
       <Observation>
         <id value="obs-31"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-31"/>
+          <reference value="urn:uuid:sr-31"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-21"/>
+          <reference value="urn:uuid:patient-21"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-17"/>
+          <reference value="urn:uuid:enc-17"/>
         </encounter>
         <effectiveDateTime value="2022-05-20"/>
         <interpretation>
@@ -5824,7 +5824,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-31"/>
+          <reference value="urn:uuid:spec-31"/>
         </specimen>
       </Observation>
     </resource>
@@ -5839,17 +5839,17 @@
       <Observation>
         <id value="obs-32"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-32"/>
+          <reference value="urn:uuid:sr-32"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-24"/>
+          <reference value="urn:uuid:patient-24"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-20"/>
+          <reference value="urn:uuid:enc-20"/>
         </encounter>
         <effectiveDateTime value="2022-05-20"/>
         <interpretation>
@@ -5860,7 +5860,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-32"/>
+          <reference value="urn:uuid:spec-32"/>
         </specimen>
       </Observation>
     </resource>
@@ -5875,17 +5875,17 @@
       <Observation>
         <id value="obs-33"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-33"/>
+          <reference value="urn:uuid:sr-33"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-31"/>
+          <reference value="urn:uuid:patient-31"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-24"/>
+          <reference value="urn:uuid:enc-24"/>
         </encounter>
         <effectiveDateTime value="2022-05-20"/>
         <interpretation>
@@ -5896,7 +5896,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-33"/>
+          <reference value="urn:uuid:spec-33"/>
         </specimen>
       </Observation>
     </resource>
@@ -5911,17 +5911,17 @@
       <Observation>
         <id value="obs-34"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-34"/>
+          <reference value="urn:uuid:sr-34"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-37"/>
+          <reference value="urn:uuid:patient-37"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-23"/>
+          <reference value="urn:uuid:enc-23"/>
         </encounter>
         <effectiveDateTime value="2022-05-20"/>
         <interpretation>
@@ -5932,7 +5932,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-34"/>
+          <reference value="urn:uuid:spec-34"/>
         </specimen>
       </Observation>
     </resource>
@@ -5947,17 +5947,17 @@
       <Observation>
         <id value="obs-35"/>
         <basedOn>
-          <reference value="ServiceRequest/sr-35"/>
+          <reference value="urn:uuid:sr-35"/>
         </basedOn>
         <status value="final"/>
         <code>
           <text value="stool"/>
         </code>
         <subject>
-          <reference value="Patient/patient-34"/>
+          <reference value="urn:uuid:patient-34"/>
         </subject>
         <encounter>
-          <reference value="Encounter/enc-26"/>
+          <reference value="urn:uuid:enc-26"/>
         </encounter>
         <effectiveDateTime value="2022-06-01"/>
         <interpretation>
@@ -5968,7 +5968,7 @@
           </coding>
         </interpretation>
         <specimen>
-          <reference value="Specimen/spec-35"/>
+          <reference value="urn:uuid:spec-35"/>
         </specimen>
       </Observation>
     </resource>
