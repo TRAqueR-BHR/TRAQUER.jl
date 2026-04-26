@@ -198,7 +198,7 @@ function ETLCtrl.Excel.convertExcelToFHIR(
             print(loc_buf, """
                 <location>
                     <location>
-                        <reference value="Location/$(lid)" />
+                        <reference value="urn:uuid:$(lid)" />
                         <display value="$(esc(lr.unit_name))" />
                     </location>""")
             if !ismissing(lr.room) && !isempty(strip(string(lr.room)))
@@ -238,7 +238,7 @@ function ETLCtrl.Excel.convertExcelToFHIR(
                     </coding>
                 </class>
                 <subject>
-                    <reference value="Patient/patient-$(pat_ref)" />
+                    <reference value="urn:uuid:patient-$(pat_ref)" />
                 </subject>
                 <actualPeriod>
                     <start value="$(fmt_zdt(hosp_in))" />""")
@@ -314,11 +314,11 @@ $(rstrip(String(take!(loc_buf))))
         matched_loc = find_location(pat_ref, req_dt)
         enc_xml_sr  = ismissing(matched_enc) ? "" : """
             <encounter>
-                <reference value="Encounter/$(matched_enc)" />
+                <reference value="urn:uuid:$(matched_enc)" />
             </encounter>"""
         req_xml_sr  = ismissing(matched_loc) ? "" : """
             <requester>
-                <reference value="Location/$(matched_loc)" />
+                <reference value="urn:uuid:$(matched_loc)" />
             </requester>"""
 
         print(io, """
@@ -342,11 +342,11 @@ $(rstrip(String(take!(loc_buf))))
                     </concept>
                 </code>
                 <subject>
-                    <reference value="Patient/patient-$(pat_ref)" />
+                    <reference value="urn:uuid:patient-$(pat_ref)" />
                 </subject>$(enc_xml_sr)
                 <authoredOn value="$(req_str)" />$(req_xml_sr)
                 <specimen>
-                    <reference value="Specimen/spec-$(ar)" />
+                    <reference value="urn:uuid:spec-$(ar)" />
                 </specimen>
             </ServiceRequest>
         </resource>
@@ -379,11 +379,11 @@ $(rstrip(String(take!(loc_buf))))
                     <text value="$(stype)" />
                 </type>
                 <subject>
-                    <reference value="Patient/patient-$(pat_ref)" />
+                    <reference value="urn:uuid:patient-$(pat_ref)" />
                 </subject>
                 <receivedTime value="$(req_str)" />
                 <request>
-                    <reference value="ServiceRequest/sr-$(ar)" />
+                    <reference value="urn:uuid:sr-$(ar)" />
                 </request>
                 <collection>
                     <collectedDateTime value="$(req_str)" />
@@ -423,7 +423,7 @@ $(rstrip(String(take!(loc_buf))))
         matched_enc = find_encounter(pat_ref, req_dt)
         enc_xml_t   = ismissing(matched_enc) ? "" : """
             <encounter>
-                <reference value="Encounter/$(matched_enc)" />
+                <reference value="urn:uuid:$(matched_enc)" />
             </encounter>"""
 
         print(io, """
@@ -443,11 +443,11 @@ $(rstrip(String(take!(loc_buf))))
                 </code>
                 <focus>
                     <valueReference>
-                        <reference value="ServiceRequest/sr-$(ar)" />
+                        <reference value="urn:uuid:sr-$(ar)" />
                     </valueReference>
                 </focus>
                 <for>
-                    <reference value="Patient/patient-$(pat_ref)" />
+                    <reference value="urn:uuid:patient-$(pat_ref)" />
                 </for>$(enc_xml_t)
                 <executionPeriod>
                     <start value="$(fmt(row.request_time))" />
@@ -482,7 +482,7 @@ $(rstrip(String(take!(loc_buf))))
         matched_enc  = find_encounter(pat_ref, analysis_dt)
         enc_xml      = ismissing(matched_enc) ? "" : """
                 <encounter>
-                    <reference value="Encounter/$(matched_enc)" />
+                    <reference value="urn:uuid:$(matched_enc)" />
                 </encounter>"""
 
         # Optional note from result_raw_text
@@ -499,14 +499,14 @@ $(rstrip(String(take!(loc_buf))))
             <Observation>
                 <id value="obs-$(ar)" />
                 <basedOn>
-                    <reference value="ServiceRequest/sr-$(ar)" />
+                    <reference value="urn:uuid:sr-$(ar)" />
                 </basedOn>
                 <status value="final" />
                 <code>
                     <text value="$(stype)" />
                 </code>
                 <subject>
-                    <reference value="Patient/patient-$(pat_ref)" />
+                    <reference value="urn:uuid:patient-$(pat_ref)" />
                 </subject>$(enc_xml)
                 <effectiveDateTime value="$(eff_str)" />
                 <interpretation>
@@ -518,7 +518,7 @@ $(rstrip(String(take!(loc_buf))))
                     </coding>
                 </interpretation>$(note_xml)
                 <specimen>
-                    <reference value="Specimen/spec-$(ar)" />
+                    <reference value="urn:uuid:spec-$(ar)" />
                 </specimen>
             </Observation>
         </resource>
