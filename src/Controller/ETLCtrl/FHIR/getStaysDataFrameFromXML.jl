@@ -28,6 +28,10 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
         isnothing(n) ? missing : n["value"]
     end
 
+    # Helper: extract a FHIR resource id from a reference value.
+    # Handles both "ResourceType/id" and "urn:uuid:id" formats.
+    ref_id(ref) = replace(ref, r"^urn:uuid:" => "") |> s -> last(split(s, "/"))
+
     # Helper: parse a date string (yyyy-mm-dd) to Date, or missing
     function parse_date(s)::Union{Date, Missing}
         ismissing(s) && return missing
@@ -76,7 +80,7 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
     for enc in EzXML.findall("//fhir:Encounter", root, ns)
         subj_ref = attr_val(enc, "fhir:subject/fhir:reference")
         ismissing(subj_ref) && continue
-        pat_fhir_id = last(split(subj_ref, "/"))
+        pat_fhir_id = ref_id(subj_ref)
         pat_info    = get(patients, pat_fhir_id, missing)
         ismissing(pat_info) && continue
 
@@ -90,7 +94,7 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
             unit_out  = attr_val(loc_el, "fhir:period/fhir:end")
 
             unit_code_name = if !ismissing(loc_ref)
-                get(locations, last(split(loc_ref, "/")), missing)
+                get(locations, ref_id(loc_ref), missing)
             else
                 missing
             end

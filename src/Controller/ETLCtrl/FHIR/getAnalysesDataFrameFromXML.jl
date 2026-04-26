@@ -32,6 +32,10 @@ function ETLCtrl.FHIR.getAnalysesDataFrameFromXML(xmlFilePath::String)
         isnothing(n) ? missing : n["value"]
     end
 
+    # Helper: extract a FHIR resource id from a reference value.
+    # Handles both "ResourceType/id" and "urn:uuid:id" formats.
+    ref_id(ref) = replace(ref, r"^urn:uuid:" => "") |> s -> last(split(s, "/"))
+
     # Helper: parse a FHIR dateTime string to ZonedDateTime, or missing.
     # Handles full ISO-8601 with offset (e.g. "2022-05-02T10:00:00+02:00")
     # and date-only values (e.g. "2022-05-02") treated as midnight UTC.
@@ -72,7 +76,7 @@ function ETLCtrl.FHIR.getAnalysesDataFrameFromXML(xmlFilePath::String)
         for req_el in EzXML.findall("fhir:request", spec, ns)
             sr_ref = attr_val(req_el, "fhir:reference")
             ismissing(sr_ref) && continue
-            sr_id = last(split(sr_ref, "/"))
+            sr_id = ref_id(sr_ref)
             sr_to_sample[sr_id] = sample_text
         end
     end
@@ -84,7 +88,7 @@ function ETLCtrl.FHIR.getAnalysesDataFrameFromXML(xmlFilePath::String)
         (ismissing(status) || status != "in-progress") && continue
         focus_ref = attr_val(task, "fhir:focus/fhir:valueReference/fhir:reference")
         ismissing(focus_ref) && continue
-        push!(sr_in_progress, last(split(focus_ref, "/")))
+        push!(sr_in_progress, ref_id(focus_ref))
     end
 
     # ── Observation lookup: ServiceRequest FHIR id → (result, result_time) ───
@@ -92,7 +96,7 @@ function ETLCtrl.FHIR.getAnalysesDataFrameFromXML(xmlFilePath::String)
     for obs in EzXML.findall("//fhir:Observation", root, ns)
         based_on_ref = attr_val(obs, "fhir:basedOn/fhir:reference")
         ismissing(based_on_ref) && continue
-        sr_id = last(split(based_on_ref, "/"))
+        sr_id = ref_id(based_on_ref)
 
         interp_code  = attr_val(obs, "fhir:interpretation/fhir:coding/fhir:code")
         result_str   = if !ismissing(interp_code)
@@ -120,7 +124,7 @@ function ETLCtrl.FHIR.getAnalysesDataFrameFromXML(xmlFilePath::String)
 
         subj_ref    = attr_val(sr, "fhir:subject/fhir:reference")
         patient_ref = if !ismissing(subj_ref)
-            get(patients, last(split(subj_ref, "/")), missing)
+            get(patients, ref_id(subj_ref), missing)
         else
             missing
         end
