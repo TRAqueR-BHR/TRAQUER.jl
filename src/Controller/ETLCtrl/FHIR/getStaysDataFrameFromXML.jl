@@ -81,7 +81,7 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
         hosp_out = attr_val(enc, "fhir:actualPeriod/fhir:end")
 
         for loc_el in EzXML.findall("fhir:location", enc, ns)
-            loc_ref  = attr_val(loc_el, "fhir:location/fhir:reference")
+            loc_ref   = attr_val(loc_el, "fhir:location/fhir:reference")
             unit_name = attr_val(loc_el, "fhir:location/fhir:display")
             unit_in   = attr_val(loc_el, "fhir:period/fhir:start")
             unit_out  = attr_val(loc_el, "fhir:period/fhir:end")
@@ -90,6 +90,16 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
                 get(locations, last(split(loc_ref, "/")), missing)
             else
                 missing
+            end
+
+            # Extract room from <form> when coded as location-physical-type "ro"
+            room_val = missing
+            for form_el in EzXML.findall("fhir:form", loc_el, ns)
+                code = attr_val(form_el, "fhir:coding/fhir:code")
+                if !ismissing(code) && code == "ro"
+                    room_val = attr_val(form_el, "fhir:text")
+                    break
+                end
             end
 
             push!(rows, (
@@ -102,7 +112,7 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
                 unit_code_name           = unit_code_name,
                 unit_name                = unit_name,
                 sector                   = missing,
-                room                     = missing,
+                room                     = room_val,
                 unit_in_time             = parse_zdt(unit_in),
                 unit_out_time            = parse_zdt(unit_out),
             ))
