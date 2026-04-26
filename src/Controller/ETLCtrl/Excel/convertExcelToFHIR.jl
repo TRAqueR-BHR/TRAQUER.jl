@@ -406,10 +406,15 @@ $(rstrip(String(take!(loc_buf))))
 """)
     end
 
-    # ── Tasks (analyses without result — culture in progress) ──────────────────
+    # ── Tasks (analyses without result: sample taken and sent to the lab culture in
+    #    progress) ────────────────────────────────────────────────────────────────────────
     for row in eachrow(analyses_df)
         res_val = row.result
-        (ismissing(res_val) || isempty(strip(string(res_val)))) || continue
+
+        # Only create a Task if status == in_progress
+        if row.status !== "in_progress"
+            continue
+        end
 
         ar      = string(row.analysis_ref)
         pat_ref = string(row.patient_ref)
