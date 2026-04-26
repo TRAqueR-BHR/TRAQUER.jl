@@ -299,51 +299,6 @@ $(rstrip(String(take!(loc_buf))))
         isnothing(last_row) ? missing : loc_id(last_row.unit_code_name)
     end
 
-    # ── Specimens ─────────────────────────────────────────────────────────────
-    for row in eachrow(analyses_df)
-        ar      = string(row.analysis_ref)
-        pat_ref = string(row.patient_ref)
-        stype   = esc(row.sample)
-        req_str = fmt(row.request_time)
-        res_t   = row.result_time
-
-        print(io, """
-    <entry>
-        <fullUrl value="urn:uuid:spec-$(ar)" />
-        <resource>
-            <Specimen>
-                <id value="spec-$(ar)" />
-                <identifier>
-                    <value value="$(esc(ar))" />
-                </identifier>
-                <type>
-                    <text value="$(stype)" />
-                </type>
-                <subject>
-                    <reference value="Patient/patient-$(pat_ref)" />
-                </subject>
-                <receivedTime value="$(req_str)" />
-                <collection>
-                    <collectedDateTime value="$(req_str)" />
-                </collection>""")
-        if !ismissing(res_t)
-            print(io, """
-                <processing>
-                    <description value="Validation du résultat" />
-                    <timeDateTime value="$(fmt(res_t))" />
-                </processing>""")
-        end
-        print(io, """
-            </Specimen>
-        </resource>
-        <request>
-            <method value="PUT" />
-            <url value="Specimen/spec-$(ar)" />
-        </request>
-    </entry>
-""")
-    end
-
     # ── ServiceRequests ────────────────────────────────────────────────────────
     for row in eachrow(analyses_df)
         ar        = string(row.analysis_ref)
@@ -398,6 +353,54 @@ $(rstrip(String(take!(loc_buf))))
         <request>
             <method value="PUT" />
             <url value="ServiceRequest/sr-$(ar)" />
+        </request>
+    </entry>
+""")
+    end
+
+    # ── Specimens ─────────────────────────────────────────────────────────────
+    for row in eachrow(analyses_df)
+        ar      = string(row.analysis_ref)
+        pat_ref = string(row.patient_ref)
+        stype   = esc(row.sample)
+        req_str = fmt(row.request_time)
+        res_t   = row.result_time
+
+        print(io, """
+    <entry>
+        <fullUrl value="urn:uuid:spec-$(ar)" />
+        <resource>
+            <Specimen>
+                <id value="spec-$(ar)" />
+                <identifier>
+                    <value value="$(esc(ar))" />
+                </identifier>
+                <type>
+                    <text value="$(stype)" />
+                </type>
+                <subject>
+                    <reference value="Patient/patient-$(pat_ref)" />
+                </subject>
+                <receivedTime value="$(req_str)" />
+                <request>
+                    <reference value="ServiceRequest/sr-$(ar)" />
+                </request>
+                <collection>
+                    <collectedDateTime value="$(req_str)" />
+                </collection>""")
+        if !ismissing(res_t)
+            print(io, """
+                <processing>
+                    <description value="Validation du résultat" />
+                    <timeDateTime value="$(fmt(res_t))" />
+                </processing>""")
+        end
+        print(io, """
+            </Specimen>
+        </resource>
+        <request>
+            <method value="PUT" />
+            <url value="Specimen/spec-$(ar)" />
         </request>
     </entry>
 """)
