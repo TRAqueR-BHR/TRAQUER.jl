@@ -53,10 +53,11 @@ Each FHIR resource has two distinct ways to be identified:
 
 ### Referencing resources with `<reference>`
 
-Resources are referenced using the `<reference>` element, with the following convention for
-the value property: `value="<ResourceType>/<FHIR ID>"`.
+Resources are referenced using the `<reference>` element with the `urn:uuid:` convention:
+`value="urn:uuid:<FHIR ID>"`.
 For example if a Patient was declared with the FHIR ID `patient-601856351`, the reference
-would be `Patient/patient-601856351`.
+would be `urn:uuid:patient-601856351`, and the corresponding `<fullUrl>` on the bundle entry
+must also be `urn:uuid:patient-601856351`.
 
 Important note: Traquer does not persist FHIR IDs therefore any reference to a resource must
 be resolvable within the same file. For example, if a `Location` resource is referenced in
@@ -128,7 +129,7 @@ element, with the standard `location-physical-type` coding system:
 ```xml
 <location>
   <location>
-    <reference value="Location/loc-rea1-sector2"/>
+    <reference value="urn:uuid:loc-rea1-sector2"/>
     <display value="Secteur 2, REA1"/>
   </location>
   <form>

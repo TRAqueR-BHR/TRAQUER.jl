@@ -1,12 +1,16 @@
 function ETLCtrl.FHIR.checkReferenceIsDeclared(fhirRef::String, xmlDoc::EzXML.Document)
-    # fhirRef is expected in the form "ResourceType/id" e.g. "Location/loc-CARDIO"
-    parts = split(fhirRef, "/")
-    resourceType = parts[end-1]
-    resourceId = parts[end]
-    matches = EzXML.findall(
-        "fhir:entry[fhir:resource/fhir:$resourceType[fhir:id/@value='$resourceId']]",
-        xmlDoc.root,
-        ["fhir" => "http://hl7.org/fhir"]
-    )
+    ns = ["fhir" => "http://hl7.org/fhir"]
+
+    if startswith(fhirRef, "urn:uuid:")
+        # Match against the entry fullUrl
+        matches = EzXML.findall(
+            "fhir:entry[fhir:fullUrl/@value='$fhirRef']",
+            xmlDoc.root,
+            ns
+        )
+    else
+        error("Only references in 'urn:uuid:id' format are supported for now. Got: $fhirRef")
+    end
+
     return !isempty(matches)
 end

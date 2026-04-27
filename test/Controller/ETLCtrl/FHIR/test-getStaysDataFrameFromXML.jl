@@ -55,7 +55,7 @@ include("__prerequisite.jl")
         :unit_code_name,
         :unit_name,
         # :sector,
-        # :room,
+        :room,
         :unit_in_time,
         :unit_out_time
     ]

@@ -22,3 +22,21 @@ end
     @test "Location/loc-MISSING" in undeclared
 
 end
+
+@testset "Test ETLCtrl.FHIR.checkAllReferencesAreDeclared - for SALIOU file" begin
+
+    xmlFilePath = "custom/demo/test/sample-input-data/accidental_discovery_and_epidemic/demo-fhir SALIOU.xml"
+    xmlDoc = ETLCtrl.FHIR.loadXMLFile(xmlFilePath)
+
+    undeclared = ETLCtrl.FHIR.checkAllReferencesAreDeclared(xmlDoc)
+
+end
+
+@testset "Test ETLCtrl.FHIR.checkAllReferencesAreDeclared - for README example file" begin
+
+    xmlFilePath = "READMEs/HL7-FHIR/examples/scenario1-fhir-r5.xml"
+    xmlDoc = ETLCtrl.FHIR.loadXMLFile(xmlFilePath)
+
+    undeclared = ETLCtrl.FHIR.checkAllReferencesAreDeclared(xmlDoc)
+
+end

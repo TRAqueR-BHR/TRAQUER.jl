@@ -112,29 +112,11 @@ function ETLCtrl.Excel.convertExcelToFHIR(
     loc_id(code) = "loc-" * replace(string(code), r"\s+" => "-")
 
     # ── Build XML ────────────────────────────────────────────────────────────
-    io     = IOBuffer()
-    org_id = "org-demo"
+    io = IOBuffer()
 
     println(io, "<?xml version='1.0' encoding='utf-8'?>")
     println(io, """<Bundle xmlns=\"http://hl7.org/fhir\">""")
     println(io, "    <type value=\"transaction\" />")
-
-    # ── Organization ─────────────────────────────────────────────────────────
-    print(io, """
-    <entry>
-        <fullUrl value="urn:uuid:$(org_id)" />
-        <resource>
-            <Organization>
-                <id value="$(org_id)" />
-                <name value="Demo Hospital" />
-            </Organization>
-        </resource>
-        <request>
-            <method value="PUT" />
-            <url value="Organization/$(org_id)" />
-        </request>
-    </entry>
-""")
 
     # ── Patients ──────────────────────────────────────────────────────────────
     for row in eachrow(unique(stays_df, :patient_ref))
@@ -176,9 +158,6 @@ function ETLCtrl.Excel.convertExcelToFHIR(
                     <value value="$(esc(row.unit_code_name))" />
                 </identifier>
                 <name value="$(esc(row.unit_name))" />
-                <managingOrganization>
-                    <reference value="Organization/$(org_id)" />
-                </managingOrganization>
             </Location>
         </resource>
         <request>
@@ -219,7 +198,7 @@ function ETLCtrl.Excel.convertExcelToFHIR(
             print(loc_buf, """
                 <location>
                     <location>
-                        <reference value="Location/$(lid)" />
+                        <reference value="urn:uuid:$(lid)" />
                         <display value="$(esc(lr.unit_name))" />
                     </location>""")
             if !ismissing(lr.room) && !isempty(strip(string(lr.room)))
@@ -259,11 +238,8 @@ function ETLCtrl.Excel.convertExcelToFHIR(
                     </coding>
                 </class>
                 <subject>
-                    <reference value="Patient/patient-$(pat_ref)" />
+                    <reference value="urn:uuid:patient-$(pat_ref)" />
                 </subject>
-                <serviceProvider>
-                    <reference value="Organization/$(org_id)" />
-                </serviceProvider>
                 <actualPeriod>
                     <start value="$(fmt_zdt(hosp_in))" />""")
         if !ismissing(hosp_out)
@@ -304,6 +280,84 @@ $(rstrip(String(take!(loc_buf))))
         return missing
     end
 
+    # ── Helper: find Location (unit) for a given patient + time ──────────────
+    function find_location(pat_ref_str::String, time_dt)
+        ismissing(time_dt) && return missing
+        for row in eachrow(stays_df)
+            string(row.patient_ref) != pat_ref_str && continue
+            in_dt  = to_dt(row.unit_in_time)
+            out_dt = to_dt(row.unit_out_time)
+            ismissing(in_dt) && continue
+            (time_dt >= in_dt && (ismissing(out_dt) || time_dt <= out_dt)) &&
+                return loc_id(row.unit_code_name)
+        end
+        # fallback: last known unit for this patient
+        last_row = nothing
+        for row in eachrow(stays_df)
+            string(row.patient_ref) == pat_ref_str && (last_row = row)
+        end
+        isnothing(last_row) ? missing : loc_id(last_row.unit_code_name)
+    end
+
+    # ── ServiceRequests ────────────────────────────────────────────────────────
+    for row in eachrow(analyses_df)
+        ar        = string(row.analysis_ref)
+        pat_ref   = string(row.patient_ref)
+        req_str   = fmt(row.request_time)
+        res_val   = row.result
+        has_result = !ismissing(res_val) && !isempty(strip(string(res_val)))
+        sr_status  = has_result ? "completed" : "active"
+        req_type   = esc(string(row.request_type))
+
+        req_dt      = to_dt(row.request_time)
+        matched_enc = find_encounter(pat_ref, req_dt)
+        matched_loc = find_location(pat_ref, req_dt)
+        enc_xml_sr  = ismissing(matched_enc) ? "" : """
+            <encounter>
+                <reference value="urn:uuid:$(matched_enc)" />
+            </encounter>"""
+        req_xml_sr  = ismissing(matched_loc) ? "" : """
+            <requester>
+                <reference value="urn:uuid:$(matched_loc)" />
+            </requester>"""
+
+        print(io, """
+    <entry>
+        <fullUrl value="urn:uuid:sr-$(ar)" />
+        <resource>
+            <ServiceRequest>
+                <id value="sr-$(ar)" />
+                <identifier>
+                    <system value="urn:analysis-ref" />
+                    <value value="$(esc(ar))" />
+                </identifier>
+                <status value="$(sr_status)" />
+                <intent value="order" />
+                <code>
+                    <concept>
+                        <coding>
+                            <system value="https://traquer.org" />
+                            <code value="$(req_type)" />
+                        </coding>
+                    </concept>
+                </code>
+                <subject>
+                    <reference value="urn:uuid:patient-$(pat_ref)" />
+                </subject>$(enc_xml_sr)
+                <authoredOn value="$(req_str)" />$(req_xml_sr)
+                <specimen>
+                    <reference value="urn:uuid:spec-$(ar)" />
+                </specimen>
+            </ServiceRequest>
+        </resource>
+        <request>
+            <method value="PUT" />
+            <url value="ServiceRequest/sr-$(ar)" />
+        </request>
+    </entry>
+""")
+    end
+
     # ── Specimens ─────────────────────────────────────────────────────────────
     for row in eachrow(analyses_df)
         ar      = string(row.analysis_ref)
@@ -325,9 +379,12 @@ $(rstrip(String(take!(loc_buf))))
                     <text value="$(stype)" />
                 </type>
                 <subject>
-                    <reference value="Patient/patient-$(pat_ref)" />
+                    <reference value="urn:uuid:patient-$(pat_ref)" />
                 </subject>
                 <receivedTime value="$(req_str)" />
+                <request>
+                    <reference value="urn:uuid:sr-$(ar)" />
+                </request>
                 <collection>
                     <collectedDateTime value="$(req_str)" />
                 </collection>""")
@@ -344,6 +401,62 @@ $(rstrip(String(take!(loc_buf))))
         <request>
             <method value="PUT" />
             <url value="Specimen/spec-$(ar)" />
+        </request>
+    </entry>
+""")
+    end
+
+    # ── Tasks (analyses without result: sample taken and sent to the lab culture in
+    #    progress) ────────────────────────────────────────────────────────────────────────
+    for row in eachrow(analyses_df)
+        res_val = row.result
+
+        # Only create a Task if status == in_progress
+        if row.status !== "in_progress"
+            continue
+        end
+
+        ar      = string(row.analysis_ref)
+        pat_ref = string(row.patient_ref)
+
+        req_dt      = to_dt(row.request_time)
+        matched_enc = find_encounter(pat_ref, req_dt)
+        enc_xml_t   = ismissing(matched_enc) ? "" : """
+            <encounter>
+                <reference value="urn:uuid:$(matched_enc)" />
+            </encounter>"""
+
+        print(io, """
+    <entry>
+        <fullUrl value="urn:uuid:task-$(ar)" />
+        <resource>
+            <Task>
+                <id value="task-$(ar)" />
+                <status value="in-progress" />
+                <intent value="order" />
+                <code>
+                    <coding>
+                        <system value="http://hl7.org/fhir/CodeSystem/task-code" />
+                        <code value="fulfill" />
+                        <display value="Fulfill the focal request" />
+                    </coding>
+                </code>
+                <focus>
+                    <valueReference>
+                        <reference value="urn:uuid:sr-$(ar)" />
+                    </valueReference>
+                </focus>
+                <for>
+                    <reference value="urn:uuid:patient-$(pat_ref)" />
+                </for>$(enc_xml_t)
+                <executionPeriod>
+                    <start value="$(fmt(row.request_time))" />
+                </executionPeriod>
+            </Task>
+        </resource>
+        <request>
+            <method value="PUT" />
+            <url value="Task/task-$(ar)" />
         </request>
     </entry>
 """)
@@ -369,7 +482,7 @@ $(rstrip(String(take!(loc_buf))))
         matched_enc  = find_encounter(pat_ref, analysis_dt)
         enc_xml      = ismissing(matched_enc) ? "" : """
                 <encounter>
-                    <reference value="Encounter/$(matched_enc)" />
+                    <reference value="urn:uuid:$(matched_enc)" />
                 </encounter>"""
 
         # Optional note from result_raw_text
@@ -385,12 +498,15 @@ $(rstrip(String(take!(loc_buf))))
         <resource>
             <Observation>
                 <id value="obs-$(ar)" />
+                <basedOn>
+                    <reference value="urn:uuid:sr-$(ar)" />
+                </basedOn>
                 <status value="final" />
                 <code>
                     <text value="$(stype)" />
                 </code>
                 <subject>
-                    <reference value="Patient/patient-$(pat_ref)" />
+                    <reference value="urn:uuid:patient-$(pat_ref)" />
                 </subject>$(enc_xml)
                 <effectiveDateTime value="$(eff_str)" />
                 <interpretation>
@@ -402,7 +518,7 @@ $(rstrip(String(take!(loc_buf))))
                     </coding>
                 </interpretation>$(note_xml)
                 <specimen>
-                    <reference value="Specimen/spec-$(ar)" />
+                    <reference value="urn:uuid:spec-$(ar)" />
                 </specimen>
             </Observation>
         </resource>

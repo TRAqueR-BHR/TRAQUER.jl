@@ -28,6 +28,10 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
         isnothing(n) ? missing : n["value"]
     end
 
+    # Helper: extract a FHIR resource id from a reference value.
+    # Handles both "ResourceType/id" and "urn:uuid:id" formats.
+    ref_id(ref) = replace(ref, r"^urn:uuid:" => "") |> s -> last(split(s, "/"))
+
     # Helper: parse a date string (yyyy-mm-dd) to Date, or missing
     function parse_date(s)::Union{Date, Missing}
         ismissing(s) && return missing
@@ -35,13 +39,16 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
     end
 
     # Helper: parse a FHIR dateTime string to ZonedDateTime, or missing.
-    # Handles full ISO-8601 with offset (e.g. "2022-04-04T10:00:00+00:00")
-    # and date-only values (e.g. "2022-05-12") treated as midnight UTC.
+    # Handles full ISO-8601 with offset (e.g. "2022-04-04T10:00:00+02:00")
+    # and date-only values (e.g. "2022-05-12") treated as midnight for the hospital timezone.
     function parse_zdt(s)::Union{ZonedDateTime, Missing}
         ismissing(s) && return missing
         # date-only: "yyyy-mm-dd"
         if occursin(r"^\d{4}-\d{2}-\d{2}$", s)
-            return ZonedDateTime(DateTime(s, dateformat"yyyy-mm-dd"), tz"UTC")
+            return ZonedDateTime(
+                DateTime(s, dateformat"yyyy-mm-dd"),
+                TRAQUERUtil.getTimeZone()
+            )
         end
         TRAQUERUtil.convertStringToZonedDateTime(s)
     end
@@ -73,7 +80,7 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
     for enc in EzXML.findall("//fhir:Encounter", root, ns)
         subj_ref = attr_val(enc, "fhir:subject/fhir:reference")
         ismissing(subj_ref) && continue
-        pat_fhir_id = last(split(subj_ref, "/"))
+        pat_fhir_id = ref_id(subj_ref)
         pat_info    = get(patients, pat_fhir_id, missing)
         ismissing(pat_info) && continue
 
@@ -81,15 +88,25 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
         hosp_out = attr_val(enc, "fhir:actualPeriod/fhir:end")
 
         for loc_el in EzXML.findall("fhir:location", enc, ns)
-            loc_ref  = attr_val(loc_el, "fhir:location/fhir:reference")
+            loc_ref   = attr_val(loc_el, "fhir:location/fhir:reference")
             unit_name = attr_val(loc_el, "fhir:location/fhir:display")
             unit_in   = attr_val(loc_el, "fhir:period/fhir:start")
             unit_out  = attr_val(loc_el, "fhir:period/fhir:end")
 
             unit_code_name = if !ismissing(loc_ref)
-                get(locations, last(split(loc_ref, "/")), missing)
+                get(locations, ref_id(loc_ref), missing)
             else
                 missing
+            end
+
+            # Extract room from <form> when coded as location-physical-type "ro"
+            room_val = missing
+            for form_el in EzXML.findall("fhir:form", loc_el, ns)
+                code = attr_val(form_el, "fhir:coding/fhir:code")
+                if !ismissing(code) && code == "ro"
+                    room_val = attr_val(form_el, "fhir:text")
+                    break
+                end
             end
 
             push!(rows, (
@@ -102,7 +119,7 @@ function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
                 unit_code_name           = unit_code_name,
                 unit_name                = unit_name,
                 sector                   = missing,
-                room                     = missing,
+                room                     = room_val,
                 unit_in_time             = parse_zdt(unit_in),
                 unit_out_time            = parse_zdt(unit_out),
             ))
