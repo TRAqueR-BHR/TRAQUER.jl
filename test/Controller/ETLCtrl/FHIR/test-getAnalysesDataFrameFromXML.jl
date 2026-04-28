@@ -32,6 +32,9 @@ include("__prerequisite.jl")
     srcDF.request_time = ZonedDateTime.(srcDF.request_time, TRAQUERUtil.getTimeZone())
     srcDF.result_time  = passmissing(ZonedDateTime).(srcDF.result_time, TRAQUERUtil.getTimeZone())
 
+    # Convert request_type and result from string to enum values
+    srcDF.request_type = TRAQUERUtil.string2enum.(ANALYSIS_REQUEST_TYPE, srcDF.request_type)
+    srcDF.result       = TRAQUERUtil.string2enum.(ANALYSIS_RESULT_VALUE_TYPE, srcDF.result)
 
     # Order both dataframes by patient_ref and analysis_ref to ensure the same order of rows
     df    = sort(df,    [:patient_ref, :analysis_ref])

@@ -143,6 +143,11 @@ function ETLCtrl.FHIR.getAnalysesDataFrameFromXML(xmlFilePath::String)
             "requested"
         end
 
+        # Convert request_type string to ANALYSIS_REQUEST_TYPE enum value
+        # Convert result string to ANALYSIS_RESULT_VALUE_TYPE enum value
+        request_type = TRAQUERUtil.string2enum(ANALYSIS_REQUEST_TYPE, request_type)
+        result = TRAQUERUtil.string2enum(ANALYSIS_RESULT_VALUE_TYPE, result)
+
         push!(rows, (
             patient_ref  = patient_ref,
             analysis_ref = analysis_ref,
