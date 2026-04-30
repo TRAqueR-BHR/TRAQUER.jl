@@ -1,10 +1,10 @@
 include("__prerequisite.jl")
 
-@testset "Test ETLCtrl.FHIR.getAnalysesDataFrameFromXML" begin
+@testset "Test ETLCtrl.FHIR.parseXMLToAnalysesDF" begin
 
 
     # This test consists in generating the FHIR XML file from the stays and analyses Excel
-    # files, then using the generated XML file for `getAnalysesDataFrameFromXML` and checking
+    # files, then using the generated XML file for `parseXMLToAnalysesDF` and checking
     # if the output DataFrame is the same as the one loaded from the analyses Excel file
 
     rootDir = "custom/demo/test/sample-input-data/accidental_discovery_and_epidemic/"
@@ -17,12 +17,12 @@ include("__prerequisite.jl")
         staysExcelFilePath, analysisExcelFilePath, xmlOutputFilePath
     )
 
-    df = ETLCtrl.FHIR.getAnalysesDataFrameFromXML(xmlOutputFilePath)
+    df = ETLCtrl.FHIR.parseXMLToAnalysesDF(xmlOutputFilePath)
 
 
     srcDF = DataFrame(XLSX.readtable(analysisExcelFilePath, 1))
 
-    # Convert patient_ref to string to ensure the same type as the one returned by getAnalysesDataFrameFromXML
+    # Convert patient_ref to string to ensure the same type as the one returned by parseXMLToAnalysesDF
     srcDF.patient_ref = string.(srcDF.patient_ref)
 
     # Convert analysis_ref to string

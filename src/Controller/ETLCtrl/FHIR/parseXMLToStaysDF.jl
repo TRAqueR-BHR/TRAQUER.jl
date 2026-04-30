@@ -1,5 +1,5 @@
 """
-    getStaysDataFrameFromXML(xmlFilePath::String)
+    parseXMLToStaysDF(xmlFilePath::String)
 
 Extract stays from an FHIR XML file and return them as a DataFrame.
 
@@ -17,7 +17,7 @@ Columns in the DataFrame are the following:
   - unit_in_time (the time the patient entered the unit)
   - unit_out_time (the time the patient left the unit)
 """
-function ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlFilePath::String)
+function ETLCtrl.FHIR.parseXMLToStaysDF(xmlFilePath::String)
     xmlDoc = ETLCtrl.FHIR.loadXMLFile(xmlFilePath)
     root   = EzXML.root(xmlDoc)
     ns     = ["fhir" => "http://hl7.org/fhir"]

@@ -7,5 +7,5 @@ function validateUnitsData end
 function checkReferenceIsDeclared end
 function checkAllReferencesAreDeclared end
 function formatXMLFile end
-function getAnalysesDataFrameFromXML end
-function getStaysDataFrameFromXML end
+function parseXMLToAnalysesDF end
+function parseXMLToStaysDF end

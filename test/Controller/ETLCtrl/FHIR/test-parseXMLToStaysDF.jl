@@ -1,10 +1,10 @@
 include("__prerequisite.jl")
 
-@testset "Test ETLCtrl.FHIR.getStaysDataFrameFromXML" begin
+@testset "Test ETLCtrl.FHIR.parseXMLToStaysDF" begin
 
 
     # This test consist in generating the FHIR XML file from the stays and analyses Excel
-    # files, then using the generated XML file for `getStaysDataFrameFromXML` and check
+    # files, then using the generated XML file for `parseXMLToStaysDF` and check
     # if the output DataFrame is the same as the one loaded from the stays Excel file
 
     rootDir = "custom/demo/test/sample-input-data/accidental_discovery_and_epidemic/"
@@ -17,16 +17,16 @@ include("__prerequisite.jl")
         staysExcelFilePath, analysisExcelFilePath, xmlOutputFilePath
     )
 
-    df = ETLCtrl.FHIR.getStaysDataFrameFromXML(xmlOutputFilePath)
+    df = ETLCtrl.FHIR.parseXMLToStaysDF(xmlOutputFilePath)
 
 
     srcDF = DataFrame(XLSX.readtable(staysExcelFilePath,1))
 
-    # Convert patient_ref to string to ensure the same type as the one returned by getStaysDataFrameFromXML
+    # Convert patient_ref to string to ensure the same type as the one returned by parseXMLToStaysDF
     srcDF.patient_ref = string.(srcDF.patient_ref)
 
     # Convert unit_in_time, unit_out_time, hospitalization_in_time, hospitalization_out_time
-    # from DateTime to ZonedDateTime to ensure the same type as the one returned by getStaysDataFrameFromXML
+    # from DateTime to ZonedDateTime to ensure the same type as the one returned by parseXMLToStaysDF
     srcDF.unit_in_time = ZonedDateTime.(srcDF.unit_in_time, TRAQUERUtil.getTimeZone())
     srcDF.unit_out_time = passmissing(ZonedDateTime).(srcDF.unit_out_time, TRAQUERUtil.getTimeZone())
     srcDF.hospitalization_in_time = ZonedDateTime.(srcDF.hospitalization_in_time, TRAQUERUtil.getTimeZone())
