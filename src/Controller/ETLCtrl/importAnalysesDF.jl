@@ -1,3 +1,25 @@
+"""
+    importAnalysesDF(
+        df::DataFrame,
+        encryptionStr::AbstractString
+        ;stopAfterXLines::Number = Inf64,
+        ignoreEventsAfter::Union{Missing,ZonedDateTime} = missing
+    )
+
+Import analyses from a DataFrame.
+
+The DataFrame is expected to have the right columns with the right types (enums must be
+enums and dates must be Date or ZonedDateTime).
+
+The DataFrame must have the following columns and types:
+  - patient_ref::String
+  - analysis_ref::String
+  - request_time::ZonedDateTime
+  - result_time::Union{Missing,ZonedDateTime}
+  - sample::Union{Missing,SAMPLE_MATERIAL_TYPE}
+  - request_type::ANALYSIS_REQUEST_TYPE
+  - result::Union{Missing,ANALYSIS_RESULT_VALUE_TYPE}
+"""
 function ETLCtrl.importAnalysesDF(
     df::DataFrame,
     encryptionStr::AbstractString

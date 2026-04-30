@@ -1,3 +1,29 @@
+"""
+    importStaysDF(
+        df::DataFrame,
+        encryptionStr::AbstractString
+        ;ignoreEventsAfter::Union{Missing,ZonedDateTime} = missing
+    )
+
+Import stays from a DataFrame.
+
+The DataFrame is expected to have the right columns with the right types (enums must be
+enums and dates must be Date or ZonedDateTime).
+
+The DataFrame must have the following columns and types:
+  - patient_ref::String
+  - firstname::String
+  - lastname::String
+  - birthdate::Date
+  - hospitalization_in_time::ZonedDateTime
+  - hospitalization_out_time::Union{Missing,ZonedDateTime}
+  - unit_code_name::String
+  - unit_name::String
+  - sector::Union{Missing,String}
+  - room::Union{Missing,String}
+  - unit_in_time::ZonedDateTime
+  - unit_out_time::Union{Missing,ZonedDateTime}
+"""
 function ETLCtrl.importStaysDF(
     df::DataFrame,
     encryptionStr::AbstractString
