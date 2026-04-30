@@ -33,20 +33,10 @@ function ETLCtrl.importStaysDF(
             firstname = string(r.firstname)
             lastname = string(r.lastname)
             birthdate::Date = r.birthdate
-
-            inTime =  r.unit_in_time isa ZonedDateTime ?
-                r.unit_in_time :
-                passmissing(ZonedDateTime(r.unit_in_time, getTimeZone()))
-            outTime = r.unit_out_time isa ZonedDateTime ?
-                r.unit_out_time :
-                passmissing(ZonedDateTime)(r.unit_out_time, getTimeZone())
-
-            hospitalizationInTime =  r.hospitalization_in_time isa ZonedDateTime ?
-                r.hospitalization_in_time :
-                passmissing(ZonedDateTime)(r.hospitalization_in_time, getTimeZone())
-            hospitalizationOutTime =  r.hospitalization_out_time isa ZonedDateTime ?
-                r.hospitalization_out_time :
-                passmissing(ZonedDateTime)(r.hospitalization_out_time, getTimeZone())
+            inTime =  r.unit_in_time
+            outTime = r.unit_out_time
+            hospitalizationInTime =  r.hospitalization_in_time
+            hospitalizationOutTime =  r.hospitalization_out_time
 
             # We may want to simulate that we are at a given point in time, in which case
             # some information need to be ignored
