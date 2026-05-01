@@ -760,5 +760,100 @@
     </request>
   </entry>
 
+  <!--
+    ==================================================================================
+    SCENARIO 4: Patient died during stay — no lab orders
+
+    Patient Journey in This Example:
+    1. Apr 25, 11:00 - Patient admitted to Nephrology Unit (NEPHRO1)
+    2. Apr 29, 08:45 - Patient dies in NEPHRO1
+
+    Key Points:
+    - No ServiceRequest, Specimen, Observation or Task resources (no lab work ordered)
+    - Patient.deceasedDateTime records the exact time of death
+    - Encounter.status = "completed" (stay ended)
+    - Encounter.actualPeriod.end = time of death
+    - Encounter.admission.dischargeDisposition uses code "exp" (Expired)
+    - The location period.end also matches the time of death
+    ==================================================================================
+  -->
+
+  <!-- Patient P000001 — deceased -->
+  <entry>
+    <fullUrl value="urn:uuid:pat-p000001"/>
+    <resource>
+      <Patient>
+        <id value="pat-p000001"/>
+        <identifier>
+          <system value="urn:patient-ref"/>
+          <value value="P000001"/>
+        </identifier>
+        <name>
+          <family value="Bernard"/>
+          <given value="Claude"/>
+        </name>
+        <birthDate value="1938-11-04"/>
+        <!-- deceasedDateTime: exact time of death is known -->
+        <deceasedDateTime value="2026-04-29T08:45:00+02:00"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Patient"/>
+    </request>
+  </entry>
+
+  <!-- Encounter: hospitalization of P000001 — ended by death -->
+  <entry>
+    <fullUrl value="urn:uuid:enc-4"/>
+    <resource>
+      <Encounter>
+        <id value="enc-4"/>
+        <!-- completed: encounter ended (patient deceased) -->
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/> <!-- inpatient -->
+          </coding>
+        </class>
+        <subject>
+          <reference value="urn:uuid:pat-p000001"/>
+        </subject>
+        <actualPeriod>
+          <start value="2026-04-25T11:00:00+02:00"/>
+          <!-- end = time of death -->
+          <end value="2026-04-29T08:45:00+02:00"/>
+        </actualPeriod>
+        <!-- R5: hospitalization renamed to admission -->
+        <admission>
+          <dischargeDisposition>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/discharge-disposition"/>
+              <code value="exp"/>
+              <display value="Expired"/>
+            </coding>
+          </dischargeDisposition>
+        </admission>
+        <!-- Single location: patient never left NEPHRO1 -->
+        <location>
+          <location>
+            <reference value="urn:uuid:loc-nephro1"/>
+            <display value="Service de néphrologie"/>
+          </location>
+          <period>
+            <start value="2026-04-25T11:00:00+02:00"/>
+            <!-- end = time of death -->
+            <end value="2026-04-29T08:45:00+02:00"/>
+          </period>
+        </location>
+        <!-- No ServiceRequest, Specimen, Observation or Task: no lab work was ordered -->
+      </Encounter>
+    </resource>
+    <request>
+      <method value="POST"/>
+      <url value="Encounter"/>
+    </request>
+  </entry>
 
 </Bundle>
