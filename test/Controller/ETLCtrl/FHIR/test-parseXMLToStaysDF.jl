@@ -54,7 +54,7 @@ include("__prerequisite.jl")
         :hospitalization_out_time,
         :unit_code_name,
         :unit_name,
-        # :sector,
+        :sector,
         :room,
         :unit_in_time,
         :unit_out_time,
