@@ -583,6 +583,26 @@
     </request>
   </entry>
   <entry>
+    <fullUrl value="urn:uuid:patient-39"/>
+    <resource>
+      <Patient>
+        <id value="patient-39"/>
+        <identifier>
+          <value value="39"/>
+        </identifier>
+        <name>
+          <family value="MARLE"/>
+          <given value="Aymeric"/>
+        </name>
+        <birthDate value="1980-04-16"/>
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Patient/patient-39"/>
+    </request>
+  </entry>
+  <entry>
     <fullUrl value="urn:uuid:loc-rea"/>
     <resource>
       <Location>
@@ -676,6 +696,41 @@
     <request>
       <method value="PUT"/>
       <url value="Location/loc-SSR"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:loc-dermato"/>
+    <resource>
+      <Location>
+        <id value="loc-dermato"/>
+        <identifier>
+          <value value="dermato"/>
+        </identifier>
+        <name value="Dermatologie"/>
+      </Location>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Location/loc-dermato"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:loc-dermato-dermat1"/>
+    <resource>
+      <Location>
+        <id value="loc-dermato-dermat1"/>
+        <identifier>
+          <value value="dermat1"/>
+        </identifier>
+        <name value="dermat1"/>
+        <partOf>
+          <reference value="urn:uuid:loc-dermato"/>
+        </partOf>
+      </Location>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Location/loc-dermato-dermat1"/>
     </request>
   </entry>
   <entry>
@@ -2153,6 +2208,50 @@
     <request>
       <method value="PUT"/>
       <url value="Encounter/enc-29"/>
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:enc-30"/>
+    <resource>
+      <Encounter>
+        <id value="enc-30"/>
+        <status value="completed"/>
+        <class>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+            <code value="IMP"/>
+          </coding>
+        </class>
+        <subject>
+          <reference value="urn:uuid:patient-39"/>
+        </subject>
+        <actualPeriod>
+          <start value="2022-04-24T09:45:00+02:00"/>
+          <end value="2022-04-25T19:45:00+02:00"/>
+        </actualPeriod>
+        <location>
+          <location>
+            <reference value="urn:uuid:loc-dermato-dermat1"/>
+            <display value="Dermatologie"/>
+          </location>
+          <form>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/location-physical-type"/>
+              <code value="ro"/>
+              <display value="Room"/>
+            </coding>
+            <text value="D01"/>
+          </form>
+          <period>
+            <start value="2022-04-24T09:45:00+02:00"/>
+            <end value="2022-04-25T19:45:00+02:00"/>
+          </period>
+        </location>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/enc-30"/>
     </request>
   </entry>
   <entry>

@@ -67,13 +67,16 @@ function ETLCtrl.FHIR.parseXMLToStaysDF(xmlFilePath::String)
         )
     end
 
-    # ── Location lookup: FHIR id → unit_code_name (identifier/value)
-    locations = Dict{String, String}()
+    # ── Location lookup: FHIR id → (identifier, parent_fhir_id)
+    # parent_fhir_id is set when the Location has a <partOf> (i.e. it is a sector).
+    locations = Dict{String, NamedTuple}()
     for loc in EzXML.findall("//fhir:Location", root, ns)
         fhir_id        = attr_val(loc, "fhir:id")
-        unit_code_name = attr_val(loc, "fhir:identifier/fhir:value")
-        (ismissing(fhir_id) || ismissing(unit_code_name)) && continue
-        locations[fhir_id] = unit_code_name
+        identifier_val = attr_val(loc, "fhir:identifier/fhir:value")
+        (ismissing(fhir_id) || ismissing(identifier_val)) && continue
+        part_of_ref    = attr_val(loc, "fhir:partOf/fhir:reference")
+        parent_fhir_id = ismissing(part_of_ref) ? missing : ref_id(part_of_ref)
+        locations[fhir_id] = (identifier = identifier_val, parent_fhir_id = parent_fhir_id)
     end
 
     # ── One row per (Encounter × location entry) ──────────────────────────────
@@ -109,10 +112,24 @@ function ETLCtrl.FHIR.parseXMLToStaysDF(xmlFilePath::String)
             # Death occurred in the last unit only
             is_last_loc = loc_idx == length(loc_els)
 
-            unit_code_name = if !ismissing(loc_ref)
-                get(locations, ref_id(loc_ref), missing)
-            else
-                missing
+            # Resolve unit_code_name and sector:
+            # - if the referenced Location has a partOf, it is a sector → sector = its identifier,
+            #   unit_code_name = parent Location's identifier
+            # - otherwise it is a unit → sector = missing
+            unit_code_name = missing
+            sector_val     = missing
+            if !ismissing(loc_ref)
+                loc_info = get(locations, ref_id(loc_ref), missing)
+                if !ismissing(loc_info)
+                    if !ismissing(loc_info.parent_fhir_id)
+                        # It's a sector
+                        sector_val     = loc_info.identifier
+                        parent_info    = get(locations, loc_info.parent_fhir_id, missing)
+                        unit_code_name = ismissing(parent_info) ? missing : parent_info.identifier
+                    else
+                        unit_code_name = loc_info.identifier
+                    end
+                end
             end
 
             # Extract room from <form> when coded as location-physical-type "ro"
@@ -134,7 +151,7 @@ function ETLCtrl.FHIR.parseXMLToStaysDF(xmlFilePath::String)
                 hospitalization_out_time = parse_zdt(hosp_out),
                 unit_code_name           = unit_code_name,
                 unit_name                = unit_name,
-                sector                   = missing,
+                sector                   = sector_val,
                 room                     = room_val,
                 unit_in_time             = parse_zdt(unit_in),
                 unit_out_time            = parse_zdt(unit_out),
