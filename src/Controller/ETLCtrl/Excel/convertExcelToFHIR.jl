@@ -121,6 +121,16 @@ function ETLCtrl.Excel.convertExcelToFHIR(
     # ── Patients ──────────────────────────────────────────────────────────────
     for row in eachrow(unique(stays_df, :patient_ref))
         pid = "patient-$(row.patient_ref)"
+        # Check if this patient died during any stay
+        pat_rows = filter(r -> string(r.patient_ref) == string(row.patient_ref), eachrow(stays_df))
+        died_row = findfirst(r -> !ismissing(r.patient_died_during_stay) && r.patient_died_during_stay == true, pat_rows)
+        deceased_xml = if !isnothing(died_row)
+            death_dt = pat_rows[died_row].hospitalization_out_time
+            ismissing(death_dt) ? "" : """
+                <deceasedDateTime value=\"$(fmt_zdt(death_dt))\" />"""
+        else
+            ""
+        end
         print(io, """
     <entry>
         <fullUrl value="urn:uuid:$(pid)" />
@@ -134,7 +144,7 @@ function ETLCtrl.Excel.convertExcelToFHIR(
                     <family value="$(esc(uppercase(string(row.lastname))))" />
                     <given value="$(esc(row.firstname))" />
                 </name>
-                <birthDate value="$(fmt(row.birthdate))" />
+                <birthDate value="$(fmt(row.birthdate))" />$(deceased_xml)
             </Patient>
         </resource>
         <request>
@@ -183,6 +193,8 @@ function ETLCtrl.Excel.convertExcelToFHIR(
         hosp_in    = first_row.hospitalization_in_time
         hosp_out   = first_row.hospitalization_out_time
         status     = ismissing(hosp_out) ? "in-progress" : "completed"
+
+        patient_died = any(r -> !ismissing(r.patient_died_during_stay) && r.patient_died_during_stay == true, eachrow(grp))
 
         enc_lookup[(pat_ref, string(hosp_in))] = (
             enc_id      = eid,
@@ -246,8 +258,18 @@ function ETLCtrl.Excel.convertExcelToFHIR(
             print(io, """
                     <end value="$(fmt_zdt(hosp_out))" />""")
         end
+        admission_xml = patient_died ? """
+                <admission>
+                    <dischargeDisposition>
+                        <coding>
+                            <system value=\"http://terminology.hl7.org/CodeSystem/discharge-disposition\" />
+                            <code value=\"exp\" />
+                            <display value=\"Expired\" />
+                        </coding>
+                    </dischargeDisposition>
+                </admission>""" : ""
         print(io, """
-                </actualPeriod>
+                </actualPeriod>$(admission_xml)
 $(rstrip(String(take!(loc_buf))))
             </Encounter>
         </resource>
