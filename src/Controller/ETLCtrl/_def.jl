@@ -1,6 +1,8 @@
 function getMaxProcessingTime end
 function importAnalyses end
+function importAnalysesDF end
 function importStays end
+function importStaysDF end
 function integrateAndProcessNewStaysAndAnalyses end
 function processNewlyIntegratedData end
 function serializeRowsInError end

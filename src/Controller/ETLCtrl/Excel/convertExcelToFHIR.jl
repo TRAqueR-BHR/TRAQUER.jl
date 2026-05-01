@@ -14,6 +14,10 @@ The stays Excel file is expected to have columns:
   hospitalization_in_time, hospitalization_out_time,
   room, out (devenir)
 
+When the `sector` column is non-empty, a child Location resource is emitted for the
+sector with a `partOf` reference to its parent unit Location. The Encounter.location
+element then references the sector Location instead of the unit Location directly.
+
 The `room` value is emitted as a FHIR `form` element on each `Encounter.location` entry,
 using the `http://terminology.hl7.org/CodeSystem/location-physical-type` coding system
 with code `ro` (Room) and the room identifier as the `<text>` value.
@@ -111,6 +115,9 @@ function ETLCtrl.Excel.convertExcelToFHIR(
     """Build a FHIR Location id from a unit code name."""
     loc_id(code) = "loc-" * replace(string(code), r"\s+" => "-")
 
+    """Build a FHIR Location id for a sector within a unit."""
+    loc_id_sector(unit_code, sector) = loc_id(unit_code) * "-" * replace(string(sector), r"\s+" => "-")
+
     # ── Build XML ────────────────────────────────────────────────────────────
     io = IOBuffer()
 
@@ -121,6 +128,16 @@ function ETLCtrl.Excel.convertExcelToFHIR(
     # ── Patients ──────────────────────────────────────────────────────────────
     for row in eachrow(unique(stays_df, :patient_ref))
         pid = "patient-$(row.patient_ref)"
+        # Check if this patient died during any stay
+        pat_rows = filter(r -> string(r.patient_ref) == string(row.patient_ref), eachrow(stays_df))
+        died_row = findfirst(r -> !ismissing(r.patient_died_during_stay) && r.patient_died_during_stay == true, pat_rows)
+        deceased_xml = if !isnothing(died_row)
+            death_dt = pat_rows[died_row].hospitalization_out_time
+            ismissing(death_dt) ? "" : """
+                <deceasedDateTime value=\"$(fmt_zdt(death_dt))\" />"""
+        else
+            ""
+        end
         print(io, """
     <entry>
         <fullUrl value="urn:uuid:$(pid)" />
@@ -134,7 +151,7 @@ function ETLCtrl.Excel.convertExcelToFHIR(
                     <family value="$(esc(uppercase(string(row.lastname))))" />
                     <given value="$(esc(row.firstname))" />
                 </name>
-                <birthDate value="$(fmt(row.birthdate))" />
+                <birthDate value="$(fmt(row.birthdate))" />$(deceased_xml)
             </Patient>
         </resource>
         <request>
@@ -168,6 +185,36 @@ function ETLCtrl.Excel.convertExcelToFHIR(
 """)
     end
 
+    # ── Sector Locations (child of unit, emitted when sector column is non-empty) ──
+    sector_rows = filter(r -> !ismissing(r.sector) && !isempty(strip(string(r.sector))), eachrow(stays_df))
+    if !isempty(sector_rows)
+        for row in eachrow(unique(DataFrame(sector_rows), [:unit_code_name, :sector]))
+            sid = loc_id_sector(row.unit_code_name, row.sector)
+            lid = loc_id(row.unit_code_name)
+            print(io, """
+    <entry>
+        <fullUrl value="urn:uuid:$(sid)" />
+        <resource>
+            <Location>
+                <id value="$(sid)" />
+                <identifier>
+                    <value value="$(esc(row.sector))" />
+                </identifier>
+                <name value="$(esc(row.sector))" />
+                <partOf>
+                    <reference value="urn:uuid:$(lid)" />
+                </partOf>
+            </Location>
+        </resource>
+        <request>
+            <method value="PUT" />
+            <url value="Location/$(sid)" />
+        </request>
+    </entry>
+""")
+        end
+    end
+
     # ── Encounters ────────────────────────────────────────────────────────────
     # Group stays by (patient_ref, hospitalization_in_time) — one Encounter per
     # hospitalisation, with one <location> entry per unit row.
@@ -184,6 +231,8 @@ function ETLCtrl.Excel.convertExcelToFHIR(
         hosp_out   = first_row.hospitalization_out_time
         status     = ismissing(hosp_out) ? "in-progress" : "completed"
 
+        patient_died = any(r -> !ismissing(r.patient_died_during_stay) && r.patient_died_during_stay == true, eachrow(grp))
+
         enc_lookup[(pat_ref, string(hosp_in))] = (
             enc_id      = eid,
             hosp_in_dt  = to_dt(hosp_in),
@@ -193,12 +242,14 @@ function ETLCtrl.Excel.convertExcelToFHIR(
         # Build <location> sub-elements
         loc_buf = IOBuffer()
         for lr in eachrow(grp)
-            lid     = loc_id(lr.unit_code_name)
+            # Use sector Location if sector is present, otherwise the unit Location
+            has_sector = !ismissing(lr.sector) && !isempty(strip(string(lr.sector)))
+            ref_lid    = has_sector ? loc_id_sector(lr.unit_code_name, lr.sector) : loc_id(lr.unit_code_name)
             uin_str = fmt_zdt(lr.unit_in_time)
             print(loc_buf, """
                 <location>
                     <location>
-                        <reference value="urn:uuid:$(lid)" />
+                        <reference value="urn:uuid:$(ref_lid)" />
                         <display value="$(esc(lr.unit_name))" />
                     </location>""")
             if !ismissing(lr.room) && !isempty(strip(string(lr.room)))
@@ -246,8 +297,18 @@ function ETLCtrl.Excel.convertExcelToFHIR(
             print(io, """
                     <end value="$(fmt_zdt(hosp_out))" />""")
         end
+        admission_xml = patient_died ? """
+                <admission>
+                    <dischargeDisposition>
+                        <coding>
+                            <system value=\"http://terminology.hl7.org/CodeSystem/discharge-disposition\" />
+                            <code value=\"exp\" />
+                            <display value=\"Expired\" />
+                        </coding>
+                    </dischargeDisposition>
+                </admission>""" : ""
         print(io, """
-                </actualPeriod>
+                </actualPeriod>$(admission_xml)
 $(rstrip(String(take!(loc_buf))))
             </Encounter>
         </resource>

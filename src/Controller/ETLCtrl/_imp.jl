@@ -1,6 +1,8 @@
 include("getMaxProcessingTime.jl")
 include("importAnalyses.jl")
+include("importAnalysesDF.jl")
 include("importStays.jl")
+include("importStaysDF.jl")
 include("processNewlyIntegratedData.jl")
 include("serializeRowsInError.jl")
 include("updateMaxProcessingTime.jl")

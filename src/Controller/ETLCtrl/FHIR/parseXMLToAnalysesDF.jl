@@ -1,5 +1,5 @@
 """
-    getAnalysesDataFrameFromXML(xmlFilePath::String)
+    parseXMLToAnalysesDF(xmlFilePath::String)
 
 Extract analyses from an FHIR XML file and return them as a DataFrame.
 
@@ -21,7 +21,7 @@ The mapping from FHIR resources is:
 - Observation     → result (interpretation/coding/code), result_time (effectiveDateTime),
                     linked to ServiceRequest via basedOn/reference; presence marks status as done
 """
-function ETLCtrl.FHIR.getAnalysesDataFrameFromXML(xmlFilePath::String)
+function ETLCtrl.FHIR.parseXMLToAnalysesDF(xmlFilePath::String)
     xmlDoc = ETLCtrl.FHIR.loadXMLFile(xmlFilePath)
     root   = EzXML.root(xmlDoc)
     ns     = ["fhir" => "http://hl7.org/fhir"]
@@ -143,8 +143,8 @@ function ETLCtrl.FHIR.getAnalysesDataFrameFromXML(xmlFilePath::String)
             "requested"
         end
 
-        # Convert request_type string to ANALYSIS_REQUEST_TYPE enum value
-        # Convert result string to ANALYSIS_RESULT_VALUE_TYPE enum value
+        # Convert string values to enums where applicable
+        sample = TRAQUERUtil.string2enum(SAMPLE_MATERIAL_TYPE, sample)
         request_type = TRAQUERUtil.string2enum(ANALYSIS_REQUEST_TYPE, request_type)
         result = TRAQUERUtil.string2enum(ANALYSIS_RESULT_VALUE_TYPE, result)
 
