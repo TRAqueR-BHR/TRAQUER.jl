@@ -57,7 +57,8 @@ include("__prerequisite.jl")
         # :sector,
         :room,
         :unit_in_time,
-        :unit_out_time
+        :unit_out_time,
+        :patient_died_during_stay
     ]
 
     # Check that both dataframes match for the columns of interest
