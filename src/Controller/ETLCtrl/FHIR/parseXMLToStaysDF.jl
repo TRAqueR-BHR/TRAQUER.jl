@@ -16,6 +16,7 @@ Columns in the DataFrame are the following:
   - room (the room within the unit)
   - unit_in_time (the time the patient entered the unit)
   - unit_out_time (the time the patient left the unit)
+  - patient_died_during_stay: true if the Encounter discharge disposition is "exp" (Expired), false if the encounter is completed without that code, missing if the encounter is still in progress
 """
 function ETLCtrl.FHIR.parseXMLToStaysDF(xmlFilePath::String)
     xmlDoc = ETLCtrl.FHIR.loadXMLFile(xmlFilePath)
@@ -87,11 +88,26 @@ function ETLCtrl.FHIR.parseXMLToStaysDF(xmlFilePath::String)
         hosp_in  = attr_val(enc, "fhir:actualPeriod/fhir:start")
         hosp_out = attr_val(enc, "fhir:actualPeriod/fhir:end")
 
-        for loc_el in EzXML.findall("fhir:location", enc, ns)
+        # patient_died_during_stay: true if discharge disposition is "exp" (Expired),
+        # false if encounter is completed without that code, missing if still in-progress
+        enc_status        = attr_val(enc, "fhir:status")
+        discharge_code    = attr_val(enc, "fhir:admission/fhir:dischargeDisposition/fhir:coding/fhir:code")
+        patient_died = if !ismissing(discharge_code) && discharge_code == "exp"
+            true
+        elseif !ismissing(enc_status) && enc_status == "completed"
+            false
+        else
+            missing
+        end
+
+        loc_els = EzXML.findall("fhir:location", enc, ns)
+        for (loc_idx, loc_el) in enumerate(loc_els)
             loc_ref   = attr_val(loc_el, "fhir:location/fhir:reference")
             unit_name = attr_val(loc_el, "fhir:location/fhir:display")
             unit_in   = attr_val(loc_el, "fhir:period/fhir:start")
             unit_out  = attr_val(loc_el, "fhir:period/fhir:end")
+            # Death occurred in the last unit only
+            is_last_loc = loc_idx == length(loc_els)
 
             unit_code_name = if !ismissing(loc_ref)
                 get(locations, ref_id(loc_ref), missing)
@@ -122,6 +138,7 @@ function ETLCtrl.FHIR.parseXMLToStaysDF(xmlFilePath::String)
                 room                     = room_val,
                 unit_in_time             = parse_zdt(unit_in),
                 unit_out_time            = parse_zdt(unit_out),
+                patient_died_during_stay = is_last_loc ? patient_died : (ismissing(patient_died) ? missing : false),
             ))
         end
     end
