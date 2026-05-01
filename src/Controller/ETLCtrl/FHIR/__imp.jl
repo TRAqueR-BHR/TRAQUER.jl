@@ -1,4 +1,6 @@
 include("checkAllReferencesAreDeclared.jl")
+include("checkHospitalIsNotDeclaredAsLocation.jl")
+include("checkOnlyTwoLevelsOfLocations.jl")
 include("checkReferenceIsDeclared.jl")
 include("formatXMLFile.jl")
 include("loadXMLFile.jl")

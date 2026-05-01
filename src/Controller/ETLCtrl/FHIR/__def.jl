@@ -6,6 +6,8 @@ function validateStaysData end
 function validateUnitsData end
 function checkReferenceIsDeclared end
 function checkAllReferencesAreDeclared end
+function checkOnlyTwoLevelsOfLocations end
+function checkHospitalIsNotDeclaredAsLocation end
 function formatXMLFile end
 function parseXMLToAnalysesDF end
 function parseXMLToStaysDF end
