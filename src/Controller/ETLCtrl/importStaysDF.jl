@@ -36,88 +36,141 @@ function ETLCtrl.importStaysDF(
         * "\n# ################################## #"
         )
 
-    dbconn = TRAQUERUtil.openDBConn()
-    _tz = TRAQUERUtil.getTimeZone()
+    # Input file can be empty
+    if isempty(df)
+        return DataFrame()
+    end
 
-    counter = 0 # for debug
-    currentRowForDebug::Union{Missing,DataFrameRow} = missing
-    try
+    # Group by patient_ref and process each patient's stays in parallel
+    grouped = DataFrames.groupby(df, :patient_ref)
 
-        for r in eachrow(df)
+    dfOfRowsInError = @showprogress pmap(1:length(grouped)) do i
+        ETLCtrl.importStaysDF(
+            grouped[i],
+            encryptionStr;
+            ignoreEventsAfter = ignoreEventsAfter
+        )
+    end |>
+    n -> vcat(n...)
 
-            counter += 1 # for debug
-            currentRowForDebug = r
-            @info "Treating line[$counter] of stays"
-            # if counter > 10 # for debug
-            #   TRAQUERUtil.commitDBTransaction(dbconn)
-            #   return # for debug
-            # end # for debug
+    return dfOfRowsInError
 
-            unitCodeName = string(r.unit_code_name)
-            unitName = r.unit_name
-            ref = string(r.patient_ref)
-            firstname = string(r.firstname)
-            lastname = string(r.lastname)
-            birthdate::Date = r.birthdate
-            inTime =  r.unit_in_time
-            outTime = r.unit_out_time
-            hospitalizationInTime =  r.hospitalization_in_time
-            hospitalizationOutTime =  r.hospitalization_out_time
+end
 
-            # We may want to simulate that we are at a given point in time, in which case
-            # some information need to be ignored
-            if !ismissing(ignoreEventsAfter)
-                if inTime > ignoreEventsAfter
-                    continue
+"""
+    importStaysDF(
+        subdf::SubDataFrame,
+        encryptionStr::AbstractString,
+        dbconn
+        ;ignoreEventsAfter::Union{Missing,ZonedDateTime} = missing
+    )
+
+Import stays from a SubDataFrame for a single patient.
+
+This method processes stays grouped by patient_ref and is called by the main
+importStaysDF(DataFrame, ...) method.
+"""
+function ETLCtrl.importStaysDF(
+    subdf::SubDataFrame,
+    encryptionStr::AbstractString
+    ;ignoreEventsAfter::Union{Missing,ZonedDateTime} = missing
+)
+
+    TRAQUERUtil.createDBConnAndExecute() do dbconn
+
+        # Create an empty DataFrame for storing problems
+        dfOfRowsInError = DataFrame(
+            lineNumInSrcFile = Vector{Int}(),
+            error = Vector{String}()
+        )
+
+        _tz = TRAQUERUtil.getTimeZone()
+
+        lineNumInSrcFile = 0
+
+        for r in eachrow(subdf)
+
+            try
+
+                # Keep track of the line number in the src file if available
+                lineNumInSrcFile = hasproperty(r, :lineNumInSrcFile) ? r.lineNumInSrcFile : lineNumInSrcFile + 1
+
+                unitCodeName = string(r.unit_code_name)
+                unitName = r.unit_name
+                ref = string(r.patient_ref)
+                firstname = string(r.firstname)
+                lastname = string(r.lastname)
+                birthdate::Date = r.birthdate
+                inTime =  r.unit_in_time
+                outTime = r.unit_out_time
+                hospitalizationInTime =  r.hospitalization_in_time
+                hospitalizationOutTime =  r.hospitalization_out_time
+
+                # We may want to simulate that we are at a given point in time, in which case
+                # some information need to be ignored
+                if !ismissing(ignoreEventsAfter)
+                    if inTime > ignoreEventsAfter
+                        continue
+                    end
+                    if inTime <= ignoreEventsAfter && !ismissing(outTime) && outTime > ignoreEventsAfter
+                        outTime = missing
+                    end
+                    if !ismissing(hospitalizationOutTime) && hospitalizationOutTime > ignoreEventsAfter
+                        hospitalizationOutTime = missing
+                    end
                 end
-                if inTime <= ignoreEventsAfter && !ismissing(outTime) && outTime > ignoreEventsAfter
-                    outTime = missing
+
+                room = passmissing(string)(r.room)
+
+                # Get a unit
+                unit = UnitCtrl.createUnitIfNotExists(unitCodeName,unitName,dbconn)
+
+                # Get a patient
+                patient = PatientCtrl.createPatientIfNoExist(
+                    firstname,
+                    lastname,
+                    birthdate,
+                    ref,
+                    encryptionStr,
+                    dbconn
+                )
+
+                if ismissing(patient)
+                    error("Unable to find patient for firstname[$firstname]"
+                    * " lastname[$lastname] birthdate[$birthdateAsStr]."
+                    * " Maybe a file of checks has not been integrated.")
                 end
-                if !ismissing(hospitalizationOutTime) && hospitalizationOutTime > ignoreEventsAfter
-                    hospitalizationOutTime = missing
-                end
+
+                # Retrieve the stay
+                stay = Stay(
+                    patient = patient,
+                    unit = unit,
+                    inTime = inTime,
+                    outTime = outTime,
+                    hospitalizationInTime = hospitalizationInTime,
+                    hospitalizationOutTime = hospitalizationOutTime,
+                    room = room
+                )
+                StayCtrl.upsert!(stay, dbconn)
+
+            catch e
+                errorDescription = TRAQUERUtil.formatExceptionAndStackTraceCore(
+                    e, stacktrace(catch_backtrace())
+                )
+
+                push!(
+                    dfOfRowsInError,
+                    (
+                        lineNumInSrcFile = lineNumInSrcFile,
+                        error = errorDescription
+                    )
+                )
             end
 
-            room = passmissing(string)(r.room)
+        end # `for r in eachrow(subdf)`
 
-            # Get a unit
-            unit = UnitCtrl.createUnitIfNotExists(unitCodeName,unitName,dbconn)
+        return dfOfRowsInError
 
-            # Get a patient
-            patient = PatientCtrl.createPatientIfNoExist(
-                firstname,
-                lastname,
-                birthdate,
-                ref,
-                encryptionStr,
-                dbconn
-            )
-
-            if ismissing(patient)
-                error("Unable to find patient for firstname[$firstname]"
-                * " lastname[$lastname] birthdate[$birthdateAsStr]."
-                * " Maybe a file of checks has not been integrated.")
-            end
-
-            # Retrieve the stay
-            stay = Stay(
-                patient = patient,
-                unit = unit,
-                inTime = inTime,
-                outTime = outTime,
-                hospitalizationInTime = hospitalizationInTime,
-                hospitalizationOutTime = hospitalizationOutTime,
-                room = room
-            )
-            StayCtrl.upsert!(stay, dbconn)
-
-        end # `for r in eachrow(df)`
-
-     catch e
-        @error "Problem at line $counter" currentRowForDebug
-        rethrow(e)
-     finally
-        TRAQUERUtil.closeDBConn(dbconn)
-     end
+    end # ENDOF createDBConnAndExecute do function
 
 end
