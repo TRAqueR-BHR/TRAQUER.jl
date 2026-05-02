@@ -54,16 +54,18 @@ function ETLCtrl.FHIR.parseXMLToStaysDF(xmlFilePath::String)
         TRAQUERUtil.convertStringToZonedDateTime(s)
     end
 
-    # ── Patient lookup: FHIR id → (patient_ref, firstname, lastname, birthdate)
+    # ── Patient lookup: FHIR id → (patient_ref, firstname, lastname, birthdate, deceased_dt)
     patients = Dict{String, NamedTuple}()
     for pat in EzXML.findall("//fhir:Patient", root, ns)
         fhir_id = attr_val(pat, "fhir:id")
         ismissing(fhir_id) && continue
+        deceased_str = attr_val(pat, "fhir:deceasedDateTime")
         patients[fhir_id] = (
             patient_ref = attr_val(pat, "fhir:identifier/fhir:value"),
             firstname   = attr_val(pat, "fhir:name/fhir:given"),
             lastname    = attr_val(pat, "fhir:name/fhir:family"),
             birthdate   = attr_val(pat, "fhir:birthDate"),
+            deceased_dt = parse_zdt(deceased_str),
         )
     end
 
@@ -91,26 +93,12 @@ function ETLCtrl.FHIR.parseXMLToStaysDF(xmlFilePath::String)
         hosp_in  = attr_val(enc, "fhir:actualPeriod/fhir:start")
         hosp_out = attr_val(enc, "fhir:actualPeriod/fhir:end")
 
-        # patient_died_during_stay: true if discharge disposition is "exp" (Expired),
-        # false if encounter is completed without that code, missing if still in-progress
-        enc_status        = attr_val(enc, "fhir:status")
-        discharge_code    = attr_val(enc, "fhir:admission/fhir:dischargeDisposition/fhir:coding/fhir:code")
-        patient_died = if !ismissing(discharge_code) && discharge_code == "exp"
-            true
-        elseif !ismissing(enc_status) && enc_status == "completed"
-            false
-        else
-            missing
-        end
-
         loc_els = EzXML.findall("fhir:location", enc, ns)
         for (loc_idx, loc_el) in enumerate(loc_els)
             loc_ref   = attr_val(loc_el, "fhir:location/fhir:reference")
             unit_name = attr_val(loc_el, "fhir:location/fhir:display")
             unit_in   = attr_val(loc_el, "fhir:period/fhir:start")
             unit_out  = attr_val(loc_el, "fhir:period/fhir:end")
-            # Death occurred in the last unit only
-            is_last_loc = loc_idx == length(loc_els)
 
             # Resolve unit_code_name and sector:
             # - if the referenced Location has a partOf, it is a sector → sector = its identifier,
@@ -155,10 +143,62 @@ function ETLCtrl.FHIR.parseXMLToStaysDF(xmlFilePath::String)
                 room                     = room_val,
                 unit_in_time             = parse_zdt(unit_in),
                 unit_out_time            = parse_zdt(unit_out),
-                patient_died_during_stay = is_last_loc ? patient_died : (ismissing(patient_died) ? missing : false),
+                patient_died_during_stay = false,  # Will be updated later based on deceasedDateTime
             ))
         end
     end
 
-    return DataFrame(rows)
+    # ── Mark patient_died_during_stay based on Patient.deceasedDateTime ───────
+    df = DataFrame(rows)
+
+    for (pat_fhir_id, pat_info) in patients
+        deceased_dt = pat_info.deceased_dt
+        ismissing(deceased_dt) && continue
+
+        # Find rows for this patient where deceased_dt falls within hospitalization period
+        pat_ref_str = pat_info.patient_ref
+        matching_rows = findall(df.patient_ref .== pat_ref_str)
+
+        death_matched = false
+        for row_idx in matching_rows
+            hosp_in_dt  = df[row_idx, :hospitalization_in_time]
+            hosp_out_dt = df[row_idx, :hospitalization_out_time]
+
+            if !ismissing(hosp_in_dt) && deceased_dt >= hosp_in_dt &&
+               (!ismissing(hosp_out_dt) && deceased_dt <= hosp_out_dt)
+                # Death occurred during this hospitalization
+                # Mark only the last location (unit) of this hospitalization as the death location
+                # Find all rows with same patient_ref and hospitalization_in_time
+                same_hosp = findall((df.patient_ref .== pat_ref_str) .&
+                                   (df.hospitalization_in_time .== hosp_in_dt))
+                if !isempty(same_hosp)
+                    last_row = same_hosp[end]
+                    df[last_row, :patient_died_during_stay] = true
+                    death_matched = true
+                    break
+                end
+            end
+        end
+
+        # If death didn't match any stay, create a skeleton row
+        if !death_matched
+            push!(df, (
+                patient_ref              = pat_info.patient_ref,
+                firstname                = pat_info.firstname,
+                lastname                 = pat_info.lastname,
+                birthdate                = parse_date(pat_info.birthdate),
+                hospitalization_in_time  = missing,
+                hospitalization_out_time = deceased_dt,
+                unit_code_name           = missing,
+                unit_name                = missing,
+                sector                   = missing,
+                room                     = missing,
+                unit_in_time             = missing,
+                unit_out_time            = missing,
+                patient_died_during_stay = true,
+            ))
+        end
+    end
+
+    return df
 end

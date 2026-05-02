@@ -773,7 +773,6 @@
     - Patient.deceasedDateTime records the exact time of death
     - Encounter.status = "completed" (stay ended)
     - Encounter.actualPeriod.end = time of death
-    - Encounter.admission.dischargeDisposition uses code "exp" (Expired)
     - The location period.end also matches the time of death
     ==================================================================================
   -->
@@ -825,16 +824,6 @@
           <!-- end = time of death -->
           <end value="2026-04-29T08:45:00+02:00"/>
         </actualPeriod>
-        <!-- R5: hospitalization renamed to admission -->
-        <admission>
-          <dischargeDisposition>
-            <coding>
-              <system value="http://terminology.hl7.org/CodeSystem/discharge-disposition"/>
-              <code value="exp"/>
-              <display value="Expired"/>
-            </coding>
-          </dischargeDisposition>
-        </admission>
         <!-- Single location: patient never left NEPHRO1 -->
         <location>
           <location>
