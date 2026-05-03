@@ -26,19 +26,27 @@ function StayCtrl.upsert!(
 
         # Update the missing properties if the information is now available
         updateNeeded = false
-        if (ismissing(existingStay.outTime) && !ismissing(stay.outTime))
+        if (existingStay.outTime !== stay.outTime)
             updateNeeded = true
             stay.id = existingStay.id
         end
-        if (ismissing(existingStay.hospitalizationInTime) && !ismissing(stay.hospitalizationInTime))
+        if (existingStay.hospitalizationInTime !== stay.hospitalizationInTime)
             updateNeeded = true
             stay.id = existingStay.id
         end
-        if (ismissing(existingStay.hospitalizationOutTime) && !ismissing(stay.hospitalizationOutTime))
+        if (existingStay.hospitalizationOutTime !== stay.hospitalizationOutTime)
             updateNeeded = true
             stay.id = existingStay.id
         end
-        if (ismissing(existingStay.room) && !ismissing(stay.room))
+        if (existingStay.sector !== stay.sector)
+            updateNeeded = true
+            stay.id = existingStay.id
+        end
+        if (existingStay.room !== stay.room)
+            updateNeeded = true
+            stay.id = existingStay.id
+        end
+        if (existingStay.patientDiedDuringStay !== stay.patientDiedDuringStay)
             updateNeeded = true
             stay.id = existingStay.id
         end
@@ -52,7 +60,7 @@ function StayCtrl.upsert!(
 
     end
 
-    # Fix missing hospitalization status if any
+    # Fix missing hospitalization out time if any
     StayCtrl.fixMissingHospitalizationOutTime(stay.patient, dbconn)
 
     # Update patient current hospitalization status
