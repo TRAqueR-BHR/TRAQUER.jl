@@ -105,6 +105,9 @@ function ETLCtrl.importStaysDF(
                 outTime = r.unit_out_time
                 hospitalizationInTime =  r.hospitalization_in_time
                 hospitalizationOutTime =  r.hospitalization_out_time
+                patientDiedDuringStay = r.patient_died_during_stay
+                sector = r.sector
+                room = r.room
 
                 # We may want to simulate that we are at a given point in time, in which case
                 # some information need to be ignored
@@ -119,8 +122,6 @@ function ETLCtrl.importStaysDF(
                         hospitalizationOutTime = missing
                     end
                 end
-
-                room = passmissing(string)(r.room)
 
                 # Get a unit
                 unit = UnitCtrl.createUnitIfNotExists(unitCodeName,unitName,dbconn)
@@ -141,15 +142,17 @@ function ETLCtrl.importStaysDF(
                     * " Maybe a file of checks has not been integrated.")
                 end
 
-                # Retrieve the stay
+                # Instantiate the stay
                 stay = Stay(
                     patient = patient,
                     unit = unit,
+                    sector = sector,
+                    room = room,
                     inTime = inTime,
                     outTime = outTime,
                     hospitalizationInTime = hospitalizationInTime,
                     hospitalizationOutTime = hospitalizationOutTime,
-                    room = room
+                    patientDiedDuringStay = patientDiedDuringStay,
                 )
                 StayCtrl.upsert!(stay, dbconn)
 
