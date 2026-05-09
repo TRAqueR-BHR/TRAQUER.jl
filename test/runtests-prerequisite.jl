@@ -1,3 +1,4 @@
+using Revise
 include("../scripts/prerequisite.jl")
 
 using Test, Mocking, UUIDs, LibPQ, Random, JSON, XLSX, Dates

@@ -2,7 +2,6 @@ import SHA
 
 const _CHILD_KEY_DIGEST = "SHA256"
 const _CHILD_KEY_LENGTH = 32
-const _CHILD_KEY_SALT_HEX = "aabbccddeeff00112233445566778899"
 const _CHILD_KEY_INFO_PREFIX = "hospital-unit-file-encryption/v1/child-index="
 
 function KdfChildKeyCtrl._hkdf_sha256(
@@ -30,9 +29,10 @@ function KdfChildKeyCtrl._hkdf_sha256(
 end
 
 function KdfChildKeyCtrl.generateChildKey(
-    parentKey::String,
+    parentKeyHex::String,
+    saltHex::String,
     ref::Int16,
-    childKeyFormat::BinaryEncoding.BINARY_ENCODING,
+    childKeyFormat::BinaryEncoding.BINARY_ENCODING = BinaryEncoding.hex,
 )::String
 
     digest = _CHILD_KEY_DIGEST
@@ -42,8 +42,8 @@ function KdfChildKeyCtrl.generateChildKey(
         throw(ArgumentError("unsupported child key digest: $digest"))
     end
 
-    parent_key = TRAQUERUtil.hexToBytes(parentKey)
-    salt = TRAQUERUtil.hexToBytes(_CHILD_KEY_SALT_HEX)
+    parent_key = TRAQUERUtil.hexToBytes(parentKeyHex)
+    salt = TRAQUERUtil.hexToBytes(saltHex)
     info = _CHILD_KEY_INFO_PREFIX * string(ref)
 
     child_key = KdfChildKeyCtrl._hkdf_sha256(parent_key, salt, info, keylength)

@@ -6,7 +6,7 @@ module TRAQUER
 A function that says hello
 """
 function greet()
-    @info "Hello"
+    @info "Hello!"
 end
 
 function greet(str::AbstractString)

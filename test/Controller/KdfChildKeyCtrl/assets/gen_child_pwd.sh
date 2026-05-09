@@ -1,17 +1,17 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ "$#" -lt 2 ] || [ "$#" -gt 3 ]; then
-  echo "Usage: $0 <parent-key-hex> <ref> [base64|hex]" >&2
+if [ "$#" -lt 3 ] || [ "$#" -gt 4 ]; then
+  echo "Usage: $0 <parent-key-hex> <salt-hex> <ref> [base64|hex]" >&2
   exit 1
 fi
 
 MASTER_KEY_HEX="$1"
-REF="$2"
-CHILD_KEY_FORMAT="${3:-base64}"
+SALT_HEX="$2"
+REF="$3"
+CHILD_KEY_FORMAT="${4:-base64}"
 
 # Define constants
-SALT_HEX="aabbccddeeff00112233445566778899"
 INFO="hospital-unit-file-encryption/v1/child-index=$REF"
 
 # Generate the derived key using HKDF (outputs hex with colons)
