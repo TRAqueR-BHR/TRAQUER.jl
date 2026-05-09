@@ -1,3 +1,4 @@
+function createPendingTask end
 function getMaxProcessingTime end
 function importAnalyses end
 function importAnalysesDF end
@@ -8,4 +9,3 @@ function processNewlyIntegratedData end
 function serializeRowsInError end
 function integrateAndProcessNewStaysAndAnalyses end
 function updateMaxProcessingTime end
-function createPendingTask end

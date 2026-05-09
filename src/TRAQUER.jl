@@ -23,7 +23,10 @@ module TRAQUERUtil
            commitDBTransaction,rollbackDBTransaction,closeDBConn,
            getConf, formatExceptionAndStackTrace, json2entity, getTimeZone,
            executeOnBgThread, createDBConnAndExecute, isMissingOrNothing,
-           json2Entity, getTranslation, createHZDT, createHospitalZonedDateTime
+           json2Entity, getTranslation, createHZDT, createHospitalZonedDateTime,
+           bytesToHex, hexToBytes, bytesToBase64, base64ToBytes,
+           hexToBase64, base64ToHex, stringToHex, hexToString,
+           stringToBase64, base64ToString
     include("./TRAQUERUtil/_def.jl")
 
 end # module TRAQUERUtil
@@ -44,6 +47,7 @@ module Model
           ..Enum.AnalysisResultValueType,
           ..Enum.AppuserType,
           ..Enum.AnalysisRequestType,
+          ..Enum.BinaryEncoding,
           ..Enum.Gender,
           ..Enum.HospitalizationStatusType,
           ..Enum.InfectiousAgentCategory,
@@ -256,6 +260,10 @@ module Controller
     end
   end
 
+  module KdfChildKeyCtrl
+    include("Controller/KdfChildKeyCtrl/__def.jl")
+  end
+
   module ExposedFunctionCtrl
     include("Controller/ExposedFunctionCtrl/_def.jl")
   end
@@ -380,6 +388,9 @@ include("Controller/AnalysisRequestCtrl/_imp.jl")
 
 # ETLCtrl
 include("Controller/ETLCtrl/_imp.jl")
+
+# KdfChildKeyCtrl
+include("Controller/KdfChildKeyCtrl/__imp.jl")
 
 # ETLCtrl.FHIR
 include("Controller/ETLCtrl/FHIR/__imp.jl")
