@@ -17,7 +17,6 @@ abstract type IAnalysisRequest <: IEntity end
 abstract type IUnit <: IEntity end
 abstract type IModification <: IEntity end
 abstract type IFhirXmlError <: IEntity end
-abstract type IKdfChildKey <: IEntity end
 abstract type IExposedFunction <: IEntity end
 abstract type IWebApiUsage <: IEntity end
 abstract type IScheduledTaskExecution <: IEntity end
@@ -28,3 +27,4 @@ abstract type IRole <: IEntity end
 abstract type IAppuserRoleAsso <: IEntity end
 abstract type IAppuser <: IEntity end
 abstract type IRoleRoleAsso <: IEntity end
+abstract type IKdfChildKey <: IEntity end

@@ -1,5 +1,5 @@
 """
-Registry of child keys derivated from the unit master key and used for file encryption
+Registry of child keys derived from the unit master key and used for cryptographic
     operations. Each child key has its own salt.
 """
 mutable struct KdfChildKey <: IKdfChildKey 
@@ -20,7 +20,9 @@ mutable struct KdfChildKey <: IKdfChildKey
   digest::Union{Missing,String}
 
   saltValue::Union{Missing,String} # Salt value
-  ref::Union{Missing,Int32} # Child key reference stored in encrypted file metadata
+
+  # Child key reference stored alongside data encrypted with this key
+  ref::Union{Missing,Int32}
 
   KdfChildKey(args::NamedTuple) = KdfChildKey(;args...)
   KdfChildKey(;

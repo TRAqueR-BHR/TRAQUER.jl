@@ -1,9 +1,5 @@
 import SHA
 
-const _CHILD_KEY_DIGEST = "SHA256"
-const _CHILD_KEY_LENGTH = 32
-const _CHILD_KEY_INFO_PREFIX = "hospital-unit-file-encryption/v1/child-index="
-
 function KdfChildKeyCtrl._hkdf_sha256(
     key::Vector{UInt8},
     salt::Vector{UInt8},
@@ -28,6 +24,18 @@ function KdfChildKeyCtrl._hkdf_sha256(
     return okm[1:keylength]
 end
 
+"""
+    generateChildKey(
+        parentKeyHex::String,
+        saltHex::String,
+        ref::Int16,
+        childKeyFormat::BinaryEncoding.BINARY_ENCODING = BinaryEncoding.hex
+    )::String
+
+Generate a child key using HKDF based on the provided parent key, salt, and reference.
+
+The derived key is returned in the specified binary format (hex or base64).
+"""
 function KdfChildKeyCtrl.generateChildKey(
     parentKeyHex::String,
     saltHex::String,
@@ -35,8 +43,8 @@ function KdfChildKeyCtrl.generateChildKey(
     childKeyFormat::BinaryEncoding.BINARY_ENCODING = BinaryEncoding.hex,
 )::String
 
-    digest = _CHILD_KEY_DIGEST
-    keylength = _CHILD_KEY_LENGTH
+    digest = KdfChildKeyCtrl._CHILD_KEY_DIGEST
+    keylength = KdfChildKeyCtrl._CHILD_KEY_LENGTH
 
     if digest != "SHA256"
         throw(ArgumentError("unsupported child key digest: $digest"))
@@ -44,7 +52,7 @@ function KdfChildKeyCtrl.generateChildKey(
 
     parent_key = TRAQUERUtil.hexToBytes(parentKeyHex)
     salt = TRAQUERUtil.hexToBytes(saltHex)
-    info = _CHILD_KEY_INFO_PREFIX * string(ref)
+    info = KdfChildKeyCtrl._CHILD_KEY_INFO_PREFIX * string(ref)
 
     child_key = KdfChildKeyCtrl._hkdf_sha256(parent_key, salt, info, keylength)
 

@@ -1,7 +1,7 @@
 
 data_type = Model.KdfChildKey
 PostgresORM.get_orm(x::Model.KdfChildKey) = return(ORM.KdfChildKeyORM)
-get_schema_name() = "etl"
+get_schema_name() = "crypt"
 get_table_name() = "kdf_child_key"
 
 
