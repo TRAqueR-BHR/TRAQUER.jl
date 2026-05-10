@@ -39,6 +39,7 @@ The derived key is returned in the specified binary format (hex or base64).
 function KdfChildKeyCtrl.generateChildKey(
     parentKeyHex::String,
     saltHex::String,
+    infoPrefix::String,
     ref::Int16,
     childKeyFormat::BinaryEncoding.BINARY_ENCODING = BinaryEncoding.hex,
 )::String
@@ -52,7 +53,7 @@ function KdfChildKeyCtrl.generateChildKey(
 
     parent_key = TRAQUERUtil.hexToBytes(parentKeyHex)
     salt = TRAQUERUtil.hexToBytes(saltHex)
-    info = KdfChildKeyCtrl._CHILD_KEY_INFO_PREFIX * string(ref)
+    info = infoPrefix * string(ref)
 
     child_key = KdfChildKeyCtrl._hkdf_sha256(parent_key, salt, info, keylength)
 
