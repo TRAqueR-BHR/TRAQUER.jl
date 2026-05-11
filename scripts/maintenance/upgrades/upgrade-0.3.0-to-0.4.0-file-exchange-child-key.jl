@@ -39,6 +39,7 @@ try
         salt_value TEXT NOT NULL,
         digest VARCHAR(32) NOT NULL DEFAULT 'SHA256',
         key_length SMALLINT NOT NULL DEFAULT 32,
+        info varchar(120) NOT NULL, -- Stores the info string used in HKDF (eg. 'file-transfer=42')
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
         expires_at TIMESTAMPTZ,
 
@@ -76,6 +77,12 @@ try
     """
     COMMENT ON COLUMN crypt.kdf_child_key.key_length IS
         'Length of the derived key in bytes used in the key derivation function.';
+    """ |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
+    """
+    COMMENT ON COLUMN crypt.kdf_child_key.info IS
+        'Info string used in the key derivation function (eg. ''fhirxml-file-transfer=42'').';
     """ |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
