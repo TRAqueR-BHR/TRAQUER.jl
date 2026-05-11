@@ -25,27 +25,25 @@ function KdfChildKeyCtrl._hkdf_sha256(
 end
 
 """
-    generateChildKey(
+    deriveEncodedChildKey(
         parentKeyHex::String,
         saltHex::String,
-        ref::Int16,
+        info::String,
         childKeyFormat::BinaryEncoding.BINARY_ENCODING = BinaryEncoding.hex
     )::String
 
-Generate a child key using HKDF based on the provided parent key, salt, and reference.
+Generate a child key using HKDF based on the provided parent key, salt, and info.
 
 The derived key is returned in the specified binary format (hex or base64).
 """
-function KdfChildKeyCtrl.generateChildKey(
+function KdfChildKeyCtrl.deriveEncodedChildKey(
     parentKeyHex::String,
     saltHex::String,
-    infoPrefix::String,
-    ref::Int16,
+    info::String,
     childKeyFormat::BinaryEncoding.BINARY_ENCODING = BinaryEncoding.hex,
+    digest::String = KdfChildKeyCtrl._CHILD_KEY_DIGEST,
+    keylength::Integer = KdfChildKeyCtrl._CHILD_KEY_LENGTH,
 )::String
-
-    digest = KdfChildKeyCtrl._CHILD_KEY_DIGEST
-    keylength = KdfChildKeyCtrl._CHILD_KEY_LENGTH
 
     if digest != "SHA256"
         throw(ArgumentError("unsupported child key digest: $digest"))
@@ -53,8 +51,6 @@ function KdfChildKeyCtrl.generateChildKey(
 
     parent_key = TRAQUERUtil.hexToBytes(parentKeyHex)
     salt = TRAQUERUtil.hexToBytes(saltHex)
-    info = infoPrefix * string(ref)
-
     child_key = KdfChildKeyCtrl._hkdf_sha256(parent_key, salt, info, keylength)
 
     if childKeyFormat == BinaryEncoding.base64

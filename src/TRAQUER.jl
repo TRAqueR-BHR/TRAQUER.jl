@@ -40,7 +40,7 @@ module Model
            ScheduledTaskExecution, Stay, TaskWaitingForUserExecution, Unit, WebApiUsage,
            OutbreakUnitAsso, PatientDecrypt,
            ExposedFunction, ExposedFunctionArgument,
-           DeletedInfectiousStatus
+           DeletedInfectiousStatus, KdfChildKey
     export Appuser
     using PostgresORM,TimeZones
     using ..Enum.AnalysisRequestStatusType,
@@ -85,6 +85,7 @@ module Model
     include("Model/TaskWaitingForUserExecution.jl")
     include("Model/Unit.jl")
     include("Model/WebApiUsage.jl")
+    include("Model/KdfChildKey.jl")
     include("Model/ExposedFunction.jl")
     include("Model-protected/Appuser.jl")
     include("Model-protected/PatientDecrypt.jl")
@@ -240,6 +241,11 @@ module ORM
         using PostgresORM
         include("./ORM/WebApiUsageORM.jl")
     end
+    module KdfChildKeyORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/KdfChildKeyORM.jl")
+    end
 
 
 end  # module ORM
@@ -262,6 +268,10 @@ module Controller
 
   module KdfChildKeyCtrl
     include("Controller/KdfChildKeyCtrl/__def.jl")
+  end
+
+  module FileExchangeCtrl
+    include("Controller/FileExchangeCtrl/__def.jl")
   end
 
   module ExposedFunctionCtrl
@@ -314,6 +324,11 @@ module Controller
 
   module ContactExposureCtrl
     include("Controller/ContactExposureCtrl/_def.jl")
+  end
+
+  module CacheCtrl
+    using SHA
+    include("Controller/CacheCtrl/__def.jl")
   end
 
   module TaskWaitingForUserExecutionCtrl
@@ -392,6 +407,9 @@ include("Controller/ETLCtrl/_imp.jl")
 # KdfChildKeyCtrl
 include("Controller/KdfChildKeyCtrl/__imp.jl")
 
+# FileExchangeCtrl
+include("Controller/FileExchangeCtrl/__imp.jl")
+
 # ETLCtrl.FHIR
 include("Controller/ETLCtrl/FHIR/__imp.jl")
 
@@ -421,6 +439,9 @@ include("Controller/EventRequiringAttentionCtrl/_imp.jl")
 
 # ContactExposureCtrl
 include("Controller/ContactExposureCtrl/_imp.jl")
+
+# CacheCtrl
+include("Controller/CacheCtrl/__imp.jl")
 
 # UnitCtrl
 include("Controller/UnitCtrl/UnitCtrl-imp.jl")

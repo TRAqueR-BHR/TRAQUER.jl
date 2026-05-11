@@ -1,18 +1,15 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ "$#" -lt 4 ] || [ "$#" -gt 5 ]; then
-  echo "Usage: $0 <parent-key-hex> <salt-hex> <info-prefix> <ref> [base64|hex]" >&2
+if [ "$#" -lt 3 ] || [ "$#" -gt 4 ]; then
+  echo "Usage: $0 <parent-key-hex> <salt-hex> <info> [base64|hex]" >&2
   exit 1
 fi
 
 MASTER_KEY_HEX="$1"
 SALT_HEX="$2"
-INFO_PREFIX="$3"
-REF="$4"
-CHILD_KEY_FORMAT="${5:-base64}"
-
-INFO="${INFO_PREFIX}${REF}"
+INFO="$3"
+CHILD_KEY_FORMAT="${4:-base64}"
 
 # Generate the derived key using HKDF (outputs hex with colons)
 HEX_OUTPUT=$(openssl kdf \

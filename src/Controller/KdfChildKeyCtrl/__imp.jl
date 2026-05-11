@@ -1,1 +1,2 @@
-include("generateChildKey.jl")
+include("deriveEncodedChildKey.jl")
+include("generateAndSerializeChildKey.jl")

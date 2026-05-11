@@ -14,6 +14,7 @@ const columns_selection_and_mapping = Dict(
   :expiresAt => "expires_at", 
   :digest => "digest", 
   :saltValue => "salt_value", 
+  :info => "info", 
   :ref => "ref", 
 )
 
