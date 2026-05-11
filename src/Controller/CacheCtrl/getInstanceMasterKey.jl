@@ -1,3 +1,3 @@
 function CacheCtrl.getInstanceMasterKey()::String
-    return get("master_key")
+    return CacheCtrl.get("master_key")
 end
