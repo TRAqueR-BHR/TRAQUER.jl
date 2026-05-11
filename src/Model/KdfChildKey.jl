@@ -2,7 +2,7 @@
 Registry of child keys derived from the unit master key and used for cryptographic
     operations. Each child key has its own salt.
 """
-mutable struct KdfChildKey <: IKdfChildKey
+mutable struct KdfChildKey <: IKdfChildKey 
 
   id::Union{Missing,String}
 
@@ -21,7 +21,7 @@ mutable struct KdfChildKey <: IKdfChildKey
 
   saltValue::Union{Missing,String} # Salt value
 
-  # HKDF context/application-specific information used to derive the child key.
+  # Info string used in the key derivation function (eg. 'fhirxml-file-transfer=42').
   info::Union{Missing,String}
 
   # Child key reference stored alongside data encrypted with this key
@@ -50,4 +50,4 @@ mutable struct KdfChildKey <: IKdfChildKey
     return x
   end
 
-end
+end 
