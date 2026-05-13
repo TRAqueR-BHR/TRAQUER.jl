@@ -29,6 +29,14 @@ function KdfChildKeyCtrl.generateAndSerializeChildKey(
     queryStr = "SELECT NEXTVAL('crypt.seq_kdf_child_key_ref')"
     ref = PostgresORM.execute_plain_query(queryStr, missing, dbconn) |> n -> Int16(n[1, 1])
 
+    # Build the info variable by concatenating the provided infoPrefix with the child key ref
+    # If info-prefix ends with a letter or number, add a separator (e.g. '-') before
+    # appending the ref for better readability
+    if endswith(infoPrefix, r"[A-Za-z0-9]$")
+        infoPrefix *= "-"
+    end
+    info = infoPrefix * string(ref)
+
     # Persist all non-secret HKDF parameters needed to rederive the child key in the future:
     # ref, salt, digest, key length, creation time, and expiration time. The parent/master key is
     # intentionally not stored here and must be supplied by the caller when deriving the key.
@@ -40,9 +48,8 @@ function KdfChildKeyCtrl.generateAndSerializeChildKey(
         createdAt = _now,
         expiresAt = _now + ttl,
         saltValue = saltHex,
-        info = infoPrefix * string(ref),
+        info = info,
     )
-    info = kdfChildKey.info
 
     # The sequence should give us a fresh ref, but this upsert-like logic keeps the method
     # idempotent/safe if a row with the same ref already exists for any reason.
