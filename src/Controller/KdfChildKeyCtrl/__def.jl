@@ -4,4 +4,3 @@ const _CHILD_KEY_LENGTH = 32
 function _hkdf_sha256 end
 function deriveEncodedChildKey end
 function generateAndSerializeChildKey end
-function getKdfRef end

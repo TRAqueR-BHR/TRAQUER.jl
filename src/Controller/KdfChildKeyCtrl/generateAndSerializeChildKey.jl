@@ -30,12 +30,13 @@ function KdfChildKeyCtrl.generateAndSerializeChildKey(
     ref = PostgresORM.execute_plain_query(queryStr, missing, dbconn) |> n -> Int16(n[1, 1])
 
     # Build the info variable by concatenating the provided infoPrefix with the child key ref
-    # If info-prefix ends with a letter or number, add a separator (e.g. '-') before
-    # appending the ref for better readability
-    if endswith(infoPrefix, r"[A-Za-z0-9]$")
-        infoPrefix *= "-"
+    # If info-prefix ends with a letter or number, add an enclosing  of square brakets to
+    # the ref (eg. '[45]')
+    info = if endswith(infoPrefix, r"[A-Za-z0-9]$")
+        "$infoPrefix[$ref]"
+    else
+        infoPrefix * string(ref)
     end
-    info = infoPrefix * string(ref)
 
     # Persist all non-secret HKDF parameters needed to rederive the child key in the future:
     # ref, salt, digest, key length, creation time, and expiration time. The parent/master key is

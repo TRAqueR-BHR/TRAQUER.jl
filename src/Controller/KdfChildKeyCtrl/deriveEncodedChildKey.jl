@@ -1,29 +1,5 @@
 import SHA
 
-function KdfChildKeyCtrl._hkdf_sha256(
-    key::Vector{UInt8},
-    salt::Vector{UInt8},
-    info::AbstractString,
-    keylength::Integer,
-)::Vector{UInt8}
-    prk = SHA.hmac_sha256(salt, key)
-    okm = UInt8[]
-    previous_block = UInt8[]
-    counter = UInt8(1)
-    info_bytes = collect(codeunits(info))
-
-    while length(okm) < keylength
-        previous_block = SHA.hmac_sha256(
-            prk,
-            vcat(previous_block, info_bytes, UInt8[counter]),
-        )
-        append!(okm, previous_block)
-        counter += UInt8(1)
-    end
-
-    return okm[1:keylength]
-end
-
 """
     deriveEncodedChildKey(
         parentKeyHex::String,
@@ -61,4 +37,28 @@ function KdfChildKeyCtrl.deriveEncodedChildKey(
         throw(ArgumentError("unsupported child key format: $childKeyFormat. Expected 'base64' or 'hex'."))
     end
 
+end
+
+function KdfChildKeyCtrl._hkdf_sha256(
+    key::Vector{UInt8},
+    salt::Vector{UInt8},
+    info::AbstractString,
+    keylength::Integer,
+)::Vector{UInt8}
+    prk = SHA.hmac_sha256(salt, key)
+    okm = UInt8[]
+    previous_block = UInt8[]
+    counter = UInt8(1)
+    info_bytes = collect(codeunits(info))
+
+    while length(okm) < keylength
+        previous_block = SHA.hmac_sha256(
+            prk,
+            vcat(previous_block, info_bytes, UInt8[counter]),
+        )
+        append!(okm, previous_block)
+        counter += UInt8(1)
+    end
+
+    return okm[1:keylength]
 end
