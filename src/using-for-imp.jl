@@ -1,7 +1,7 @@
 # 'using' calls for the implementations
 using PostgresORM,  LibPQ, TimeZones, Dates, ConfParser, Unicode, StringCases, Mocking,
       SplitApplyCombine, UUIDs, Serialization, ProgressMeter, Glob, StringEncodings,
-      Languages, XLSX, SplitApplyCombine, CSV, Mux
+      Languages, XLSX, SplitApplyCombine, CSV, Mux, SHA
 using ..TRAQUER, ..TRAQUERUtil
 using Base.StackTraces
 using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
@@ -29,7 +29,10 @@ using ..Controller.AnalysisResultCtrl,
       ..Controller.DeletedInfectiousStatusCtrl,
       ..Controller.AppuserCtrl,
       ..Controller.ContactExposureCtrl,
+      ..Controller.CacheCtrl,
       ..Controller.ETLCtrl,
+      ..Controller.KdfChildKeyCtrl,
+      ..Controller.FileExchangeCtrl,
       ..Controller.ExposedFunctionCtrl,
       ..Controller.ExtractionCtrl,
       ..Controller.EventRequiringAttentionCtrl,
@@ -46,6 +49,7 @@ using ..Enum.AnalysisRequestStatusType,
       ..Enum.AnalysisResultValueType,
       ..Enum.AppuserType,
       ..Enum.AnalysisRequestType,
+      ..Enum.BinaryEncoding,
       ..Enum.Gender,
       ..Enum.HospitalizationStatusType,
       ..Enum.InfectiousAgentCategory,

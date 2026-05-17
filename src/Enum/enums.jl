@@ -124,6 +124,14 @@ module InfectiousAgentCategory
   end
 end
 
+module BinaryEncoding
+  export BINARY_ENCODING
+  @enum BINARY_ENCODING begin
+     hex = 1 
+     base64 = 2 
+  end
+end
+
 module InfectiousStatusType
   export INFECTIOUS_STATUS_TYPE
   @enum INFECTIOUS_STATUS_TYPE begin

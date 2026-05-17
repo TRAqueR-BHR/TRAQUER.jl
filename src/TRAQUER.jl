@@ -6,7 +6,7 @@ module TRAQUER
 A function that says hello
 """
 function greet()
-    @info "Hello"
+    @info "Hello!"
 end
 
 function greet(str::AbstractString)
@@ -23,8 +23,11 @@ module TRAQUERUtil
            commitDBTransaction,rollbackDBTransaction,closeDBConn,
            getConf, formatExceptionAndStackTrace, json2entity, getTimeZone,
            executeOnBgThread, createDBConnAndExecute, isMissingOrNothing,
-           json2Entity, getTranslation, createHZDT, createHospitalZonedDateTime
-    include("./TRAQUERUtil/_def.jl")
+           json2Entity, getTranslation, createHZDT, createHospitalZonedDateTime,
+           bytesToHex, hexToBytes, bytesToBase64, base64ToBytes,
+           hexToBase64, base64ToHex, stringToHex, hexToString,
+           stringToBase64, base64ToString
+    include("./TRAQUERUtil/__def.jl")
 
 end # module TRAQUERUtil
 
@@ -37,13 +40,14 @@ module Model
            ScheduledTaskExecution, Stay, TaskWaitingForUserExecution, Unit, WebApiUsage,
            OutbreakUnitAsso, PatientDecrypt,
            ExposedFunction, ExposedFunctionArgument,
-           DeletedInfectiousStatus
+           DeletedInfectiousStatus, KdfChildKey
     export Appuser
     using PostgresORM,TimeZones
     using ..Enum.AnalysisRequestStatusType,
           ..Enum.AnalysisResultValueType,
           ..Enum.AppuserType,
           ..Enum.AnalysisRequestType,
+          ..Enum.BinaryEncoding,
           ..Enum.Gender,
           ..Enum.HospitalizationStatusType,
           ..Enum.InfectiousAgentCategory,
@@ -81,6 +85,7 @@ module Model
     include("Model/TaskWaitingForUserExecution.jl")
     include("Model/Unit.jl")
     include("Model/WebApiUsage.jl")
+    include("Model/KdfChildKey.jl")
     include("Model/ExposedFunction.jl")
     include("Model-protected/Appuser.jl")
     include("Model-protected/PatientDecrypt.jl")
@@ -236,6 +241,11 @@ module ORM
         using PostgresORM
         include("./ORM/WebApiUsageORM.jl")
     end
+    module KdfChildKeyORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/KdfChildKeyORM.jl")
+    end
 
 
 end  # module ORM
@@ -243,11 +253,11 @@ end  # module ORM
 module Controller
 
   module AppuserCtrl
-      include("Controller/AppuserCtrl/_def.jl")
+      include("Controller/AppuserCtrl/__def.jl")
   end
 
   module ETLCtrl
-    include("Controller/ETLCtrl/_def.jl")
+    include("Controller/ETLCtrl/__def.jl")
     module FHIR
         include("Controller/ETLCtrl/FHIR/__def.jl")
     end
@@ -256,20 +266,28 @@ module Controller
     end
   end
 
+  module KdfChildKeyCtrl
+    include("Controller/KdfChildKeyCtrl/__def.jl")
+  end
+
+  module FileExchangeCtrl
+    include("Controller/FileExchangeCtrl/__def.jl")
+  end
+
   module ExposedFunctionCtrl
-    include("Controller/ExposedFunctionCtrl/_def.jl")
+    include("Controller/ExposedFunctionCtrl/__def.jl")
   end
 
   module ExtractionCtrl
-    include("Controller/ExtractionCtrl/_def.jl")
+    include("Controller/ExtractionCtrl/__def.jl")
   end
 
   module PatientCtrl
-    include("Controller/PatientCtrl/_def.jl")
+    include("Controller/PatientCtrl/__def.jl")
   end
 
   module StayCtrl
-    include("Controller/StayCtrl/_def.jl")
+    include("Controller/StayCtrl/__def.jl")
   end
 
   module UnitCtrl
@@ -277,39 +295,44 @@ module Controller
   end
 
   module AnalysisResultCtrl
-    include("Controller/AnalysisResultCtrl/_def.jl")
+    include("Controller/AnalysisResultCtrl/__def.jl")
   end
 
   module AnalysisRequestCtrl
-    include("Controller/AnalysisRequestCtrl/_def.jl")
+    include("Controller/AnalysisRequestCtrl/__def.jl")
   end
 
   module InfectiousStatusCtrl
-    include("Controller/InfectiousStatusCtrl/_def.jl")
+    include("Controller/InfectiousStatusCtrl/__def.jl")
   end
 
   module DeletedInfectiousStatusCtrl
-    include("Controller/DeletedInfectiousStatusCtrl/_def.jl")
+    include("Controller/DeletedInfectiousStatusCtrl/__def.jl")
   end
 
   module OutbreakCtrl
-    include("Controller/OutbreakCtrl/_def.jl")
+    include("Controller/OutbreakCtrl/__def.jl")
   end
 
   module OutbreakUnitAssoCtrl
-    include("Controller/OutbreakUnitAssoCtrl/_def.jl")
+    include("Controller/OutbreakUnitAssoCtrl/__def.jl")
   end
 
   module EventRequiringAttentionCtrl
-    include("Controller/EventRequiringAttentionCtrl/_def.jl")
+    include("Controller/EventRequiringAttentionCtrl/__def.jl")
   end
 
   module ContactExposureCtrl
-    include("Controller/ContactExposureCtrl/_def.jl")
+    include("Controller/ContactExposureCtrl/__def.jl")
+  end
+
+  module CacheCtrl
+    using SHA
+    include("Controller/CacheCtrl/__def.jl")
   end
 
   module TaskWaitingForUserExecutionCtrl
-      include("Controller/TaskWaitingForUserExecutionCtrl/_def.jl")
+      include("Controller/TaskWaitingForUserExecutionCtrl/__def.jl")
   end
 
   module WebApiUsageCtrl
@@ -318,11 +341,11 @@ module Controller
 
   module SchedulerCtrl
     using Dates
-    include("Controller/SchedulerCtrl/_def.jl")
+    include("Controller/SchedulerCtrl/__def.jl")
   end
 
   module MaintenanceCtrl
-    include("Controller/MaintenanceCtrl/_def.jl")
+    include("Controller/MaintenanceCtrl/__def.jl")
   end
 
   # Default CRUD actions are the base of the Controller module
@@ -361,25 +384,31 @@ include("custom-exceptions.jl")
 include("Controller/default-crud-imp.jl")
 
 # TRAQUERUtil
-include("TRAQUERUtil/_imp.jl")
+include("TRAQUERUtil/__imp.jl")
 
 # AppuserCtrl
-include("Controller/AppuserCtrl/_imp.jl")
+include("Controller/AppuserCtrl/__imp.jl")
 
 # PatientCtrl
-include("Controller/PatientCtrl/_imp.jl")
+include("Controller/PatientCtrl/__imp.jl")
 
 # StayCtrl
-include("Controller/StayCtrl/_imp.jl")
+include("Controller/StayCtrl/__imp.jl")
 
 # AnalysisResultCtrl
-include("Controller/AnalysisResultCtrl/_imp.jl")
+include("Controller/AnalysisResultCtrl/__imp.jl")
 
 # AnalysisRequestCtrl
-include("Controller/AnalysisRequestCtrl/_imp.jl")
+include("Controller/AnalysisRequestCtrl/__imp.jl")
 
 # ETLCtrl
-include("Controller/ETLCtrl/_imp.jl")
+include("Controller/ETLCtrl/__imp.jl")
+
+# KdfChildKeyCtrl
+include("Controller/KdfChildKeyCtrl/__imp.jl")
+
+# FileExchangeCtrl
+include("Controller/FileExchangeCtrl/__imp.jl")
 
 # ETLCtrl.FHIR
 include("Controller/ETLCtrl/FHIR/__imp.jl")
@@ -388,43 +417,46 @@ include("Controller/ETLCtrl/FHIR/__imp.jl")
 include("Controller/ETLCtrl/Excel/__imp.jl")
 
 # ExposedFunctionCtrl
-include("Controller/ExposedFunctionCtrl/_imp.jl")
+include("Controller/ExposedFunctionCtrl/__imp.jl")
 
 # ExtractionCtrl
-include("Controller/ExtractionCtrl/_imp.jl")
+include("Controller/ExtractionCtrl/__imp.jl")
 
 # InfectiousStatusCtrl
-include("Controller/InfectiousStatusCtrl/_imp.jl")
+include("Controller/InfectiousStatusCtrl/__imp.jl")
 
 # DeletedInfectiousStatusCtrl
-include("Controller/DeletedInfectiousStatusCtrl/_imp.jl")
+include("Controller/DeletedInfectiousStatusCtrl/__imp.jl")
 
 # OutbreakCtrl
-include("Controller/OutbreakCtrl/_imp.jl")
+include("Controller/OutbreakCtrl/__imp.jl")
 
 # OutbreakUnitAssoCtrl
-include("Controller/OutbreakUnitAssoCtrl/_imp.jl")
+include("Controller/OutbreakUnitAssoCtrl/__imp.jl")
 
 # EventRequiringAttentionCtrl
-include("Controller/EventRequiringAttentionCtrl/_imp.jl")
+include("Controller/EventRequiringAttentionCtrl/__imp.jl")
 
 # ContactExposureCtrl
-include("Controller/ContactExposureCtrl/_imp.jl")
+include("Controller/ContactExposureCtrl/__imp.jl")
+
+# CacheCtrl
+include("Controller/CacheCtrl/__imp.jl")
 
 # UnitCtrl
 include("Controller/UnitCtrl/UnitCtrl-imp.jl")
 
 # TaskWaitingForUserExecutionCtrl
-include("Controller/TaskWaitingForUserExecutionCtrl/_imp.jl")
+include("Controller/TaskWaitingForUserExecutionCtrl/__imp.jl")
 
 # WebApiUsageCtrl
 include("Controller/WebApiUsageCtrl/WebApiUsageCtrl-imp.jl")
 
 # SchedulerCtrl
-include("Controller/SchedulerCtrl/_imp.jl")
+include("Controller/SchedulerCtrl/__imp.jl")
 
 # MaintenanceCtrl
-include("Controller/MaintenanceCtrl/_imp.jl")
+include("Controller/MaintenanceCtrl/__imp.jl")
 
 # WebAPI
 include("WebAPI/__imp.jl")

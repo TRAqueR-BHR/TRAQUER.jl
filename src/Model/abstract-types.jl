@@ -27,3 +27,4 @@ abstract type IRole <: IEntity end
 abstract type IAppuserRoleAsso <: IEntity end
 abstract type IAppuser <: IEntity end
 abstract type IRoleRoleAsso <: IEntity end
+abstract type IKdfChildKey <: IEntity end

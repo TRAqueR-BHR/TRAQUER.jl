@@ -7,6 +7,8 @@
 @everywhere using TRAQUER.Controller.PatientCtrl
 @everywhere using TRAQUER.Controller.UnitCtrl
 @everywhere using TRAQUER.Controller.ETLCtrl
+@everywhere using TRAQUER.Controller.KdfChildKeyCtrl
+@everywhere using TRAQUER.Controller.FileExchangeCtrl
 @everywhere using TRAQUER.Controller.ExposedFunctionCtrl
 @everywhere using TRAQUER.Controller.ExtractionCtrl
 @everywhere using TRAQUER.Controller.StayCtrl
@@ -15,6 +17,7 @@
 @everywhere using TRAQUER.Controller.InfectiousStatusCtrl
 @everywhere using TRAQUER.Controller.DeletedInfectiousStatusCtrl
 @everywhere using TRAQUER.Controller.ContactExposureCtrl
+@everywhere using TRAQUER.Controller.CacheCtrl
 @everywhere using TRAQUER.Controller.AppuserCtrl
 @everywhere using TRAQUER.Controller.OutbreakCtrl
 @everywhere using TRAQUER.Controller.OutbreakUnitAssoCtrl
@@ -28,6 +31,7 @@
 @everywhere using TRAQUER.Enum.AnalysisResultValueType
 @everywhere using TRAQUER.Enum.AppuserType
 @everywhere using TRAQUER.Enum.AnalysisRequestType
+@everywhere using TRAQUER.Enum.BinaryEncoding
 @everywhere using TRAQUER.Enum.Gender
 @everywhere using TRAQUER.Enum.HospitalizationStatusType
 @everywhere using TRAQUER.Enum.SampleMaterialType
