@@ -29,14 +29,8 @@ function KdfChildKeyCtrl.generateAndSerializeChildKey(
     queryStr = "SELECT NEXTVAL('crypt.seq_kdf_child_key_ref')"
     ref = PostgresORM.execute_plain_query(queryStr, missing, dbconn) |> n -> Int16(n[1, 1])
 
-    # Build the info variable by concatenating the provided infoPrefix with the child key ref
-    # If info-prefix ends with a letter or number, add an enclosing  of square brakets to
-    # the ref (eg. '[45]')
-    info = if endswith(infoPrefix, r"[A-Za-z0-9]$")
-        "$infoPrefix[$ref]"
-    else
-        infoPrefix * string(ref)
-    end
+    # Build the info string
+    info = KdfChildKeyCtrl._buildInfo(infoPrefix, ref)
 
     # Persist all non-secret HKDF parameters needed to rederive the child key in the future:
     # ref, salt, digest, key length, creation time, and expiration time. The parent/master key is
