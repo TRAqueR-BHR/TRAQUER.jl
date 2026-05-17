@@ -1,5 +1,6 @@
 @everywhere using TRAQUER
 @everywhere using TRAQUER.TRAQUERUtil
+@everywhere import .TRAQUERUtil.Conf
 @everywhere using TRAQUER.Model
 @everywhere using TRAQUER.Enum
 @everywhere using TRAQUER.Custom
@@ -9,6 +10,7 @@
 @everywhere using TRAQUER.Controller.ETLCtrl
 @everywhere using TRAQUER.Controller.KdfChildKeyCtrl
 @everywhere using TRAQUER.Controller.FileExchangeCtrl
+@everywhere using TRAQUER.Controller.S3Ctrl
 @everywhere using TRAQUER.Controller.ExposedFunctionCtrl
 @everywhere using TRAQUER.Controller.ExtractionCtrl
 @everywhere using TRAQUER.Controller.StayCtrl
