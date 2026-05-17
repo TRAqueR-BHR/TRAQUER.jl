@@ -4,7 +4,7 @@ function TRAQUERUtil.getSchedulerBlacklist()::Vector{String}
         return []
     end
 
-    TRAQUERUtil.getConf("scheduler", "blacklist") |>
+    Conf.getConf("scheduler", "blacklist") |>
     n -> split(n,",") |>
     n -> strip.(n) |>
     n -> string.(n)

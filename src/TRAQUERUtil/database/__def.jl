@@ -1,0 +1,10 @@
+function openDBConn end
+function openDBConnAndBeginTransaction end
+function beginDBTransaction end
+function commitDBTransaction end
+function rollbackDBTransaction end
+function closeDBConn end
+function dumpDatabase end
+function cleanOldDatabaseDumps end
+function dumpDatabaseAndCleanOldDumps end
+function getDatabaseDumpRetentionPeriod end

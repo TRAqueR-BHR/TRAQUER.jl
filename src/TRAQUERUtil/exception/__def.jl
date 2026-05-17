@@ -1,0 +1,3 @@
+function formatExceptionAndStackTrace end
+function formatExceptionAndStackTraceCore end
+function formatExceptionForFrontend end

@@ -1,0 +1,2 @@
+function generateHumanReadableUniqueRef end
+function retrieveSequenceNextval end

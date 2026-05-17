@@ -1,0 +1,4 @@
+function getCarrierWaitingPeriod end
+function getNumberOfNegativeTestsForCarrierExclusion end
+function getMinimumNumberOfHoursForContactStatusCreation end
+function getNumberOfNegativeTestsForContactExclusion end

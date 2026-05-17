@@ -1,0 +1,3 @@
+function moveStaysInputFileToDoneDir end
+function moveAnalysesInputFileToDoneDir end
+function moveInputFileToProcessingDir end

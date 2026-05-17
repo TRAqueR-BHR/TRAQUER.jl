@@ -1,0 +1,3 @@
+function getMappingAnalysisRequestType2InfectiousAgentCategory end
+function analysisRequestType2InfectiousAgentCategory end
+function infectiousAgentCategory2AnalysisRequestTypes end

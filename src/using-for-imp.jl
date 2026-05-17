@@ -3,6 +3,7 @@ using PostgresORM,  LibPQ, TimeZones, Dates, ConfParser, Unicode, StringCases, M
       SplitApplyCombine, UUIDs, Serialization, ProgressMeter, Glob, StringEncodings,
       Languages, XLSX, SplitApplyCombine, CSV, Mux, SHA
 using ..TRAQUER, ..TRAQUERUtil
+import .TRAQUERUtil.Conf
 using Base.StackTraces
 using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,
       ..Controller.PatientCtrl, ..Controller.InfectiousStatusCtrl

@@ -10,10 +10,10 @@ function TRAQUERUtil.dumpDatabase(
    
 
     # Get the connection details
-    databaseName = TRAQUERUtil.getConf("database","database")
-    user = TRAQUERUtil.getConf("database","user")
-    host = TRAQUERUtil.getConf("database","host_for_dump")
-    port = TRAQUERUtil.getConf("database","port_for_dump")
+    databaseName = Conf.getConf("database","database")
+    user = Conf.getConf("database","user")
+    host = Conf.getConf("database","host_for_dump")
+    port = Conf.getConf("database","port_for_dump")
     
 
     # Build the dump file path if it was not given as an argument
@@ -75,7 +75,7 @@ function TRAQUERUtil.getDatabaseDumpRetentionPeriod()
     Day(
         parse(
             Int8,
-            getConf("database","dump_retention_in_days")
+            Conf.getConf("database","dump_retention_in_days")
         )
     )
 end

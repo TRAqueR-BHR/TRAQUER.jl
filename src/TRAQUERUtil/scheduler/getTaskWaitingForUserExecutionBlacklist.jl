@@ -4,7 +4,7 @@ function TRAQUERUtil.getTaskWaitingForUserExecutionBlacklist()::Vector{String}
         return []
     end
 
-    TRAQUERUtil.getConf("task_waiting_for_user_execution", "blacklist") |>
+    Conf.getConf("task_waiting_for_user_execution", "blacklist") |>
     n -> split(n,",") |>
     n -> strip.(n) |>
     n -> string.(n)
