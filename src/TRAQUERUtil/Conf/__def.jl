@@ -6,7 +6,9 @@ export loadConf, hasConf, getConf, updateConf, getTimeZone, getTimeZoneAsStr,
        getAdminEmail, bccAdminForEveryEmail, getInstancePrettyName,
        getCarrierWaitingPeriod, getNumberOfNegativeTestsForCarrierExclusion,
        getMinimumNumberOfHoursForContactStatusCreation,
-       getNumberOfNegativeTestsForContactExclusion
+       getNumberOfNegativeTestsForContactExclusion,
+       getS3Url, getS3Region, getS3AccessKey, getS3SecretKey,
+       getS3HospitalBucket
 
 function loadConf end
 function hasConf end

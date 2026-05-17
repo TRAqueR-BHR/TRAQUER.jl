@@ -281,6 +281,10 @@ module Controller
     include("Controller/FileExchangeCtrl/__def.jl")
   end
 
+  module S3Ctrl
+    include("Controller/S3Ctrl/__def.jl")
+  end
+
   module ExposedFunctionCtrl
     include("Controller/ExposedFunctionCtrl/__def.jl")
   end
@@ -416,6 +420,9 @@ include("Controller/KdfChildKeyCtrl/__imp.jl")
 
 # FileExchangeCtrl
 include("Controller/FileExchangeCtrl/__imp.jl")
+
+# S3Ctrl
+include("Controller/S3Ctrl/__imp.jl")
 
 # ETLCtrl.FHIR
 include("Controller/ETLCtrl/FHIR/__imp.jl")
