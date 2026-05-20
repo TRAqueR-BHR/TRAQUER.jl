@@ -24,12 +24,12 @@ function TRAQUERUtil.sendemail(
     message *= "--<br/>"
     # message *= getTranslation("do_not_answer_this_email_contact_your_administrator_instead")
 
-    userid = getConf("email","userid")
+    userid = Conf.getConf("email","userid")
 
-    fromaddress = "$(TRAQUERUtil.getInstancePrettyName()) <$(getConf("email","from_address"))>"
+    fromaddress = "$(TRAQUERUtil.getInstancePrettyName()) <$(Conf.getConf("email","from_address"))>"
     replyto = fromaddress
-    userpwd = getConf("email","userpwd")
-    smtpserver = getConf("email","smtpserver")
+    userpwd = Conf.getConf("email","userpwd")
+    smtpserver = Conf.getConf("email","smtpserver")
 
     # NOTE: We didn't manage to make this work using a vector of arguments
     #       => fall back to repeating the almost same command with/without

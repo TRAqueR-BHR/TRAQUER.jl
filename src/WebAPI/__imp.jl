@@ -15,7 +15,7 @@ include("serve.jl")
 
 # function _ensure_jwt_keyset()
 #     if isnothing(_jwtkeyset[])
-#         ks = JWKSet(TRAQUERUtil.getConf("security", "jwt_signing_keys_uri"))
+#         ks = JWKSet(Conf.getConf("security", "jwt_signing_keys_uri"))
 #         refresh!(ks)
 #         _jwtkeyset[] = ks
 #         _jwtkeyid[]  = first(first(ks.keys))

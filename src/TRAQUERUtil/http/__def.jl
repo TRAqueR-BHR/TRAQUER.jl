@@ -1,0 +1,4 @@
+function getCryptPwdHttpHeaderKey end
+function extractCryptPwdFromHTTPHeader end
+function initialize_http_response_status_code end
+function getCurrentFrontendVersion end

@@ -1,0 +1,5 @@
+function convertStringToZonedDateTime end
+function string2date end
+function nowInTargetTimeZone end
+function createHospitalZonedDateTime end
+const createHZDT = TRAQUERUtil.createHospitalZonedDateTime

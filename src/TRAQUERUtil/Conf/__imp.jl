@@ -1,0 +1,15 @@
+# see ~/.julia/config/startup.jl for setting the environment variable
+include("loadConf.jl")
+include("hasConf.jl")
+include("getConf.jl")
+include("updateConf.jl")
+
+include("default/__imp.jl")
+include("custom/__imp.jl")
+include("rules_parameters/__imp.jl")
+include("admin/__imp.jl")
+include("security/__imp.jl")
+include("database/__imp.jl")
+include("email/__imp.jl")
+include("debug/__imp.jl")
+include("s3/__imp.jl")

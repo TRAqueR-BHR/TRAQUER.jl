@@ -1,0 +1,3 @@
+include("analysisRequestType2InfectiousAgentCategory.jl")
+include("getMappingAnalysisRequestType2InfectiousAgentCategory.jl")
+include("infectiousAgentCategory2AnalysisRequestTypes.jl")

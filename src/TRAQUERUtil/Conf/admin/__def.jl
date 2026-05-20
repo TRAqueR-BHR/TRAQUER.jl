@@ -1,0 +1,2 @@
+function getAdminEmail end
+function bccAdminForEveryEmail end

@@ -1,0 +1,5 @@
+include("getS3Url.jl")
+include("getS3Region.jl")
+include("getS3AccessKey.jl")
+include("getS3SecretKey.jl")
+include("getS3HospitalBucket.jl")

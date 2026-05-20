@@ -1,0 +1,11 @@
+function getTimeZone end
+function getTimeZoneAsStr end
+function getInstanceCodeName end
+function blindBakeIsRequired end
+function getDataDir end
+function getPendingInputFilesDir end
+function getProcessingInputFilesDir end
+function getDoneInputFilesDir end
+function getInputFilesProblemsDir end
+function getTeamEmailAddress end
+function getInstancePrettyName end

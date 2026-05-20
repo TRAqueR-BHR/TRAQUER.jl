@@ -15,7 +15,7 @@ function AppuserCtrl.setJWT!(appuser::Appuser)
 
     jwt = JWT(;payload=payload)
 
-    keyset = JWKSet(getConf("security","jwt_signing_keys_uri"));
+    keyset = JWKSet(Conf.getConf("security","jwt_signing_keys_uri"));
     refresh!(keyset)
     keyid = first(first(keyset.keys))
 

@@ -1,0 +1,5 @@
+function rmAccentsAndLowercase end
+function cleanStringForEncryptedValueCp end
+function normalizeWhites end
+function removeDoubleSpaces end
+function removeDoubleLineReturns end

@@ -1,0 +1,10 @@
+function bytesToHex end
+function hexToBytes end
+function bytesToBase64 end
+function base64ToBytes end
+function hexToBase64 end
+function base64ToHex end
+function stringToHex end
+function hexToString end
+function stringToBase64 end
+function base64ToString end

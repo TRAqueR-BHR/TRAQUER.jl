@@ -19,7 +19,7 @@ module Enum
 end  # module Enum
 
 module TRAQUERUtil
-    export openDBConn,openDBConnAndBeginTransaction,beginDBTransaction,
+    export Conf, openDBConn,openDBConnAndBeginTransaction,beginDBTransaction,
            commitDBTransaction,rollbackDBTransaction,closeDBConn,
            getConf, formatExceptionAndStackTrace, json2entity, getTimeZone,
            executeOnBgThread, createDBConnAndExecute, isMissingOrNothing,
@@ -27,6 +27,13 @@ module TRAQUERUtil
            bytesToHex, hexToBytes, bytesToBase64, base64ToBytes,
            hexToBase64, base64ToHex, stringToHex, hexToString,
            stringToBase64, base64ToString
+
+    module Conf
+        include("./TRAQUERUtil/Conf/__def.jl")
+    end # module Conf
+
+    using .Conf
+
     include("./TRAQUERUtil/__def.jl")
 
 end # module TRAQUERUtil
@@ -274,6 +281,10 @@ module Controller
     include("Controller/FileExchangeCtrl/__def.jl")
   end
 
+  module S3Ctrl
+    include("Controller/S3Ctrl/__def.jl")
+  end
+
   module ExposedFunctionCtrl
     include("Controller/ExposedFunctionCtrl/__def.jl")
   end
@@ -410,6 +421,9 @@ include("Controller/KdfChildKeyCtrl/__imp.jl")
 # FileExchangeCtrl
 include("Controller/FileExchangeCtrl/__imp.jl")
 
+# S3Ctrl
+include("Controller/S3Ctrl/__imp.jl")
+
 # ETLCtrl.FHIR
 include("Controller/ETLCtrl/FHIR/__imp.jl")
 
@@ -471,7 +485,7 @@ include("Base/push.jl")
 
 PostgresORM.ModificationORM.get_schema_name() = "supervision"
 
-const config = TRAQUERUtil.loadConf()
+const config = TRAQUERUtil.Conf.loadConf()
 const translation = TRAQUERUtil.loadTranslation()
 
 """

@@ -1,0 +1,5 @@
+include("rmAccentsAndLowercase.jl")
+include("cleanStringForEncryptedValueCp.jl")
+include("normalizeWhites.jl")
+include("removeDoubleSpaces.jl")
+include("removeDoubleLineReturns.jl")
