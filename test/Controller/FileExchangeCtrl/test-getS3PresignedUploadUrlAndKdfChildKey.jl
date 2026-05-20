@@ -6,7 +6,9 @@ using HTTP
     bucket = TRAQUERUtil.Conf.getS3HospitalBucket()
     content = "Dummy encrypted file-exchange payload\n$(uuid4())\n"
 
-    result = FileExchangeCtrl.getS3PresignedUploadUrlAndKdfChildKey()
+    result = TRAQUERUtil.createDBConnAndExecute() do dbconn
+        FileExchangeCtrl.getS3PresignedUploadUrlAndKdfChildKey(dbconn)
+    end
 
     try
         @test result.ref isa Int16
