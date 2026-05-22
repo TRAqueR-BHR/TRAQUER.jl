@@ -1,8 +1,8 @@
 
-data_type = Model.StayDataNeeded
-PostgresORM.get_orm(x::Model.StayDataNeeded) = return(ORM.StayDataNeededORM)
+data_type = Model.StayExtractionScope
+PostgresORM.get_orm(x::Model.StayExtractionScope) = return(ORM.StayExtractionScopeORM)
 get_schema_name() = "etl"
-get_table_name() = "stay_data_needed"
+get_table_name() = "stay_extraction_scope"
 
 
 # Declare the mapping between the properties and the database columns

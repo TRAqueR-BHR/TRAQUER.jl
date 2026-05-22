@@ -1,4 +1,7 @@
-mutable struct StayDataNeeded <: IStayDataNeeded 
+"""
+Registry of scopes of stay data that are needed to be extracted from the source system (the hospital information system).
+"""
+mutable struct StayExtractionScope <: IStayExtractionScope 
 
   id::Union{Missing,String}
 
@@ -26,8 +29,8 @@ mutable struct StayDataNeeded <: IStayDataNeeded
   # or the auditors.
   justification::Union{Missing,String}
 
-  StayDataNeeded(args::NamedTuple) = StayDataNeeded(;args...)
-  StayDataNeeded(;
+  StayExtractionScope(args::NamedTuple) = StayExtractionScope(;args...)
+  StayExtractionScope(;
     id = missing,
     periodOiEndTime = missing,
     deactivationCondition = missing,

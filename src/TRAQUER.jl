@@ -44,7 +44,7 @@ module Model
            EventRequiringAttention, Modification, Outbreak,
            OutbreakInfectiousStatusAsso, Patient, PatientBirthdateCrypt,
            PatientCurrentStatus, PatientNameCrypt, PatientRefCrypt, Role, RoleRoleAsso,
-           ScheduledTaskExecution, Stay, StayDataNeeded, TaskWaitingForUserExecution, Unit,
+           ScheduledTaskExecution, Stay, StayExtractionScope, TaskWaitingForUserExecution, Unit,
            WebApiUsage, OutbreakUnitAsso, PatientDecrypt,
            ExposedFunction, ExposedFunctionArgument,
            DeletedInfectiousStatus, KdfChildKey
@@ -89,7 +89,7 @@ module Model
     include("Model/RoleRoleAsso.jl")
     include("Model/ScheduledTaskExecution.jl")
     include("Model/Stay.jl")
-    include("Model/StayDataNeeded.jl")
+    include("Model/StayExtractionScope.jl")
     include("Model/TaskWaitingForUserExecution.jl")
     include("Model/Unit.jl")
     include("Model/WebApiUsage.jl")
@@ -223,10 +223,10 @@ module ORM
         using PostgresORM
         include("./ORM/StayORM.jl")
     end
-    module StayDataNeededORM
+    module StayExtractionScopeORM
         using ..ORM, ...Model
         using PostgresORM
-        include("./ORM/StayDataNeededORM.jl")
+        include("./ORM/StayExtractionScopeORM.jl")
     end
     module TaskWaitingForUserExecutionORM
         using ..ORM, ...Model
