@@ -13,7 +13,6 @@ function greet(str::AbstractString)
     @info "Hello $str"
 end
 
-
 module Enum
     include("Enum/enums.jl")
 end  # module Enum
@@ -44,7 +43,7 @@ module Model
            EventRequiringAttention, Modification, Outbreak,
            OutbreakInfectiousStatusAsso, Patient, PatientBirthdateCrypt,
            PatientCurrentStatus, PatientNameCrypt, PatientRefCrypt, Role, RoleRoleAsso,
-           ScheduledTaskExecution, Stay, StayExtractionScope, TaskWaitingForUserExecution, Unit,
+           ScheduledTaskExecution, Stay, StayMonitoringScope, StayExtractionScope, TaskWaitingForUserExecution, Unit,
            WebApiUsage, OutbreakUnitAsso, PatientDecrypt,
            ExposedFunction, ExposedFunctionArgument,
            DeletedInfectiousStatus, KdfChildKey
@@ -89,6 +88,7 @@ module Model
     include("Model/RoleRoleAsso.jl")
     include("Model/ScheduledTaskExecution.jl")
     include("Model/Stay.jl")
+    include("Model/StayMonitoringScope.jl")
     include("Model/StayExtractionScope.jl")
     include("Model/TaskWaitingForUserExecution.jl")
     include("Model/Unit.jl")
@@ -98,6 +98,16 @@ module Model
     include("Model-protected/Appuser.jl")
     include("Model-protected/PatientDecrypt.jl")
     include("Model-protected/ExposedFunctionArgument.jl")
+
+    """
+    DTO structs used to model Web API endpoint request/response payloads.
+    """
+    module DTO
+        using ..Model: IEntity
+        using TimeZones
+        include("Model-protected/DTO/abstract-types.jl")
+        include("Model-protected/DTO/StayExtractionScopeDTO.jl")
+    end
 end  # module Model
 
 module ORM
@@ -223,6 +233,11 @@ module ORM
         using PostgresORM
         include("./ORM/StayORM.jl")
     end
+    module StayMonitoringScopeORM
+        using ..ORM, ...Model
+        using PostgresORM
+        include("./ORM/StayMonitoringScopeORM.jl")
+    end
     module StayExtractionScopeORM
         using ..ORM, ...Model
         using PostgresORM
@@ -276,6 +291,9 @@ module Controller
     end
     module Excel
         include("Controller/ETLCtrl/Excel/__def.jl")
+    end
+    module ScopeCtrl
+        include("Controller/ETLCtrl/ScopeCtrl/__def.jl")
     end
   end
 
@@ -436,6 +454,9 @@ include("Controller/ETLCtrl/FHIR/__imp.jl")
 # ETLCtrl.Excel
 include("Controller/ETLCtrl/Excel/__imp.jl")
 
+# ETLCtrl.ScopeCtrl
+include("Controller/ETLCtrl/ScopeCtrl/__imp.jl")
+
 # ExposedFunctionCtrl
 include("Controller/ExposedFunctionCtrl/__imp.jl")
 
@@ -488,6 +509,9 @@ include(ENV["TRAQUER_CUSTOM_MODULE_IMPLEMENTATION_FILE"])
 
 # Overwrite of other modules
 include("Base/push.jl")
+
+# Declare constants
+include("constants.jl")
 
 PostgresORM.ModificationORM.get_schema_name() = "supervision"
 

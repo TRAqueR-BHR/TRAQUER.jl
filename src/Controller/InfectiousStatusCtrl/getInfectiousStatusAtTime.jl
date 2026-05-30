@@ -37,4 +37,3 @@ function InfectiousStatusCtrl.getInfectiousStatusAtTime(
     return closestStatus
 
 end
-!

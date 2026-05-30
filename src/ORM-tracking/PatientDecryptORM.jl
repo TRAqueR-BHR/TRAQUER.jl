@@ -9,7 +9,8 @@ const columns_selection_and_mapping = Dict(
     :patientId => "patient_id",
     :firstname => "firstname",
     :lastname => "lastname",
-    :birthdate => "birthdate"
+    :birthdate => "birthdate",
+    :patientRef => "patient_ref",
 )
 
 # Declare which properties are used to uniquely identify an object

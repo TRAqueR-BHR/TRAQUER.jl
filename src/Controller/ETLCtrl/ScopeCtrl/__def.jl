@@ -1,0 +1,5 @@
+# Definitions for ETLCtrl.ScopeCtrl.
+function initializeStayMonitoringScope end
+function initializeScopeForPatientAtRisk end
+function initializeScopeForUnitAtRisk end
+function prepareStayExtractionScopeDTO end
