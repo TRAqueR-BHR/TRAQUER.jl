@@ -1,16 +1,22 @@
 
-data_type = Model.StayExtractionScope
-PostgresORM.get_orm(x::Model.StayExtractionScope) = return(ORM.StayExtractionScopeORM)
+data_type = Model.StayMonitoringScope
+PostgresORM.get_orm(x::Model.StayMonitoringScope) = return(ORM.StayMonitoringScopeORM)
 get_schema_name() = "etl"
-get_table_name() = "stay_extraction_scope"
+get_table_name() = "stay_monitoring_scope"
 
 
 # Declare the mapping between the properties and the database columns
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
-  :stayMonitoringScope => "stay_monitoring_scope_id", 
   :id => "id", 
-  :requestTime => "request_time", 
+  :periodOiEndTime => "period_oi_end_time", 
+  :deactivationCondition => "deactivation_condition", 
+  :periodOiStartTime => "period_oi_start_time", 
+  :unitIds => "unit_ids", 
+  :activationTime => "activation_time", 
+  :patientIds => "patient_ids", 
+  :deactivationTime => "deactivation_time", 
+  :justification => "justification", 
 )
 
 
@@ -21,12 +27,17 @@ get_id_props() = return [:id,]
 get_onetomany_counterparts() = return onetomany_counterparts
 const onetomany_counterparts = Dict(
 
+  :stayExtractionScopes => (
+    data_type = Model.StayExtractionScope, # The struct where the associated manytoone property is
+    property = :stayMonitoringScope, # The name of the associated manytoone property
+    action_on_remove = PostgresORM.CRUDType.update), # Change this to 'PostgresORM.CRUDType.delete' if the object doesn't make sense when orphaned 
+
 )
 
 # Override the abstract types 
 get_types_override() = return types_override
 const types_override = Dict(
-  :stayMonitoringScope => Model.StayMonitoringScope, 
+  :stayExtractionScopes => Vector{Model.StayExtractionScope}, 
 
 )
 

@@ -1,56 +1,22 @@
 """
-Registry of scopes of stay data that are needed to be extracted from the source system (the hospital information system).
+Registry of scopes of stay data that are requested from the source system (the hospital information system) at a given time.
 """
 mutable struct StayExtractionScope <: IStayExtractionScope 
 
+  stayMonitoringScope::Union{Missing,Model.IStayMonitoringScope}
   id::Union{Missing,String}
-
-  # End time of the period of interest (to be compared with stay.in_time not out_time)
-  periodOiEndTime::Union{Missing,ZonedDateTime}
-
-  # Condition under which this scope of stay data is no longer needed and therefore gets
-  # deactivated. Also see deactivation_time
-  deactivationCondition::Union{Missing,String}
-
-  # Start time of the period of interest (to be compared with stay.in_time)
-  periodOiStartTime::Union{Missing,ZonedDateTime}
-
-  unitIds::Union{Missing,String} # Comma-separated list of unit IDs of interest
-
-  # Time when this scope of stay data was activated
-  activationTime::Union{Missing,ZonedDateTime}
-
-  patientIds::Union{Missing,String} # Comma-separated list of patient IDs of interest
-
-  # Time when this scope of stay data was deactivated (also see deactivation_condition)
-  deactivationTime::Union{Missing,ZonedDateTime}
-
-  # Justification of why this scope of stay data is needed. This is just a hint for the admins
-  # or the auditors.
-  justification::Union{Missing,String}
+  requestTime::Union{Missing,ZonedDateTime} # Time when this extraction scope was requested
 
   StayExtractionScope(args::NamedTuple) = StayExtractionScope(;args...)
   StayExtractionScope(;
+    stayMonitoringScope = missing,
     id = missing,
-    periodOiEndTime = missing,
-    deactivationCondition = missing,
-    periodOiStartTime = missing,
-    unitIds = missing,
-    activationTime = missing,
-    patientIds = missing,
-    deactivationTime = missing,
-    justification = missing,
+    requestTime = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,)
+    x.stayMonitoringScope = stayMonitoringScope
     x.id = id
-    x.periodOiEndTime = periodOiEndTime
-    x.deactivationCondition = deactivationCondition
-    x.periodOiStartTime = periodOiStartTime
-    x.unitIds = unitIds
-    x.activationTime = activationTime
-    x.patientIds = patientIds
-    x.deactivationTime = deactivationTime
-    x.justification = justification
+    x.requestTime = requestTime
     return x
   end
 
