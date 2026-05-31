@@ -118,6 +118,13 @@ Some tests require PostgreSQL, local config, custom modules, or input data. If a
 depends on local services or secrets, state that clearly rather than inventing
 credentials.
 
+### Test utilities
+
+Unit tests can use helper functions from module `Main._TestUtils`, defined under
+`test/_TestUtils/` and loaded by `test/runtests-prerequisite.jl`. Prefer these helpers
+for common test setup/teardown such as creating dummy patients, units, or infectious
+statuses, instead of duplicating setup logic in individual test files.
+
 ## Scheduler
 
 Scheduler control is exposed from the top-level module:
