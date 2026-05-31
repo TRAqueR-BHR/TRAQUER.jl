@@ -2,7 +2,7 @@ function ETLCtrl.ScopeCtrl.prepareStayExtractionScopeDTO(
     stayExtractionScope::StayExtractionScope,
     encryptionStr::String,
     dbconn::LibPQ.Connection,
-)::StayExtractionScopeDTO
+)::Model.DTO.StayExtractionScopeDTO
 
     stayMonitoringScope = stayExtractionScope.stayMonitoringScope
 
@@ -15,51 +15,39 @@ function ETLCtrl.ScopeCtrl.prepareStayExtractionScopeDTO(
         )
     end
 
-    # Get the code names of the units in the scope, if any.
-    unitCodeNames = if ismissing(stayMonitoringScope) || ismissing(stayMonitoringScope.unitIds)
+    monitoredUnit = stayMonitoringScope.monitoredUnit
+    monitoredPatient = stayMonitoringScope.monitoredPatient
+
+    monitoredUnitCodeName = if ismissing(monitoredUnit)
         missing
     else
-        map(
-            strip,
-            split(stayMonitoringScope.unitIds, ",")
-        ) |>
-        n -> filter(!isempty, n) |>
-        n -> map(n) do unitId
-            unit = PostgresORM.retrieve_one_entity(Unit(id = unitId), false, dbconn)
-            unit.codeName
+        if ismissing(monitoredUnit.codeName)
+            monitoredUnit = PostgresORM.retrieve_one_entity(Unit(id = monitoredUnit.id), false, dbconn)
         end
+        monitoredUnit.codeName
     end
 
-    # Get the patient hospital references in the scope, if any
-    patientRefs = if ismissing(stayMonitoringScope) || ismissing(stayMonitoringScope.patientIds)
+    monitoredPatientRef = if ismissing(monitoredPatient)
         missing
     else
-        map(
-            strip,
-            split(stayMonitoringScope.patientIds, ",")
-        ) |>
-        n -> filter(!isempty, n) |>
-        n -> map(n) do patientId
-            patient = PostgresORM.retrieve_one_entity(Patient(id = patientId), false, dbconn)
-            patientDecrypt = PatientCtrl.getPatientDecrypt(patient, encryptionStr, dbconn)
+        patientDecrypt = PatientCtrl.getPatientDecrypt(
+            monitoredPatient,
+            encryptionStr,
+            dbconn;
+            includePatientRef = true
+        )
 
-            if ismissing(patientDecrypt)
-                missing
-            else
-                patientDecrypt.patientRef
-            end
-        end |>
-        n -> filter(!ismissing, n)
+        ismissing(patientDecrypt) ? missing : patientDecrypt.patientRef
     end
 
-    return StayExtractionScopeDTO(
+    return Model.DTO.StayExtractionScopeDTO(
         id = stayExtractionScope.id,
         requestTime = stayExtractionScope.requestTime,
         periodOiStartTime = stayMonitoringScope.periodOiStartTime,
         periodOiEndTime = stayMonitoringScope.periodOiEndTime,
-        unitCodeNames = unitCodeNames,
-        patientRefs = patientRefs,
-        justification = stayMonitoringScope.justification,
+        monitoredUnitCodeName = monitoredUnitCodeName,
+        monitoredPatientRef = monitoredPatientRef,
+        justificationAdditionalInfo = stayMonitoringScope.justificationAdditionalInfo,
     )
 
 end

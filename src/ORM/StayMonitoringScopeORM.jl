@@ -8,15 +8,16 @@ get_table_name() = "stay_monitoring_scope"
 # Declare the mapping between the properties and the database columns
 get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
+  :monitoredUnit => "monitored_unit_id", 
+  :monitoredPatient => "monitored_patient_id", 
+  :justifyingOutbreak => "justifying_outbreak_id", 
+  :justifyingInfectiousStatus => "justifying_infectious_status_id", 
   :id => "id", 
   :periodOiEndTime => "period_oi_end_time", 
-  :deactivationCondition => "deactivation_condition", 
   :periodOiStartTime => "period_oi_start_time", 
-  :unitIds => "unit_ids", 
   :activationTime => "activation_time", 
-  :patientIds => "patient_ids", 
   :deactivationTime => "deactivation_time", 
-  :justification => "justification", 
+  :justificationAdditionalInfo => "justification_additional_info", 
 )
 
 
@@ -37,6 +38,10 @@ const onetomany_counterparts = Dict(
 # Override the abstract types 
 get_types_override() = return types_override
 const types_override = Dict(
+  :monitoredUnit => Model.Unit, 
+  :monitoredPatient => Model.Patient, 
+  :justifyingOutbreak => Model.Outbreak, 
+  :justifyingInfectiousStatus => Model.InfectiousStatus, 
   :stayExtractionScopes => Vector{Model.StayExtractionScope}, 
 
 )

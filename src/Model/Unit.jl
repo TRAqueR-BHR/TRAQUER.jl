@@ -9,6 +9,7 @@ mutable struct Unit <: IUnit
   contactExposures::Union{Missing,Vector{Model.IContactExposure}}
   patients::Union{Missing,Vector{Model.IPatient}}
   analysisRequests::Union{Missing,Vector{Model.IAnalysisRequest}}
+  stayMonitoringScopes::Union{Missing,Vector{Model.IStayMonitoringScope}}
 
   Unit(args::NamedTuple) = Unit(;args...)
   Unit(;
@@ -21,8 +22,9 @@ mutable struct Unit <: IUnit
     contactExposures = missing,
     patients = missing,
     analysisRequests = missing,
+    stayMonitoringScopes = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
     x.id = id
     x.name = name
     x.canBeAssociatedToAnOutbreak = canBeAssociatedToAnOutbreak
@@ -32,6 +34,7 @@ mutable struct Unit <: IUnit
     x.contactExposures = contactExposures
     x.patients = patients
     x.analysisRequests = analysisRequests
+    x.stayMonitoringScopes = stayMonitoringScopes
     return x
   end
 

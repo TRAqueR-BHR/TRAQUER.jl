@@ -17,17 +17,18 @@ mutable struct StayExtractionScopeDTO <: IStayExtractionScopeDTO
   # NOTE: This is a copy of StayMonitoringScope.periodOiEndTime
   periodOiEndTime::Union{Missing,ZonedDateTime}
 
-  # Vector of unit codes
-  # NOTE: Derived from StayMonitoringScope.unitIds
-  unitCodeNames::Union{Missing,Vector{String}}
+  # Unit code name, when the monitoring scope targets a unit
+  # NOTE: Derived from StayMonitoringScope.monitoredUnit
+  monitoredUnitCodeName::Union{Missing,String}
 
-  # Vector of patient references (decrypted)
-  # NOTE: Derived from StayMonitoringScope.patientIds
-  patientRefs::Union{Missing,Vector{String}}
+  # Patient reference (decrypted), when the monitoring scope targets a patient
+  # NOTE: Derived from StayMonitoringScope.monitoredPatient
+  monitoredPatientRef::Union{Missing,String}
 
-  # Justification of why this scope of stay data is monitored. This is just a hint for the
-  # admins or the auditors.
-  justification::Union{Missing,String}
+  # Additional information, if necessary, explaining why this scope of stay data is monitored.
+  # This is just a hint for the admins or the auditors.
+  # NOTE: This is a copy of StayMonitoringScope.justificationAdditionalInfo
+  justificationAdditionalInfo::Union{Missing,String}
 
   StayExtractionScopeDTO(args::NamedTuple) = StayExtractionScopeDTO(;args...)
   StayExtractionScopeDTO(;
@@ -35,18 +36,18 @@ mutable struct StayExtractionScopeDTO <: IStayExtractionScopeDTO
     requestTime = missing,
     periodOiStartTime = missing,
     periodOiEndTime = missing,
-    unitCodeNames = missing,
-    patientRefs = missing,
-    justification = missing,
+    monitoredUnitCodeName = missing,
+    monitoredPatientRef = missing,
+    justificationAdditionalInfo = missing,
   ) = begin
     x = new(missing,missing,missing,missing,missing,missing,missing,)
     x.id = id
     x.requestTime = requestTime
     x.periodOiStartTime = periodOiStartTime
     x.periodOiEndTime = periodOiEndTime
-    x.unitCodeNames = unitCodeNames
-    x.patientRefs = patientRefs
-    x.justification = justification
+    x.monitoredUnitCodeName = monitoredUnitCodeName
+    x.monitoredPatientRef = monitoredPatientRef
+    x.justificationAdditionalInfo = justificationAdditionalInfo
     return x
   end
 
