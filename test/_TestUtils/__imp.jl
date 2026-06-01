@@ -1,3 +1,6 @@
 include("createDummyPatient.jl")
 include("deleteDummyPatient.jl")
+include("createDummyUnits.jl")
 include("createDummyCarrierInfectiousStatus.jl")
+include("createDummyStays.jl")
+include("createDummyHistoryOfACarrierPatient.jl")

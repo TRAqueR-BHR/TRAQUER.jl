@@ -6,6 +6,8 @@ module _TestUtils
     using Dates, LibPQ, Random, UUIDs, TimeZones
     using TRAQUER.TRAQUERUtil
     using TRAQUER.Controller.PatientCtrl
+    using TRAQUER.Controller.UnitCtrl
+    using TRAQUER.Controller.StayCtrl
     using TRAQUER.Controller.InfectiousStatusCtrl
     using TRAQUER.Model
     using TRAQUER.Enum.InfectiousAgentCategory

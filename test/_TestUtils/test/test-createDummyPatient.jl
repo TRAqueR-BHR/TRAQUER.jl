@@ -3,7 +3,7 @@ include("__prerequisite.jl")
 @testset "Test _TestUtils.createDummyPatient" begin
     @testset "Test _TestUtils.createDummyPatient WITHOUT specifying name, etc..." begin
 
-        TRAQUERUtil.createDBConnAndExecuteWithTransaction() do dbconn
+        TRAQUERUtil.createDBConnAndExecute() do dbconn
             patient = _TestUtils.createDummyPatient(dbconn)
 
             @test patient isa Patient
@@ -16,7 +16,7 @@ include("__prerequisite.jl")
 
     @testset "Test _TestUtils.createDummyPatient WITH specification of name, etc..." begin
 
-        TRAQUERUtil.createDBConnAndExecuteWithTransaction() do dbconn
+        TRAQUERUtil.createDBConnAndExecute() do dbconn
             patient = _TestUtils.createDummyPatient(
                 dbconn;
                 firstname = "John",

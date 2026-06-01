@@ -2,7 +2,7 @@ include("__prerequisite.jl")
 
 @testset "Test _TestUtils.createDummyCarrierInfectiousStatus" begin
 
-    TRAQUERUtil.createDBConnAndExecuteWithTransaction() do dbconn
+    TRAQUERUtil.createDBConnAndExecute() do dbconn
         patient = _TestUtils.createDummyPatient(dbconn)
         infectiousStatus = _TestUtils.createDummyCarrierInfectiousStatus(patient, dbconn)
 

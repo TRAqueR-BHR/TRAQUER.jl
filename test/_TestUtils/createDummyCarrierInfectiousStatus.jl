@@ -6,8 +6,6 @@ function _TestUtils.createDummyCarrierInfectiousStatus(
     isConfirmed = true
 )::InfectiousStatus
 
-    refTime = ZonedDateTime(now(), TRAQUERUtil.getTimeZone())
-
     infectiousStatus = InfectiousStatus(
         patient = patient,
         infectiousAgent = infectiousAgent,
