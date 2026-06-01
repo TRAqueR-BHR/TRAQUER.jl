@@ -4,7 +4,7 @@ include("__prerequisite.jl")
 
     TRAQUERUtil.createDBConnAndExecuteWithTransaction() do dbconn
         patient = _TestUtils.createDummyPatient(dbconn)
-        infectiousStatus = _TestUtils.createDummyCarrierInfectiousStatus(dbconn, patient)
+        infectiousStatus = _TestUtils.createDummyCarrierInfectiousStatus(patient, dbconn)
 
         @test infectiousStatus isa InfectiousStatus
         @test !ismissing(infectiousStatus.id)

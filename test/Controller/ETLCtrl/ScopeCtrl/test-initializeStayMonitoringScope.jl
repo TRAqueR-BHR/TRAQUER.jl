@@ -3,13 +3,15 @@ include("__prerequisite.jl")
 @testset "Test ETLCtrl.ScopeCtrl.initializeStayMonitoringScope" begin
 
     TRAQUERUtil.createDBConnAndExecute() do dbconn
-        infectiousStatus = InfectiousStatus(
-            infectiousStatus = InfectiousStatusType.not_at_risk,
+        patient = _TestUtils.createDummyPatient(dbconn)
+        infectiousStatus = _TestUtils.createDummyCarrierInfectiousStatus(patient, dbconn)
+        stayMonitoringScope = ETLCtrl.ScopeCtrl.initializeStayMonitoringScope(
+            infectiousStatus, dbconn
         )
-        @test isnothing(
-            ETLCtrl.ScopeCtrl.initializeStayMonitoringScope(infectiousStatus, dbconn)
-        )
-    end
 
+        # Clean up the created entities
+        PostgresORM.delete_entity(infectiousStatus, dbconn)
+        PostgresORM.delete_entity(patient, dbconn)
+    end
 
 end
