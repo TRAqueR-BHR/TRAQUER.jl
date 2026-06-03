@@ -31,6 +31,7 @@ function FileExchangeCtrl.getS3PresignedUploadUrlAndKdfChildKey(
         "2. Create a sidecar file containing the child key reference (ref)",
         "3. Upload the encrypted file and its sidecar file to the provided S3 presigned " *
         "upload URL",
+        "4. Notify TRAQUER that the file has been uploaded and is ready for processing"
     ]
 
     return (
