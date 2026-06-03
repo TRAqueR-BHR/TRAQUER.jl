@@ -5,7 +5,6 @@ mutable struct StayMonitoringScope <: IStayMonitoringScope
 
   monitoredUnit::Union{Missing,Model.IUnit}
   monitoredPatient::Union{Missing,Model.IPatient}
-  justifyingOutbreak::Union{Missing,Model.IOutbreak}
   justifyingInfectiousStatus::Union{Missing,Model.IInfectiousStatus}
   id::Union{Missing,String}
 
@@ -31,7 +30,6 @@ mutable struct StayMonitoringScope <: IStayMonitoringScope
   StayMonitoringScope(;
     monitoredUnit = missing,
     monitoredPatient = missing,
-    justifyingOutbreak = missing,
     justifyingInfectiousStatus = missing,
     id = missing,
     periodOiEndTime = missing,
@@ -41,10 +39,9 @@ mutable struct StayMonitoringScope <: IStayMonitoringScope
     justificationAdditionalInfo = missing,
     stayExtractionScopes = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
     x.monitoredUnit = monitoredUnit
     x.monitoredPatient = monitoredPatient
-    x.justifyingOutbreak = justifyingOutbreak
     x.justifyingInfectiousStatus = justifyingInfectiousStatus
     x.id = id
     x.periodOiEndTime = periodOiEndTime

@@ -6,9 +6,13 @@ function _TestUtils.createDummyUnits(
     units = Unit[]
 
     for i in 1:numberOfUnits
+
+        randomNumber = rand(1:9999)
+        codeName = "TEST-UNIT-$randomNumber"
+
         unit = UnitCtrl.createUnitIfNotExists(
-            "TEST_UNIT_$(UUIDs.uuid4())",
-            "Test unit $(i)",
+            codeName,
+            codeName,
             dbconn
         )
         push!(units, unit)

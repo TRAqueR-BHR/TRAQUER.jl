@@ -25,11 +25,6 @@ mutable struct StayExtractionScopeDTO <: IStayExtractionScopeDTO
   # NOTE: Derived from StayMonitoringScope.monitoredPatient
   monitoredPatientRef::Union{Missing,String}
 
-  # Additional information, if necessary, explaining why this scope of stay data is monitored.
-  # This is just a hint for the admins or the auditors.
-  # NOTE: This is a copy of StayMonitoringScope.justificationAdditionalInfo
-  justificationAdditionalInfo::Union{Missing,String}
-
   StayExtractionScopeDTO(args::NamedTuple) = StayExtractionScopeDTO(;args...)
   StayExtractionScopeDTO(;
     id = missing,
@@ -38,16 +33,14 @@ mutable struct StayExtractionScopeDTO <: IStayExtractionScopeDTO
     periodOiEndTime = missing,
     monitoredUnitCodeName = missing,
     monitoredPatientRef = missing,
-    justificationAdditionalInfo = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,)
     x.id = id
     x.requestTime = requestTime
     x.periodOiStartTime = periodOiStartTime
     x.periodOiEndTime = periodOiEndTime
     x.monitoredUnitCodeName = monitoredUnitCodeName
     x.monitoredPatientRef = monitoredPatientRef
-    x.justificationAdditionalInfo = justificationAdditionalInfo
     return x
   end
 

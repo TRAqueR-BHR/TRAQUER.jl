@@ -10,7 +10,6 @@ get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
   :monitoredUnit => "monitored_unit_id", 
   :monitoredPatient => "monitored_patient_id", 
-  :justifyingOutbreak => "justifying_outbreak_id", 
   :justifyingInfectiousStatus => "justifying_infectious_status_id", 
   :id => "id", 
   :periodOiEndTime => "period_oi_end_time", 
@@ -40,7 +39,6 @@ get_types_override() = return types_override
 const types_override = Dict(
   :monitoredUnit => Model.Unit, 
   :monitoredPatient => Model.Patient, 
-  :justifyingOutbreak => Model.Outbreak, 
   :justifyingInfectiousStatus => Model.InfectiousStatus, 
   :stayExtractionScopes => Vector{Model.StayExtractionScope}, 
 

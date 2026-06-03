@@ -9,7 +9,6 @@ mutable struct Outbreak <: IOutbreak
   outbreakUnitAssoes::Union{Missing,Vector{Model.IOutbreakUnitAsso}}
   contactExposures::Union{Missing,Vector{Model.IContactExposure}}
   outbreakInfectiousStatusAssoes::Union{Missing,Vector{Model.IOutbreakInfectiousStatusAsso}}
-  stayMonitoringScopes::Union{Missing,Vector{Model.IStayMonitoringScope}}
 
   Outbreak(args::NamedTuple) = Outbreak(;args...)
   Outbreak(;
@@ -22,9 +21,8 @@ mutable struct Outbreak <: IOutbreak
     outbreakUnitAssoes = missing,
     contactExposures = missing,
     outbreakInfectiousStatusAssoes = missing,
-    stayMonitoringScopes = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,)
     x.creator = creator
     x.id = id
     x.criticity = criticity
@@ -34,7 +32,6 @@ mutable struct Outbreak <: IOutbreak
     x.outbreakUnitAssoes = outbreakUnitAssoes
     x.contactExposures = contactExposures
     x.outbreakInfectiousStatusAssoes = outbreakInfectiousStatusAssoes
-    x.stayMonitoringScopes = stayMonitoringScopes
     return x
   end
 

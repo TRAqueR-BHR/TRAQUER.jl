@@ -3,7 +3,7 @@ function _TestUtils.createDummyHistoryOfACarrierPatient(
     numberOfUnits::Integer = 10,
     numberOfStays::Integer = 10,
     firstHospitalizationInTime::ZonedDateTime = now(TRAQUERUtil.getTimeZone()) - Day(30),
-)::NamedTuple{(:patient, :stays, :infectiousStatus)}
+)::NamedTuple{(:patient, :stays, :infectiousStatus, :units), Tuple{Patient, Vector{Stay}, InfectiousStatus, Vector{Unit}}}
 
     patient = _TestUtils.createDummyPatient(dbconn)
     units = _TestUtils.createDummyUnits(
@@ -35,6 +35,7 @@ function _TestUtils.createDummyHistoryOfACarrierPatient(
         patient = patient,
         stays = stays,
         infectiousStatus = infectiousStatus,
+        units = units
     )
 
 end

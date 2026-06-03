@@ -1,5 +1,6 @@
 include("database/__def.jl")
 include("partition/__def.jl")
+include("pretty-print/__def.jl")
 include("reference_generation/__def.jl")
 include("execution/__def.jl")
 include("infectious_agent/__def.jl")

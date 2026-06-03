@@ -1,3 +1,4 @@
 # Implementations for ETLCtrl.ScopeCtrl.
-include("initializeStayMonitoringScope.jl")
+include("initializeStayMonitoringScopeList.jl")
+include("initializeStayExtractionScope.jl")
 include("prepareStayExtractionScopeDTO.jl")

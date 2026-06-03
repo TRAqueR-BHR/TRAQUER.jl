@@ -41,13 +41,12 @@ function ETLCtrl.ScopeCtrl.prepareStayExtractionScopeDTO(
     end
 
     return Model.DTO.StayExtractionScopeDTO(
-        id = stayExtractionScope.id,
+        id = UUIDs.uuid4() |> string, # Create a new random UUID for the DTO
         requestTime = stayExtractionScope.requestTime,
-        periodOiStartTime = stayMonitoringScope.periodOiStartTime,
-        periodOiEndTime = stayMonitoringScope.periodOiEndTime,
+        periodOiStartTime = stayExtractionScope.periodOiStartTime,
+        periodOiEndTime = stayExtractionScope.periodOiEndTime,
         monitoredUnitCodeName = monitoredUnitCodeName,
         monitoredPatientRef = monitoredPatientRef,
-        justificationAdditionalInfo = stayMonitoringScope.justificationAdditionalInfo,
     )
 
 end

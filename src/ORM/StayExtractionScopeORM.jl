@@ -10,6 +10,8 @@ get_columns_selection_and_mapping() = return columns_selection_and_mapping
 const columns_selection_and_mapping = Dict(
   :stayMonitoringScope => "stay_monitoring_scope_id", 
   :id => "id", 
+  :periodOiEndTime => "period_oi_end_time", 
+  :periodOiStartTime => "period_oi_start_time", 
   :requestTime => "request_time", 
 )
 
