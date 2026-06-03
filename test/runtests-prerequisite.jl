@@ -13,4 +13,7 @@ function getRandomPatient(dbconn::LibPQ.Connection)
     first
 end
 
+include("_TestUtils/_TestUtils.jl")
+using ._TestUtils
+
 nothing

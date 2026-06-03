@@ -10,6 +10,21 @@ using HTTP
         FileExchangeCtrl.getS3PresignedUploadUrlAndKdfChildKey(dbconn)
     end
 
+    @info result
+
+    # Write the result to a json file for easier inspection of the test output.
+    result |> JSON.json |>
+        n -> open(
+                joinpath(
+                    "tmp",
+                    "json",
+                    "get_s3_presigned_upload_url_and_kdf_child_key_result.json"
+                ),
+                "w"
+            ) do f
+            write(f, n)
+        end
+
     try
         @test result.ref isa Int16
         @test result.childKeyHex isa String

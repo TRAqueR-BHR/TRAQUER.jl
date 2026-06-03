@@ -1,0 +1,9 @@
+function createDummyPatient end
+function deleteDummyPatient end
+function createDummyUnit end
+function deleteDummyUnit end
+function createDummyUnits end
+function createDummyCarrierInfectiousStatus end
+function deleteDummyInfectiousStatus end
+function createDummyStays end
+function createDummyHistoryOfACarrierPatient end

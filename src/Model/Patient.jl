@@ -15,6 +15,7 @@ mutable struct Patient <: IPatient
   contactContactExposures::Union{Missing,Vector{Model.IContactExposure}}
   carrierContactExposures::Union{Missing,Vector{Model.IContactExposure}}
   analysisRequests::Union{Missing,Vector{Model.IAnalysisRequest}}
+  stayMonitoringScopes::Union{Missing,Vector{Model.IStayMonitoringScope}}
 
   Patient(args::NamedTuple) = Patient(;args...)
   Patient(;
@@ -33,8 +34,9 @@ mutable struct Patient <: IPatient
     contactContactExposures = missing,
     carrierContactExposures = missing,
     analysisRequests = missing,
+    stayMonitoringScopes = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
     x.currentUnit = currentUnit
     x.patientNameCrypt = patientNameCrypt
     x.patientRefCrypt = patientRefCrypt
@@ -50,6 +52,7 @@ mutable struct Patient <: IPatient
     x.contactContactExposures = contactContactExposures
     x.carrierContactExposures = carrierContactExposures
     x.analysisRequests = analysisRequests
+    x.stayMonitoringScopes = stayMonitoringScopes
     return x
   end
 

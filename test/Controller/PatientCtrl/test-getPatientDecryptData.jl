@@ -1,10 +1,25 @@
 include("__prerequisite.jl")
 @testset "Test PatientCtrl.getPatientDecrypt" begin
-    TRAQUERUtil.createDBConnAndExecute() do dbconn
-        PatientCtrl.getPatientDecrypt(
-            Patient(id = "1b340313-7c2d-4fc6-ad38-b497c7a371a9"),
-            Main.getDefaultEncryptionStr(),
-            dbconn
-        )
+    @testset "Test PatientCtrl.getPatientDecrypt WITHOUT the patient ref" begin
+        patientDecript = TRAQUERUtil.createDBConnAndExecute() do dbconn
+            PatientCtrl.getPatientDecrypt(
+                Patient(id = "9c3fc376-2ce1-407b-9276-4f5638a6c78a"),
+                Main.getDefaultEncryptionStr(),
+                dbconn
+            )
+        end
+        @test ismissing(patientDecript.patientRef)
+    end
+
+    @testset "Test PatientCtrl.getPatientDecrypt WITH the patient ref" begin
+        patientDecript = TRAQUERUtil.createDBConnAndExecute() do dbconn
+            PatientCtrl.getPatientDecrypt(
+                Patient(id = "9c3fc376-2ce1-407b-9276-4f5638a6c78a"),
+                Main.getDefaultEncryptionStr(),
+                dbconn,
+                includePatientRef = true
+            )
+        end
+        @test !ismissing(patientDecript.patientRef)
     end
 end

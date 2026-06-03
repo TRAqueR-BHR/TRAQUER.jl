@@ -1,0 +1,2 @@
+function formatStructForPrinting end
+function formatStructAsOneRowTableForPrinting end

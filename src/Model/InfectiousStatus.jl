@@ -12,6 +12,7 @@ mutable struct InfectiousStatus <: IInfectiousStatus
   infectiousAgent::Union{Missing,InfectiousAgentCategory.INFECTIOUS_AGENT_CATEGORY}
   outbreakInfectiousStatusAssoes::Union{Missing,Vector{Model.IOutbreakInfectiousStatusAsso}}
   eventRequiringAttentions::Union{Missing,Vector{Model.IEventRequiringAttention}}
+  stayMonitoringScopes::Union{Missing,Vector{Model.IStayMonitoringScope}}
 
   InfectiousStatus(args::NamedTuple) = InfectiousStatus(;args...)
   InfectiousStatus(;
@@ -27,8 +28,9 @@ mutable struct InfectiousStatus <: IInfectiousStatus
     infectiousAgent = missing,
     outbreakInfectiousStatusAssoes = missing,
     eventRequiringAttentions = missing,
+    stayMonitoringScopes = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,missing,)
     x.patient = patient
     x.contactExposure = contactExposure
     x.id = id
@@ -41,6 +43,7 @@ mutable struct InfectiousStatus <: IInfectiousStatus
     x.infectiousAgent = infectiousAgent
     x.outbreakInfectiousStatusAssoes = outbreakInfectiousStatusAssoes
     x.eventRequiringAttentions = eventRequiringAttentions
+    x.stayMonitoringScopes = stayMonitoringScopes
     return x
   end
 

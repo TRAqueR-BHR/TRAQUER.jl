@@ -1,0 +1,4 @@
+# Definitions for ETLCtrl.ScopeCtrl.
+function initializeStayMonitoringScopeList end
+function initializeStayExtractionScope end
+function prepareStayExtractionScopeDTO end
