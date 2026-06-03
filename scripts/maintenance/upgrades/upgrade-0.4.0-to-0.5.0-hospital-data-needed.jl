@@ -31,10 +31,9 @@ try
     """
     CREATE TABLE IF NOT EXISTS etl.stay_monitoring_scope (
         id UUID PRIMARY KEY DEFAULT uuid_generate_v4() NOT NULL,
-        monitored_unit_id UUID REFERENCES unit(id),
-        monitored_patient_id UUID REFERENCES patient(id),
-        justifying_infectious_status_id UUID REFERENCES infectious_status(id),
-        justifying_outbreak_id UUID REFERENCES outbreak(id),
+        monitored_unit_id UUID REFERENCES unit(id) ON DELETE CASCADE,
+        monitored_patient_id UUID REFERENCES patient(id) ON DELETE CASCADE,
+        justifying_infectious_status_id UUID REFERENCES infectious_status(id) ON DELETE CASCADE,
         justification_additional_info TEXT,
         period_oi_start_time TIMESTAMPTZ,
         period_oi_end_time TIMESTAMPTZ,
@@ -63,12 +62,6 @@ try
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
     """
-    CREATE INDEX IF NOT EXISTS stay_monitoring_scope_justifying_outbreak_id_idx
-        ON etl.stay_monitoring_scope(justifying_outbreak_id);
-    """ |>
-    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
-
-    """
     COMMENT ON TABLE etl.stay_monitoring_scope IS
         'Registry of scopes of stay data that are monitored over time.';
     """ |>
@@ -89,12 +82,6 @@ try
     """
     COMMENT ON COLUMN etl.stay_monitoring_scope.justifying_infectious_status_id IS
         'Infectious status that justifies monitoring this scope, when applicable';
-    """ |>
-    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
-
-    """
-    COMMENT ON COLUMN etl.stay_monitoring_scope.justifying_outbreak_id IS
-        'Outbreak that justifies monitoring this scope, when applicable';
     """ |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
@@ -135,7 +122,9 @@ try
     """
     CREATE TABLE IF NOT EXISTS etl.stay_extraction_scope (
         id UUID PRIMARY KEY DEFAULT uuid_generate_v4() NOT NULL,
-        stay_monitoring_scope_id UUID NOT NULL REFERENCES etl.stay_monitoring_scope(id),
+        period_oi_start_time TIMESTAMPTZ,
+        period_oi_end_time TIMESTAMPTZ,
+        stay_monitoring_scope_id UUID NOT NULL REFERENCES etl.stay_monitoring_scope(id) ON DELETE CASCADE,
         request_time TIMESTAMPTZ
     );
     """ |>
@@ -156,6 +145,18 @@ try
     """
     COMMENT ON COLUMN etl.stay_extraction_scope.stay_monitoring_scope_id IS
         'Monitoring scope that caused this extraction scope to be requested';
+    """ |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
+    """
+    COMMENT ON COLUMN etl.stay_extraction_scope.period_oi_start_time IS
+        'Start time of the period of interest (to be compared with stay.in_time). It usually is more restrictive than stay_monitoring_scope.period_oi_start_time';
+    """ |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
+    """
+    COMMENT ON COLUMN etl.stay_extraction_scope.period_oi_end_time IS
+        'End time of the period of interest (to be compared with stay.in_time not out_time). It usually is more restrictive than stay_monitoring_scope.period_oi_end_time';
     """ |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
