@@ -15,4 +15,6 @@ debug-scripts/*
 
 tmp/*
 !tmp/.gitkeep
+!tmp/json/
+tmp/json/*
 !tmp/json/.gitkeep
