@@ -49,9 +49,9 @@ implementations into def files unless that directory already does so.
 
 CRUD and business logic live in `src/Controller/*Ctrl/`.
 
-In general, prefer one file per function/method group. When adding a new function,
-create a dedicated file for it and include it from the relevant `__imp.jl`, `_imp.jl`,
-or module wiring file, following the local convention.
+Use one source file per function. When adding a new function, create a dedicated file
+named after the function and include it from the relevant `__imp.jl`, `_imp.jl`, or
+module wiring file, following the local convention.
 
 Prefer existing controller helpers and hooks over direct SQL when possible.
 
@@ -145,6 +145,7 @@ instead of deleting scheduled code.
 
 ## Style guidelines
 
+- Ensure every modified or newly created text file ends with a final newline.
 - Match existing Julia style and naming; many functions use camelCase.
 - Keep changes localized and consistent with neighboring files.
 - Prefer explicit module qualification where existing code does.
