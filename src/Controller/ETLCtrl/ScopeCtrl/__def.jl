@@ -1,4 +1,6 @@
 # Definitions for ETLCtrl.ScopeCtrl.
 function buildStayMonitoringScopeList end
 function buildStayExtractionScope end
+function createStayMonitoringScopeListIfNotExist end
+function createStayExtractionScope end
 function prepareStayExtractionScopeDTO end
