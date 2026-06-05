@@ -1,5 +1,5 @@
 """
-    initializeStayExtractionScope(
+    buildStayExtractionScope(
         stayMonitoringScope::StayMonitoringScope,
         dbconn::LibPQ.Connection
     )::StayExtractionScope
@@ -7,7 +7,7 @@
 Create a stay extraction scope based on a stay monitoring scope.
 
 """
-function ETLCtrl.ScopeCtrl.initializeStayExtractionScope(
+function ETLCtrl.ScopeCtrl.buildStayExtractionScope(
     stayMonitoringScope::StayMonitoringScope,
     dbconn::LibPQ.Connection
 )::StayExtractionScope

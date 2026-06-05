@@ -9,7 +9,7 @@ carrier.
 For contact we want to get only the stays of the patient the hospitalization where the
 contact status has been identified.
 """
-function ETLCtrl.ScopeCtrl.initializeStayMonitoringScopeList(
+function ETLCtrl.ScopeCtrl.buildStayMonitoringScopeList(
     infectiousStatus::InfectiousStatus,
     dbconn::LibPQ.Connection
 )::Union{Nothing,Vector{StayMonitoringScope}}

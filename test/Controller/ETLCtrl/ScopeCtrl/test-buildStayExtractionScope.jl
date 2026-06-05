@@ -1,15 +1,15 @@
 include("__prerequisite.jl")
 
-@testset "Test ETLCtrl.ScopeCtrl.initializeStayMonitoringScopeList" begin
+@testset "Test ETLCtrl.ScopeCtrl.buildStayMonitoringScopeList" begin
 
     TRAQUERUtil.createDBConnAndExecute() do dbconn
         history = _TestUtils.createDummyHistoryOfACarrierPatient(dbconn)
-        stayMonitoringScopeList = ETLCtrl.ScopeCtrl.initializeStayMonitoringScopeList(
+        stayMonitoringScopeList = ETLCtrl.ScopeCtrl.buildStayMonitoringScopeList(
             history.infectiousStatus, dbconn
         )
 
         stayExtractionScope1::StayExtractionScope =
-            ETLCtrl.ScopeCtrl.initializeStayExtractionScope(
+            ETLCtrl.ScopeCtrl.buildStayExtractionScope(
                 stayMonitoringScopeList[1],
                 dbconn
             )
