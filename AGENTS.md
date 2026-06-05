@@ -55,6 +55,12 @@ or module wiring file, following the local convention.
 
 Prefer existing controller helpers and hooks over direct SQL when possible.
 
+### Function naming
+
+Use `buildSomething` for functions that instantiate/derive in-memory objects without
+persisting them. Reserve `createSomething`, `createSomethingIfNotExist`, and similar
+names for functions that persist objects or otherwise create database state.
+
 ### Database access
 
 Use `TRAQUERUtil` connection helpers:
