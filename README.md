@@ -3,40 +3,45 @@
 ## Architecture Overview
 
 ```mermaid
-flowchart TB
+flowchart LR
     subgraph Hospital["Hospital Network"]
-        HIS["Hospital Information System<br/>(HIS)"]
+        direction TB
+        HIS["Hospital Information System (HIS)"]
         Connector["Hospital Connector"]
-        IdP["Hospital Identity Provider<br/>(IdP)"]
+        IdP["Hospital Identity Provider (IdP)"]
     end
 
-    subgraph Traquer["Traquer<br/>(Kubernetes)"]
+    subgraph Traquer["Traquer"]
+        direction TB
         Frontend["Angular Frontend"]
-        Backend["Julia Backend<br/>(REST API)"]
-        DB["PostgreSQL Database<br/>(encrypted with pg_crypto)"]
-        Keycloak["Keycloak<br/>(Authentication)"]
+        Backend["Julia Backend (REST API)"]
+        Keycloak["Keycloak (Auth)"]
         S3["S3 Storage"]
+        DB["PostgreSQL (pg_crypto)"]
     end
 
-    %% Data flows
-    HIS -->|Extract patient data| Connector
-    Connector -->|1. Query extraction scope| Backend
-    Connector -->|2. Upload encrypted files| S3
-    Connector -->|3. Notify upload| Backend
-    Backend -->|Download & decrypt files| S3
+    %% Data flows from Connector
+    Connector -->|Query scope / Notify upload| Backend
+    Connector -->|Upload encrypted file| S3
+
+    %% Backend internal flows
+    Backend <-->|Download & decrypt file| S3
     Backend -->|Write processed data| DB
 
-    %% User access
+    %% User flows
     Frontend <-->|REST API| Backend
-    Frontend -->|Authenticate via| Keycloak
-    Keycloak -->|Delegate to| IdP
+    Frontend -->|Authenticate| Keycloak
+    Keycloak -->|Delegate| IdP
+
+    %% HIS to Connector
+    Connector -->|Extract patient data| HIS
 
     %% Styling
     classDef hospital fill:#f9d71c,stroke:#333,color:#333
     classDef traquer fill:#6f,stroke:#333,color:#fff
 
     class HIS,Connector,IdP hospital
-    class Frontend,Backend,DB,Keycloak,S3 traquer
+    class Frontend,Backend,Keycloak,S3,DB traquer
 ```
 
 **Key components:**
