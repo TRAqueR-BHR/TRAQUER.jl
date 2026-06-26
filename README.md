@@ -1,5 +1,54 @@
 # TRAQUER.jl
 
+## Architecture Overview
+
+```mermaid
+flowchart TB
+    subgraph Hospital["Hospital Network"]
+        HIS["Hospital Information System<br/>(HIS)"]
+        Connector["Hospital Connector"]
+        IdP["Hospital Identity Provider<br/>(IdP)"]
+    end
+
+    subgraph Traquer["Traquer<br/>(Kubernetes)"]
+        Frontend["Angular Frontend"]
+        Backend["Julia Backend<br/>(REST API)"]
+        DB["PostgreSQL Database<br/>(encrypted with pg_crypto)"]
+        Keycloak["Keycloak<br/>(Authentication)"]
+        S3["S3 Storage"]
+    end
+
+    %% Data flows
+    HIS -->|Extract patient data| Connector
+    Connector -->|1. Query extraction scope| Backend
+    Connector -->|2. Upload encrypted files| S3
+    Connector -->|3. Notify upload| Backend
+    Backend -->|Download & decrypt files| S3
+    Backend -->|Write processed data| DB
+
+    %% User access
+    Frontend <-->|REST API| Backend
+    Frontend -->|Authenticate via| Keycloak
+    Keycloak -->|Delegate to| IdP
+
+    %% Styling
+    classDef hospital fill:#f9d71c,stroke:#333,color:#333
+    classDef traquer fill:#6f,stroke:#333,color:#fff
+
+    class HIS,Connector,IdP hospital
+    class Frontend,Backend,DB,Keycloak,S3 traquer
+```
+
+**Key components:**
+- **Hospital Information System (HIS)**: Source of truth for patient data, stays, and lab results
+- **Hospital Connector**: Installed in hospital network, extracts data from HIS, encrypts files, and uploads to Traquer
+- **Hospital Identity Provider (IdP)**: Authenticates hygiene department users
+- **Angular Frontend**: User interface for the hygiene department
+- **Julia Backend**: REST API handling business logic, file processing, and encryption
+- **PostgreSQL Database**: Stores encrypted patient data using pg_crypto
+- **Keycloak**: Manages user authentication with delegation to hospital IdP
+- **S3 Storage**: Storage service for encrypted file exchange
+
 ## Loom presentation
 
 https://www.loom.com/share/8d03385a9ef54b9ba7c8e3042c54b3ba
