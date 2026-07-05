@@ -9,4 +9,3 @@ function processNewlyIntegratedData end
 function serializeRowsInError end
 function integrateAndProcessNewStaysAndAnalyses end
 function updateMaxProcessingTime end
-function downloadAndProcessFiles end
