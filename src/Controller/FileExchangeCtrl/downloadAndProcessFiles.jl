@@ -1,4 +1,4 @@
-function ETLCtrl.downloadAndProcesFiles(
+function FileExchangeCtrl.downloadAndProcesFiles(
     fileURLs::Vector{String},
     cryptPwd::String,
     dbconn::LibPQ.Connection
