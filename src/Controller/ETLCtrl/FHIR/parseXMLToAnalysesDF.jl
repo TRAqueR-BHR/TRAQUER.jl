@@ -4,7 +4,13 @@
 Extract analyses from an FHIR XML file and return them as a DataFrame.
 
 Columns in the DataFrame are the following:
-- patient_ref (a reference to the patient)
+- patient_ref (a reference to the patient, taken from Patient/identifier/value)
+- firstname (taken from Patient/name/given — may be missing if the Patient
+             resource is not fully qualified in the XML)
+- lastname (taken from Patient/name/family — may be missing if the Patient
+            resource is not fully qualified in the XML)
+- birthdate (taken from Patient/birthDate, parsed as Date — may be missing if
+             the Patient resource is not fully qualified in the XML)
 - analysis_ref (a unique reference for the analysis, e.g. "analysis-1", "analysis-2", etc.)
 - status (one of requested, in_progress, done — see ANALYSIS_REQUEST_STATUS_TYPE enum)
 - request_time
@@ -13,12 +19,20 @@ Columns in the DataFrame are the following:
 - request_type (the type of request — see ANALYSIS_REQUEST_TYPE enum)
 - result (one of positive, negative, cancelled, suspicion — see ANALYSIS_RESULT_VALUE_TYPE enum)
 
+When a Patient resource is fully qualified in the XML (i.e. its identifier,
+given name, family name and birthDate are all present), the corresponding
+`firstname`, `lastname` and `birthdate` columns are populated. This allows
+the downstream `importAnalysesDF` to create the patient on the fly from the
+analysis file, without requiring the stays file to have been integrated first.
+
 The mapping from FHIR resources is:
-- ServiceRequest  → analysis_ref (identifier/value), request_time (authoredOn),
+- Patient        → patient_ref (identifier/value), firstname (name/given),
+                    lastname (name/family), birthdate (birthDate)
+- ServiceRequest → analysis_ref (identifier/value), request_time (authoredOn),
                     request_type (code/concept/coding/code), patient_ref (subject/reference)
-- Specimen        → sample (type/text), linked to ServiceRequest via request/reference
-- Task            → when status = "in-progress", marks the linked ServiceRequest as in_progress
-- Observation     → result (interpretation/coding/code), result_time (effectiveDateTime),
+- Specimen       → sample (type/text), linked to ServiceRequest via request/reference
+- Task           → when status = "in-progress", marks the linked ServiceRequest as in_progress
+- Observation    → result (interpretation/coding/code), result_time (effectiveDateTime),
                     linked to ServiceRequest via basedOn/reference; presence marks status as done
 """
 function ETLCtrl.FHIR.parseXMLToAnalysesDF(xmlFilePath::String)
@@ -35,6 +49,12 @@ function ETLCtrl.FHIR.parseXMLToAnalysesDF(xmlFilePath::String)
     # Helper: extract a FHIR resource id from a reference value.
     # Handles both "ResourceType/id" and "urn:uuid:id" formats.
     ref_id(ref) = replace(ref, r"^urn:uuid:" => "") |> s -> last(split(s, "/"))
+
+    # Helper: parse a date string (yyyy-mm-dd) to Date, or missing
+    function parse_date(s)::Union{Date, Missing}
+        ismissing(s) && return missing
+        Date(s, dateformat"yyyy-mm-dd")
+    end
 
     # Helper: parse a FHIR dateTime string to ZonedDateTime, or missing.
     # Handles full ISO-8601 with offset (e.g. "2022-05-02T10:00:00+02:00")
@@ -58,13 +78,20 @@ function ETLCtrl.FHIR.parseXMLToAnalysesDF(xmlFilePath::String)
         "SUS" => "suspicion",
     )
 
-    # ── Patient lookup: FHIR id → patient_ref (identifier/value) ─────────────
-    patients = Dict{String, String}()
+    # ── Patient lookup: FHIR id → (patient_ref, firstname, lastname, birthdate) ───
+    # Mirrors the patient-lookup pattern used in `parseXMLToStaysDF` so that a
+    # fully-qualified Patient resource in the analyses XML can later be used to
+    # create the patient on the fly when integrating the analyses.
+    patients = Dict{String, NamedTuple}()
     for pat in EzXML.findall("//fhir:Patient", root, ns)
         fhir_id = attr_val(pat, "fhir:id")
-        patient_ref = attr_val(pat, "fhir:identifier/fhir:value")
-        (ismissing(fhir_id) || ismissing(patient_ref)) && continue
-        patients[fhir_id] = patient_ref
+        ismissing(fhir_id) && continue
+        patients[fhir_id] = (
+            patient_ref = attr_val(pat, "fhir:identifier/fhir:value"),
+            firstname   = attr_val(pat, "fhir:name/fhir:given"),
+            lastname    = attr_val(pat, "fhir:name/fhir:family"),
+            birthdate   = parse_date(attr_val(pat, "fhir:birthDate")),
+        )
     end
 
     # ── Specimen lookup: FHIR id → sample type text ───────────────────────────
@@ -122,12 +149,16 @@ function ETLCtrl.FHIR.parseXMLToAnalysesDF(xmlFilePath::String)
         request_type = attr_val(sr, "fhir:code/fhir:concept/fhir:coding/fhir:code")
         request_time = parse_zdt(attr_val(sr, "fhir:authoredOn"))
 
-        subj_ref    = attr_val(sr, "fhir:subject/fhir:reference")
-        patient_ref = if !ismissing(subj_ref)
+        subj_ref = attr_val(sr, "fhir:subject/fhir:reference")
+        pat_info = if !ismissing(subj_ref)
             get(patients, ref_id(subj_ref), missing)
         else
             missing
         end
+        patient_ref = ismissing(pat_info) ? missing : pat_info.patient_ref
+        firstname   = ismissing(pat_info) ? missing : pat_info.firstname
+        lastname    = ismissing(pat_info) ? missing : pat_info.lastname
+        birthdate   = ismissing(pat_info) ? missing : pat_info.birthdate
 
         sample = get(sr_to_sample, fhir_id, missing)
 
@@ -150,6 +181,9 @@ function ETLCtrl.FHIR.parseXMLToAnalysesDF(xmlFilePath::String)
 
         push!(rows, (
             patient_ref  = patient_ref,
+            firstname    = firstname,
+            lastname     = lastname,
+            birthdate    = birthdate,
             analysis_ref = analysis_ref,
             status       = status,
             request_time = request_time,

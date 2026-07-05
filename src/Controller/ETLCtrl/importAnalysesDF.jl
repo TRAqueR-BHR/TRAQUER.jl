@@ -13,12 +13,22 @@ enums and dates must be Date or ZonedDateTime).
 
 The DataFrame must have the following columns and types:
   - patient_ref::String
+  - firstname::Union{Missing,String}
+  - lastname::Union{Missing,String}
+  - birthdate::Union{Missing,Date}
   - analysis_ref::String
   - request_time::ZonedDateTime
   - result_time::Union{Missing,ZonedDateTime}
   - sample::Union{Missing,SAMPLE_MATERIAL_TYPE}
   - request_type::ANALYSIS_REQUEST_TYPE
   - result::Union{Missing,ANALYSIS_RESULT_VALUE_TYPE}
+
+When `firstname`, `lastname` and `birthdate` are all provided for a row, the
+patient is created on the fly if it does not yet exist (mirroring the behaviour
+of `importStaysDF`). This allows an analysis file to be integrated even if no
+stays file has been processed first. If any of those three fields is missing,
+the existing behaviour is preserved: the patient is looked up by `patient_ref`
+only, and an error is raised when no patient matches.
 """
 function ETLCtrl.importAnalysesDF(
     df::DataFrame,
@@ -116,6 +126,9 @@ function ETLCtrl.importAnalysesDF(
                 end
 
                 patientRef = r.patient_ref
+                firstname  = hasproperty(r, :firstname)  ? r.firstname  : missing
+                lastname   = hasproperty(r, :lastname)   ? r.lastname   : missing
+                birthdate  = hasproperty(r, :birthdate)  ? r.birthdate  : missing
                 analysisRef = r.analysis_ref
                 requestTime = r.request_time
                 resultTime = r.result_time
@@ -138,9 +151,25 @@ function ETLCtrl.importAnalysesDF(
                     end
                 end
 
-                # Get a patient
-                patient =
+                # Get a patient. When the analyses DataFrame carries a fully-qualified
+                # patient (firstname + lastname + birthdate), use
+                # `createPatientIfNoExist` so that a patient referenced only
+                # by an analyses file can be created on the fly. Otherwise,
+                # fall back to looking up an existing patient by ref only
+                # (the previous behaviour, which requires the stays file to
+                # have been integrated first).
+                patient = if !ismissing(firstname) && !ismissing(lastname) && !ismissing(birthdate)
+                    PatientCtrl.createPatientIfNoExist(
+                        firstname,
+                        lastname,
+                        birthdate,
+                        patientRef,
+                        encryptionStr,
+                        dbconn
+                    )
+                else
                     PatientCtrl.retrieveOnePatient(patientRef, encryptionStr, dbconn)
+                end
 
                 if ismissing(patient)
                     error("Problem at line[$sourceRowNumber]."
