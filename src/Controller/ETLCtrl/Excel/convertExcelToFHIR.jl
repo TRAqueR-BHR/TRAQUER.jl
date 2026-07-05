@@ -23,8 +23,15 @@ using the `http://terminology.hl7.org/CodeSystem/location-physical-type` coding 
 with code `ro` (Room) and the room identifier as the `<text>` value.
 
 The analyses Excel file is expected to have columns:
-  patient_ref, analysis_ref, request_time, result_time,
+  patient_ref, firstname, lastname, birthdate,
+  analysis_ref, status, request_time, result_time,
   sample, request_type, result, result_raw_text
+
+The `firstname`, `lastname` and `birthdate` columns are expected to be a
+denormalised copy of the corresponding patient columns from the stays Excel
+file, joined on `patient_ref`. They are used to emit the `Patient` resource
+for every `patient_ref` that appears in the analyses file (the stays Excel
+remains the source of truth for `Location` and `Encounter` resources).
 
 Returns the XML string and writes it to xmlOutputFilePath.
 """
@@ -126,10 +133,52 @@ function ETLCtrl.Excel.convertExcelToFHIR(
     println(io, "    <type value=\"transaction\" />")
 
     # ── Patients ──────────────────────────────────────────────────────────────
-    for row in eachrow(unique(stays_df, :patient_ref))
-        pid = "patient-$(row.patient_ref)"
+    # Emit a Patient resource for every `patient_ref` that appears in either
+    # the stays or the analyses DataFrame. Patient details are taken from the
+    # analyses DataFrame (where `firstname`/`lastname`/`birthdate` are
+    # populated from the stays Excel via `patient_ref`); for patients that
+    # appear in stays but not in analyses, we fall back to the stays
+    # DataFrame. The stays DataFrame is also consulted for
+    # `patient_died_during_stay`, so death information is preserved.
+    patient_info = Dict{Any, NamedTuple}()
+    for r in eachrow(unique(analyses_df, :patient_ref))
+        patient_info[r.patient_ref] = (
+            firstname = r.firstname,
+            lastname  = r.lastname,
+            birthdate = r.birthdate,
+        )
+    end
+    for r in eachrow(unique(stays_df, :patient_ref))
+        if !haskey(patient_info, r.patient_ref)
+            patient_info[r.patient_ref] = (
+                firstname = r.firstname,
+                lastname  = r.lastname,
+                birthdate = r.birthdate,
+            )
+        end
+    end
+
+    # Ordered emission: stays order first (preserves the previous output
+    # ordering), then any patient_refs present only in analyses.
+    patients_to_emit = Tuple{Any, NamedTuple}[]
+    seen = Set{Any}()
+    for r in eachrow(unique(stays_df, :patient_ref))
+        if !(r.patient_ref in seen)
+            push!(patients_to_emit, (r.patient_ref, patient_info[r.patient_ref]))
+            push!(seen, r.patient_ref)
+        end
+    end
+    for r in eachrow(unique(analyses_df, :patient_ref))
+        if !(r.patient_ref in seen)
+            push!(patients_to_emit, (r.patient_ref, patient_info[r.patient_ref]))
+            push!(seen, r.patient_ref)
+        end
+    end
+
+    for (patient_ref, info) in patients_to_emit
+        pid = "patient-$(patient_ref)"
         # Check if this patient died during any stay
-        pat_rows = filter(r -> string(r.patient_ref) == string(row.patient_ref), eachrow(stays_df))
+        pat_rows = filter(r -> string(r.patient_ref) == string(patient_ref), eachrow(stays_df))
         died_row = findfirst(r -> !ismissing(r.patient_died_during_stay) && r.patient_died_during_stay == true, pat_rows)
         deceased_xml = if !isnothing(died_row)
             death_dt = pat_rows[died_row].hospitalization_out_time
@@ -145,13 +194,13 @@ function ETLCtrl.Excel.convertExcelToFHIR(
             <Patient>
                 <id value="$(pid)" />
                 <identifier>
-                    <value value="$(esc(row.patient_ref))" />
+                    <value value="$(esc(patient_ref))" />
                 </identifier>
                 <name>
-                    <family value="$(esc(uppercase(string(row.lastname))))" />
-                    <given value="$(esc(row.firstname))" />
+                    <family value="$(esc(uppercase(string(info.lastname))))" />
+                    <given value="$(esc(info.firstname))" />
                 </name>
-                <birthDate value="$(fmt(row.birthdate))" />$(deceased_xml)
+                <birthDate value="$(fmt(info.birthdate))" />$(deceased_xml)
             </Patient>
         </resource>
         <request>
