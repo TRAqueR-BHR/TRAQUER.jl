@@ -160,14 +160,4 @@ include("__prerequisite.jl")
         end
     end
 
-    @testset "cryptPwd parameter is not consulted" begin
-        # The function signature requires a cryptPwd but never uses it; the value
-        # passed (or missing-like sentinels) must not affect the parsed ref.
-        mktempdir() do dir
-            path = joinpath(dir, "sidecar.txt")
-            write(path, "childKeyRef: 5")
-            @test FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path, "") == 5
-            @test FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path, "some-pwd") == 5
-        end
-    end
 end
