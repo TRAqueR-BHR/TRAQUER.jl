@@ -30,7 +30,7 @@ include("__prerequisite.jl")
             mktempdir() do dir
                 path = joinpath(dir, "sidecar.txt")
                 write(path, contents)
-                ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path, "any-pwd")
+                ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path)
                 @test ref == expected
             end
         end
@@ -48,7 +48,7 @@ include("__prerequisite.jl")
             mktempdir() do dir
                 path = joinpath(dir, "sidecar.txt")
                 write(path, contents)
-                ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path, "any-pwd")
+                ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path)
                 @test ref == expected
             end
         end
@@ -67,7 +67,7 @@ include("__prerequisite.jl")
             mktempdir() do dir
                 path = joinpath(dir, "sidecar.txt")
                 write(path, contents)
-                ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path, "any-pwd")
+                ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path)
                 @test ref == expected
             end
         end
@@ -78,7 +78,7 @@ include("__prerequisite.jl")
         mktempdir() do dir
             path = joinpath(dir, "sidecar.txt")
             write(path, "some preamble text childKeyRef: 99 trailing words")
-            ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path, "any-pwd")
+            ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path)
             @test ref == 99
         end
 
@@ -91,7 +91,7 @@ include("__prerequisite.jl")
                 "childKeyRef=1234\n",
                 "uploadedAt: 2026-01-01T00:00:00Z\n",
             ))
-            ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path, "any-pwd")
+            ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path)
             @test ref == 1234
         end
     end
@@ -100,7 +100,7 @@ include("__prerequisite.jl")
         mktempdir() do dir
             path = joinpath(dir, "sidecar.txt")
             write(path, "childKeyRef: 0")
-            ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path, "any-pwd")
+            ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path)
             @test ref === 0
             @test ref isa Int
         end
@@ -108,7 +108,7 @@ include("__prerequisite.jl")
         mktempdir() do dir
             path = joinpath(dir, "sidecar.txt")
             write(path, "childKeyRef: 32767") # max Int16
-            ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path, "any-pwd")
+            ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path)
             @test ref == 32767
         end
     end
@@ -117,7 +117,7 @@ include("__prerequisite.jl")
         mktempdir() do dir
             path = joinpath(dir, "sidecar.txt")
             write(path, "childKeyRef: 11\nkeyRef: 22\n")
-            ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path, "any-pwd")
+            ref = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(path)
             @test ref == 11
         end
     end
@@ -128,7 +128,7 @@ include("__prerequisite.jl")
             path = joinpath(dir, "sidecar.txt")
             write(path, "some other content without a ref")
             @test_throws ErrorException FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(
-                path, "any-pwd"
+                path
             )
         end
 
@@ -137,7 +137,7 @@ include("__prerequisite.jl")
             path = joinpath(dir, "sidecar.txt")
             write(path, "childKeyRef: not-a-number")
             @test_throws ErrorException FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(
-                path, "any-pwd"
+                path
             )
         end
 
@@ -146,7 +146,7 @@ include("__prerequisite.jl")
             path = joinpath(dir, "sidecar.txt")
             write(path, "")
             @test_throws ErrorException FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(
-                path, "any-pwd"
+                path
             )
         end
     end
@@ -155,7 +155,7 @@ include("__prerequisite.jl")
         mktempdir() do dir
             missingPath = joinpath(dir, "does-not-exist.txt")
             @test_throws SystemError FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(
-                missingPath, "any-pwd"
+                missingPath
             )
         end
     end

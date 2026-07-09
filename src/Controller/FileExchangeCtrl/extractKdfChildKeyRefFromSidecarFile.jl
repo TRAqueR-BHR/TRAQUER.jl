@@ -1,4 +1,4 @@
-function FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(sidecarFilePath::String, cryptPwd::String)
+function FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(sidecarFilePath::String)
 
     # Open the sidecar file and read its contents
     sidecarFileContents = read(sidecarFilePath, String)

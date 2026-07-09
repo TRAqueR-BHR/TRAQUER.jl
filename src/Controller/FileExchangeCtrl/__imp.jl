@@ -1,3 +1,5 @@
+include("decryptFile.jl")
+include("encryptFile.jl")
 include("downloadAndProcessFiles.jl")
 include("extractKdfChildKeyRefFromSidecarFile.jl")
 include("getKdfChildKey.jl")

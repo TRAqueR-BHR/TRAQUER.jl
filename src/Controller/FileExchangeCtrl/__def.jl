@@ -1,3 +1,5 @@
+function decryptFile end
+function encryptFile end
 function downloadAndProcessFiles end
 function extractKdfChildKeyRefFromSidecarFile end
 function getKdfChildKey end
