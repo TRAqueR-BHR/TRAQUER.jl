@@ -1,3 +1,4 @@
 function downloadAndProcessFiles end
+function extractKdfChildKeyRefFromSidecarFile end
 function getKdfChildKey end
 function getS3PresignedUploadUrlAndKdfChildKey end
