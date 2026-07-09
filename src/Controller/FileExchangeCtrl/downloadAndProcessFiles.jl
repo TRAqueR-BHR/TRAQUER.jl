@@ -1,4 +1,4 @@
-function FileExchangeCtrl.downloadAndProcesFiles(
+function FileExchangeCtrl.downloadAndProcessFiles(
     fileURLs::Vector{String},
     cryptPwd::String,
     dbconn::LibPQ.Connection
