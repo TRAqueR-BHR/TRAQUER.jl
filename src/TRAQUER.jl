@@ -406,11 +406,15 @@ module Custom
     include(ENV["TRAQUER_CUSTOM_MODULE_DEFINITION_FILE"])
 end
 
-# Packages overwrite
-include("package-overwrite/ConfParser-overwrite.jl")
-
 # using
 include("using-for-imp.jl")
+
+# Extension of external modules (must run before controller implementations that
+# reference the types/methods defined here — e.g. S3Ctrl._getS3Config references
+# TRAQUERS3Config which is defined in __module-extensions/AWS/).
+include("__module-extensions/Base/__include.jl")
+include("__module-extensions/AWS/__include.jl")
+include("__module-extensions/ConfParser/__include.jl")
 
 # Some custom exceptions
 include("custom-exceptions.jl")
@@ -506,9 +510,6 @@ include("WebAPI/Filters/__imp.jl")
 
 # Custom implementation
 include(ENV["TRAQUER_CUSTOM_MODULE_IMPLEMENTATION_FILE"])
-
-# Overwrite of other modules
-include("Base/push.jl")
 
 # Declare constants
 include("constants.jl")

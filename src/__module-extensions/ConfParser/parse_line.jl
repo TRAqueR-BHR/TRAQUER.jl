@@ -1,5 +1,3 @@
-using ConfParser
-
 # Tweak the following:
 # 1. Do not stop at first whitespace
 # 2. Do not consider ',' as a separator (needed for translation file). Implement split if

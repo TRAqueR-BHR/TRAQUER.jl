@@ -3,7 +3,7 @@ import Dates
 import HTTP
 import SHA
 
-function Controller.S3Ctrl.generatePresignedUploadUrl(
+function S3Ctrl.generatePresignedUploadUrl(
     bucket::String,
     key::String;
     expiresInSeconds::Integer = 3600,
@@ -20,7 +20,7 @@ function Controller.S3Ctrl.generatePresignedUploadUrl(
     hmacSHA256(keyBytes::Vector{UInt8}, message::AbstractString)::Vector{UInt8} =
         SHA.hmac_sha256(keyBytes, message)
 
-    config = Controller.S3Ctrl._getS3Config()
+    config = S3Ctrl._getS3Config()
     credentials = AWS.check_credentials(AWS.credentials(config))
 
     time = Dates.now(Dates.UTC)
