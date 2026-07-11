@@ -27,6 +27,9 @@ Core domain concepts:
 - `src/WebAPI/` — API endpoints, filters, utilities.
 - `src/TRAQUERUtil/` — configuration, DB connections, encoding, translation,
   utilities.
+- `src/__module-extensions/<PkgName>/` — code that adds methods to external
+  Julia modules (Base, AWS, ConfParser, ...). See "External module extensions"
+  below.
 - `custom/<site>/` — hospital/site-specific ETL and business rules.
 - `conf/` — local configuration templates/examples. Treat real credentials as secrets.
 - `test/` — shared tests and test prerequisites.
@@ -39,11 +42,20 @@ Core domain concepts:
 Many modules use a definition/implementation split:
 
 - `__def.jl`, `_def.jl`, or similar files declare empty generic
-  functions/signatures.
+  functions/signatures. **Keep `__def.jl` signatures-only.** Struct definitions
+  belong in their own file under the controller directory (e.g.
+  `Controller/<Ctrl>/_SomeStruct.jl`) or under `src/__module-extensions/` when
+  the struct is part of an external-module extension — not in `__def.jl`.
 - `__imp.jl`, `_imp.jl`, or feature files add methods.
 
 When adding behavior, follow the existing pattern in the same module. Do not put large
 implementations into def files unless that directory already does so.
+
+Submodule wiring: in `src/TRAQUER.jl`, each controller's `__def.jl` is included
+from inside its `module ... end` block, while `__imp.jl` is included at the
+top level after `using-for-imp.jl` has bound the submodule into scope. This is
+why impl files write `S3Ctrl.download(...)` (qualified by the bound submodule
+name) but files inside the `__def.jl` block see names from inside that module.
 
 ### Controllers
 
@@ -88,6 +100,49 @@ Site-specific logic belongs in `custom/<site>/src/` and should mirror core patte
 Custom modules may be selected by config/environment variables such as
 `TRAQUER_CUSTOM_MODULE_*_FILE`; check `conf/*.conf` and the target site test
 prerequisites before changing load behavior.
+
+### External module extensions
+
+Code that adds methods to an external Julia module (e.g. extending `AWS.foo` for a
+custom config type, replacing `ConfParser.parse_line`, or adding a `Base.push!`
+overload for an ORM entity) lives in `src/__module-extensions/<PkgName>/`. Each
+subdirectory has:
+
+- A `__include.jl` aggregator that pulls in the per-concept files in dependency
+  order. **Make it self-sufficient**: declare any required `import`/`using` at
+  the top of `__include.jl` rather than relying on side effects from elsewhere.
+  This protects against future load-order changes silently breaking the
+  extension.
+- One file per concept. Tightly-coupled concepts (e.g. a small struct plus its
+  one or two method extensions) can live together in one file — e.g.
+  `AWS/TRAQUERS3Config.jl` defines the struct, and `AWS/credentials.jl`,
+  `AWS/region.jl`, etc. define each interface method separately.
+
+This replaces the older `src/package-overwrite/` layout. Prefer
+`__module-extensions/` for any new external-module extension.
+
+Include `__module-extensions/` from `src/TRAQUER.jl` *after* `using-for-imp.jl`
+and *before* any controller implementation that references the types/methods
+defined there. Without this ordering, downstream code will see undefined names.
+
+#### Cross-namespace struct definitions
+
+Structures that are conceptually part of an external module (e.g. an
+`AWS.AbstractAWSConfig` subtype) must live in a module's namespace. Julia does
+not allow `struct Parent.Child.Name ... end` from a different scope — the
+qualified-name syntax is only valid when written inside an explicit
+`module ... end` block. Two practical patterns:
+
+- **Define inside the submodule** (e.g. `module S3Ctrl ... include("...TRAQUERS3Config.jl") ... end`)
+  if the type is meaningful only to one controller. Other code accesses it as
+  `Controller.S3Ctrl.TRAQUERS3Config`.
+- **Define at TRAQUER top level** (the current convention for `TRAQUERS3Config`)
+  if the type is shared across controllers. Other code accesses it as
+  `TRAQUER.<Type>` from inside a submodule, or as bare `<Type>` from anywhere
+  `using-for-imp.jl` has placed TRAQUER in scope.
+
+Pick the simpler option: prefer keeping the struct where most of its methods
+live, so most references stay unqualified.
 
 ## Development commands
 
@@ -149,6 +204,10 @@ instead of deleting scheduled code.
 - Match existing Julia style and naming; many functions use camelCase.
 - Keep changes localized and consistent with neighboring files.
 - Prefer explicit module qualification where existing code does.
+- Add new external-package `using`/`import` calls to `src/using-for-imp.jl` rather
+  than scattering them through individual impl files. The one exception is inside
+  a `__module-extensions/<Pkg>/__include.jl` aggregator, where each extension
+  directory should declare its own dependencies to stay self-sufficient.
 - Avoid broad rewrites of generated-looking ORM/model files unless the task requires it.
 - Preserve public method signatures used by controllers, WebAPI, tests, and custom
   modules.
