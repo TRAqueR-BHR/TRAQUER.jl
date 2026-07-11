@@ -1,0 +1,5 @@
+function getFSDataDir end
+function getFSDoneInputFilesDir end
+function getFSInputFilesProblemsDir end
+function getFSPendingInputFilesDir end
+function getFSProcessingInputFilesDir end
