@@ -33,5 +33,7 @@ function FileExchangeCtrl.downloadAndProcessFiles(
     #  3. Import the analyses dataframe using ETLCtrl.importAnalysesDF
     #  4. Import the stays dataframe using ETLCtrl.importStaysDF
 
+    # Move the processed files to the processed directory
+
 
 end
