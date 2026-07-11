@@ -1,0 +1,5 @@
+function getDataDir end
+function getDoneInputFilesDir end
+function getInputFilesProblemsDir end
+function getPendingInputFilesDir end
+function getProcessingInputFilesDir end
