@@ -18,6 +18,7 @@ using DataFrames
 using ..Controller.UnitCtrl
 using PostgresORM,  LibPQ, TimeZones, Dates, ConfParser, Unicode, StringCases, JSON
 using ..TRAQUER, ..TRAQUERUtil
+import ..TRAQUERUtil.Conf
 using Base.StackTraces
 using ..WebAPI
 import .WebAPI
