@@ -1,5 +1,5 @@
 function Custom.importStays(encryptionStr::AbstractString)
-    pendingFiles = glob("dxcare-from-*.csv",TRAQUERUtil.getPendingInputFilesDir())
+    pendingFiles = glob("dxcare-from-*.csv",TRAQUERUtil.getFSPendingInputFilesDir())
     Custom.importStays.(
         pendingFiles,
         encryptionStr
@@ -17,7 +17,7 @@ function Custom.importStays(
 
     # Concatenate the pending dir to the path if user passed a file name instead of a file path
     if !contains(csvFilepath, Base.Filesystem.path_separator)
-        csvFilepath = joinpath(TRAQUERUtil.getPendingInputFilesDir(),csvFilepath)
+        csvFilepath = joinpath(TRAQUERUtil.getFSPendingInputFilesDir(),csvFilepath)
     end
 
     @info "Start importing file[$csvFilepath]"
@@ -31,7 +31,7 @@ function Custom.importStays(
 
     # Create a directory for storing the problems of this file
     srcFileBasename = basename(csvFilepath)
-    problemsDir = joinpath(TRAQUERUtil.getInputFilesProblemsDir(),srcFileBasename)
+    problemsDir = joinpath(TRAQUERUtil.getFSInputFilesProblemsDir(),srcFileBasename)
     rm(problemsDir, recursive = true, force = true) # clean if already exists
     mkpath(problemsDir)
 

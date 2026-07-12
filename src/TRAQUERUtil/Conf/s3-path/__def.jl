@@ -1,4 +1,3 @@
-function getS3DataDir end
 function getS3DoneInputFilesDir end
 function getS3InputFilesProblemsDir end
 function getS3PendingInputFilesDir end

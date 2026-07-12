@@ -1,6 +1,6 @@
 function TRAQUERUtil.moveStaysInputFileToDoneDir(filePath::String)
 
-    doneDirPath = TRAQUERUtil.getDoneInputFilesDir()
+    doneDirPath = TRAQUERUtil.getFSDoneInputFilesDir()
 
     # Use regex to extract date from filePath
     m = match(r"(\d{4}-\d{2}-\d{2})", basename(filePath))

@@ -3,7 +3,7 @@ include("__prerequisite.jl")
     TRAQUERUtil.createDBConnAndExecute() do dbconn
         MaintenanceCtrl.importExistingConfirmedStatuses(
             joinpath(
-                TRAQUERUtil.getPendingInputFilesDir(),
+                TRAQUERUtil.getFSPendingInputFilesDir(),
                 "tmp/existing-confirmed-infectious-status.xlsx"
             ),
             cryptStr,
