@@ -7,22 +7,30 @@ function WebAPI.Endpoints.handle_file_exchange_get_s3_presigned_upload_url_and_k
 
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
     if status_code != 200
-        return Dict(:body => String(JSON.json(missing)),
-                    :headers => Dict("Content-Type" => "text/plain",
-                                     "Access-Control-Allow-Origin" => "*"),
-                    :status => status_code)
+        return Dict(
+            :body => String(JSON.json(missing)),
+            :headers => Dict(
+                "Content-Type" => "text/plain",
+                "Access-Control-Allow-Origin" => "*",
+            ),
+            :status => status_code,
+        )
     end
 
-    result  = missing
-    error   = nothing
+    result = missing
+    error = nothing
     appuser = missing
 
     status_code = try
         appuser = req[:params][:appuser]
+        obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
+            JSON.parse(String(req[:data])),
+        )
+        filename = convert(String, obj["filename"])
 
         result = TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
-                FileExchangeCtrl.getS3PresignedUploadUrlAndKdfChildKey(dbconn)
+                FileExchangeCtrl.getS3PresignedUploadUrlAndKdfChildKey(filename, dbconn)
             end
         end
 
@@ -33,11 +41,18 @@ function WebAPI.Endpoints.handle_file_exchange_get_s3_presigned_upload_url_and_k
         500
     end
 
-    responseBody = status_code == 200 ? String(JSON.json(result)) : String(JSON.json(string(error)))
-    Dict(
-        :body    => responseBody,
-        :headers => Dict("Content-Type" => "application/json",
-                         "Access-Control-Allow-Origin" => "*"),
-        :status  => status_code,
+    responseBody = if status_code == 200
+        String(JSON.json(result))
+    else
+        String(JSON.json(string(error)))
+    end
+
+    return Dict(
+        :body => responseBody,
+        :headers => Dict(
+            "Content-Type" => "application/json",
+            "Access-Control-Allow-Origin" => "*",
+        ),
+        :status => status_code,
     )
 end

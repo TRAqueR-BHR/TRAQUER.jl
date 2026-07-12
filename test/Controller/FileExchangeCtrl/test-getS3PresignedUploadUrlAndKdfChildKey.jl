@@ -7,7 +7,7 @@ using HTTP
     content = "Dummy encrypted file-exchange payload\n$(uuid4())\n"
 
     result = TRAQUERUtil.createDBConnAndExecute() do dbconn
-        FileExchangeCtrl.getS3PresignedUploadUrlAndKdfChildKey(dbconn)
+        FileExchangeCtrl.getS3PresignedUploadUrlAndKdfChildKey("dummy_filename.txt", dbconn)
     end
 
     @info result

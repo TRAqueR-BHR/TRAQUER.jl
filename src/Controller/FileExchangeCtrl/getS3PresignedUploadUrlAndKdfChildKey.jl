@@ -1,4 +1,6 @@
-function FileExchangeCtrl.getS3PresignedUploadUrlAndKdfChildKey()::NamedTuple{
+function FileExchangeCtrl.getS3PresignedUploadUrlAndKdfChildKey(
+    _filename::String,
+)::NamedTuple{
     (:ref, :childKeyHex, :s3PresignedUploadUrl, :instructions),
     Tuple{Int16, String, String, Vector{String}}
 }
@@ -10,16 +12,24 @@ function FileExchangeCtrl.getS3PresignedUploadUrlAndKdfChildKey()::NamedTuple{
 end
 
 function FileExchangeCtrl.getS3PresignedUploadUrlAndKdfChildKey(
+    _filename::String,
     dbconn::LibPQ.Connection,
 )::NamedTuple{
     (:ref, :childKeyHex, :s3PresignedUploadUrl, :instructions),
     Tuple{Int16, String, String, Vector{String}}
 }
 
+    # In case the filename is a path, extract the basename of the file
+    _filename = basename(_filename)
+
     childKeyRefAndHex::NamedTuple{(:ref, :childKeyHex), Tuple{Int16, String}} =
         FileExchangeCtrl.getKdfChildKey(dbconn)
 
-    s3ObjectKey = "file-exchange/$(childKeyRefAndHex.ref)-$(uuid4())"
+    s3ObjectKey = joinpath(
+        Conf.getS3PendingInputFilesDir(),
+        _filename,
+    )
+
     s3PresignedUploadUrl = S3Ctrl.generatePresignedUploadUrl(
         TRAQUERUtil.Conf.getS3HospitalBucket(),
         s3ObjectKey,
