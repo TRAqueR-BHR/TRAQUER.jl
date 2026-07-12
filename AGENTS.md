@@ -200,8 +200,108 @@ instead of deleting scheduled code.
 
 ## Style guidelines
 
-- Ensure every modified or newly created text file ends with a final newline.
-- Match existing Julia style and naming; many functions use camelCase.
+All Julia code in this project follows the
+[Blue style guide](https://github.com/JuliaDiff/BlueStyle). Apply its rules to
+every new file you create and to any code you touch in an existing file.
+
+### Key BlueStyle rules at a glance
+
+- Use 4 spaces per indentation level, no tabs.
+- Keep lines to ≤ 92 characters. If a function signature exceeds that limit,
+  prefer renaming over splitting-and-reindenting. When a rename would
+  cascade through controllers, WebAPI, tests, or custom modules (e.g. an
+  exported public identifier that mirrors a route URL), note the violation
+  in your final summary and leave the line as is.
+- End every modified or newly created text file with a final newline; never
+  leave trailing whitespace on a line.
+- Use upper camel-case for modules and types.
+- Avoid padding brackets, parentheses, or operators with extra whitespace
+  to align them visually with neighbours. In particular: no
+  `result  = missing` or `:body    => responseBody`; use a single space on
+  each side of `=`, `=>`, and other binary operators.
+- Surround binary operators (`=`, `==`, `=>`, `->`, `+=`, numeric
+  comparisons, …) with a single space; trim spaces inside `[`, `(`, `{`.
+- Group similar one-line statements together. Use blank lines to separate
+  distinct logical blocks, never as padding between related assignments.
+- Write one `import`/`using` per line at the top of the file when possible.
+  Sort modules alphabetically within each group.
+- Always end long-form functions with an explicit `return`, even when the
+  returned value is the last expression.
+- Use long-form `function f(x) ... end` whenever the signature or body does
+  not fit on one line. Reserve short-form `f(x) = ...` for single-line
+  definitions.
+- For multi-parameter definitions, place each parameter on its own line
+  and indent one level.
+- Prefer `for x in collection`; never use `=` or `∈`.
+- Keep ternary operators on a single line. If a ternary does not fit, use
+  `if/else ... end` instead of stacking on multiple lines, and never chain
+  ternaries.
+
+### Multi-line calls, tuples, arrays, and dict literals
+
+Break arguments, dict entries, or array elements so the opening bracket
+sits on the same line as the call/assignment and the closing bracket lines
+up with the indentation level of that statement. Indent the contents by one
+level (4 spaces) and add a trailing comma after the last entry. Do *not*
+align continuations with the position of the opening bracket (the older
+Julia convention).
+
+```julia
+# Yes
+obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
+    JSON.parse(String(req[:data])),
+)
+
+return Dict(
+    :body => String(JSON.json(missing)),
+    :headers => Dict(
+        "Content-Type" => "text/plain",
+        "Access-Control-Allow-Origin" => "*",
+    ),
+    :status => status_code,
+)
+
+# No
+obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
+           JSON.parse(String(req[:data])))
+
+return Dict(:body => String(JSON.json(missing)),
+            :headers => Dict("Content-Type" => "text/plain",
+                             "Access-Control-Allow-Origin" => "*"),
+            :status => status_code)
+```
+
+### Project naming conventions (legacy)
+
+The codebase predominantly uses camelCase for method names (e.g.
+`getS3PresignedUploadUrlAndKdfChildKey`, `downloadAndProcessFiles`).
+BlueStyle calls for lower case with underscores, but renaming widely-used
+public identifiers would cascade through controllers, WebAPI, routes,
+tests, and custom modules. So:
+
+- For a *new* method that extends an existing dispatch (e.g. an additional
+  signature of `FileExchangeCtrl.getS3PresignedUploadUrlAndKdfChildKey`),
+  match the surrounding camelCase name.
+- For a *new* function with no existing dispatch to match, use
+  `lower_snake_case` in line with BlueStyle.
+- Never rename an existing public function as part of an unrelated change.
+
+### Migrating existing code
+
+Large parts of `src/` use legacy patterns that BlueStyle rejects —
+column-aligned `=` / `=>`, hanging-indent continuation of function calls,
+absent trailing commas in multi-line literals, multi-line ternaries, and
+the like. Treat those patterns as legacy. When you edit a file:
+
+- Apply BlueStyle to any code you add, and to surrounding code you are
+  already restructuring for the change.
+- Do not mass-rewrite unrelated patterns just to make them conform; keep
+  edits scoped to the task.
+- Mention any legacy patterns that you intentionally leave untouched in
+  your final summary.
+
+### Other project rules
+
 - Keep changes localized and consistent with neighboring files.
 - Prefer explicit module qualification where existing code does.
 - Add new external-package `using`/`import` calls to `src/using-for-imp.jl` rather
