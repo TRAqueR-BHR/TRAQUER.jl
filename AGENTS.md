@@ -67,6 +67,33 @@ module wiring file, following the local convention.
 
 Prefer existing controller helpers and hooks over direct SQL when possible.
 
+### Adding a new controller
+
+A new `*Ctrl` controller is not usable until it is wired into five files. Missing
+any of them will either hide the controller from impl files or from distributed
+worker processes:
+
+1. `src/Controller/<Name>Ctrl/__def.jl` — signatures-only declarations (see the
+   def/imp split above).
+2. `src/Controller/<Name>Ctrl/__imp.jl` — one `include` per function file. Stays
+   empty (but present) until functions are added.
+3. `src/TRAQUER.jl`:
+   - Inside `module Controller ... end`, add a `module <Name>Ctrl ... include(...) ... end`
+     block that pulls in `__def.jl`.
+   - At the top level (after `using-for-imp.jl` and the `__module-extensions/`
+     includes), add a `# <Name>Ctrl` comment followed by
+     `include("Controller/<Name>Ctrl/__imp.jl")`.
+4. `src/using-for-imp.jl` — append `..Controller.<Name>Ctrl` to the `using` block
+   that lists controllers used by top-level impl files. Without this, files
+   included at the top level cannot write the unqualified `<Name>Ctrl.foo(...)`
+   used elsewhere in this module.
+5. `scripts/using.jl` — append `@everywhere import TRAQUER.Controller.<Name>Ctrl`
+   to the corresponding `import` block. This makes the controller visible on
+   distributed worker processes started for scheduled tasks / parallel jobs.
+
+Add the controller near related ones in each list rather than at the end, and keep
+the lists in roughly the same order for grep-ability.
+
 ### Function naming
 
 Use `buildSomething` for functions that instantiate/derive in-memory objects without

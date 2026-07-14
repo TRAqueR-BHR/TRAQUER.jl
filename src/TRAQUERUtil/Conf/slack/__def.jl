@@ -1,0 +1,4 @@
+function getSlackWebhookUrl end
+function getSlackToken end
+function getSlackChannel end
+function slackIsConfigured end

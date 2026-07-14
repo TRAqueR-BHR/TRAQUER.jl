@@ -4,7 +4,7 @@ function NotificationCtrl.notifyAdmin(
     ;canNotifyAdminByEmail::Bool = true
 )
 
-    if Conf.hasConf("slack","token")
+    if Conf.slackIsConfigured()
         message = "$subject:\n $message"
         responseSlack = NotificationCtrl.sendSlack(message)
         if responseSlack.status != 200

@@ -1,4 +1,4 @@
-function EmailCtrl.sendemail(
+function EmailCtrl.sendEmail(
     recipients::Vector{String},
     subject::String,
     message::String
@@ -25,10 +25,10 @@ function EmailCtrl.sendemail(
     message *= "--<br/>"
     message *= getTranslation("do_not_answer_this_email_contact_your_administrator_instead")
 
-    fromaddress = Conf.getConf("email","from_address")
+    fromaddress = Conf.getEmailFromAddress()
     fromaddressWithName = "$(getInstancePrettyName()) <$fromaddress>"
     replyto = fromaddress
-    smtpserver = Conf.getConf("email","smtpserver")
+    smtpserver = Conf.getEmailSmtpServer()
 
     # We loop over the recipients because we sending to multiple recipients in one command
     # does not work
@@ -42,8 +42,8 @@ function EmailCtrl.sendemail(
         cmd = TRAQUERUtil.addCmdOption!(cmd, "--server", smtpserver)
 
         if TRAQUERUtil.requiresSMTPAuthentication()
-            userid = getConf("email","userid")
-            userpwd = getConf("email","userpwd")
+            userid = Conf.getEmailUserid()
+            userpwd = Conf.getEmailUserpwd()
             cmd = TRAQUERUtil.addCmdOption!(cmd, "--auth", "LOGIN")
             cmd = TRAQUERUtil.addCmdOption!(cmd, "--auth-user", userid)
             cmd = TRAQUERUtil.addCmdOption!(cmd, "--auth-password", userpwd)

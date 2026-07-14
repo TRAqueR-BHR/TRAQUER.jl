@@ -2,9 +2,9 @@ using HTTP
 using JSON
 
 function NotificationCtrl.sendSlack(message::String)::HTTP.Response
-    slackWebhookUrl = getConf("slack","webhook_url")
-    slackToken = getConf("slack","token")
-    slackChannel= getConf("slack","channel")
+    slackWebhookUrl = Conf.getSlackWebhookUrl()
+    slackToken = Conf.getSlackToken()
+    slackChannel= Conf.getSlackChannel()
 
     # "https://slack.com/api/chat.postMessage"
     url = slackWebhookUrl

@@ -1,1 +1,7 @@
 include("noEmail.jl")
+include("requiresSMTPAuthentication.jl")
+include("isSendEmailOverTLSConnection.jl")
+include("getEmailFromAddress.jl")
+include("getEmailSmtpServer.jl")
+include("getEmailUserid.jl")
+include("getEmailUserpwd.jl")

@@ -1,1 +1,7 @@
 function noEmail end
+function requiresSMTPAuthentication end
+function isSendEmailOverTLSConnection end
+function getEmailFromAddress end
+function getEmailSmtpServer end
+function getEmailUserid end
+function getEmailUserpwd end

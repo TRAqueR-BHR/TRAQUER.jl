@@ -3,3 +3,4 @@ function cleanStringForEncryptedValueCp end
 function normalizeWhites end
 function removeDoubleSpaces end
 function removeDoubleLineReturns end
+function htmlToPlainText end

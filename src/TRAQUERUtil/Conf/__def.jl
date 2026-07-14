@@ -2,7 +2,11 @@ export loadConf, hasConf, getConf, updateConf, getTimeZone, getTimeZoneAsStr,
        getInstanceCodeName, blindBakeIsRequired,
        resetDatabaseIsAllowed, getFSDataDir, getFSPendingInputFilesDir,
        getFSProcessingInputFilesDir, getFSDoneInputFilesDir,
-       getFSInputFilesProblemsDir, noEmail, getTeamEmailAddress,
+       getFSInputFilesProblemsDir, noEmail, requiresSMTPAuthentication,
+       isSendEmailOverTLSConnection, getEmailFromAddress, getEmailSmtpServer,
+       getEmailUserid, getEmailUserpwd,
+       getSlackWebhookUrl, getSlackToken, getSlackChannel,
+       slackIsConfigured, getTeamEmailAddress,
        getAdminEmail, bccAdminForEveryEmail, getInstancePrettyName,
        getCarrierWaitingPeriod, getNumberOfNegativeTestsForCarrierExclusion,
        getMinimumNumberOfHoursForContactStatusCreation,
@@ -22,6 +26,7 @@ include("admin/__def.jl")
 include("security/__def.jl")
 include("database/__def.jl")
 include("email/__def.jl")
+include("slack/__def.jl")
 include("fs-path/__def.jl")
 include("debug/__def.jl")
 include("s3/__def.jl")

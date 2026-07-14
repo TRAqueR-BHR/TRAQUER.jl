@@ -34,7 +34,7 @@ function ExceptionCtrl.logExceptionAndNotifyAdmin(
     @error message
 
     # Notify the admins
-    ExceptionCtrl.notifyAdmin(
+    NotificationCtrl.notifyAdmin(
         "Error in $(Conf.getInstanceCodeName())" ,
         message
         ;canNotifyAdminByEmail = canNotifyAdminByEmail
