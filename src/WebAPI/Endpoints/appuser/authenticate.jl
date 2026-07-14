@@ -1,4 +1,3 @@
-
 # POST /api/authenticate
 function WebAPI.Endpoints.handle_authenticate(req)
     req[:method] == "OPTIONS" && return WebAPI._respFor_OPTIONS_req()
@@ -7,12 +6,12 @@ function WebAPI.Endpoints.handle_authenticate(req)
     @info "API $apiURL"
 
     result = missing
-    error  = nothing
+    error = nothing
 
     status_code = try
-        obj     = JSON.parse(String(req[:data]))
+        obj = JSON.parse(String(req[:data]))
         appuser = AppuserCtrl.authenticate(obj["login"], obj["password"])
-        result  = String(JSON.json(appuser))
+        result = String(JSON.json(appuser))
         200
     catch e
         TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
@@ -24,10 +23,12 @@ function WebAPI.Endpoints.handle_authenticate(req)
         result = String(JSON.json(string(error)))
     end
 
-    Dict(
-        :body    => result,
-        :headers => Dict("Content-Type" => "application/json",
-                         "Access-Control-Allow-Origin" => "*"),
-        :status  => status_code,
+    return Dict(
+        :body => result,
+        :headers => Dict(
+            "Content-Type" => "application/json",
+            "Access-Control-Allow-Origin" => "*",
+        ),
+        :status => status_code,
     )
 end

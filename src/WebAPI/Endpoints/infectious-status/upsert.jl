@@ -1,4 +1,3 @@
-
 # POST /api/infectious-status/upsert
 function WebAPI.Endpoints.handle_infectious_status_upsert(req)
     req[:method] == "OPTIONS" && return WebAPI._respFor_OPTIONS_req()
@@ -8,21 +7,26 @@ function WebAPI.Endpoints.handle_infectious_status_upsert(req)
 
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
     if status_code != 200
-        return Dict(:body => String(JSON.json(missing)),
-                    :headers => Dict("Content-Type" => "text/plain",
-                                     "Access-Control-Allow-Origin" => "*"),
-                    :status => status_code)
+        return Dict(
+            :body => String(JSON.json(missing)),
+            :headers => Dict(
+                "Content-Type" => "text/plain",
+                "Access-Control-Allow-Origin" => "*",
+            ),
+            :status => status_code,
+        )
     end
 
     infectiousStatus = missing
-    error            = nothing
-    appuser          = missing
+    error = nothing
+    appuser = missing
 
     status_code = try
-        appuser          = req[:params][:appuser]
-        cryptPwd         = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
-        obj              = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
-                               JSON.parse(String(req[:data])))
+        appuser = req[:params][:appuser]
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
+        obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
+            JSON.parse(String(req[:data])),
+        )
         infectiousStatus = json2entity(InfectiousStatus, obj)
 
         if ismissing(infectiousStatus.infectiousAgent)
@@ -41,11 +45,18 @@ function WebAPI.Endpoints.handle_infectious_status_upsert(req)
         500
     end
 
-    result = status_code == 200 ? String(JSON.json(infectiousStatus)) : String(JSON.json(string(error)))
-    Dict(
-        :body    => result,
-        :headers => Dict("Content-Type" => "application/json",
-                         "Access-Control-Allow-Origin" => "*"),
-        :status  => status_code,
+    result = if status_code == 200
+        String(JSON.json(infectiousStatus))
+    else
+        String(JSON.json(string(error)))
+    end
+
+    return Dict(
+        :body => result,
+        :headers => Dict(
+            "Content-Type" => "application/json",
+            "Access-Control-Allow-Origin" => "*",
+        ),
+        :status => status_code,
     )
 end

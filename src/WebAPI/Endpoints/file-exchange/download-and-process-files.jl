@@ -7,25 +7,30 @@ function WebAPI.Endpoints.handle_file_exchange_download_and_process_files(req)
 
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
     if status_code != 200
-        return Dict(:body => String(JSON.json(missing)),
-                    :headers => Dict("Content-Type" => "text/plain",
-                                     "Access-Control-Allow-Origin" => "*"),
-                    :status => status_code)
+        return Dict(
+            :body => String(JSON.json(missing)),
+            :headers => Dict(
+                "Content-Type" => "text/plain",
+                "Access-Control-Allow-Origin" => "*",
+            ),
+            :status => status_code,
+        )
     end
 
-    result  = missing
-    error   = nothing
+    result = missing
+    error = nothing
     appuser = missing
 
     status_code = try
-        appuser  = req[:params][:appuser]
+        appuser = req[:params][:appuser]
         cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
         if ismissing(cryptPwd)
             error("Missing crypt password")
         end
 
-        obj      = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
-                       JSON.parse(String(req[:data])))
+        obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
+            JSON.parse(String(req[:data])),
+        )
         fileURLs = convert(Vector{String}, obj["fileURLs"])
 
         result = TRAQUERUtil.executeOnBgThread() do
@@ -41,11 +46,18 @@ function WebAPI.Endpoints.handle_file_exchange_download_and_process_files(req)
         500
     end
 
-    responseBody = status_code == 200 ? String(JSON.json(result)) : String(JSON.json(string(error)))
-    Dict(
-        :body    => responseBody,
-        :headers => Dict("Content-Type" => "application/json",
-                         "Access-Control-Allow-Origin" => "*"),
-        :status  => status_code,
+    responseBody = if status_code == 200
+        String(JSON.json(result))
+    else
+        String(JSON.json(string(error)))
+    end
+
+    return Dict(
+        :body => responseBody,
+        :headers => Dict(
+            "Content-Type" => "application/json",
+            "Access-Control-Allow-Origin" => "*",
+        ),
+        :status => status_code,
     )
 end

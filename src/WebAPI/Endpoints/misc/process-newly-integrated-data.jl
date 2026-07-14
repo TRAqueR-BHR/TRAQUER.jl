@@ -1,4 +1,3 @@
-
 # POST /api/misc/process-newly-integrated-data
 function WebAPI.Endpoints.handle_misc_process_newly_integrated_data(req)
     req[:method] == "OPTIONS" && return WebAPI._respFor_OPTIONS_req()
@@ -8,20 +7,25 @@ function WebAPI.Endpoints.handle_misc_process_newly_integrated_data(req)
 
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
     if status_code != 200
-        return Dict(:body => String(JSON.json(missing)),
-                    :headers => Dict("Content-Type" => "text/plain",
-                                     "Access-Control-Allow-Origin" => "*"),
-                    :status => status_code)
+        return Dict(
+            :body => String(JSON.json(missing)),
+            :headers => Dict(
+                "Content-Type" => "text/plain",
+                "Access-Control-Allow-Origin" => "*",
+            ),
+            :status => status_code,
+        )
     end
 
     processingOutcome = missing
-    error             = nothing
-    appuser           = missing
+    error = nothing
+    appuser = missing
 
     status_code = try
         appuser = req[:params][:appuser]
-        obj     = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
-                      JSON.parse(String(req[:data])))
+        obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
+            JSON.parse(String(req[:data])),
+        )
         processingTime = ZonedDateTime(obj["processingTime"]) |>
             n -> astimezone(n, req[:params][:browserTimezone])
 
@@ -29,7 +33,10 @@ function WebAPI.Endpoints.handle_misc_process_newly_integrated_data(req)
 
         TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
-                ETLCtrl.processNewlyIntegratedData(dbconn; forceProcessingTime = processingTime)
+                ETLCtrl.processNewlyIntegratedData(
+                    dbconn;
+                    forceProcessingTime = processingTime,
+                )
             end
         end
 
@@ -41,11 +48,18 @@ function WebAPI.Endpoints.handle_misc_process_newly_integrated_data(req)
         500
     end
 
-    result = status_code == 200 ? String(JSON.json(processingOutcome)) : String(JSON.json(string(error)))
-    Dict(
-        :body    => result,
-        :headers => Dict("Content-Type" => "application/json",
-                         "Access-Control-Allow-Origin" => "*"),
-        :status  => status_code,
+    responseBody = if status_code == 200
+        String(JSON.json(processingOutcome))
+    else
+        String(JSON.json(string(error)))
+    end
+
+    return Dict(
+        :body => responseBody,
+        :headers => Dict(
+            "Content-Type" => "application/json",
+            "Access-Control-Allow-Origin" => "*",
+        ),
+        :status => status_code,
     )
 end

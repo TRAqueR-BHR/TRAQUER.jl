@@ -1,4 +1,3 @@
-
 # POST /api/appuser/save
 function WebAPI.Endpoints.handle_appuser_save(req)
     req[:method] == "OPTIONS" && return WebAPI._respFor_OPTIONS_req()
@@ -7,18 +6,22 @@ function WebAPI.Endpoints.handle_appuser_save(req)
 
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
     if status_code != 200
-        return Dict(:body => String(JSON.json(missing)),
-                    :headers => Dict("Content-Type" => "text/plain",
-                                     "Access-Control-Allow-Origin" => "*"),
-                    :status => status_code)
+        return Dict(
+            :body => String(JSON.json(missing)),
+            :headers => Dict(
+                "Content-Type" => "text/plain",
+                "Access-Control-Allow-Origin" => "*",
+            ),
+            :status => status_code,
+        )
     end
 
     appUser = missing
-    error   = nothing
+    error = nothing
     appuser = missing
 
     status_code = try
-        obj    = JSON.parse(String(req[:data]))
+        obj = JSON.parse(String(req[:data]))
         entity = json2Entity(Appuser, obj)
         editor = req[:params][:appuser]
         appuser = editor
@@ -37,11 +40,18 @@ function WebAPI.Endpoints.handle_appuser_save(req)
         500
     end
 
-    result = status_code == 200 ? String(JSON.json(appUser)) : String(JSON.json(string(error)))
-    Dict(
-        :body    => result,
-        :headers => Dict("Content-Type" => "application/json",
-                         "Access-Control-Allow-Origin" => "*"),
-        :status  => status_code,
+    responseBody = if status_code == 200
+        String(JSON.json(appUser))
+    else
+        String(JSON.json(string(error)))
+    end
+
+    return Dict(
+        :body => responseBody,
+        :headers => Dict(
+            "Content-Type" => "application/json",
+            "Access-Control-Allow-Origin" => "*",
+        ),
+        :status => status_code,
     )
 end

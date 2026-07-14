@@ -4,18 +4,16 @@
 # curl http://localhost:8095/api/hello
 #
 function WebAPI.Endpoints.handle_hello(req)
-
     req[:method] == "OPTIONS" && return WebAPI._respFor_OPTIONS_req()
 
     @info "API /api/hello"
 
-    Dict(
-        :body    => String(JSON.json(Dict("message" => "Hello! from TRAQUER.WebAPI!"))),
-        :status  => 200,
+    return Dict(
+        :body => String(JSON.json(Dict("message" => "Hello! from TRAQUER.WebAPI!"))),
+        :status => 200,
         :headers => Dict(
-            "Content-Type"                => "application/json",
+            "Content-Type" => "application/json",
             "Access-Control-Allow-Origin" => "*",
         ),
     )
 end
-

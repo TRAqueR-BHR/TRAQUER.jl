@@ -1,4 +1,3 @@
-
 # POST /api/outbreak/initialize
 function WebAPI.Endpoints.handle_outbreak_initialize(req)
     req[:method] == "OPTIONS" && return WebAPI._respFor_OPTIONS_req()
@@ -8,31 +7,40 @@ function WebAPI.Endpoints.handle_outbreak_initialize(req)
 
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
     if status_code != 200
-        return Dict(:body => String(JSON.json(missing)),
-                    :headers => Dict("Content-Type" => "text/plain",
-                                     "Access-Control-Allow-Origin" => "*"),
-                    :status => status_code)
+        return Dict(
+            :body => String(JSON.json(missing)),
+            :headers => Dict(
+                "Content-Type" => "text/plain",
+                "Access-Control-Allow-Origin" => "*",
+            ),
+            :status => status_code,
+        )
     end
 
     outbreak = missing
-    error    = nothing
-    appuser  = missing
+    error = nothing
+    appuser = missing
 
     status_code = try
-        appuser                 = req[:params][:appuser]
+        appuser = req[:params][:appuser]
         @info "appuser[$(appuser.id)]"
-        cryptPwd                = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
-        obj                     = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
-                                      JSON.parse(String(req[:data])))
-        firstInfectiousStatus   = json2entity(InfectiousStatus, obj["firstInfectiousStatus"])
-        outbreakName            = obj["outbreakName"]
-        criticity               = TRAQUERUtil.int2enum(OUTBREAK_CRITICITY, obj["criticity"])
-        refTime                 = TRAQUERUtil.browserDateString2ZonedDateTime(obj["refTime"])
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
+        obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
+            JSON.parse(String(req[:data])),
+        )
+        firstInfectiousStatus = json2entity(InfectiousStatus, obj["firstInfectiousStatus"])
+        outbreakName = obj["outbreakName"]
+        criticity = TRAQUERUtil.int2enum(OUTBREAK_CRITICITY, obj["criticity"])
+        refTime = TRAQUERUtil.browserDateString2ZonedDateTime(obj["refTime"])
 
         outbreak = TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
                 OutbreakCtrl.initializeOutbreak(
-                    outbreakName, firstInfectiousStatus, criticity, refTime, dbconn
+                    outbreakName,
+                    firstInfectiousStatus,
+                    criticity,
+                    refTime,
+                    dbconn,
                 )
             end
         end
@@ -48,11 +56,18 @@ function WebAPI.Endpoints.handle_outbreak_initialize(req)
         end
     end
 
-    result = status_code == 200 ? String(JSON.json(outbreak)) : String(JSON.json(string(error)))
-    Dict(
-        :body    => result,
-        :headers => Dict("Content-Type" => "application/json",
-                         "Access-Control-Allow-Origin" => "*"),
-        :status  => status_code,
+    responseBody = if status_code == 200
+        String(JSON.json(outbreak))
+    else
+        String(JSON.json(string(error)))
+    end
+
+    return Dict(
+        :body => responseBody,
+        :headers => Dict(
+            "Content-Type" => "application/json",
+            "Access-Control-Allow-Origin" => "*",
+        ),
+        :status => status_code,
     )
 end

@@ -1,4 +1,3 @@
-
 # POST /api/misc/get-current-frontend-version  (no JWT required)
 function WebAPI.Endpoints.handle_misc_get_frontend_version(req)
     req[:method] == "OPTIONS" && return WebAPI._respFor_OPTIONS_req()
@@ -6,7 +5,7 @@ function WebAPI.Endpoints.handle_misc_get_frontend_version(req)
     @info "/api/misc/get-current-frontend-version"
 
     frontendVersion = missing
-    error           = nothing
+    error = nothing
 
     status_code = try
         frontendVersion = TRAQUERUtil.getCurrentFrontendVersion()
@@ -17,11 +16,18 @@ function WebAPI.Endpoints.handle_misc_get_frontend_version(req)
         500
     end
 
-    result = status_code == 200 ? String(JSON.json(frontendVersion)) : String(JSON.json(string(error)))
-    Dict(
-        :body    => result,
-        :headers => Dict("Content-Type" => "application/json",
-                         "Access-Control-Allow-Origin" => "*"),
-        :status  => status_code,
+    responseBody = if status_code == 200
+        String(JSON.json(frontendVersion))
+    else
+        String(JSON.json(string(error)))
+    end
+
+    return Dict(
+        :body => responseBody,
+        :headers => Dict(
+            "Content-Type" => "application/json",
+            "Access-Control-Allow-Origin" => "*",
+        ),
+        :status => status_code,
     )
 end

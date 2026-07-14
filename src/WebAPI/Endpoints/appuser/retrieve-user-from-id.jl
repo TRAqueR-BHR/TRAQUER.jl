@@ -1,4 +1,3 @@
-
 # POST /api/appuser/retrieve-user-from-id
 function WebAPI.Endpoints.handle_appuser_retrieve_user_from_id(req)
     req[:method] == "OPTIONS" && return WebAPI._respFor_OPTIONS_req()
@@ -8,19 +7,23 @@ function WebAPI.Endpoints.handle_appuser_retrieve_user_from_id(req)
 
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
     if status_code != 200
-        return Dict(:body => String(JSON.json(missing)),
-                    :headers => Dict("Content-Type" => "text/plain",
-                                     "Access-Control-Allow-Origin" => "*"),
-                    :status => status_code)
+        return Dict(
+            :body => String(JSON.json(missing)),
+            :headers => Dict(
+                "Content-Type" => "text/plain",
+                "Access-Control-Allow-Origin" => "*",
+            ),
+            :status => status_code,
+        )
     end
 
     appUser = missing
-    error   = nothing
+    error = nothing
     appuser = missing
 
     status_code = try
         appuser = req[:params][:appuser]
-        obj     = JSON.parse(String(req[:data]))
+        obj = JSON.parse(String(req[:data]))
         @info obj["appuser.id"]
         appUser = Controller.retrieveOneEntity(
             Appuser(id = obj["appuser.id"]),
@@ -34,11 +37,18 @@ function WebAPI.Endpoints.handle_appuser_retrieve_user_from_id(req)
         500
     end
 
-    result = status_code == 200 ? String(JSON.json(appUser)) : String(JSON.json(string(error)))
-    Dict(
-        :body    => result,
-        :headers => Dict("Content-Type" => "application/json",
-                         "Access-Control-Allow-Origin" => "*"),
-        :status  => status_code,
+    responseBody = if status_code == 200
+        String(JSON.json(appUser))
+    else
+        String(JSON.json(string(error)))
+    end
+
+    return Dict(
+        :body => responseBody,
+        :headers => Dict(
+            "Content-Type" => "application/json",
+            "Access-Control-Allow-Origin" => "*",
+        ),
+        :status => status_code,
     )
 end

@@ -1,4 +1,3 @@
-
 # POST /api/outbreak/get-outbreak-unit-assos-from-infectious-status
 function WebAPI.Endpoints.handle_outbreak_get_unit_assos_from_infectious_status(req)
     req[:method] == "OPTIONS" && return WebAPI._respFor_OPTIONS_req()
@@ -8,28 +7,35 @@ function WebAPI.Endpoints.handle_outbreak_get_unit_assos_from_infectious_status(
 
     status_code = TRAQUERUtil.initialize_http_response_status_code(req)
     if status_code != 200
-        return Dict(:body => String(JSON.json(missing)),
-                    :headers => Dict("Content-Type" => "text/plain",
-                                     "Access-Control-Allow-Origin" => "*"),
-                    :status => status_code)
+        return Dict(
+            :body => String(JSON.json(missing)),
+            :headers => Dict(
+                "Content-Type" => "text/plain",
+                "Access-Control-Allow-Origin" => "*",
+            ),
+            :status => status_code,
+        )
     end
 
-    assos   = missing
-    error   = nothing
+    assos = missing
+    error = nothing
     appuser = missing
 
     status_code = try
-        appuser                  = req[:params][:appuser]
-        cryptPwd                 = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
-        obj                      = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
-                                       JSON.parse(String(req[:data])))
-        infectiousStatus         = json2entity(InfectiousStatus, obj["infectiousStatus"])
+        appuser = req[:params][:appuser]
+        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
+        obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
+            JSON.parse(String(req[:data])),
+        )
+        infectiousStatus = json2entity(InfectiousStatus, obj["infectiousStatus"])
         includeComplexProperties = obj["includeComplexProperties"]
 
         assos = TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
                 OutbreakCtrl.getOutbreakUnitAssosFromInfectiousStatus(
-                    infectiousStatus, includeComplexProperties, dbconn
+                    infectiousStatus,
+                    includeComplexProperties,
+                    dbconn,
                 )
             end
         end
@@ -40,11 +46,18 @@ function WebAPI.Endpoints.handle_outbreak_get_unit_assos_from_infectious_status(
         500
     end
 
-    result = status_code == 200 ? String(JSON.json(assos)) : String(JSON.json(string(error)))
-    Dict(
-        :body    => result,
-        :headers => Dict("Content-Type" => "application/json",
-                         "Access-Control-Allow-Origin" => "*"),
-        :status  => status_code,
+    responseBody = if status_code == 200
+        String(JSON.json(assos))
+    else
+        String(JSON.json(string(error)))
+    end
+
+    return Dict(
+        :body => responseBody,
+        :headers => Dict(
+            "Content-Type" => "application/json",
+            "Access-Control-Allow-Origin" => "*",
+        ),
+        :status => status_code,
     )
 end
