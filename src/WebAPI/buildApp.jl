@@ -32,6 +32,7 @@ function WebAPI.build_app()
         route("/api/exposed-function/execute", Endpoints.handle_exposed_function_execute),
         # File exchange
         route("/api/file-exchange/get-s3-presigned-upload-url-and-kdf-child-key", Endpoints.handle_file_exchange_get_s3_presigned_upload_url_and_kdf_child_key),
+        route("/api/file-exchange/get-kdf-child-key", Endpoints.handle_file_exchange_get_kdf_child_key),
         route("/api/file-exchange/download-and-process-files", Endpoints.handle_file_exchange_download_and_process_files),
         # Infectious status
         route("/api/infectious-status/listing", Endpoints.handle_infectious_status_listing),
