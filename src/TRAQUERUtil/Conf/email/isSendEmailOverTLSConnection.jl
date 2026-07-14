@@ -1,3 +1,11 @@
 function Conf.isSendEmailOverTLSConnection()
-    return parse(Bool, Conf.getConf("email", "use_tls_connection"))
+    if !Conf.hasConf("email","tls")
+        return true
+    end
+
+    if parse(Bool,Conf.getConf("email","tls")) == true
+        return true
+    else
+        return false
+    end
 end

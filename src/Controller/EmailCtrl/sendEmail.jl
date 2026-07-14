@@ -26,7 +26,7 @@ function EmailCtrl.sendEmail(
     message *= getTranslation("do_not_answer_this_email_contact_your_administrator_instead")
 
     fromaddress = Conf.getEmailFromAddress()
-    fromaddressWithName = "$(getInstancePrettyName()) <$fromaddress>"
+    fromaddressWithName = "$(Conf.getInstancePrettyName()) <$fromaddress>"
     replyto = fromaddress
     smtpserver = Conf.getEmailSmtpServer()
 
@@ -77,19 +77,21 @@ function EmailCtrl.sendEmail(
                 run(cmd);
             catch e
 
-                # Dont send email notification to admin if we are already failing at sending
-                # him a message
-                canNotifyAdminByEmail = if recipient ∈ TRAQUERUtil.getAdminEmail()
-                    false
-                else
-                    true
-                end
-
-                formatExceptionAndStackTrace(
+                errorMsg = ExceptionCtrl.formatExceptionAndStackTrace(
                     e,
                     stacktrace(catch_backtrace())
-                    ;canNotifyAdminByEmail = canNotifyAdminByEmail
                 )
+
+
+                # No need to notify the admin for expected errors
+                # if ex isa CapturedException && ex.ex isa CannotMoveExamToAnotherYearError
+                #     @warn message
+                #     return
+                # end
+
+                # Log the error
+                @error errorMsg
+
             end
         end
 

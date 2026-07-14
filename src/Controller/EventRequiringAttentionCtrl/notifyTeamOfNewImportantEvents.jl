@@ -13,7 +13,7 @@ function EventRequiringAttentionCtrl.notifyTeamOfNewImportantEvents(dbconn::LibP
     subject = getTranslation("new_events_require_your_attention")
     message = summary
 
-    TRAQUERUtil.notifyTeam(subject, message)
+    NotificationCtrl.notifyTeam(subject, message)
 
     # Update the database
     "UPDATE event_requiring_attention
