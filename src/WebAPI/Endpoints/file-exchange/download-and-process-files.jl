@@ -35,7 +35,7 @@ function WebAPI.Endpoints.handle_file_exchange_download_and_process_files(req)
 
         result = TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
-                FileExchangeCtrl.downloadAndProcessFiles(fileURLs, cryptPwd, dbconn)
+                FileExchangeCtrl.downloadAndProcessFile.(fileURLs, cryptPwd, dbconn)
             end
         end
 
