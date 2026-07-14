@@ -10,9 +10,6 @@ function ExceptionCtrl.logExceptionAndNotifyAdmin(
     message = ""
     if !ismissing(appuser)
         message *= "Error raised by user[$(appuser.email)]"
-        if !ismissing(appuser.phone) && !isempty(appuser.phone)
-            message *= "[$(appuser.phone)]"
-        end
         message *= ". "
     end
 
