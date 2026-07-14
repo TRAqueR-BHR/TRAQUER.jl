@@ -357,6 +357,18 @@ module Controller
     include("Controller/EventRequiringAttentionCtrl/__def.jl")
   end
 
+  module NotificationCtrl
+    include("Controller/NotificationCtrl/__def.jl")
+  end
+
+  module EmailCtrl
+    include("Controller/EmailCtrl/__def.jl")
+  end
+
+  module ExceptionCtrl
+    include("Controller/ExceptionCtrl/__def.jl")
+  end
+
   module ContactExposureCtrl
     include("Controller/ContactExposureCtrl/__def.jl")
   end
@@ -481,6 +493,15 @@ include("Controller/OutbreakUnitAssoCtrl/__imp.jl")
 
 # EventRequiringAttentionCtrl
 include("Controller/EventRequiringAttentionCtrl/__imp.jl")
+
+# NotificationCtrl
+include("Controller/NotificationCtrl/__imp.jl")
+
+# EmailCtrl
+include("Controller/EmailCtrl/__imp.jl")
+
+# ExceptionCtrl
+include("Controller/ExceptionCtrl/__imp.jl")
 
 # ContactExposureCtrl
 include("Controller/ContactExposureCtrl/__imp.jl")

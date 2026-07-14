@@ -1,0 +1,2 @@
+function formatExceptionAndStackTrace end
+function logExceptionAndNotifyAdmin end

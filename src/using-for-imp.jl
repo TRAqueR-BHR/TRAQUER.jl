@@ -24,7 +24,7 @@ using ..WebAPI
 import .WebAPI
 import .WebAPI.Endpoints
 import .WebAPI.Filters
-using ..Controller.AnalysisResultCtrl,
+import ..Controller.AnalysisResultCtrl,
       ..Controller.AnalysisRequestCtrl,
       ..Controller.StayCtrl,
       ..Controller.PatientCtrl,
@@ -46,7 +46,10 @@ using ..Controller.AnalysisResultCtrl,
       ..Controller.MaintenanceCtrl,
       ..Controller.TaskWaitingForUserExecutionCtrl,
       ..Controller.WebApiUsageCtrl,
-      ..Controller.SchedulerCtrl
+      ..Controller.SchedulerCtrl,
+      ..Controller.NotificationCtrl,
+      ..Controller.EmailCtrl,
+      ..Controller.ExceptionCtrl
 using ..Model
 using DataFrames
 using ..Enum.AnalysisRequestStatusType,
