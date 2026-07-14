@@ -4,6 +4,7 @@
 @everywhere using TRAQUER.Model
 @everywhere using TRAQUER.Enum
 @everywhere using TRAQUER.Custom
+@everywhere using TRAQUER.WebAPI
 @everywhere using TRAQUER.Controller
 @everywhere using TRAQUER.Controller.PatientCtrl
 @everywhere using TRAQUER.Controller.UnitCtrl
