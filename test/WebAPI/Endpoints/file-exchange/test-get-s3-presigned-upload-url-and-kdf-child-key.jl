@@ -12,7 +12,7 @@ using HTTP
             :data => UInt8[],
         )
 
-        response = TRAQUER.WebAPI.Endpoints.handle_file_exchange_get_s3_presigned_upload_url_and_kdf_child_key(req)
+        response = WebAPI.Endpoints.handle_file_exchange_get_s3_presigned_upload_url_and_kdf_child_key(req)
 
         @test response[:status] == 200
         @test response[:headers]["Content-Type"] == "application/json"
