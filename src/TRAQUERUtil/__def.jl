@@ -1,3 +1,4 @@
+include("cmd/__def.jl")
 include("database/__def.jl")
 include("partition/__def.jl")
 include("pretty-print/__def.jl")
