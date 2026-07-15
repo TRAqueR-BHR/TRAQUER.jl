@@ -31,7 +31,11 @@ function FileExchangeCtrl.downloadAndProcessFile(
     #  4. Import the stays dataframe using ETLCtrl.importStaysDF
     #  5. Move the processed files to the 'done' directory:
     #     Conf.getFSDoneInputFilesDir()
-    #  NOTE
+    #  NOTE: - In the 'catch' block  move the crypted file and the sidecar to either
+    #    Conf.getS3InputFilesProblemsDir() or Conf.getFSInputFilesProblemsDir() depending
+    #    on the fileURL scheme. Also notify the admins using
+    #    ExceptionCtrl.logExceptionAndNotifyAdmin
+    #        - In the 'finally' block, delete the decrypted file and the sidecar file (may be missing)
     # TODO
 
 
