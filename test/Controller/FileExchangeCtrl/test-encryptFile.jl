@@ -150,18 +150,111 @@ end
         end
     end
 
-    @testset "Returned path lives under the system temp directory" begin
+    @testset "Returned path lives under the system temp directory when useSourceFileName=false" begin
         mktempdir() do dir
             inputPath = joinpath(dir, "plain.txt")
             write(inputPath, "locate me")
 
-            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "locate-pwd")
+            encryptedPath = FileExchangeCtrl.encryptFile(
+                inputPath,
+                "locate-pwd",
+                ;useSourceFileName = false,
+            )
 
             try
-                # `tempname()` writes under `Sys.BINDIR`-relative temp; the only
-                # contract we rely on is that the file exists and is writable.
+                # With `useSourceFileName=false` the file is created via
+                # `tempname()` and lives under the system temp directory.
                 @test isfile(encryptedPath)
                 @test startswith(realpath(dirname(encryptedPath)), realpath(tempdir()))
+                @test dirname(encryptedPath) != dir
+            finally
+                rm(encryptedPath; force = true)
+            end
+        end
+    end
+
+    @testset "Returned path mirrors source location and name by default (useSourceFileName=true)" begin
+        mktempdir() do dir
+            inputPath = joinpath(dir, "plain.txt")
+            write(inputPath, "side-by-side")
+
+            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "side-pwd")
+
+            try
+                # Default behaviour: the encrypted file lives in the same
+                # directory as the source and shares its basename plus a
+                # `.gpg` extension.
+                @test dirname(encryptedPath) == dir
+                @test basename(encryptedPath) == "plain.txt.gpg"
+                @test endswith(encryptedPath, ".gpg")
+                @test isfile(encryptedPath)
+            finally
+                rm(encryptedPath; force = true)
+            end
+        end
+    end
+
+    @testset "Returned path mirrors source location and name when useSourceFileName=true is explicit" begin
+        mktempdir() do dir
+            inputPath = joinpath(dir, "nested-name.bin")
+            write(inputPath, "explicit-flag")
+
+            encryptedPath = FileExchangeCtrl.encryptFile(
+                inputPath,
+                "explicit-pwd",
+                ;useSourceFileName = true,
+            )
+
+            try
+                # Passing `useSourceFileName=true` explicitly should produce
+                # the same output as relying on the default.
+                @test dirname(encryptedPath) == dir
+                @test basename(encryptedPath) == "nested-name.bin.gpg"
+            finally
+                rm(encryptedPath; force = true)
+            end
+        end
+    end
+
+    @testset "Returned path uses tempname() and lives under tempdir when useSourceFileName=false" begin
+        mktempdir() do dir
+            inputPath = joinpath(dir, "plain.txt")
+            write(inputPath, "remote")
+
+            encryptedPath = FileExchangeCtrl.encryptFile(
+                inputPath,
+                "remote-pwd",
+                ;useSourceFileName = false,
+            )
+
+            try
+                # With `useSourceFileName=false` the file is created under
+                # `tempdir()` and uses a `tempname()`-generated basename, so
+                # it does not collide with the source.
+                @test startswith(realpath(dirname(encryptedPath)), realpath(tempdir()))
+                @test dirname(encryptedPath) != dir
+                @test basename(encryptedPath) != "plain.txt.gpg"
+                @test endswith(encryptedPath, ".gpg")
+                @test isfile(encryptedPath)
+            finally
+                rm(encryptedPath; force = true)
+            end
+        end
+    end
+
+    @testset "Returned path has a .gpg extension" begin
+        mktempdir() do dir
+            inputPath = joinpath(dir, "plain.txt")
+            write(inputPath, "extension-check")
+
+            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "ext-pwd")
+
+            try
+                # The output file is gpg-encrypted; surface that in the
+                # filename so it is recognised by external tooling and
+                # round-trips cleanly with FileExchangeCtrl.decryptFile.
+                @test endswith(encryptedPath, ".gpg")
+                @test isfile(encryptedPath)
             finally
                 rm(encryptedPath; force = true)
             end
