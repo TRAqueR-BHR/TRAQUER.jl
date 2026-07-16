@@ -1,6 +1,12 @@
 function decryptFile end
-function encryptFile end
+function downloadCryptedAndSidecarFilesToProcessingDir end
 function downloadAndProcessFile end
+function encryptFile end
 function extractKdfChildKeyRefFromSidecarFile end
 function getKdfChildKey end
 function getS3PresignedUploadUrlAndKdfChildKey end
+function moveCryptedAndSidecarFilesToDoneDir end
+function moveCryptedAndSidecarFilesToProblemsDir end
+function moveCryptedAndSidecarFilesToProcessingDir end
+function parseFileURL end
+function processDecryptedXmlFile end
