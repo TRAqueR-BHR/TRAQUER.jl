@@ -1,7 +1,8 @@
 include("__prerequisite.jl")
 
 # Helpers for setting up encrypted fixtures without depending on
-# FileExchangeCtrl.encryptFile (keeps this test independent of its correctness).
+# FileExchangeCtrl.encryptFile (keeps the kwarg-method tests independent of
+# its correctness).
 
 function _gpgEncrypt(plaintextPath::String, cryptPwd::String)::String
     out = tempname() * ".gpg"
@@ -18,7 +19,23 @@ function _writeSidecar(dir::String, contents::String)::String
     return path
 end
 
+# Helper for sidecar-driven tests: provision a fresh KdfChildKey row, return
+# `(ref, childKeyHex)` so the test can encrypt with the real derived key. The
+# caller is responsible for cleanup via `_deleteKdfChildKeyByRef(dbconn, ref)`.
+function _provisionKdfChildKey(dbconn)
+    generated = FileExchangeCtrl.getKdfChildKey(dbconn)
+    return (generated.ref, generated.childKeyHex)
+end
+
+function _deleteKdfChildKeyByRef(dbconn, ref)
+    "DELETE FROM crypt.kdf_child_key WHERE ref = \$1" |>
+    query -> PostgresORM.execute_plain_query(query, [ref], dbconn)
+    return nothing
+end
+
 @testset "Test FileExchangeCtrl.decryptFile" begin
+
+    # ------------------------------------------------------------ decryptFile(filePath; cryptPwd)
 
     @testset "decryptFile(filePath; cryptPwd) round-trips a small text file" begin
         mktempdir() do dir
@@ -138,162 +155,201 @@ end
         end
     end
 
-    # ---------------------------------------------------------------- sidecar method
+    # ------------------------------------------------------------ decryptFileWithSidecar(...)
+    # These tests exercise the sidecar-driven entry point, which derives the
+    # passphrase from a `crypt.kdf_child_key` row referenced by the sidecar
+    # file. Each test provisions and tears down its own KdfChildKey row.
 
-    @testset "decryptFileWithSidecar(filePath, sideCarFilePath) reads the ref from childKeyRef:" begin
-        mktempdir() do dir
-            plaintext = "sidecar-plaintext-$(uuid4())"
-            inputPath = joinpath(dir, "plain.txt")
-            write(inputPath, plaintext)
-
-            # The decryptFileWithSidecar branch parses the ref as an Int, then passes
-            # it as the gpg passphrase. We encrypt with the same value (a string
-            # that matches the parsed integer) so the round-trip works.
-            refStr     = "42"
-            encryptedPath = _gpgEncrypt(inputPath, refStr)
-            sidecarPath   = _writeSidecar(dir, "childKeyRef: $refStr\n")
-
-            decryptedPath = FileExchangeCtrl.decryptFileWithSidecar(
-                encryptedPath, sidecarPath,
-            )
-
+    @testset "decryptFileWithSidecar(filePath, sidecarFilePath, dbconn) round-trips a small text file" begin
+        result = TRAQUERUtil.createDBConnAndExecute() do dbconn
+            ref, childKeyHex = _provisionKdfChildKey(dbconn)
             try
-                @test isfile(decryptedPath)
-                @test read(decryptedPath, String) == plaintext
+                mktempdir() do dir
+                    plaintext  = "sidecar-plaintext-$(uuid4())"
+                    inputPath  = joinpath(dir, "plain.txt")
+                    write(inputPath, plaintext)
+
+                    encryptedPath = FileExchangeCtrl.encryptFile(inputPath, childKeyHex, true)
+                    sidecarPath   = joinpath(
+                        dirname(encryptedPath),
+                        basename(inputPath) * ".gpg.sidecar",
+                    )
+                    FileExchangeCtrl.createSidecarFile(sidecarPath, ref)
+
+                    decryptedPath = FileExchangeCtrl.decryptFileWithSidecar(
+                        encryptedPath, sidecarPath, dbconn,
+                    )
+
+                    try
+                        @test isfile(decryptedPath)
+                        @test read(decryptedPath, String) == plaintext
+                    finally
+                        rm(encryptedPath; force = true)
+                        rm(decryptedPath; force = true)
+                        rm(sidecarPath;   force = true)
+                    end
+                end
             finally
-                rm(encryptedPath; force = true)
-                rm(decryptedPath; force = true)
-                rm(sidecarPath;   force = true)
+                _deleteKdfChildKeyByRef(dbconn, ref)
             end
+            return nothing
         end
+        @test isnothing(result)
     end
 
-    @testset "decryptFileWithSidecar(filePath, sideCarFilePath) supports all key/separator variants" begin
-        # The supported variants come from the regex in extractKdfChildKeyRefFromSidecarFile.
-        cases = [
-            "childKeyRef:7",
-            "childKeyRef=7",
-            "child_key_ref:7",
-            "child_key_ref=7",
-            "keyRef:7",
-            "keyRef=7",
-            "key_ref:7",
-            "key_ref=7",
-            "CHILDKEYREF:7",
-            "ChildKeyRef=7",
-            "childKeyRef:   7",
-            "childKeyRef = 7",
-        ]
-        for sidecarContents in cases
+    @testset "decryptFileWithSidecar(filePath, sidecarFilePath, dbconn) works when sidecar is embedded in larger text" begin
+        result = TRAQUERUtil.createDBConnAndExecute() do dbconn
+            ref, childKeyHex = _provisionKdfChildKey(dbconn)
+            try
+                mktempdir() do dir
+                    plaintext  = "embedded-$(uuid4())"
+                    inputPath  = joinpath(dir, "plain.txt")
+                    write(inputPath, plaintext)
+
+                    encryptedPath = FileExchangeCtrl.encryptFile(inputPath, childKeyHex, true)
+                    sidecarContents = string(
+                        "# sidecar metadata\n",
+                        "checksum: deadbeef\n",
+                        "key_ref=$ref\n",
+                        "uploadedAt: 2026-01-01T00:00:00Z\n",
+                    )
+                    sidecarPath = _writeSidecar(dir, sidecarContents)
+
+                    decryptedPath = FileExchangeCtrl.decryptFileWithSidecar(
+                        encryptedPath, sidecarPath, dbconn,
+                    )
+
+                    try
+                        @test read(decryptedPath, String) == plaintext
+                    finally
+                        rm(encryptedPath; force = true)
+                        rm(decryptedPath; force = true)
+                        rm(sidecarPath;   force = true)
+                    end
+                end
+            finally
+                _deleteKdfChildKeyByRef(dbconn, ref)
+            end
+            return nothing
+        end
+        @test isnothing(result)
+    end
+
+    @testset "decryptFileWithSidecar(filePath, sidecarFilePath, dbconn) errors on missing sidecar file" begin
+        result = TRAQUERUtil.createDBConnAndExecute() do dbconn
+            ref, childKeyHex = _provisionKdfChildKey(dbconn)
+            try
+                mktempdir() do dir
+                    inputPath = joinpath(dir, "plain.txt")
+                    write(inputPath, "anything")
+
+                    encryptedPath   = FileExchangeCtrl.encryptFile(inputPath, childKeyHex, true)
+                    missingSidecar  = joinpath(dir, "no-such-sidecar.txt")
+
+                    try
+                        @test_throws SystemError FileExchangeCtrl.decryptFileWithSidecar(
+                            encryptedPath, missingSidecar, dbconn,
+                        )
+                    finally
+                        rm(encryptedPath; force = true)
+                    end
+                end
+            finally
+                _deleteKdfChildKeyByRef(dbconn, ref)
+            end
+            return nothing
+        end
+        @test isnothing(result)
+    end
+
+    @testset "decryptFileWithSidecar(filePath, sidecarFilePath, dbconn) errors when sidecar has no matching key" begin
+        result = TRAQUERUtil.createDBConnAndExecute() do dbconn
+            ref, childKeyHex = _provisionKdfChildKey(dbconn)
+            try
+                mktempdir() do dir
+                    inputPath = joinpath(dir, "plain.txt")
+                    write(inputPath, "anything")
+
+                    encryptedPath = FileExchangeCtrl.encryptFile(inputPath, childKeyHex, true)
+                    sidecarPath   = _writeSidecar(dir, "no relevant line in here\n")
+
+                    try
+                        @test_throws ErrorException FileExchangeCtrl.decryptFileWithSidecar(
+                            encryptedPath, sidecarPath, dbconn,
+                        )
+                    finally
+                        rm(encryptedPath; force = true)
+                        rm(sidecarPath;   force = true)
+                    end
+                end
+            finally
+                _deleteKdfChildKeyByRef(dbconn, ref)
+            end
+            return nothing
+        end
+        @test isnothing(result)
+    end
+
+    @testset "decryptFileWithSidecar(filePath, sidecarFilePath, dbconn) errors when no KdfChildKey exists for the sidecar ref" begin
+        # Sidecar parses fine but refers to a ref that has no row in the DB.
+        # We allocate a fresh ref, never insert a matching row, and expect
+        # the function to error before reaching gpg.
+        result = TRAQUERUtil.createDBConnAndExecute() do dbconn
+            ref, _ = _provisionKdfChildKey(dbconn)
+            # Delete the row right away so the ref stays "orphaned" for the test.
+            _deleteKdfChildKeyByRef(dbconn, ref)
+
             mktempdir() do dir
-                plaintext = "variant-$(uuid4())"
                 inputPath = joinpath(dir, "plain.txt")
-                write(inputPath, plaintext)
+                write(inputPath, "anything")
 
-                refStr       = "7"
-                encryptedPath = _gpgEncrypt(inputPath, refStr)
-                sidecarPath   = _writeSidecar(dir, sidecarContents)
-
-                decryptedPath = FileExchangeCtrl.decryptFileWithSidecar(
-                    encryptedPath, sidecarPath,
-                )
+                encryptedPath = _gpgEncrypt(inputPath, "any-pwd")
+                sidecarPath   = _writeSidecar(dir, "key_ref=$ref\n")
 
                 try
-                    @test read(decryptedPath, String) == plaintext
+                    @test_throws ErrorException FileExchangeCtrl.decryptFileWithSidecar(
+                        encryptedPath, sidecarPath, dbconn,
+                    )
                 finally
                     rm(encryptedPath; force = true)
-                    rm(decryptedPath; force = true)
                     rm(sidecarPath;   force = true)
                 end
             end
+            return nothing
         end
+        @test isnothing(result)
     end
 
-    @testset "decryptFileWithSidecar(filePath, sideCarFilePath) works when sidecar is embedded in larger text" begin
-        mktempdir() do dir
-            plaintext = "embedded-$(uuid4())"
-            inputPath = joinpath(dir, "plain.txt")
-            write(inputPath, plaintext)
-
-            refStr       = "1234"
-            encryptedPath = _gpgEncrypt(inputPath, refStr)
-            sidecarContents = string(
-                "# sidecar metadata\n",
-                "checksum: deadbeef\n",
-                "childKeyRef=$refStr\n",
-                "uploadedAt: 2026-01-01T00:00:00Z\n",
-            )
-            sidecarPath = _writeSidecar(dir, sidecarContents)
-
-            decryptedPath = FileExchangeCtrl.decryptFileWithSidecar(
-                encryptedPath, sidecarPath,
-            )
-
+    @testset "decryptFileWithSidecar(filePath, sidecarFilePath, dbconn) errors when the underlying gpg decrypt fails" begin
+        # Sidecar points to a real KdfChildKey, but the file was encrypted
+        # with a different passphrase. The child-key derivation succeeds but
+        # gpg cannot open the file.
+        result = TRAQUERUtil.createDBConnAndExecute() do dbconn
+            # Sidecar will point to a fresh ref, but the file is encrypted with
+            # an unrelated passphrase so the derived child key cannot open it.
+            ref, _ = _provisionKdfChildKey(dbconn)
             try
-                @test read(decryptedPath, String) == plaintext
+                mktempdir() do dir
+                    inputPath = joinpath(dir, "plain.txt")
+                    write(inputPath, "secret-$(uuid4())")
+
+                    encryptedPath = _gpgEncrypt(inputPath, "actual-pwd")
+                    sidecarPath   = _writeSidecar(dir, "key_ref=$ref\n")
+
+                    try
+                        @test_throws ProcessFailedException FileExchangeCtrl.decryptFileWithSidecar(
+                            encryptedPath, sidecarPath, dbconn,
+                        )
+                    finally
+                        rm(encryptedPath; force = true)
+                        rm(sidecarPath;   force = true)
+                    end
+                end
             finally
-                rm(encryptedPath; force = true)
-                rm(decryptedPath; force = true)
-                rm(sidecarPath;   force = true)
+                _deleteKdfChildKeyByRef(dbconn, ref)
             end
+            return nothing
         end
-    end
-
-    @testset "decryptFileWithSidecar(filePath, sideCarFilePath) errors on missing sidecar file" begin
-        mktempdir() do dir
-            inputPath = joinpath(dir, "plain.txt")
-            write(inputPath, "anything")
-
-            encryptedPath = _gpgEncrypt(inputPath, "any-pwd")
-            missingSidecar = joinpath(dir, "no-such-sidecar.txt")
-
-            try
-                @test_throws SystemError FileExchangeCtrl.decryptFileWithSidecar(
-                    encryptedPath, missingSidecar,
-                )
-            finally
-                rm(encryptedPath; force = true)
-            end
-        end
-    end
-
-    @testset "decryptFileWithSidecar(filePath, sideCarFilePath) errors when sidecar has no matching key" begin
-        mktempdir() do dir
-            inputPath = joinpath(dir, "plain.txt")
-            write(inputPath, "anything")
-
-            encryptedPath = _gpgEncrypt(inputPath, "any-pwd")
-            sidecarPath   = _writeSidecar(dir, "no relevant line in here\n")
-
-            try
-                @test_throws ErrorException FileExchangeCtrl.decryptFileWithSidecar(
-                    encryptedPath, sidecarPath,
-                )
-            finally
-                rm(encryptedPath; force = true)
-                rm(sidecarPath;   force = true)
-            end
-        end
-    end
-
-    @testset "decryptFileWithSidecar(filePath, sideCarFilePath) errors when the underlying gpg decrypt fails" begin
-        # Sidecar is valid and parses to a ref, but the ref-as-passphrase does
-        # not match the passphrase the file was actually encrypted with.
-        mktempdir() do dir
-            inputPath = joinpath(dir, "plain.txt")
-            write(inputPath, "secret-$(uuid4())")
-
-            encryptedPath = _gpgEncrypt(inputPath, "actual-pwd")
-            sidecarPath   = _writeSidecar(dir, "childKeyRef: 99\n")  # parses to 99
-
-            try
-                @test_throws ProcessFailedException FileExchangeCtrl.decryptFileWithSidecar(
-                    encryptedPath, sidecarPath,
-                )
-            finally
-                rm(encryptedPath; force = true)
-                rm(sidecarPath;   force = true)
-            end
-        end
+        @test isnothing(result)
     end
 end

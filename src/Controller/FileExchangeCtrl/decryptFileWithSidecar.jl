@@ -4,7 +4,7 @@ function FileExchangeCtrl.decryptFileWithSidecar(
     dbconn::LibPQ.Connection
 )::String
 
-    childKeyRef::String = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(sidecarFilePath)
+    childKeyRef::Int = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(sidecarFilePath)
 
     kdfChildKey::Union{Missing,Model.KdfChildKey} = PostgresORM.retrieve_one_entity(
         Model.KdfChildKey(ref = childKeyRef),
