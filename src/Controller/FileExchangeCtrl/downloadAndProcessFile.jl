@@ -3,6 +3,7 @@
         fileURL::String,
         cryptPwd::String,
         dbconn::LibPQ.Connection,
+        ;alsoProcessNewlyIntegratedData::Bool,
     )
 
 End-to-end processing of a single file exchanged via the file-exchange
@@ -23,8 +24,9 @@ The pipeline runs as follows:
 4. Decrypt the file with the derived child key hex as the gpg
    passphrase.
 5. Parse the decrypted XML into analyses and stays DataFrames and
-   import them through the ETL controllers. Then trigger downstream
-   processing of the newly integrated data.
+   import them through the ETL controllers. If `alsoProcessNewlyIntegratedData`
+   is `true`, also trigger downstream processing of the newly integrated
+   data.
 6. Move the crypted file and its sidecar to the "done" directory
    (`Conf.getS3DoneInputFilesDir()` or `Conf.getFSDoneInputFilesDir()`
    depending on the URL scheme).
@@ -39,11 +41,17 @@ finally block removes the decrypted file and the local sidecar copy.
 `cryptPwd` is the user-supplied passphrase used to decrypt patient
 records stored encrypted in the database; it is forwarded unchanged to
 the ETL import functions.
+
+`alsoProcessNewlyIntegratedData` is forwarded unchanged to
+`processDecryptedXmlFile` and controls whether the expensive
+post-import processing step
+(`ETLCtrl.processNewlyIntegratedData`) is triggered after the import.
 """
 function FileExchangeCtrl.downloadAndProcessFile(
     fileURL::String,
     cryptPwd::String,
     dbconn::LibPQ.Connection,
+    ;alsoProcessNewlyIntegratedData::Bool,
 )
 
     parsedFileURL = FileExchangeCtrl.parseFileURL(fileURL)
@@ -120,7 +128,10 @@ function FileExchangeCtrl.downloadAndProcessFile(
         # Parse the decrypted XML, import analyses and stays, and trigger downstream
         # processing of the newly integrated data.
         FileExchangeCtrl.processDecryptedXmlFile(
-            decryptedFilePath, cryptPwd, dbconn,
+            decryptedFilePath,
+            cryptPwd,
+            dbconn,
+            ;alsoProcessNewlyIntegratedData = alsoProcessNewlyIntegratedData,
         )
 
         # On success, move the crypted file and its sidecar to the "done" directory
@@ -161,13 +172,22 @@ function FileExchangeCtrl.downloadAndProcessFile(
 end
 
 """
-   downloadAndProcessFile(fileURL::String, dbconn::LibPQ.Connection)
+   downloadAndProcessFile(
+       fileURL::String,
+       dbconn::LibPQ.Connection,
+       ;alsoProcessNewlyIntegratedData::Bool,
+   )
 
 Convenience overload for system-initiated calls (e.g. scheduled tasks)
+that have no user context. Uses the instance master key as the
+encryption passphrase for the patient decryption done by the ETL
+imports. The `alsoProcessNewlyIntegratedData` keyword is forwarded
+unchanged to the 3-argument method.
 """
 function FileExchangeCtrl.downloadAndProcessFile(
     fileURL::String,
-    dbconn::LibPQ.Connection
+    dbconn::LibPQ.Connection,
+    ;alsoProcessNewlyIntegratedData::Bool,
 )
 
     cryptPwd = CacheCtrl.getInstanceMasterKey()
@@ -176,6 +196,7 @@ function FileExchangeCtrl.downloadAndProcessFile(
         fileURL,
         cryptPwd,
         dbconn,
+        ;alsoProcessNewlyIntegratedData = alsoProcessNewlyIntegratedData,
     )
 
 end

@@ -33,9 +33,20 @@ function WebAPI.Endpoints.handle_file_exchange_download_and_process_files(req)
         )
         fileURLs = convert(Vector{String}, obj["fileURLs"])
 
+        # Extract the `alsoProcessNewlyIntegratedData` flag from the request body.
+        alsoProcessNewlyIntegratedData = convert(
+            Bool,
+            obj["alsoProcessNewlyIntegratedData"],
+        )
+
         result = TRAQUERUtil.executeOnBgThread() do
             TRAQUERUtil.createDBConnAndExecute() do dbconn
-                FileExchangeCtrl.downloadAndProcessFile.(fileURLs, cryptPwd, dbconn)
+                FileExchangeCtrl.downloadAndProcessFile.(
+                    fileURLs,
+                    cryptPwd,
+                    dbconn,
+                    ;alsoProcessNewlyIntegratedData = alsoProcessNewlyIntegratedData,
+                )
             end
         end
 
