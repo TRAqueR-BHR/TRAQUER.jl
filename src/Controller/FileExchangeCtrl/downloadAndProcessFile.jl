@@ -159,3 +159,23 @@ function FileExchangeCtrl.downloadAndProcessFile(
     return nothing
 
 end
+
+"""
+   downloadAndProcessFile(fileURL::String, dbconn::LibPQ.Connection)
+
+Convenience overload for system-initiated calls (e.g. scheduled tasks)
+"""
+function FileExchangeCtrl.downloadAndProcessFile(
+    fileURL::String,
+    dbconn::LibPQ.Connection
+)
+
+    cryptPwd = CacheCtrl.getInstanceMasterKey()
+
+    FileExchangeCtrl.downloadAndProcessFile(
+        fileURL,
+        cryptPwd,
+        dbconn,
+    )
+
+end
