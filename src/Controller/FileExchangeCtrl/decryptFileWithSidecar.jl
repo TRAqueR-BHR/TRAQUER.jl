@@ -27,9 +27,7 @@ function FileExchangeCtrl.decryptFileWithSidecar(
         kdfChildKey.info,
     )
 
-    # The parser returns the ref as an Int (it is also used as a database
-    # key in other callers). The gpg passphrase here is the same ref
-    # serialized as a string.
+
     return FileExchangeCtrl.decryptFile(filePath; cryptPwd = childKeyHex)
 
 end

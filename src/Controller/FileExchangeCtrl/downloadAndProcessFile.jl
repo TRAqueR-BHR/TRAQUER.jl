@@ -93,17 +93,11 @@ function FileExchangeCtrl.downloadAndProcessFile(
             )
         end
 
-        # Extract the child key reference from the sidecar file and look up the
-        # matching KdfChildKey row in the database.
-        childKeyRef = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(
+        # Decrypt the file
+        decryptedFilePath = FileExchangeCtrl.decryptFileWithSidecar(
+            cryptedFilePath,
             sidecarFilePath,
-        )
-
-
-
-        # Decrypt the file using the derived child key hex as the gpg passphrase
-        decryptedFilePath = FileExchangeCtrl.decryptFile(
-            cryptedFilePath; cryptPwd = childKeyHex,
+            dbconn,
         )
 
         # Parse the decrypted XML, import analyses and stays, and trigger downstream
