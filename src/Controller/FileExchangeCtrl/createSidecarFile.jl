@@ -13,6 +13,6 @@ function FileExchangeCtrl.createSidecarFile(_path::String, keyRef::Int16)
 
     write(_path, "key_ref=$(keyRef)\n")
 
-    return nothing
+    return _path
 
 end
