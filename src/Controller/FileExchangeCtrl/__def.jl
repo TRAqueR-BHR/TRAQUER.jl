@@ -1,4 +1,6 @@
+function createSidecarFile end
 function decryptFile end
+function decryptFileWithSidecar end
 function downloadCryptedAndSidecarFilesToProcessingDir end
 function downloadAndProcessFile end
 function encryptFile end

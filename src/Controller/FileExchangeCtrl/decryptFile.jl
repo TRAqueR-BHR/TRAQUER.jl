@@ -8,11 +8,3 @@ function FileExchangeCtrl.decryptFile(filePath::String; cryptPwd::String)::Strin
     return tempDecryptedFilePath
 
 end
-
-function FileExchangeCtrl.decryptFile(filePath::String; sideCarFilePath::String)::String
-
-    childKeyRef = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(sideCarFilePath)
-
-    FileExchangeCtrl.decryptFile(filePath; cryptPwd = childKeyRef)
-
-end

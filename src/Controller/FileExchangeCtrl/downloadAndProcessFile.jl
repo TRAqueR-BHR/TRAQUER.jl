@@ -99,26 +99,7 @@ function FileExchangeCtrl.downloadAndProcessFile(
             sidecarFilePath,
         )
 
-        kdfChildKey::Union{Missing,Model.KdfChildKey} = PostgresORM.retrieve_one_entity(
-            Model.KdfChildKey(ref = childKeyRef),
-            false,
-            dbconn,
-        )
-        if ismissing(kdfChildKey)
-            error(
-                "KdfChildKey not found for ref=$childKeyRef " *
-                "(from sidecar file $sidecarFilePath).",
-            )
-        end
 
-        # Derive the child key hex from the instance master key and the KDF parameters
-        # stored in the database. This is the same key that was used to encrypt the
-        # file on the client side.
-        childKeyHex = KdfChildKeyCtrl.deriveEncodedChildKey(
-            CacheCtrl.getInstanceMasterKey(),
-            kdfChildKey.saltValue,
-            kdfChildKey.info,
-        )
 
         # Decrypt the file using the derived child key hex as the gpg passphrase
         decryptedFilePath = FileExchangeCtrl.decryptFile(

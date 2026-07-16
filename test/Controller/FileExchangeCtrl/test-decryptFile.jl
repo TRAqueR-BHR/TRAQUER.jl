@@ -140,21 +140,21 @@ end
 
     # ---------------------------------------------------------------- sidecar method
 
-    @testset "decryptFile(filePath; sideCarFilePath) reads the ref from childKeyRef:" begin
+    @testset "decryptFileWithSidecar(filePath, sideCarFilePath) reads the ref from childKeyRef:" begin
         mktempdir() do dir
             plaintext = "sidecar-plaintext-$(uuid4())"
             inputPath = joinpath(dir, "plain.txt")
             write(inputPath, plaintext)
 
-            # The decryptFile sidecar branch parses the ref as an Int, then passes
+            # The decryptFileWithSidecar branch parses the ref as an Int, then passes
             # it as the gpg passphrase. We encrypt with the same value (a string
             # that matches the parsed integer) so the round-trip works.
             refStr     = "42"
             encryptedPath = _gpgEncrypt(inputPath, refStr)
             sidecarPath   = _writeSidecar(dir, "childKeyRef: $refStr\n")
 
-            decryptedPath = FileExchangeCtrl.decryptFile(
-                encryptedPath; sideCarFilePath = sidecarPath,
+            decryptedPath = FileExchangeCtrl.decryptFileWithSidecar(
+                encryptedPath, sidecarPath,
             )
 
             try
@@ -168,7 +168,7 @@ end
         end
     end
 
-    @testset "decryptFile(filePath; sideCarFilePath) supports all key/separator variants" begin
+    @testset "decryptFileWithSidecar(filePath, sideCarFilePath) supports all key/separator variants" begin
         # The supported variants come from the regex in extractKdfChildKeyRefFromSidecarFile.
         cases = [
             "childKeyRef:7",
@@ -194,8 +194,8 @@ end
                 encryptedPath = _gpgEncrypt(inputPath, refStr)
                 sidecarPath   = _writeSidecar(dir, sidecarContents)
 
-                decryptedPath = FileExchangeCtrl.decryptFile(
-                    encryptedPath; sideCarFilePath = sidecarPath,
+                decryptedPath = FileExchangeCtrl.decryptFileWithSidecar(
+                    encryptedPath, sidecarPath,
                 )
 
                 try
@@ -209,7 +209,7 @@ end
         end
     end
 
-    @testset "decryptFile(filePath; sideCarFilePath) works when sidecar is embedded in larger text" begin
+    @testset "decryptFileWithSidecar(filePath, sideCarFilePath) works when sidecar is embedded in larger text" begin
         mktempdir() do dir
             plaintext = "embedded-$(uuid4())"
             inputPath = joinpath(dir, "plain.txt")
@@ -225,8 +225,8 @@ end
             )
             sidecarPath = _writeSidecar(dir, sidecarContents)
 
-            decryptedPath = FileExchangeCtrl.decryptFile(
-                encryptedPath; sideCarFilePath = sidecarPath,
+            decryptedPath = FileExchangeCtrl.decryptFileWithSidecar(
+                encryptedPath, sidecarPath,
             )
 
             try
@@ -239,7 +239,7 @@ end
         end
     end
 
-    @testset "decryptFile(filePath; sideCarFilePath) errors on missing sidecar file" begin
+    @testset "decryptFileWithSidecar(filePath, sideCarFilePath) errors on missing sidecar file" begin
         mktempdir() do dir
             inputPath = joinpath(dir, "plain.txt")
             write(inputPath, "anything")
@@ -248,8 +248,8 @@ end
             missingSidecar = joinpath(dir, "no-such-sidecar.txt")
 
             try
-                @test_throws SystemError FileExchangeCtrl.decryptFile(
-                    encryptedPath; sideCarFilePath = missingSidecar,
+                @test_throws SystemError FileExchangeCtrl.decryptFileWithSidecar(
+                    encryptedPath, missingSidecar,
                 )
             finally
                 rm(encryptedPath; force = true)
@@ -257,7 +257,7 @@ end
         end
     end
 
-    @testset "decryptFile(filePath; sideCarFilePath) errors when sidecar has no matching key" begin
+    @testset "decryptFileWithSidecar(filePath, sideCarFilePath) errors when sidecar has no matching key" begin
         mktempdir() do dir
             inputPath = joinpath(dir, "plain.txt")
             write(inputPath, "anything")
@@ -266,8 +266,8 @@ end
             sidecarPath   = _writeSidecar(dir, "no relevant line in here\n")
 
             try
-                @test_throws ErrorException FileExchangeCtrl.decryptFile(
-                    encryptedPath; sideCarFilePath = sidecarPath,
+                @test_throws ErrorException FileExchangeCtrl.decryptFileWithSidecar(
+                    encryptedPath, sidecarPath,
                 )
             finally
                 rm(encryptedPath; force = true)
@@ -276,7 +276,7 @@ end
         end
     end
 
-    @testset "decryptFile(filePath; sideCarFilePath) errors when the underlying gpg decrypt fails" begin
+    @testset "decryptFileWithSidecar(filePath, sideCarFilePath) errors when the underlying gpg decrypt fails" begin
         # Sidecar is valid and parses to a ref, but the ref-as-passphrase does
         # not match the passphrase the file was actually encrypted with.
         mktempdir() do dir
@@ -287,8 +287,8 @@ end
             sidecarPath   = _writeSidecar(dir, "childKeyRef: 99\n")  # parses to 99
 
             try
-                @test_throws ProcessFailedException FileExchangeCtrl.decryptFile(
-                    encryptedPath; sideCarFilePath = sidecarPath,
+                @test_throws ProcessFailedException FileExchangeCtrl.decryptFileWithSidecar(
+                    encryptedPath, sidecarPath,
                 )
             finally
                 rm(encryptedPath; force = true)

@@ -1,4 +1,6 @@
+include("createSidecarFile.jl")
 include("decryptFile.jl")
+include("decryptFileWithSidecar.jl")
 include("downloadCryptedAndSidecarFilesToProcessingDir.jl")
 include("downloadAndProcessFile.jl")
 include("encryptFile.jl")

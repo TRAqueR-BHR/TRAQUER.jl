@@ -23,7 +23,7 @@ end
             inputPath      = joinpath(dir, "plain.txt")
             write(inputPath, plaintext)
 
-            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "test-pwd-1234")
+            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "test-pwd-1234", true)
 
             try
                 # Returned path is a real file, distinct from the input.
@@ -46,7 +46,7 @@ end
             inputPath = joinpath(dir, "plain.txt")
             write(inputPath, plaintext)
 
-            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "test-pwd-1234")
+            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "test-pwd-1234", true)
 
             try
                 # The encrypted file should not contain the plaintext in raw form.
@@ -66,7 +66,7 @@ end
             inputPath = joinpath(dir, "plain.txt")
             write(inputPath, plaintext)
 
-            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "correct-pwd")
+            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "correct-pwd", true)
 
             try
                 @test_throws ProcessFailedException _gpgDecrypt(encryptedPath, "wrong-pwd")
@@ -83,7 +83,7 @@ end
             inputPath = joinpath(dir, "blob.bin")
             write(inputPath, binary)
 
-            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "bin-pwd")
+            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "bin-pwd", true)
 
             try
                 mktempdir() do outDir
@@ -108,7 +108,7 @@ end
             inputPath = joinpath(dir, "big.bin")
             write(inputPath, big)
 
-            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "big-pwd")
+            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "big-pwd", true)
 
             try
                 @test isfile(encryptedPath)
@@ -135,7 +135,7 @@ end
             inputPath = joinpath(dir, "empty.txt")
             write(inputPath, "")
 
-            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "empty-pwd")
+            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "empty-pwd", true)
 
             try
                 @test isfile(encryptedPath)
@@ -158,7 +158,7 @@ end
             encryptedPath = FileExchangeCtrl.encryptFile(
                 inputPath,
                 "locate-pwd",
-                ;useSourceFileName = false,
+                false,
             )
 
             try
@@ -178,7 +178,7 @@ end
             inputPath = joinpath(dir, "plain.txt")
             write(inputPath, "side-by-side")
 
-            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "side-pwd")
+            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "side-pwd", true)
 
             try
                 # Default behaviour: the encrypted file lives in the same
@@ -202,7 +202,7 @@ end
             encryptedPath = FileExchangeCtrl.encryptFile(
                 inputPath,
                 "explicit-pwd",
-                ;useSourceFileName = true,
+                true,
             )
 
             try
@@ -224,7 +224,7 @@ end
             encryptedPath = FileExchangeCtrl.encryptFile(
                 inputPath,
                 "remote-pwd",
-                ;useSourceFileName = false,
+                false,
             )
 
             try
@@ -247,7 +247,7 @@ end
             inputPath = joinpath(dir, "plain.txt")
             write(inputPath, "extension-check")
 
-            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "ext-pwd")
+            encryptedPath = FileExchangeCtrl.encryptFile(inputPath, "ext-pwd", true)
 
             try
                 # The output file is gpg-encrypted; surface that in the
@@ -267,7 +267,7 @@ end
             # gpg exits non-zero when the input file is missing; `run` rethrows
             # that as a ProcessFailedException.
             @test_throws ProcessFailedException FileExchangeCtrl.encryptFile(
-                missingPath, "any-pwd"
+                missingPath, "any-pwd", true,
             )
         end
     end

@@ -2,7 +2,7 @@
     FileExchangeCtrl.encryptFile(
         filePath::String,
         cryptPwd::String,
-        ;useSourceFileName::Bool = true,
+        useSourceFileName::Bool,
     )::String
 
 Encrypt a file using gpg and the provided `cryptPwd`. The returned
@@ -10,9 +10,9 @@ path always ends with `.gpg` so the file is recognised as a
 gpg-encrypted file by external tooling and round-trips cleanly with
 `FileExchangeCtrl.decryptFile`.
 
-By default (`useSourceFileName = true`), the encrypted file is created
-next to the source file, in the same directory and with the same
-basename plus the `.gpg` extension (e.g. `/tmp/foo.xml` →
+When `useSourceFileName` is `true`, the encrypted file is created next
+to the source file, in the same directory and with the same basename
+plus the `.gpg` extension (e.g. `/tmp/foo.xml` →
 `/tmp/foo.xml.gpg`). When `useSourceFileName` is `false`, the encrypted
 file is created in the system temp directory with a `tempname()`-generated
 basename plus the `.gpg` extension.
@@ -20,7 +20,7 @@ basename plus the `.gpg` extension.
 function FileExchangeCtrl.encryptFile(
     filePath::String,
     cryptPwd::String,
-    ;useSourceFileName::Bool = true,
+    useSourceFileName::Bool,
 )::String
 
     tempEncryptedFilePath = if useSourceFileName
