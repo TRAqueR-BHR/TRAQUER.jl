@@ -1,2 +1,5 @@
+include("_getRedisConnection.jl")
+include("_newRedisConnection.jl")
 include("get.jl")
 include("getInstanceMasterKey.jl")
+include("set.jl")

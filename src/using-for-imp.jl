@@ -2,8 +2,10 @@
 using PostgresORM,  LibPQ, TimeZones, Dates, ConfParser, Unicode, StringCases, Mocking,
       SplitApplyCombine, UUIDs, Serialization, ProgressMeter, Glob, StringEncodings,
       Languages, XLSX, SplitApplyCombine, CSV, Mux, SHA, PrettyPrint
+
 using ..TRAQUER, ..TRAQUERUtil
 import AWS
+import Redis
 import .TRAQUERUtil.Conf
 using Base.StackTraces
 using ..Controller.AnalysisResultCtrl,..Controller.StayCtrl,

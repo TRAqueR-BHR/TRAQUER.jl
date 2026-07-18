@@ -539,6 +539,7 @@ PostgresORM.ModificationORM.get_schema_name() = "supervision"
 
 const config = TRAQUERUtil.Conf.loadConf()
 const translation = TRAQUERUtil.loadTranslation()
+redisConn::Union{Redis.RedisConnection, Nothing} = nothing
 
 """
 Scheduler is of type `Timer` it executes every 45s to check whether there is a recurring
