@@ -165,7 +165,7 @@ function FileExchangeCtrl.downloadAndProcessFile(
     ;alsoProcessNewlyIntegratedData::Bool,
 )
 
-    cryptPwd = CacheCtrl.getInstanceMasterKey()
+    cryptPwd = MasterKeyCtrl.getMasterKey()
 
     FileExchangeCtrl.downloadAndProcessFile(
         fileURL,

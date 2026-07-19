@@ -5,7 +5,7 @@ function KdfChildKeyCtrl.generateAndSerializeChildKey(
 )::NamedTuple{(:ref, :childKeyHex), Tuple{Int16, String}}
 
     KdfChildKeyCtrl.generateAndSerializeChildKey(
-        CacheCtrl.getInstanceMasterKey(),
+        MasterKeyCtrl.getMasterKey(),
         infoPrefix,
         ttl,
         dbconn,

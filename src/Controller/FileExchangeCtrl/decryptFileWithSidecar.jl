@@ -22,7 +22,7 @@ function FileExchangeCtrl.decryptFileWithSidecar(
     # stored in the database. This is the same key that was used to encrypt the
     # file on the client side.
     childKeyHex::String = KdfChildKeyCtrl.deriveEncodedChildKey(
-        CacheCtrl.getInstanceMasterKey(),
+        MasterKeyCtrl.getMasterKey(),
         kdfChildKey.saltValue,
         kdfChildKey.info,
     )
