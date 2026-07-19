@@ -1,10 +1,15 @@
 using Revise
 include("../scripts/prerequisite.jl")
 
-using Test, Mocking, UUIDs, LibPQ, Random, JSON, XLSX, Dates
+using Test, Mocking, UUIDs, LibPQ, Random, JSON, XLSX, Dates, Redis
+
+function getDefaultMasterKeyWords()
+    return ["cat", "boat", "rain", "mill", "tree"]
+end
 
 function getDefaultEncryptionStr()
-    return "aaaaaaaxxxxxcccccc"
+    words = getDefaultMasterKeyWords()
+    return MasterKeyCtrl.generateMasterKeyFromWords(words)
 end
 
 function getRandomPatient(dbconn::LibPQ.Connection)

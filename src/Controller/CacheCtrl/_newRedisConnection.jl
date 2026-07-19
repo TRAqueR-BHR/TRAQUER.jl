@@ -1,4 +1,4 @@
-function CacheCtrl.newRedisConnection()
+function CacheCtrl._newRedisConnection()
     host     = Conf.getRedisHost()
     port     = Conf.getRedisPort()
     password = Conf.getRedisPassword()
