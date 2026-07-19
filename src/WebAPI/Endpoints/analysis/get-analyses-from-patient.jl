@@ -20,7 +20,7 @@ function WebAPI.Endpoints.handle_analysis_get_from_patient(req)
 
     status_code = try
         appuser  = req[:params][:appuser]
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
+        cryptPwd = MasterKeyCtrl.getMasterKey(failIfMissing = true))
         obj      = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
                        JSON.parse(String(req[:data])))
         patient  = json2entity(Patient, obj["patient"])

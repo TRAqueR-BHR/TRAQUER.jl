@@ -23,7 +23,7 @@ function WebAPI.Endpoints.handle_stay_listing(req)
 
     status_code = try
         appuser = req[:params][:appuser]
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
+        cryptPwd = MasterKeyCtrl.getMasterKey(failIfMissing = true))
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
             JSON.parse(String(req[:data])),
         )
