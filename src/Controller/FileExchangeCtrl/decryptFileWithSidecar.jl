@@ -4,6 +4,12 @@ function FileExchangeCtrl.decryptFileWithSidecar(
     dbconn::LibPQ.Connection
 )::String
 
+    cryptPwd::Union{Missing,String} = MasterKeyCtrl.getMasterKey()
+
+    if ismissing(cryptPwd)
+        error("Instance master key not set")
+    end
+
     childKeyRef::Int = FileExchangeCtrl.extractKdfChildKeyRefFromSidecarFile(sidecarFilePath)
 
     kdfChildKey::Union{Missing,Model.KdfChildKey} = PostgresORM.retrieve_one_entity(
@@ -22,7 +28,7 @@ function FileExchangeCtrl.decryptFileWithSidecar(
     # stored in the database. This is the same key that was used to encrypt the
     # file on the client side.
     childKeyHex::String = KdfChildKeyCtrl.deriveEncodedChildKey(
-        MasterKeyCtrl.getMasterKey(),
+        cryptPwd,
         kdfChildKey.saltValue,
         kdfChildKey.info,
     )

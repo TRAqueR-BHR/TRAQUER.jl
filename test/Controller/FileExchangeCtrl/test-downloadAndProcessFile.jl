@@ -12,6 +12,7 @@ include("__prerequisite.jl")
     fhir_output = ETLCtrl.Excel.convertExcelToFHIR(
         staysExcelFilePath, analysisExcelFilePath, xmlOutputFilePath
     )
+    MasterKeyCtrl.setMasterKey(_TestUtils.getDefaultMasterKeyWords())
 
     @testset "Test FileExchangeCtrl.downloadAndProcessFile - case fs:" begin
 

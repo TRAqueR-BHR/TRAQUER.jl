@@ -165,7 +165,11 @@ function FileExchangeCtrl.downloadAndProcessFile(
     ;alsoProcessNewlyIntegratedData::Bool,
 )
 
-    cryptPwd = MasterKeyCtrl.getMasterKey()
+    cryptPwd::Union{Missing,String} = MasterKeyCtrl.getMasterKey()
+
+    if ismissing(cryptPwd)
+        error("Instance master key not set")
+    end
 
     FileExchangeCtrl.downloadAndProcessFile(
         fileURL,
