@@ -8,3 +8,4 @@ function stringToHex end
 function hexToString end
 function stringToBase64 end
 function base64ToString end
+function stringToSHA256 end

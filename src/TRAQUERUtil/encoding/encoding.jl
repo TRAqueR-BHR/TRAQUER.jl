@@ -1,4 +1,9 @@
 import Base64
+import SHA
+
+function TRAQUERUtil.stringToSHA256(str::AbstractString)::Vector{UInt8}
+    return SHA.sha256(str)
+end
 
 function TRAQUERUtil.bytesToHex(bytes::AbstractVector{UInt8})::String
     return bytes2hex(bytes)

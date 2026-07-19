@@ -378,6 +378,10 @@ module Controller
     include("Controller/CacheCtrl/__def.jl")
   end
 
+  module MasterKeyCtrl
+    include("Controller/MasterKeyCtrl/__def.jl")
+  end
+
   module TaskWaitingForUserExecutionCtrl
       include("Controller/TaskWaitingForUserExecutionCtrl/__def.jl")
   end
@@ -508,6 +512,9 @@ include("Controller/ContactExposureCtrl/__imp.jl")
 
 # CacheCtrl
 include("Controller/CacheCtrl/__imp.jl")
+
+# MasterKeyCtrl
+include("Controller/MasterKeyCtrl/__imp.jl")
 
 # UnitCtrl
 include("Controller/UnitCtrl/UnitCtrl-imp.jl")

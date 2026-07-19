@@ -1,5 +1,6 @@
-include("_getRedisConnection.jl")
 include("_newRedisConnection.jl")
+include("delete.jl")
 include("get.jl")
 include("getInstanceMasterKey.jl")
 include("set.jl")
+include("setInstanceMasterKey.jl")
