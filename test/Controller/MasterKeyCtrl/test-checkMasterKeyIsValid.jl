@@ -15,7 +15,7 @@ include("__prerequisite.jl")
         @test result == false
 
         # Test with the default master key words - should return true
-        defaultWords = Main.getDefaultMasterKeyWords()
+        defaultWords = _TestUtils.getDefaultMasterKeyWords()
         validResult = MasterKeyCtrl.checkMasterKeyIsValid(defaultWords, dbconn)
         @test validResult == true
 
