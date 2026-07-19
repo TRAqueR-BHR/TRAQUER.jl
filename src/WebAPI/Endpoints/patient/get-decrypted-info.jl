@@ -23,7 +23,7 @@ function WebAPI.Endpoints.handle_patient_get_decrypted_info(req)
 
     status_code = try
         appuser = req[:params][:appuser]
-        cryptPwd = MasterKeyCtrl.getMasterKey(failIfMissing = true))
+        cryptPwd = MasterKeyCtrl.getMasterKey(failIfMissing = true)
         if ismissing(cryptPwd)
             error("Missing crypt password")
         end

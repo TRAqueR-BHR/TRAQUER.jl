@@ -43,6 +43,7 @@ function WebAPI.build_app()
         # Master key
         route("/api/master-key/check", Endpoints.handle_master_key_check),
         route("/api/master-key/set", Endpoints.handle_master_key_set),
+        route("/api/master-key/is-set", Endpoints.handle_master_key_is_set),
         # Misc
         route("/api/misc/get-current-frontend-version", Endpoints.handle_misc_get_frontend_version),
         route("/api/misc/name-of-dataset-password-header-for-http-request", Endpoints.handle_misc_dataset_password_header_name),

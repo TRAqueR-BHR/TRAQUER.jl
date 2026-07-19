@@ -24,7 +24,7 @@ function WebAPI.Endpoints.handle_outbreak_initialize(req)
     status_code = try
         appuser = req[:params][:appuser]
         @info "appuser[$(appuser.id)]"
-        cryptPwd = MasterKeyCtrl.getMasterKey(failIfMissing = true))
+        cryptPwd = MasterKeyCtrl.getMasterKey(failIfMissing = true)
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
             JSON.parse(String(req[:data])),
         )

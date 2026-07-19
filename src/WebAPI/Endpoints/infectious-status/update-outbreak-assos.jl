@@ -23,7 +23,7 @@ function WebAPI.Endpoints.handle_infectious_status_update_outbreak_assos(req)
 
     status_code = try
         appuser = req[:params][:appuser]
-        cryptPwd = MasterKeyCtrl.getMasterKey(failIfMissing = true))
+        cryptPwd = MasterKeyCtrl.getMasterKey(failIfMissing = true)
         obj = PostgresORM.PostgresORMUtil.dictnothingvalues2missing(
             JSON.parse(String(req[:data])),
         )
