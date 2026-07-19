@@ -7,3 +7,6 @@ function createDummyCarrierInfectiousStatus end
 function deleteDummyInfectiousStatus end
 function createDummyStays end
 function createDummyHistoryOfACarrierPatient end
+function getDefaultMasterKeyWords end
+function getDefaultEncryptionStr end
+function getRandomPatient end

@@ -9,7 +9,9 @@ module _TestUtils
     using TRAQUER.Controller.UnitCtrl
     using TRAQUER.Controller.StayCtrl
     using TRAQUER.Controller.InfectiousStatusCtrl
+    using TRAQUER.Controller.MasterKeyCtrl
     using TRAQUER.Model
+    using PostgresORM
     using TRAQUER.Enum.InfectiousAgentCategory
     using TRAQUER.Enum.InfectiousStatusType
 
