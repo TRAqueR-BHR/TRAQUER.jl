@@ -24,19 +24,24 @@ The pipeline runs as follows:
 4. Decrypt the file with the derived child key hex as the gpg
    passphrase.
 5. Parse the decrypted XML into analyses and stays DataFrames and
-   import them through the ETL controllers. If `alsoProcessNewlyIntegratedData`
-   is `true`, also trigger downstream processing of the newly integrated
-   data.
+   import them through the ETL controllers. The error DataFrames
+   returned by `FileExchangeCtrl.processDecryptedXmlFile` are serialized
+   to the per-file problems sub-directory (locally for `file://`, to
+   S3 for `s3://`); if either is non-empty an exception is thrown so the
+   catch block moves the crypted file and its sidecar alongside the
+   diagnostics. If `alsoProcessNewlyIntegratedData` is `true`, also
+   trigger downstream processing of the newly integrated data.
 6. Move the crypted file and its sidecar to the "done" directory
    (`Conf.getS3DoneInputFilesDir()` or `Conf.getFSDoneInputFilesDir()`
    depending on the URL scheme).
 
 If anything fails, the catch block moves the crypted file and sidecar
-to the "problems" directory
+to the per-file "problems" sub-directory
 (`Conf.getS3InputFilesProblemsDir()` or
-`Conf.getFSInputFilesProblemsDir()` depending on the URL scheme) and
-notifies the admins via `ExceptionCtrl.logExceptionAndNotifyAdmin`. The
-finally block removes the decrypted file and the local sidecar copy.
+`Conf.getFSInputFilesProblemsDir()` derived via
+`FileExchangeCtrl.createProblemsSubDirForXmlFile`) and notifies the
+admins via `ExceptionCtrl.logExceptionAndNotifyAdmin`. The finally
+block removes the decrypted file and the local sidecar copy.
 
 `cryptPwd` is the user-supplied passphrase used to decrypt patient
 records stored encrypted in the database; it is forwarded unchanged to
@@ -55,6 +60,12 @@ function FileExchangeCtrl.downloadAndProcessFile(
 )
 
     parsedFileURL = FileExchangeCtrl.parseFileURL(fileURL)
+
+    # Pre-compute the per-file problems sub-directory so it is available
+    # both for serializing ETL row-level errors and for the catch block.
+    problemsSubDir = FileExchangeCtrl.createProblemsSubDirForXmlFile(
+        fileURL, parsedFileURL,
+    )
 
     # Create a per-invocation sub-directory inside the processing dir so concurrent
     # calls don't clash on file basenames.
@@ -101,13 +112,48 @@ function FileExchangeCtrl.downloadAndProcessFile(
         )
 
         # Parse the decrypted XML, import analyses and stays, and trigger downstream
-        # processing of the newly integrated data.
-        FileExchangeCtrl.processDecryptedXmlFile(
+        # processing of the newly integrated data. The returned DataFrames describe
+        # any per-row ETL failures.
+        resultOfProcessing = FileExchangeCtrl.processDecryptedXmlFile(
             decryptedFilePath,
             cryptPwd,
             dbconn,
             ;alsoProcessNewlyIntegratedData = alsoProcessNewlyIntegratedData,
         )
+
+        # If any row failed during ETL, persist the per-row diagnostics
+        # alongside the crypted file and throw so the catch block can move the
+        # file/sidecar into the same problems sub-directory. The 2-argument
+        # `serializeRowsInError` interprets `outputPath`:
+        #   - `s3://bucket/key`     → upload to S3
+        #   - `file://...` or plain → write to local FS
+        # so we just build the appropriate URL based on `parsedFileURL`.
+        xmlBasename = splitext(basename(cryptedFilePath))[1]
+        for (label, dfInError) in (
+            ("analyses", resultOfProcessing.dfOfAnalysesInError),
+            ("stays", resultOfProcessing.dfOfStaysInError),
+        )
+            if !isempty(dfInError)
+                relativeOutputPath = joinpath(
+                    problemsSubDir,
+                    "$(xmlBasename)-$(label)-in-error.csv",
+                )
+                outputPath = if parsedFileURL.scheme === :s3
+                    "s3://$(parsedFileURL.bucket)/$(relativeOutputPath)"
+                else
+                    relativeOutputPath
+                end
+                ETLCtrl.serializeRowsInError(dfInError, outputPath)
+            end
+        end
+
+        if !isempty(resultOfProcessing.dfOfAnalysesInError) ||
+           !isempty(resultOfProcessing.dfOfStaysInError)
+            error(
+                "Rows in error while processing the XML file. " *
+                "See $(problemsSubDir) for the line-by-line errors."
+            )
+        end
 
         # On success, move the crypted file and its sidecar to the "done" directory
         FileExchangeCtrl.moveCryptedAndSidecarFilesToDoneDir(
@@ -116,7 +162,7 @@ function FileExchangeCtrl.downloadAndProcessFile(
 
     catch e
         # On any failure, move the crypted file and its sidecar (when present)
-        # to the "problems" directory and notify the admins.
+        # to the per-file problems sub-directory and notify the admins.
         ExceptionCtrl.logExceptionAndNotifyAdmin(
             e, stacktrace(catch_backtrace()),
         )
@@ -124,6 +170,7 @@ function FileExchangeCtrl.downloadAndProcessFile(
             try
                 FileExchangeCtrl.moveCryptedAndSidecarFilesToProblemsDir(
                     cryptedFilePath, sidecarFilePath, parsedFileURL,
+                    problemsSubDir,
                 )
             catch moveEx
                 ExceptionCtrl.logExceptionAndNotifyAdmin(

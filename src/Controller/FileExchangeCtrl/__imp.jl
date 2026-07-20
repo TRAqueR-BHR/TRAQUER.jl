@@ -1,3 +1,4 @@
+include("createProblemsSubDirForXmlFile.jl")
 include("createSidecarFile.jl")
 include("decryptFile.jl")
 include("decryptFileWithSidecar.jl")
