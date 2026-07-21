@@ -1,3 +1,4 @@
+function createProblemsSubDirForXmlFile end
 function createSidecarFile end
 function decryptFile end
 function decryptFileWithSidecar end

@@ -17,4 +17,17 @@ include("__prerequisite.jl")
 
     @test TRAQUERUtil.stringToBase64("Hé") == "SMOp"
     @test TRAQUERUtil.base64ToString("SMOp") == "Hé"
+
+    # Test stringToSHA256
+    # SHA256 of "hello" = 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824
+    hello_sha256 = TRAQUERUtil.stringToSHA256("hello")
+    @test length(hello_sha256) == 32  # SHA256 produces 32 bytes
+    @test TRAQUERUtil.bytesToHex(hello_sha256) == "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+
+    # Test consistency
+    @test TRAQUERUtil.stringToSHA256("test") == TRAQUERUtil.stringToSHA256("test")
+
+    # Test different inputs produce different outputs
+    @test TRAQUERUtil.stringToSHA256("hello") != TRAQUERUtil.stringToSHA256("world")
+
 end

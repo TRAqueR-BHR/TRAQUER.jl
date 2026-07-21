@@ -2,7 +2,7 @@
 
 julia_version = "1.10.7"
 manifest_format = "2.0"
-project_hash = "71b2953be384bea90fd4b3dacf3313940566aba7"
+project_hash = "d62c89dc0b2b3bb625dbc450da8598ba4d90b7c6"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "ScopedValues", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -821,6 +821,12 @@ deps = ["PrecompileTools"]
 git-tree-sha1 = "5c3d09cc4f31f5fc6af001c250bf1278733100ff"
 uuid = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
 version = "1.3.4"
+
+[[deps.Redis]]
+deps = ["DataStructures", "Dates", "MbedTLS", "Sockets"]
+git-tree-sha1 = "11d3ea16cd3d71ad34b2b873f5d8bbf8b258045e"
+uuid = "0cf705f9-a9e2-50d1-a699-2b372a39b750"
+version = "3.1.0"
 
 [[deps.Reexport]]
 git-tree-sha1 = "45e428421666073eab6f2da5c9d310d99bb12f9b"

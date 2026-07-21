@@ -4,8 +4,14 @@ function KdfChildKeyCtrl.generateAndSerializeChildKey(
     dbconn::LibPQ.Connection,
 )::NamedTuple{(:ref, :childKeyHex), Tuple{Int16, String}}
 
+    cryptPwd::Union{Missing,String} = MasterKeyCtrl.getMasterKey()
+
+    if ismissing(cryptPwd)
+        error("Instance master key not set")
+    end
+
     KdfChildKeyCtrl.generateAndSerializeChildKey(
-        CacheCtrl.getInstanceMasterKey(),
+        cryptPwd,
         infoPrefix,
         ttl,
         dbconn,

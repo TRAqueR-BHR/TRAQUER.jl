@@ -1,4 +1,5 @@
 function createPendingTask end
+function _splitS3URLForSerializeRowsInError end
 function getMaxProcessingTime end
 function importAnalyses end
 function importAnalysesDF end

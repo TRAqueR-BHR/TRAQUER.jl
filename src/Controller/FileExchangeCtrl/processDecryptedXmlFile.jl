@@ -7,9 +7,11 @@
     )
 
 Run the ETL pipeline against a decrypted FHIR XML file:
-1. Parse analyses and stays from the XML into DataFrames.
-2. Import the analyses DataFrame.
-3. Import the stays DataFrame.
+1. Parse stays and analyses from the XML into DataFrames.
+2. Import the stays DataFrame (must run before the analyses, since
+   `ETLCtrl.importAnalysesDF` looks up the stay for each analysis by
+   the analysis request time).
+3. Import the analyses DataFrame.
 4. If `alsoProcessNewlyIntegratedData` is `true`, trigger downstream
    processing of the newly integrated data
    (`ETLCtrl.processNewlyIntegratedData`) so that any infectious
@@ -18,6 +20,13 @@ Run the ETL pipeline against a decrypted FHIR XML file:
    downstream processing step is skipped — useful for callers that
    want to batch several imports before triggering the (relatively
    expensive) post-processing step.
+
+Returns a `NamedTuple` `(dfOfAnalysesInError, dfOfStaysInError)` of
+DataFrames. Each frame contains the rows of analyses/stays that could
+not be integrated (columns `lineNumInSrcFile` and `error`); both
+frames are empty on full success. The caller is responsible for
+surfacing these failures (for example, by serializing them and
+promoting the failure to an exception).
 
 `encryptionStr` is the user-supplied passphrase used to decrypt patient
 records stored encrypted in the database. It is forwarded unchanged to
@@ -30,16 +39,19 @@ function FileExchangeCtrl.processDecryptedXmlFile(
     ;alsoProcessNewlyIntegratedData::Bool,
 )
 
-    dfOfAnalyses = ETLCtrl.FHIR.parseXMLToAnalysesDF(decryptedXmlFilePath)
-    ETLCtrl.importAnalysesDF(dfOfAnalyses, encryptionStr)
-
     dfOfStays = ETLCtrl.FHIR.parseXMLToStaysDF(decryptedXmlFilePath)
-    ETLCtrl.importStaysDF(dfOfStays, encryptionStr)
+    dfOfStaysInError = ETLCtrl.importStaysDF(dfOfStays, encryptionStr)
+
+    dfOfAnalyses = ETLCtrl.FHIR.parseXMLToAnalysesDF(decryptedXmlFilePath)
+    dfOfAnalysesInError = ETLCtrl.importAnalysesDF(dfOfAnalyses, encryptionStr)
 
     if alsoProcessNewlyIntegratedData
         ETLCtrl.processNewlyIntegratedData(dbconn)
     end
 
-    return nothing
+    return (
+        dfOfAnalysesInError = dfOfAnalysesInError,
+        dfOfStaysInError = dfOfStaysInError,
+    )
 
 end

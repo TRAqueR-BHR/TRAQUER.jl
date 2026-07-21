@@ -23,7 +23,7 @@ function WebAPI.Endpoints.handle_patient_listing(req)
 
     status_code = try
         appuser = req[:params][:appuser]
-        cryptPwd = TRAQUERUtil.extractCryptPwdFromHTTPHeader(req)
+        cryptPwd = MasterKeyCtrl.getMasterKey(failIfMissing = true)
         if ismissing(cryptPwd)
             error("Missing crypt password")
         end

@@ -24,6 +24,7 @@
 @everywhere import TRAQUER.Controller.DeletedInfectiousStatusCtrl
 @everywhere import TRAQUER.Controller.ContactExposureCtrl
 @everywhere import TRAQUER.Controller.CacheCtrl
+@everywhere import TRAQUER.Controller.MasterKeyCtrl
 @everywhere import TRAQUER.Controller.AppuserCtrl
 @everywhere import TRAQUER.Controller.OutbreakCtrl
 @everywhere import TRAQUER.Controller.OutbreakUnitAssoCtrl
