@@ -1,3 +1,3 @@
 function _TestUtils.getDefaultMasterKeyWords()
-    return ["cat", "boat", "rain", "mill", "tree"]
+    return ["lessive", "batterie", "chaton", "coton", "dortoir"]
 end
