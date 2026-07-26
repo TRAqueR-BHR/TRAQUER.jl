@@ -111,6 +111,13 @@ function ETLCtrl.processNewlyIntegratedData(
     end
 
     @info "
+    # ################################################# #
+    # Refresh the monitoring scopes of patients at risk #
+    # ################################################# #
+    "
+    ETLCtrl.ScopeCtrl.refreshStayMonitoringScopes(dbconn)
+
+    @info "
     # ############################################ #
     # Process new data to deduce the contact cases #
     # ############################################ #

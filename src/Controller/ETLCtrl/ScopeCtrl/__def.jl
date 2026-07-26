@@ -4,3 +4,4 @@ function buildStayExtractionScope end
 function createStayMonitoringScopeListIfNotExist end
 function createStayExtractionScope end
 function prepareStayExtractionScopeDTO end
+function refreshStayMonitoringScopes end

@@ -69,3 +69,5 @@ function generateSuspicionStatusesFromAnalyses end
 function getInfectiousStatusesOfInterestOverPeriod end
 
 function getTimeWherePatientBecameCarrierOrSuspicion end
+
+function getCurrentInfectiousStatusesAtRisk end
