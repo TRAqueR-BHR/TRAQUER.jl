@@ -2,7 +2,7 @@
 
 ## Connect to redis from the container
 ```bash
-docker exec -it traquer-redis redis-cli
+docker exec -it <traquer-redis-container> redis-cli
 ```
 
 Once on the redis-cli, you can use the following commands to authenticate and select the database:
