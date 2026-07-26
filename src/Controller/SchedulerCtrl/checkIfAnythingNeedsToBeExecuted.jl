@@ -14,16 +14,16 @@ function SchedulerCtrl.checkIfAnythingNeedsToBeExecuted()
         #     _functionName = :dumpDatabaseAndCleanOldDumps,
         #     _execution_times = SchedulerCtrl.every2Hours
         # ),
-        (
-            _module = ETLCtrl,
-            _functionName = :createPendingTask,
-            _execution_times = SchedulerCtrl.every5Minutes
-        ),
-        (
-            _module = EventRequiringAttentionCtrl,
-            _functionName = :notifyTeamOfNewImportantEvents,
-            _execution_times = SchedulerCtrl.every5Minutes
-        ),
+        # (
+        #     _module = ETLCtrl,
+        #     _functionName = :createPendingTask,
+        #     _execution_times = SchedulerCtrl.every5Minutes
+        # ),
+        # (
+        #     _module = EventRequiringAttentionCtrl,
+        #     _functionName = :notifyTeamOfNewImportantEvents,
+        #     _execution_times = SchedulerCtrl.every5Minutes
+        # ),
         (
             _module = TRAQUER,
             _functionName = :greet,
