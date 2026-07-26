@@ -70,6 +70,8 @@ function WebAPI.build_app()
         route("/api/role/composed-roles-for-listing", Endpoints.handle_role_composed_for_listing),
         route("/api/role/all-composed-roles", Endpoints.handle_role_all_composed),
         route("/api/role/all-composed-roles/:appuser_type", Endpoints.handle_role_all_composed_by_type),
+        # Scope
+        route("/api/scope/get-stay-extraction-scopes", Endpoints.handle_scope_get_stay_extraction_scopes),
         # Stay
         route("/api/stay/listing", Endpoints.handle_stay_listing),
         route("/api/stay/upsert", Endpoints.handle_stay_upsert),
