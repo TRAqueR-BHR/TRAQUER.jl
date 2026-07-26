@@ -31,10 +31,22 @@ function ExceptionCtrl.logExceptionAndNotifyAdmin(
     @error message
 
     # Notify the admins
-    NotificationCtrl.notifyAdmin(
-        "Error in $(Conf.getInstanceCodeName())" ,
-        message
-        ;canNotifyAdminByEmail = canNotifyAdminByEmail
-    )
+    try
+        NotificationCtrl.notifyAdmin(
+            "Error in $(Conf.getInstanceCodeName())" ,
+            message
+            ;canNotifyAdminByEmail = canNotifyAdminByEmail
+        )
+    catch e
+        # Get terror message and stack trace of the exception raised while notifying the admin
+        terror = string(e)
+        tstacktrace = stacktrace(catch_backtrace())
+        @error "Error raised while notifying the admin"
+        @error ExceptionCtrl.formatExceptionAndStackTrace(
+            e,
+            tstacktrace
+        )
+    end
+
 
 end
