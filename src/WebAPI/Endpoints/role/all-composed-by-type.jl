@@ -30,7 +30,7 @@ function WebAPI.Endpoints.handle_role_all_composed_by_type(req)
         )
         200
     catch e
-        TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
+        ExceptionCtrl.logExceptionAndNotifyAdmin(e, stacktrace(catch_backtrace()))
         error = e
         500
     end

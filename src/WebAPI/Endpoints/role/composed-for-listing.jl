@@ -26,7 +26,7 @@ function WebAPI.Endpoints.handle_role_composed_for_listing(req)
         queryResult = AppuserCtrl.getComposedRolesForListing(appuser)
         200
     catch e
-        TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
+        ExceptionCtrl.logExceptionAndNotifyAdmin(e, stacktrace(catch_backtrace()))
         error = e
         500
     end

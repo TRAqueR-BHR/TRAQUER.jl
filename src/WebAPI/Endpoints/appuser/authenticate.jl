@@ -14,7 +14,7 @@ function WebAPI.Endpoints.handle_authenticate(req)
         result = String(JSON.json(appuser))
         200
     catch e
-        TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
+        ExceptionCtrl.logExceptionAndNotifyAdmin(e, stacktrace(catch_backtrace()))
         error = e
         500
     end

@@ -39,7 +39,7 @@ function WebAPI.Endpoints.handle_stay_save_isolation_date(req)
         end
         200
     catch e
-        TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
+        ExceptionCtrl.logExceptionAndNotifyAdmin(e, stacktrace(catch_backtrace()))
         if e isa CapturedException && e.ex isa NoStayFoundError
             error = e.ex.msg
             409

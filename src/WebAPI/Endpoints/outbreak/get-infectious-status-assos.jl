@@ -40,7 +40,7 @@ function WebAPI.Endpoints.handle_outbreak_get_infectious_status_assos(req)
         end
         200
     catch e
-        TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
+        ExceptionCtrl.logExceptionAndNotifyAdmin(e, stacktrace(catch_backtrace()))
         error = e
         500
     end

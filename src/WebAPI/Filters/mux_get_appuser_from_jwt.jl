@@ -59,7 +59,11 @@ function WebAPI.Filters.mux_get_appuser_from_jwt(app, req)
                         true,
                     )
                 catch e
-                    @warn TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
+                    ExceptionCtrl.logExceptionAndNotifyAdmin(
+                        e,
+                        stacktrace(catch_backtrace());
+                        canNotifyAdminByEmail = false,
+                    )
                     missing
                 end
             end
@@ -74,7 +78,10 @@ function WebAPI.Filters.mux_get_appuser_from_jwt(app, req)
 
         return app(req)
     catch e
-        @error "Error in JWT filter: $(TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace())))"
+        ExceptionCtrl.logExceptionAndNotifyAdmin(
+            e,
+            stacktrace(catch_backtrace()),
+        )
         return Dict(
             :status => 500,
             :headers => Dict("Content-Type" => "application/json"),

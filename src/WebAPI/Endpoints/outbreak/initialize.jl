@@ -46,7 +46,7 @@ function WebAPI.Endpoints.handle_outbreak_initialize(req)
         end
         200
     catch e
-        TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
+        ExceptionCtrl.logExceptionAndNotifyAdmin(e, stacktrace(catch_backtrace()))
         if e isa CapturedException && e.ex isa OutbreakNameAlreadyUsedError
             error = e.ex.msg
             409

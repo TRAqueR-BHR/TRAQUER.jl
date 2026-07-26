@@ -34,7 +34,7 @@ function WebAPI.Endpoints.handle_patient_get_decrypted_info(req)
         end
         200
     catch e
-        TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
+        ExceptionCtrl.logExceptionAndNotifyAdmin(e, stacktrace(catch_backtrace()))
         error = e
         500
     end

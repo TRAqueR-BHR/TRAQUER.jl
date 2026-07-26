@@ -26,7 +26,7 @@ function WebAPI.Endpoints.handle_appuser_get_all_users(req)
         queryResult = AppuserCtrl.getAppusersForListing(appuser)
         200
     catch e
-        TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
+        ExceptionCtrl.logExceptionAndNotifyAdmin(e, stacktrace(catch_backtrace()))
         rethrow(e)
     end
 

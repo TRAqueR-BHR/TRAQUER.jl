@@ -36,7 +36,7 @@ function WebAPI.Endpoints.handle_task_execute_pending(req)
         success = true
         200
     catch e
-        TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
+        ExceptionCtrl.logExceptionAndNotifyAdmin(e, stacktrace(catch_backtrace()))
         error = e
         500
     end

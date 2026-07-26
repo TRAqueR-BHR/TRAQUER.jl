@@ -36,7 +36,7 @@ function WebAPI.Endpoints.handle_file_exchange_get_s3_presigned_upload_url_and_k
 
         200
     catch e
-        TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
+        ExceptionCtrl.logExceptionAndNotifyAdmin(e, stacktrace(catch_backtrace()))
         error = e
         500
     end

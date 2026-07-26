@@ -24,7 +24,7 @@ function WebAPI.Endpoints.handle_master_key_is_set(req)
         isSet = !ismissing(masterKey) && !isempty(masterKey)
         200
     catch e
-        TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
+        ExceptionCtrl.logExceptionAndNotifyAdmin(e, stacktrace(catch_backtrace()))
         error = e
         500
     end

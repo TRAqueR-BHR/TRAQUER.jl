@@ -27,7 +27,7 @@ function WebAPI.Endpoints.handle_enum_possible_values(req)
         possibleValues = TRAQUERUtil.listEnums(enumType; appuser = appuser)
         200
     catch e
-        TRAQUERUtil.formatExceptionAndStackTrace(e, stacktrace(catch_backtrace()))
+        ExceptionCtrl.logExceptionAndNotifyAdmin(e, stacktrace(catch_backtrace()))
         error = e
         500
     end
