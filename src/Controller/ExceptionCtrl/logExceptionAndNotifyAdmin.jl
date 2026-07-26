@@ -39,7 +39,6 @@ function ExceptionCtrl.logExceptionAndNotifyAdmin(
         )
     catch e
         # Get terror message and stack trace of the exception raised while notifying the admin
-        terror = string(e)
         tstacktrace = stacktrace(catch_backtrace())
         @error "Error raised while notifying the admin"
         @error ExceptionCtrl.formatExceptionAndStackTrace(
