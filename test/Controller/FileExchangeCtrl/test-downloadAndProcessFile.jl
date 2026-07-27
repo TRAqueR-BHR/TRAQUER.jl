@@ -46,7 +46,7 @@ include("__prerequisite.jl")
             refAndChildKey.ref
         )
 
-        # Call the endpoint
+        # Call the controller function to download and process the file
         TRAQUERUtil.createDBConnAndExecute() do dbconn
             FileExchangeCtrl.downloadAndProcessFile(
                 "file://$cryptFilePathInPendingDir",
