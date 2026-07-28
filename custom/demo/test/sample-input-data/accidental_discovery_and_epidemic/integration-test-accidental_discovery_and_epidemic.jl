@@ -30,6 +30,9 @@ TRAQUERUtil.createDBConnAndExecute() do dbconn
     "DELETE FROM contact_exposure" |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
+    "DELETE FROM analysis_ref_crypt" |>
+    n -> PostgresORM.execute_plain_query(n,missing,dbconn)
+
 end
 
 # Load all stays and analyses in one dataframe
