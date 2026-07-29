@@ -67,6 +67,12 @@ function ETLCtrl.ScopeCtrl.mergeStayExtractionScopeDTOs(
             )
         end
 
+        # Concatenate the extraction scope IDs from both DTOs
+        extractionScopesIds = vcat(
+            existingStayExtractionScopeDTO.extractionScopesIds,
+            stayExtractionScopeDTO.extractionScopesIds,
+        )
+
         mergedByTarget[key] = Model.DTO.StayExtractionScopeDTO(
             id = existingStayExtractionScopeDTO.id,
             requestTime = requestTime,
@@ -74,6 +80,7 @@ function ETLCtrl.ScopeCtrl.mergeStayExtractionScopeDTOs(
             periodOiEndTime = periodOiEndTime,
             monitoredUnitCodeName = existingStayExtractionScopeDTO.monitoredUnitCodeName,
             monitoredPatientRef = existingStayExtractionScopeDTO.monitoredPatientRef,
+            extractionScopesIds = extractionScopesIds,
         )
     end
 

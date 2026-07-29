@@ -25,6 +25,9 @@ mutable struct StayExtractionScopeDTO <: IStayExtractionScopeDTO
   # NOTE: Derived from StayMonitoringScope.monitoredPatient
   monitoredPatientRef::Union{Missing,String}
 
+  # List of StayExtractionScope.id merged into this StayExtractionScopeDTO
+  extractionScopesIds::Union{Missing,Vector{String}}
+
   StayExtractionScopeDTO(args::NamedTuple) = StayExtractionScopeDTO(;args...)
   StayExtractionScopeDTO(;
     id = missing,
@@ -33,14 +36,16 @@ mutable struct StayExtractionScopeDTO <: IStayExtractionScopeDTO
     periodOiEndTime = missing,
     monitoredUnitCodeName = missing,
     monitoredPatientRef = missing,
+    extractionScopesIds = missing,
   ) = begin
-    x = new(missing,missing,missing,missing,missing,missing,)
+    x = new(missing,missing,missing,missing,missing,missing,missing)
     x.id = id
     x.requestTime = requestTime
     x.periodOiStartTime = periodOiStartTime
     x.periodOiEndTime = periodOiEndTime
     x.monitoredUnitCodeName = monitoredUnitCodeName
     x.monitoredPatientRef = monitoredPatientRef
+    x.extractionScopesIds = extractionScopesIds
     return x
   end
 

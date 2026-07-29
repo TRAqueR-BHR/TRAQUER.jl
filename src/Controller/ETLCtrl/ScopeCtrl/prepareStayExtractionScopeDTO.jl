@@ -47,6 +47,7 @@ function ETLCtrl.ScopeCtrl.prepareStayExtractionScopeDTO(
         periodOiEndTime = stayExtractionScope.periodOiEndTime,
         monitoredUnitCodeName = monitoredUnitCodeName,
         monitoredPatientRef = monitoredPatientRef,
+        extractionScopesIds = [stayExtractionScope.id],
     )
 
 end
