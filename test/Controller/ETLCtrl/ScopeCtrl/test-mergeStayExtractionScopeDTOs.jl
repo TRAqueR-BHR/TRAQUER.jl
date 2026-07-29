@@ -11,6 +11,7 @@ include("__prerequisite.jl")
             periodOiEndTime = ZonedDateTime(DateTime("2024-01-02T12:00:00"), timeZone),
             monitoredUnitCodeName = "REA-A",
             monitoredPatientRef = missing,
+            extractionScopesIds = ["dto-1"],
         ),
         Model.DTO.StayExtractionScopeDTO(
             id = "dto-2",
@@ -19,6 +20,7 @@ include("__prerequisite.jl")
             periodOiEndTime = ZonedDateTime(DateTime("2024-01-02T13:00:00"), timeZone),
             monitoredUnitCodeName = "REA-A",
             monitoredPatientRef = missing,
+            extractionScopesIds = ["dto-2"],
         ),
         Model.DTO.StayExtractionScopeDTO(
             id = "dto-3",
@@ -27,6 +29,7 @@ include("__prerequisite.jl")
             periodOiEndTime = ZonedDateTime(DateTime("2024-01-04T08:00:00"), timeZone),
             monitoredUnitCodeName = missing,
             monitoredPatientRef = "PAT-001",
+            extractionScopesIds = ["dto-3"],
         ),
         Model.DTO.StayExtractionScopeDTO(
             id = "dto-4",
@@ -35,6 +38,7 @@ include("__prerequisite.jl")
             periodOiEndTime = ZonedDateTime(DateTime("2024-01-04T09:00:00"), timeZone),
             monitoredUnitCodeName = missing,
             monitoredPatientRef = "PAT-001",
+            extractionScopesIds = ["dto-4"],
         ),
         Model.DTO.StayExtractionScopeDTO(
             id = "dto-5",
@@ -43,6 +47,7 @@ include("__prerequisite.jl")
             periodOiEndTime = ZonedDateTime(DateTime("2024-01-05T09:00:00"), timeZone),
             monitoredUnitCodeName = "REA-B",
             monitoredPatientRef = missing,
+            extractionScopesIds = ["dto-5"],
         ),
         Model.DTO.StayExtractionScopeDTO(
             id = "dto-6",
@@ -51,6 +56,7 @@ include("__prerequisite.jl")
             periodOiEndTime = missing,
             monitoredUnitCodeName = "REA-B",
             monitoredPatientRef = missing,
+            extractionScopesIds = ["dto-6"],
         ),
     ]
 
@@ -70,6 +76,7 @@ include("__prerequisite.jl")
           ZonedDateTime(DateTime("2024-01-02T13:00:00"), timeZone)
     @test unitScope.requestTime ==
           ZonedDateTime(DateTime("2024-01-03T09:00:00"), timeZone)
+    @test unitScope.extractionScopesIds == ["dto-1", "dto-2"]
 
     patientScope = only(filter(
         x -> !ismissing(x.monitoredPatientRef) && x.monitoredPatientRef == "PAT-001",
@@ -81,6 +88,7 @@ include("__prerequisite.jl")
           ZonedDateTime(DateTime("2024-01-04T09:00:00"), timeZone)
     @test patientScope.requestTime ==
           ZonedDateTime(DateTime("2024-01-04T08:00:00"), timeZone)
+    @test patientScope.extractionScopesIds == ["dto-3", "dto-4"]
 
     untouchedScope = only(filter(
         x -> !ismissing(x.monitoredUnitCodeName) && x.monitoredUnitCodeName == "REA-B",
@@ -91,4 +99,5 @@ include("__prerequisite.jl")
     @test ismissing(untouchedScope.periodOiEndTime)
     @test untouchedScope.requestTime ==
           ZonedDateTime(DateTime("2024-01-05T07:00:00"), timeZone)
+    @test untouchedScope.extractionScopesIds == ["dto-5", "dto-6"]
 end
