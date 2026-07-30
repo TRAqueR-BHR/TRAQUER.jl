@@ -26,6 +26,10 @@ function ETLCtrl.ScopeCtrl.buildStayExtractionScope(
         periodOiStartTime = periodOiStartTime,
         periodOiEndTime = periodOiEndTime,
         requestTime = requestTime,
+        id = UUIDs.uuid4() |> string # Initialize the id here instead of letting the database
+                                     # generate it, so that unit tests involving the creation
+                                     # of StayExtractionScopeDTO dont fail when trying to
+                                     # set extractionScopesIds::Vector{String}
     )
 
 end
