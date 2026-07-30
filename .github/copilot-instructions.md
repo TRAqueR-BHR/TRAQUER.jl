@@ -80,10 +80,12 @@ ETL operations in `ETLCtrl` follow pattern:
 - JWT keys referenced by URI in `[security]` section
 
 ## Web API
-- Route definitions in `scripts/web/api-def/*.jl`
-- JWT authentication except for paths in `apis_paths_wo_jwt`
-- CORS handling with dynamic headers including custom encryption headers
-- WebSocket support defined in `web-socket-definition.jl`
+- API code now lives under `src/WebAPI/`; see `src/WebAPI/AGENTS.md` for the full endpoint recipe.
+- Routes are registered centrally in `src/WebAPI/buildApp.jl`; do not add new routes under the legacy `scripts/web/api-def/` path.
+- Endpoint handlers live in `src/WebAPI/Endpoints/<group>/`, with one file per handler plus matching `__def.jl` and `__imp.jl` entries.
+- JWT authentication is handled by `src/WebAPI/Filters/mux_get_appuser_from_jwt.jl`; public paths are listed in `src/WebAPI/_const.jl` as `apis_paths_wo_jwt`.
+- CORS preflight responses are built by `src/WebAPI/utils/_respFor_OPTIONS_req.jl`; handlers should return it immediately for `OPTIONS` requests.
+- Start the Mux app through `WebAPI.serve(host, port)` in `src/WebAPI/serve.jl`; scripts under `scripts/web/` are only launch/refresh helpers.
 
 ## Critical Domain Concepts
 - `InfectiousStatus` drives `EventRequiringAttention` generation
