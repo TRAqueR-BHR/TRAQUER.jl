@@ -9,6 +9,7 @@ keeping the lowest start time and the highest end time.
 function ETLCtrl.ScopeCtrl.mergeStayExtractionScopeDTOs(
     stayExtractionScopeDTOs::Vector{Model.DTO.StayExtractionScopeDTO},
 )::Vector{Model.DTO.StayExtractionScopeDTO}
+
     # Group DTOs by their extraction target: unit and/or patient.
     mergedByTarget = Dict{
         Tuple{Union{Missing, String}, Union{Missing, String}},
