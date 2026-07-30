@@ -9,7 +9,7 @@ MaintenanceCtrl.resetDatabase(resetStays = true, resetPatients = true)
 
 @time TRAQUER.Custom.importStays(
     "dxcare-from-2022-12-01-00-00-00-to-2023-10-14-00-00-00.csv",
-    getDefaultEncryptionStr(),
+    _TestUtils.getDefaultEncryptionStr(),
     ;maxNumberOfLinesToIntegrate = 100,
     moveFileToDoneDir = false
 ) # 349.047879 seconds for 1 worker and 100 records
@@ -17,7 +17,7 @@ MaintenanceCtrl.resetDatabase(resetStays = true, resetPatients = true)
 
 @time TRAQUER.Custom.importAnalyses(
     "inlog-from-2022-12-01-00-00-00-to-2023-10-14-00-00-00.csv",
-    getDefaultEncryptionStr(),
+    _TestUtils.getDefaultEncryptionStr(),
     ;maxNumberOfLinesToIntegrate = 100,
     # rangeToIntegrate = 118:118,
     moveFileToDoneDir = false
@@ -52,7 +52,7 @@ end
 #     ;delim = ';'
 # )
 
-# @time TRAQUER.Custom.importStays(dfStays, getDefaultEncryptionStr()) # 1000 lines in 130s with 4 workers
+# @time TRAQUER.Custom.importStays(dfStays, _TestUtils.getDefaultEncryptionStr()) # 1000 lines in 130s with 4 workers
 #                                                                      # 1000 lines in 380s with 1 worker
 
 # using CSV
@@ -85,7 +85,7 @@ end
 #     dfAnalyses
 # )
 # TRAQUERUtil.createDBConnAndExecute() do dbconn
-#     TRAQUER.Custom.importStays(dfStaysSelection,getDefaultEncryptionStr())
-#     TRAQUER.Custom.importAnalyses(dfAnalysesSelection, getDefaultEncryptionStr())
+#     TRAQUER.Custom.importStays(dfStaysSelection,_TestUtils.getDefaultEncryptionStr())
+#     TRAQUER.Custom.importAnalyses(dfAnalysesSelection, _TestUtils.getDefaultEncryptionStr())
 #     ETLCtrl.processNewlyIntegratedData(dbconn)
 # end

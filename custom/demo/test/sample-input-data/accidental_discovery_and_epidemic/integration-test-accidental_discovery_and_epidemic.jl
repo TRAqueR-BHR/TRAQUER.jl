@@ -50,32 +50,32 @@ dfAnalyses = DataFrame(
 # Just after patient1 for positive
 TRAQUERUtil.createDBConnAndExecute() do dbconn
     _time = ZonedDateTime(DateTime("2022-05-08T18:00:00"), TRAQUERUtil.getTimeZone())
-    TRAQUER.Custom.importStays(dfStays,getDefaultEncryptionStr() ;ignoreEventsAfter = _time)
-    TRAQUER.Custom.importAnalyses(dfAnalyses, getDefaultEncryptionStr();ignoreEventsAfter = _time)
+    TRAQUER.Custom.importStays(dfStays,_TestUtils.getDefaultEncryptionStr() ;ignoreEventsAfter = _time)
+    TRAQUER.Custom.importAnalyses(dfAnalyses, _TestUtils.getDefaultEncryptionStr();ignoreEventsAfter = _time)
     ETLCtrl.processNewlyIntegratedData(dbconn ;forceProcessingTime = _time)
 end
 
 # After patient14 got positive
 TRAQUERUtil.createDBConnAndExecute() do dbconn
     _time = ZonedDateTime(DateTime("2022-05-10T00:00:00"), TRAQUERUtil.getTimeZone())
-    TRAQUER.Custom.importStays(dfStays,getDefaultEncryptionStr() ;ignoreEventsAfter = _time)
-    TRAQUER.Custom.importAnalyses(dfAnalyses, getDefaultEncryptionStr();ignoreEventsAfter = _time)
+    TRAQUER.Custom.importStays(dfStays,_TestUtils.getDefaultEncryptionStr() ;ignoreEventsAfter = _time)
+    TRAQUER.Custom.importAnalyses(dfAnalyses, _TestUtils.getDefaultEncryptionStr();ignoreEventsAfter = _time)
     ETLCtrl.processNewlyIntegratedData(dbconn ;forceProcessingTime = _time)
 end
 
 # After patient34 entered unit orthopedie
 TRAQUERUtil.createDBConnAndExecute() do dbconn
     _time = ZonedDateTime(DateTime("2022-05-30T11:30:00"), TRAQUERUtil.getTimeZone())
-    TRAQUER.Custom.importStays(dfStays,getDefaultEncryptionStr() ;ignoreEventsAfter = _time)
-    TRAQUER.Custom.importAnalyses(dfAnalyses, getDefaultEncryptionStr();ignoreEventsAfter = _time)
+    TRAQUER.Custom.importStays(dfStays,_TestUtils.getDefaultEncryptionStr() ;ignoreEventsAfter = _time)
+    TRAQUER.Custom.importAnalyses(dfAnalyses, _TestUtils.getDefaultEncryptionStr();ignoreEventsAfter = _time)
     ETLCtrl.processNewlyIntegratedData(dbconn ;forceProcessingTime = _time)
 end
 
 # After patient34 got positive
 TRAQUERUtil.createDBConnAndExecute() do dbconn
     _time = ZonedDateTime(DateTime("2022-06-01T12:00:00"), TRAQUERUtil.getTimeZone())
-    TRAQUER.Custom.importStays(dfStays,getDefaultEncryptionStr() ;ignoreEventsAfter = _time)
-    TRAQUER.Custom.importAnalyses(dfAnalyses, getDefaultEncryptionStr();ignoreEventsAfter = _time)
+    TRAQUER.Custom.importStays(dfStays,_TestUtils.getDefaultEncryptionStr() ;ignoreEventsAfter = _time)
+    TRAQUER.Custom.importAnalyses(dfAnalyses, _TestUtils.getDefaultEncryptionStr();ignoreEventsAfter = _time)
     ETLCtrl.processNewlyIntegratedData(dbconn ;forceProcessingTime = _time)
 end
 
@@ -97,7 +97,7 @@ end
 #     dfAnalyses
 # )
 # TRAQUERUtil.createDBConnAndExecute() do dbconn
-#     TRAQUER.Custom.importStays(dfStaysSelection,getDefaultEncryptionStr())
-#     TRAQUER.Custom.importAnalyses(dfAnalysesSelection, getDefaultEncryptionStr())
+#     TRAQUER.Custom.importStays(dfStaysSelection,_TestUtils.getDefaultEncryptionStr())
+#     TRAQUER.Custom.importAnalyses(dfAnalysesSelection, _TestUtils.getDefaultEncryptionStr())
 #     ETLCtrl.processNewlyIntegratedData(dbconn)
 # end

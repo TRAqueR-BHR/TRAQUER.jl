@@ -11,7 +11,7 @@ include("__prerequisite.jl")
         )
         StayCtrl.transformStaysForListing(
             stays,
-            Main.getDefaultEncryptionStr(),
+            _TestUtils.getDefaultEncryptionStr(),
             dbconn
         )
     end

@@ -119,7 +119,7 @@ This project handles healthcare data. Be conservative:
   encryption keys.
 - Use encrypted model variants and the existing BlindBake/encryption helpers.
 - ETL functions that need encryption usually take or derive an `encryptionStr`; tests
-  often use `getDefaultEncryptionStr()`.
+  often use `_TestUtils.getDefaultEncryptionStr()`.
 
 ### Custom site modules
 

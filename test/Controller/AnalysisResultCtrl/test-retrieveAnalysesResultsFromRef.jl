@@ -6,7 +6,7 @@ include("__prerequisite.jl")
     AnalysisResultCtrl.retrieveAnalysesResultsFromRef(
         patient, # patient::Patient,
         "12345", # ref::AbstractString,
-        getDefaultEncryptionStr(), # encryptionStr::AbstractString,
+        _TestUtils.getDefaultEncryptionStr(), # encryptionStr::AbstractString,
         dbconn
     )
     TRAQUERUtil.closeDBConn(dbconn)

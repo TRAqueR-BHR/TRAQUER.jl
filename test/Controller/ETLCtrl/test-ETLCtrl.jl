@@ -7,7 +7,7 @@ include("__prerequisite.jl")
 df = DataFrame(XLSX.readtable("csv/mouvements DXCARE 202009-202010 avril 2021 V2.xlsx",
                               1)...)
 
-ETLCtrl.importStays(df,getDefaultEncryptionStr())
+ETLCtrl.importStays(df,_TestUtils.getDefaultEncryptionStr())
 
 
 # Analyses
@@ -23,7 +23,7 @@ filter(x -> (x.BILAN in ["PREPC"]),df)
 filter!(x -> (x.BILAN in ["GXEPCC","PREPC","GXERVC"]
             || (x.BILAN == "ATB2" && !ismissing(x.BMR) && x.BMR in ["EPC","ERV"])),
         df)
-ETLCtrl.importAnalyses(df,getDefaultEncryptionStr())
+ETLCtrl.importAnalyses(df,_TestUtils.getDefaultEncryptionStr())
 
 # ######### #
 # Real data #
@@ -37,7 +37,7 @@ minimum(dfStays.DATE_ENTREE_MVT) # "2021-06-21"
 maximum(dfStays.DATE_ENTREE_MVT) # "2022-02-24"
 
 
-# ETLCtrl.importStays(dfStays[20300:end,:],getDefaultEncryptionStr())
+# ETLCtrl.importStays(dfStays[20300:end,:],_TestUtils.getDefaultEncryptionStr())
 
 
 # Analyses
@@ -51,7 +51,7 @@ maximum(dfAnalyses.DATE_DEMANDE) # 2022-02-24
 unique(dfAnalyses.BILAN) # "ATB2", "PREPC", "PRVRE"
 
 ETLCtrl.importAnalyses(dfAnalyses,
-    getDefaultEncryptionStr()
+    _TestUtils.getDefaultEncryptionStr()
     # ;stopAfterXLines = 10
     )
 

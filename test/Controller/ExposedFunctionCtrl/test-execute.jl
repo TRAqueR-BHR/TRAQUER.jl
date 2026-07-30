@@ -20,7 +20,7 @@ include("__prerequisite.jl")
         exposedFunction,
         arguments,
         appuser,
-        getDefaultEncryptionStr(),
+        _TestUtils.getDefaultEncryptionStr(),
         dbconn
     )
 

@@ -20,7 +20,7 @@ include("__prerequisite.jl")
                 dbconn
             )
 
-        encryptionStr = Main.getDefaultEncryptionStr()
+        encryptionStr = _TestUtils.getDefaultEncryptionStr()
 
         stayExtractionScopeDTO1 = ETLCtrl.ScopeCtrl.prepareStayExtractionScopeDTO(
             stayExtractionScope1,

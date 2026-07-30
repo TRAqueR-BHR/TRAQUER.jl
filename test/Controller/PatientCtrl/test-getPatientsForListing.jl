@@ -6,6 +6,6 @@ include("__prerequisite.jl")
                 5,
                 1,
                 Vector{Dict{String,Any}}()
-                ;cryptPwd = getDefaultEncryptionStr())[:rows]
+                ;cryptPwd = _TestUtils.getDefaultEncryptionStr())[:rows]
 
 end

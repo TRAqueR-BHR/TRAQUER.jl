@@ -42,7 +42,7 @@ end
         for e in contactExposures
             patientDecrypt = PatientCtrl.getPatientDecrypt(
                 e.contact,
-                getDefaultEncryptionStr(),
+                _TestUtils.getDefaultEncryptionStr(),
                 dbconn
                 )
             @info "e.contact.id[$(e.contact.id)] patientDecrypt.lastname[$(patientDecrypt.lastname)]"

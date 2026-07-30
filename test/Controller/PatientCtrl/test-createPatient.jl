@@ -5,7 +5,7 @@ include("__prerequisite.jl")
                                 "Merueil",
                                 Date("1982-04-10"),
                                 TRAQUER.Enum.Gender.male,
-                                Main.getDefaultEncryptionStr(),
+                                _TestUtils.getDefaultEncryptionStr(),
                                 dbconn)
     end
 end

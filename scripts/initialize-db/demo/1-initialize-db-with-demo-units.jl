@@ -1,6 +1,6 @@
 include("prerequisite-initialize-db-with-demo-data.jl")
 
-encryptionStr = getDefaultEncryptionStr()
+encryptionStr = _TestUtils.getDefaultEncryptionStr()
 
 demoUnits = Dict{String,Unit}()
 

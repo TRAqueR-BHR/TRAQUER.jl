@@ -4,7 +4,7 @@ include("__prerequisite.jl")
         patientDecript = TRAQUERUtil.createDBConnAndExecute() do dbconn
             PatientCtrl.getPatientDecrypt(
                 Patient(id = "9c3fc376-2ce1-407b-9276-4f5638a6c78a"),
-                Main.getDefaultEncryptionStr(),
+                _TestUtils.getDefaultEncryptionStr(),
                 dbconn
             )
         end
@@ -15,7 +15,7 @@ include("__prerequisite.jl")
         patientDecript = TRAQUERUtil.createDBConnAndExecute() do dbconn
             PatientCtrl.getPatientDecrypt(
                 Patient(id = "9c3fc376-2ce1-407b-9276-4f5638a6c78a"),
-                Main.getDefaultEncryptionStr(),
+                _TestUtils.getDefaultEncryptionStr(),
                 dbconn,
                 includePatientRef = true
             )

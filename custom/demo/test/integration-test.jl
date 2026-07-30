@@ -45,7 +45,7 @@ outbreakPatient2 = TRAQUERUtil.createDBConnAndExecute() do dbconn
         n -> PostgresORM.execute_query_and_handle_result(
             n,
             InfectiousStatus,
-            [getDefaultEncryptionStr(),"patient2"],
+            [_TestUtils.getDefaultEncryptionStr(),"patient2"],
             false,
             dbconn) |> first
 

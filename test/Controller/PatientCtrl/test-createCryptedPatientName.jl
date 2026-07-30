@@ -3,7 +3,7 @@ include("__prerequisite.jl")
     TRAQUERUtil.createDBConnAndExecute() do dbconn
         PatientCtrl.createCryptedPatientName("Renée",
                                             "Merueil",
-                                            Main.getDefaultEncryptionStr(),
+                                            _TestUtils.getDefaultEncryptionStr(),
                                             dbconn)
     end
 end

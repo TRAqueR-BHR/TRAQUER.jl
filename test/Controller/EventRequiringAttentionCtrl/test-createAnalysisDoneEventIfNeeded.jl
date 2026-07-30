@@ -7,7 +7,7 @@ include("__prerequisite.jl")
 
     patient = PatientCtrl.retrievePatientsFromLastname(
         "O",
-        getDefaultEncryptionStr(),
+        _TestUtils.getDefaultEncryptionStr(),
         dbconn) |> first
 
     analysis = AnalysisResult(

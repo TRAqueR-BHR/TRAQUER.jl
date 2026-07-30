@@ -6,7 +6,7 @@ include("__prerequisite.jl")
     xmlPath = "custom/demo/test/sample-input-data/accidental_discovery_and_epidemic/demo-fhir SALIOU.xml"
     df = ETLCtrl.FHIR.parseXMLToStaysDF(xmlPath)
 
-    ETLCtrl.importStaysDF(df, getDefaultEncryptionStr())
+    ETLCtrl.importStaysDF(df, _TestUtils.getDefaultEncryptionStr())
 
 
 end

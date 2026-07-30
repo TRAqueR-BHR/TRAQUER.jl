@@ -13,7 +13,7 @@ include("__prerequisite.jl")
             randstring(6), # lastname
             Date("1978-09-12"),
             rand(Int32) |> abs |> string, # hospital ref
-            getDefaultEncryptionStr(),
+            _TestUtils.getDefaultEncryptionStr(),
             dbconn)
 
         stay = StayCtrl.upsert!(
@@ -31,7 +31,7 @@ include("__prerequisite.jl")
             AnalysisRequestType.molecular_analysis, # request::ANALYSIS_REQUEST_TYPE,
             now(getTimeZone()), # requestTime::ZonedDateTime,
             randstring(6), # ref::AbstractString,
-            getDefaultEncryptionStr(),
+            _TestUtils.getDefaultEncryptionStr(),
             SampleMaterialType.faeces, # sample::Union{Missing,SAMPLE_MATERIAL_TYPE},
             AnalysisResultValueType.klebsiella_pneumoniae, #value::Union{Missing,ANALYSIS_RESULT_VALUE_TYPE},
             dbconn

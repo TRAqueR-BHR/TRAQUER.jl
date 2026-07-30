@@ -4,7 +4,7 @@ include("__prerequisite.jl")
         PatientCtrl.retrievePatients("Renée",
                                     "Merueil",
                                     Date("1982-04-10"),
-                                    Main.getDefaultEncryptionStr(),
+                                    _TestUtils.getDefaultEncryptionStr(),
                                     dbconn)
     end
 end

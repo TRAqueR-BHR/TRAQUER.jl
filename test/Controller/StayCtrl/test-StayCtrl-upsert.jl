@@ -13,7 +13,7 @@ include("__prerequisite.jl")
             randstring(6), # lastname
             Date("1978-09-12"),
             rand(Int32) |> abs |> string, # hospital ref
-            getDefaultEncryptionStr(),
+            _TestUtils.getDefaultEncryptionStr(),
             dbconn)
 
         stay = Stay(

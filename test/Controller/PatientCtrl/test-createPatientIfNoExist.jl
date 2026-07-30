@@ -7,7 +7,7 @@ include("__prerequisite.jl")
                                             randstring(6), # lastname
                                             Date("1978-09-12"),
                                             rand(Int32) |> abs |> string, # hospital ref
-                                            getDefaultEncryptionStr(),
+                                            _TestUtils.getDefaultEncryptionStr(),
                                             dbconn)
     end
 end
@@ -19,7 +19,7 @@ end
                                         "Merueil",
                                             Date("1984-04-10"),
                                             TRAQUER.Enum.Gender.male,
-                                            Main.getDefaultEncryptionStr(),
+                                            _TestUtils.getDefaultEncryptionStr(),
                                             dbconn)
     end
 end

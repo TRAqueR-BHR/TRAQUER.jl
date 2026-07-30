@@ -12,7 +12,7 @@ include("__prerequisite.jl")
         5,
         1,
         Vector{Dict{String,Any}}()
-        ;cryptPwd = getDefaultEncryptionStr()
+        ;cryptPwd = _TestUtils.getDefaultEncryptionStr()
     )[:rows]
 
     # Filter on birthdate
@@ -21,7 +21,7 @@ include("__prerequisite.jl")
         5,
         1,
         filtersAndSorting
-        ;cryptPwd = getDefaultEncryptionStr()
+        ;cryptPwd = _TestUtils.getDefaultEncryptionStr()
     )[:rows]
 
 end
