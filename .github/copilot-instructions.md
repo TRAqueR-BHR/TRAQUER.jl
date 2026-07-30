@@ -50,7 +50,7 @@ end
 ### Testing
 - Prerequisites: Include `scripts/prerequisite.jl` for distributed setup
 - Test pattern: `include("_prerequisite.jl")` then `@testset`
-- Use `getDefaultEncryptionStr()` for test encryption
+- Use `_TestUtils.getDefaultEncryptionStr()` for test encryption
 - Test files follow `test-{functionality}.jl` naming
 
 ### Database Operations
