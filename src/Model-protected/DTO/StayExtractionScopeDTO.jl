@@ -3,7 +3,7 @@ Registry of scopes of stay data that are requested from the source system (the h
 """
 mutable struct StayExtractionScopeDTO <: IStayExtractionScopeDTO
 
-  id::Union{Missing,String} # Copy of StayExtractionScope.id
+  id::Union{Missing,String}
 
   # Time when this extraction scope was requested
   # NOTE: This is a copy of StayExtractionScope.requestTime
