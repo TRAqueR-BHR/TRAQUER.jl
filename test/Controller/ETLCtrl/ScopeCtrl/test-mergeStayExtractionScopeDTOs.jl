@@ -64,6 +64,12 @@ include("__prerequisite.jl")
         stayExtractionScopeDTOs,
     )
 
+    # Serialize to a json file for easier inspection of the test output.
+    mergedStayExtractionScopeDTOs |> JSON.json |>
+        n -> open(joinpath("tmp","json", "merge_stay_extraction_scope_dtos.json"), "w") do f
+            write(f, n)
+        end
+
     @test length(mergedStayExtractionScopeDTOs) == 3
 
     unitScope = only(filter(
