@@ -12,5 +12,28 @@ function InfectiousStatusCtrl.getInfectiousStatusesAtRiskForStayMonitoringScopeR
     dbconn::LibPQ.Connection,
 )::Vector{InfectiousStatus}
 
-    return InfectiousStatusCtrl.getCurrentInfectiousStatusesAtRisk(dbconn)
+
+    activeInfectiousStatuses = InfectiousStatusCtrl.getCurrentInfectiousStatusesAtRisk(dbconn)
+
+    result::Vector{InfectiousStatus} = []
+    append!(result, activeInfectiousStatuses)
+    
+    for infectiousStatus in activeInfectiousStatuses
+        # Check for this infectiousAgent + patient if there are later statuses
+        # 
+        infectiousStatusesAfterActiveStatus = InfectiousStatusCtrl.getInfectiousStatusesAfterTime(
+            infectiousStatus.patient,
+            infectiousStatus.refTime,
+            false,
+            dbconn
+            ;statusesOfInterest = INFECTIOUS_STATUS_TYPES_AT_RISK,
+            infectiousAgentsOfInterest = [infectiousStatus.infectiousAgent]
+        )
+
+        append!(result, infectiousStatusesAfterActiveStatus)
+
+
+    end
+
+    return result
 end

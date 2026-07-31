@@ -38,6 +38,10 @@ function getInfectiousStatusForListing end
 
 function getInfectiousStatuses end
 
+function getInfectiousStatusAfterTime end
+
+function getInfectiousStatusesAfterTime end
+
 function getInfectiousStatusesAtTime end
 
 function getInfectiousStatusAtTime end
