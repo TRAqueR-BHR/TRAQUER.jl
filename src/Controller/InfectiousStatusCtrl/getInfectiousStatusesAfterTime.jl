@@ -4,7 +4,7 @@ function InfectiousStatusCtrl.getInfectiousStatusesAfterTime(
     retrieveComplexProps::Bool,
     dbconn::LibPQ.Connection
     ;statusesOfInterest::Union{Missing,Vector{InfectiousStatusType.INFECTIOUS_STATUS_TYPE}} = missing,
-    infectiousAgentsOfInterest::Union{Missing,Vector{InfectiousAgentCategory.INFECTIOUS_AGENT_CATEGORY}}
+    infectiousAgentsOfInterest::Union{Missing,Vector{InfectiousAgentCategory.INFECTIOUS_AGENT_CATEGORY}} = missing
 )::Vector{InfectiousStatus}
 
     result = InfectiousStatus[]
