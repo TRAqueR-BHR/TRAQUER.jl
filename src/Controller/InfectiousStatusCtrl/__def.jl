@@ -71,3 +71,5 @@ function getInfectiousStatusesOfInterestOverPeriod end
 function getTimeWherePatientBecameCarrierOrSuspicion end
 
 function getCurrentInfectiousStatusesAtRisk end
+
+function getInfectiousStatusesAtRiskForStayMonitoringScopeRefresh end

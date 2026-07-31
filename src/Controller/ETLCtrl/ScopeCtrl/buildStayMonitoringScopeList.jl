@@ -43,8 +43,15 @@ function ETLCtrl.ScopeCtrl.buildStayMonitoringScopeList(
         if !ismissing(infectiouStatusStay)
             periodOiStartTime = infectiouStatusStay.hospitalizationInTime
             periodOiEndTime = infectiouStatusStay.hospitalizationOutTime
+
+        # It's very possible to have an infection status that doesn't fall into any 
+        # known stay because this infectious was manually inserted by a Traquer user.    
         else
-            # Leave if blank => retrieve all stays of the patient, but this is not ideal
+            # In that case, we want the connector to send a stay for the patient 
+            # that includes the refTime, that will get the ball rolling: 
+            # In the following refreshes monitoring scopes, we will fall in the 
+            # !ismissing(infectiouStatusStay) condition above.
+            periodOiStartTime = infectiouStatus.refTime
         end
 
     end
