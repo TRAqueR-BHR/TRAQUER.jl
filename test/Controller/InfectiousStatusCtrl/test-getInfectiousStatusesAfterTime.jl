@@ -75,6 +75,17 @@ include("__prerequisite.jl")
             statusesAfterBaseTime,
         )
 
+        # Get statuses after baseTime - 1minute for cpe
+        statuses = InfectiousStatusCtrl.getInfectiousStatusesAfterTime(
+            patient,
+            baseTime - Minute(1),
+            false,
+            dbconn
+            ;infectiousAgentsOfInterest = [cpe]
+        )
+        @test length(statuses) == 2
+        
+
         # Get statuses after baseTime + 2h (excludes cpe.nar and vre.contact,
         # includes only vre.carrier at +4h)
         statusesAfterBasePlus2h = InfectiousStatusCtrl.getInfectiousStatusesAfterTime(
