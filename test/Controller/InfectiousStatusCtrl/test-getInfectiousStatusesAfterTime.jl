@@ -69,7 +69,7 @@ include("__prerequisite.jl")
             false,
             dbconn,
         )
-        @test length(statusesAfterBaseTime) == 2
+        @test length(statusesAfterBaseTime) == 3
         @test all(
             x -> x.refTime > baseTime,
             statusesAfterBaseTime,

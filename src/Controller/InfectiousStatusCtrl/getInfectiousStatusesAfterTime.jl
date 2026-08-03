@@ -13,23 +13,29 @@ function InfectiousStatusCtrl.getInfectiousStatusesAfterTime(
     FROM infectious_status ist
     WHERE ist.patient_id = \$1
       AND ist.ref_time > \$2
-      AND ist.infectious_agent = \$3"
-    queryParams = [patient.id, timeOfInterest, infectiousAgent]
+    "
+    
+    queryParams = [patient.id, timeOfInterest]
 
-    if !ismissing(statusesOfInterest) && !isempty(statusesOfInterest)
+    # Handle optional infectiousAgentsOfInterest
+    if !ismissing(infectiousAgentsOfInterest)
+        push!(queryParams, infectiousAgentsOfInterest)
         queryString *= "
-            AND ist.infectious_status = ANY(\$4) "
-        push!(queryParams,statusesOfInterest)
+            AND ist.infectious_agent = ANY(\$$(length(queryParams))) "
     end
+      
+    # Handle optional statusesOfInterest
+    if !ismissing(statusesOfInterest) && !isempty(statusesOfInterest)
+        push!(queryParams,statusesOfInterest)
+        queryString *= "
+            AND ist.infectious_status = ANY(\$$(length(queryParams))) "
+    end
+
     queryString *= "
         ORDER BY ist.ref_time "
 
     statuses = PostgresORM.execute_query_and_handle_result(
         queryString, InfectiousStatus, queryParams, retrieveComplexProps, dbconn)
-
-    if isempty(statuses)
-        return missing
-    end
 
     # Order to put most recent first
     result = sort!(statuses, by = x -> abs(x.refTime - timeOfInterest))
