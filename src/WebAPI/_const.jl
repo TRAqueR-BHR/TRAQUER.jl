@@ -9,4 +9,5 @@ const WebAPI.apis_paths_wo_jwt = [
     ["api","misc", "get-current-frontend-version"],
     ["ws_io"],
     ["api", "hello"],   # hello-world is public
+    ["api", "scope", "get-stay-monitoring-scopes"] # for the time being
 ]
