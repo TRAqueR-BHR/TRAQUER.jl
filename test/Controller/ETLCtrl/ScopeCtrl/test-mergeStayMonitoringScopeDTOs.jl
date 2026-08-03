@@ -1,0 +1,100 @@
+include("__prerequisite.jl")
+
+@testset "Test ETLCtrl.ScopeCtrl.mergeStayMonitoringScopeDTOs" begin
+    timeZone = TRAQUERUtil.getTimeZone()
+
+    stayMonitoringScopeDTOs = [
+        Model.DTO.StayMonitoringScopeDTO(
+            id = "dto-1",
+            requestTime = ZonedDateTime(DateTime("2024-01-03T10:00:00"), timeZone),
+            periodOiStartTime = ZonedDateTime(DateTime("2024-01-02T08:00:00"), timeZone),
+            periodOiEndTime = ZonedDateTime(DateTime("2024-01-02T12:00:00"), timeZone),
+            monitoredUnitCodeName = "REA-A",
+            monitoredPatientRef = missing,
+        ),
+        Model.DTO.StayMonitoringScopeDTO(
+            id = "dto-2",
+            requestTime = ZonedDateTime(DateTime("2024-01-03T09:00:00"), timeZone),
+            periodOiStartTime = ZonedDateTime(DateTime("2024-01-02T07:00:00"), timeZone),
+            periodOiEndTime = ZonedDateTime(DateTime("2024-01-02T13:00:00"), timeZone),
+            monitoredUnitCodeName = "REA-A",
+            monitoredPatientRef = missing,
+        ),
+        Model.DTO.StayMonitoringScopeDTO(
+            id = "dto-3",
+            requestTime = ZonedDateTime(DateTime("2024-01-04T09:00:00"), timeZone),
+            periodOiStartTime = ZonedDateTime(DateTime("2024-01-04T07:00:00"), timeZone),
+            periodOiEndTime = ZonedDateTime(DateTime("2024-01-04T08:00:00"), timeZone),
+            monitoredUnitCodeName = missing,
+            monitoredPatientRef = "PAT-001",
+        ),
+        Model.DTO.StayMonitoringScopeDTO(
+            id = "dto-4",
+            requestTime = ZonedDateTime(DateTime("2024-01-04T08:00:00"), timeZone),
+            periodOiStartTime = ZonedDateTime(DateTime("2024-01-04T06:00:00"), timeZone),
+            periodOiEndTime = ZonedDateTime(DateTime("2024-01-04T09:00:00"), timeZone),
+            monitoredUnitCodeName = missing,
+            monitoredPatientRef = "PAT-001",
+        ),
+        Model.DTO.StayMonitoringScopeDTO(
+            id = "dto-5",
+            requestTime = ZonedDateTime(DateTime("2024-01-05T08:00:00"), timeZone),
+            periodOiStartTime = ZonedDateTime(DateTime("2024-01-05T06:00:00"), timeZone),
+            periodOiEndTime = ZonedDateTime(DateTime("2024-01-05T09:00:00"), timeZone),
+            monitoredUnitCodeName = "REA-B",
+            monitoredPatientRef = missing,
+        ),
+        Model.DTO.StayMonitoringScopeDTO(
+            id = "dto-6",
+            requestTime = ZonedDateTime(DateTime("2024-01-05T07:00:00"), timeZone),
+            periodOiStartTime = missing,
+            periodOiEndTime = missing,
+            monitoredUnitCodeName = "REA-B",
+            monitoredPatientRef = missing,
+        ),
+    ]
+
+    mergedStayMonitoringScopeDTOs = ETLCtrl.ScopeCtrl.mergeStayMonitoringScopeDTOs(
+        stayMonitoringScopeDTOs,
+    )
+
+    # Serialize to a json file for easier inspection of the test output.
+    mergedStayMonitoringScopeDTOs |> JSON.json |>
+        n -> open(joinpath("tmp","json", "merge_stay_extraction_scope_dtos.json"), "w") do f
+            write(f, n)
+        end
+
+    @test length(mergedStayMonitoringScopeDTOs) == 3
+
+    unitScope = only(filter(
+        x -> !ismissing(x.monitoredUnitCodeName) && x.monitoredUnitCodeName == "REA-A",
+        mergedStayMonitoringScopeDTOs,
+    ))
+    @test unitScope.periodOiStartTime ==
+          ZonedDateTime(DateTime("2024-01-02T07:00:00"), timeZone)
+    @test unitScope.periodOiEndTime ==
+          ZonedDateTime(DateTime("2024-01-02T13:00:00"), timeZone)
+    @test unitScope.requestTime ==
+          ZonedDateTime(DateTime("2024-01-03T09:00:00"), timeZone)
+
+    patientScope = only(filter(
+        x -> !ismissing(x.monitoredPatientRef) && x.monitoredPatientRef == "PAT-001",
+        mergedStayMonitoringScopeDTOs,
+    ))
+    @test patientScope.periodOiStartTime ==
+          ZonedDateTime(DateTime("2024-01-04T06:00:00"), timeZone)
+    @test patientScope.periodOiEndTime ==
+          ZonedDateTime(DateTime("2024-01-04T09:00:00"), timeZone)
+    @test patientScope.requestTime ==
+          ZonedDateTime(DateTime("2024-01-04T08:00:00"), timeZone)
+
+    untouchedScope = only(filter(
+        x -> !ismissing(x.monitoredUnitCodeName) && x.monitoredUnitCodeName == "REA-B",
+        mergedStayMonitoringScopeDTOs,
+    ))
+    @test untouchedScope.id == "dto-5"
+    @test ismissing(untouchedScope.periodOiStartTime)
+    @test ismissing(untouchedScope.periodOiEndTime)
+    @test untouchedScope.requestTime ==
+          ZonedDateTime(DateTime("2024-01-05T07:00:00"), timeZone)
+end

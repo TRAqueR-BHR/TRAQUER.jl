@@ -33,8 +33,7 @@ function FileExchangeCtrl.getFsUploadUrlAndKdfChildKey(
     instructions = [
         "1. Encrypt the file with gpg using the derived child key (hex-encoded) as the " *
         "passphrase.",
-        "2. Create a sidecar file containing the child key reference (key_ref) and " *
-        "corresponding extractionScopesIds related to this file ",
+        "2. Create a sidecar file containing the child key reference (key_ref)",
         "3. Upload the encrypted file and its sidecar file to the provided file system URI ",
         "4. Notify TRAQUER that the file has been uploaded and is ready for processing"
     ]

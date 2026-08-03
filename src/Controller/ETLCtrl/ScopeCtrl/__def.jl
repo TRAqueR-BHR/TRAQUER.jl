@@ -5,6 +5,9 @@ function createStayMonitoringScopeListIfNotExist end
 function createStayExtractionScope end
 function getActiveStayMonitoringScopes end
 function getStayExtractionScopeDTOsForExtraction end
+function getStayMonitoringScopeDTOs end
 function prepareStayExtractionScopeDTO end
+function prepareStayMonitoringScopeDTO end
 function mergeStayExtractionScopeDTOs end
+function mergeStayMonitoringScopeDTOs end
 function refreshStayMonitoringScopes end
