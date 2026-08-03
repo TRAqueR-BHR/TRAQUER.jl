@@ -56,21 +56,8 @@ function ETLCtrl.ScopeCtrl.mergeStayMonitoringScopeDTOs(
             )
         end
 
-        # Keep the earliest request time so the merged DTO remains conservative.
-        requestTime = if ismissing(existingStayMonitoringScopeDTO.requestTime)
-            stayMonitoringScopeDTO.requestTime
-        elseif ismissing(stayMonitoringScopeDTO.requestTime)
-            existingStayMonitoringScopeDTO.requestTime
-        else
-            min(
-                existingStayMonitoringScopeDTO.requestTime,
-                stayMonitoringScopeDTO.requestTime,
-            )
-        end
-
         mergedByTarget[key] = Model.DTO.StayMonitoringScopeDTO(
             id = existingStayMonitoringScopeDTO.id,
-            requestTime = requestTime,
             periodOiStartTime = periodOiStartTime,
             periodOiEndTime = periodOiEndTime,
             monitoredUnitCodeName = existingStayMonitoringScopeDTO.monitoredUnitCodeName,

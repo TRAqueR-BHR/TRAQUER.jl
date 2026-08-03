@@ -31,7 +31,6 @@ include("__prerequisite.jl")
         @test haskey(dto, "monitoredPatientRef")
         @test haskey(dto, "periodOiStartTime")
         @test haskey(dto, "periodOiEndTime")
-        @test haskey(dto, "requestTime")
         @test !ismissing(dto["monitoredPatientRef"])
     finally
         #TRAQUERUtil.rollbackDBTransaction(dbconn)
