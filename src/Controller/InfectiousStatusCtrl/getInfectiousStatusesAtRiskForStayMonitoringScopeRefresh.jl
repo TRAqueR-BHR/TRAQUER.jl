@@ -2,11 +2,11 @@
     getInfectiousStatusesAtRiskForStayMonitoringScopeRefresh(
         dbconn::LibPQ.Connection,
     )
+
+Retrieve the infectious statuses relevant to the refresh of the monitoring scope
+
 We need a custom function for the StayMonitoringScope because during refresh,
 to anticipate that the infectious status will be confirmed.
-
-TODO replace InfectiousStatusCtrl.getCurrentInfectiousStatusesAtRisk(dbconn) call 
-into a dedicated logic.
 """
 function InfectiousStatusCtrl.getInfectiousStatusesAtRiskForStayMonitoringScopeRefresh(
     dbconn::LibPQ.Connection,
@@ -19,8 +19,7 @@ function InfectiousStatusCtrl.getInfectiousStatusesAtRiskForStayMonitoringScopeR
     append!(result, activeInfectiousStatuses)
     
     for infectiousStatus in activeInfectiousStatuses
-        # Check for this infectiousAgent + patient if there are later statuses
-        # 
+        # Check for this infectiousAgent + patient if there are later statuses at risk
         infectiousStatusesAfterActiveStatus = InfectiousStatusCtrl.getInfectiousStatusesAfterTime(
             infectiousStatus.patient,
             infectiousStatus.refTime,
