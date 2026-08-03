@@ -3,6 +3,7 @@ function _TestUtils.createDummyCarrierInfectiousStatus(
     dbconn::LibPQ.Connection
     ;infectiousAgent = InfectiousAgentCategory.carbapenemase_producing_enterobacteriaceae,
     refTime = ZonedDateTime(now(), TRAQUERUtil.getTimeZone()),
+    isCurrent = true,
     isConfirmed = true
 )::InfectiousStatus
 
@@ -11,6 +12,7 @@ function _TestUtils.createDummyCarrierInfectiousStatus(
         infectiousAgent = infectiousAgent,
         infectiousStatus = InfectiousStatusType.carrier,
         refTime = refTime,
+        isCurrent = isCurrent,
         isConfirmed = isConfirmed
     )
 

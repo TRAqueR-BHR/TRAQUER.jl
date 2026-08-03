@@ -6,6 +6,7 @@ function downloadCryptedAndSidecarFilesToProcessingDir end
 function downloadAndProcessFile end
 function encryptFile end
 function extractKdfChildKeyRefFromSidecarFile end
+function getFsUploadUrlAndKdfChildKey end
 function getKdfChildKey end
 function getS3PresignedUploadUrlAndKdfChildKey end
 function moveCryptedAndSidecarFilesToDoneDir end

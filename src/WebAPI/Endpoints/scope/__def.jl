@@ -1,1 +1,2 @@
 function handle_scope_get_stay_extraction_scopes end
+function handle_scope_get_stay_monitoring_scopes end

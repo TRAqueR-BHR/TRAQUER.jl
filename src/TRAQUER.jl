@@ -107,6 +107,7 @@ module Model
         using TimeZones
         include("Model-protected/DTO/abstract-types.jl")
         include("Model-protected/DTO/StayExtractionScopeDTO.jl")
+        include("Model-protected/DTO/StayMonitoringScopeDTO.jl")
     end
 end  # module Model
 

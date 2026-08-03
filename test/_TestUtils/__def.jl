@@ -10,3 +10,4 @@ function deleteDummyPatient end
 function getDefaultEncryptionStr end
 function getDefaultMasterKeyWords end
 function getRandomPatient end
+function setDefaultMasterKey end
