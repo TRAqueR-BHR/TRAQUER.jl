@@ -10,9 +10,9 @@ try
     # Update etl.stay_extraction_scope table comment #
     # ################################################ #"
 
-    """"
+    """
     COMMENT ON TABLE etl.stay_extraction_scope IS
-        'Registry of scopes of stay data that are requested from the source system (the hospital information system) at a given time. For Adhoc extraction usage.';
+        'Registry of scopes of stay data that are requested from the source system (the hospital information system) at a given time. For Adhoc extraction usage.'
     """ |>
     n -> PostgresORM.execute_plain_query(n,missing,dbconn)
 
