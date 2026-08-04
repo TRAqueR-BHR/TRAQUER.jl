@@ -4,10 +4,10 @@ INNER JOIN analysis_type at
 
 -- Analysis and corresponding stays
 SELECT a.*
-       ,pgp_sym_decrypt(arc.ref_crypt, 'aaaaaaaxxxxxcccccc') AS analysis_ref
-       ,pgp_sym_decrypt(pbc.birthdate_crypt, 'aaaaaaaxxxxxcccccc') AS birthdate
-       ,pgp_sym_decrypt(pnc.firstname_crypt, 'aaaaaaaxxxxxcccccc') AS firstname
-       ,pgp_sym_decrypt(pnc.lastname_crypt, 'aaaaaaaxxxxxcccccc') AS lastname
+       ,pgp_sym_decrypt(arc.ref_crypt, '6c65737369766520626174746572696520636861746f6e20636f746f6e20646f72746f6972') AS analysis_ref
+       ,pgp_sym_decrypt(pbc.birthdate_crypt, '6c65737369766520626174746572696520636861746f6e20636f746f6e20646f72746f6972') AS birthdate
+       ,pgp_sym_decrypt(pnc.firstname_crypt, '6c65737369766520626174746572696520636861746f6e20636f746f6e20646f72746f6972') AS firstname
+       ,pgp_sym_decrypt(pnc.lastname_crypt, '6c65737369766520626174746572696520636861746f6e20636f746f6e20646f72746f6972') AS lastname
 FROM analysis_result a
 LEFT JOIN stay s -- an analysis may not be linked to a stay
   ON a.stay_id = s.id
@@ -25,7 +25,7 @@ JOIN patient_name_crypt pnc
 
 
 -- Stays only
-SELECT pgp_sym_decrypt(pnc.lastname_crypt, 'aaaaaaaxxxxxcccccc') as lastname,
+SELECT pgp_sym_decrypt(pnc.lastname_crypt, '6c65737369766520626174746572696520636861746f6e20636f746f6e20646f72746f6972') as lastname,
         s.*
 FROM stay s
 INNER JOIN patient p
@@ -35,7 +35,7 @@ INNER JOIN patient_name_crypt pnc
 WHERE s.in_date >= '2021-12-10'
 
 -- Patients names
-SELECT p.id,pgp_sym_decrypt(pnc.lastname_crypt, 'aaaaaaaxxxxxcccccc') as lastname
+SELECT p.id,pgp_sym_decrypt(pnc.lastname_crypt, '6c65737369766520626174746572696520636861746f6e20636f746f6e20646f72746f6972') as lastname
 FROM patient p
 INNER JOIN patient_name_crypt pnc
   ON  p.name_crypt_id = pnc.id

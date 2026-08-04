@@ -6,7 +6,7 @@ group by stay.id
 ORDER BY max(stay.in_date) dESC
 
 -- Some patients name
-SELECT pgp_sym_decrypt(pnc.lastname_crypt, 'aaaaaaaxxxxxcccccc') as lastname,
+SELECT pgp_sym_decrypt(pnc.lastname_crypt, '6c65737369766520626174746572696520636861746f6e20636f746f6e20646f72746f6972') as lastname,
         s.*
 FROM stay s
 INNER JOIN patient p
