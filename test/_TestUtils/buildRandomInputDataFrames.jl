@@ -92,7 +92,7 @@ function _TestUtils.buildInputDataFrames(;nbPatients::Integer = 10)
             analysisDateTime = if rand() < 0.7
                 _TestUtils.buildRandomAnalysisDateTime(patientStays)
             else
-                _TestUtils.buildRandomAnalysisDateTimeOutsideStays(patient.birthdate)
+                _TestUtils._buildRandomAnalysisDateTimeOutsideStays(patient.birthdate)
             end
             resultTime = last(analysisDateTime)
             analysisResult = if ismissing(resultTime)
@@ -121,12 +121,12 @@ function _TestUtils.buildInputDataFrames(;nbPatients::Integer = 10)
     end
 
     staysDf = if isempty(staysRows)
-        _TestUtils.buildEmptyStaysDataFrame()
+        _TestUtils._buildEmptyStaysDataFrame()
     else
         DataFrame(staysRows)
     end
     analysesDf = if isempty(analysesRows)
-        _TestUtils.buildEmptyAnalysesDataFrame()
+        _TestUtils._buildEmptyAnalysesDataFrame()
     else
         DataFrame(analysesRows)
     end

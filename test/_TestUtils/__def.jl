@@ -1,12 +1,12 @@
-function buildEmptyAnalysesDataFrame end
-function buildEmptyStaysDataFrame end
+function _buildEmptyAnalysesDataFrame end
+function _buildEmptyStaysDataFrame end
 function buildInputDataFrames end
 function buildRandomPatientBirthdate end
 function buildRandomPatientFirstname end
 function buildRandomPatientLastname end
 function buildRandomAnalysisRef end
 function buildRandomAnalysisDateTime end
-function buildRandomAnalysisDateTimeOutsideStays end
+function _buildRandomAnalysisDateTimeOutsideStays end
 function buildRandomUnitNames end
 function buildRandomHospitalizationsDateTimes end
 function buildRandomPatientRef end

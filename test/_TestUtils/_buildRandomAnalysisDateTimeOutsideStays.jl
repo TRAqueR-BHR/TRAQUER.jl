@@ -1,5 +1,5 @@
 """
-    _TestUtils.buildRandomAnalysisDateTimeOutsideStays(
+    _TestUtils._buildRandomAnalysisDateTimeOutsideStays(
         patientBirthdate::Date,
     )::Pair{ZonedDateTime,Union{Missing,ZonedDateTime}}
 
@@ -8,7 +8,7 @@ Generate random analysis request/result date-times outside known stay ranges.
 The request time is generated between `patientBirthdate` and now. The result time may
 be `missing`; when present, it is generated at or after the request time.
 """
-function _TestUtils.buildRandomAnalysisDateTimeOutsideStays(
+function _TestUtils._buildRandomAnalysisDateTimeOutsideStays(
     patientBirthdate::Date,
 )::Pair{ZonedDateTime,Union{Missing,ZonedDateTime}}
     timezone = TRAQUERUtil.getTimeZone()

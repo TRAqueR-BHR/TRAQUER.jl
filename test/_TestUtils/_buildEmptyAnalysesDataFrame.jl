@@ -1,9 +1,9 @@
 """
-    _TestUtils.buildEmptyAnalysesDataFrame()::DataFrame
+    _TestUtils._buildEmptyAnalysesDataFrame()::DataFrame
 
 Build an empty analyses input DataFrame with the expected columns and column types.
 """
-function _TestUtils.buildEmptyAnalysesDataFrame()::DataFrame
+function _TestUtils._buildEmptyAnalysesDataFrame()::DataFrame
     return DataFrame(
         patient_ref = String[],
         firstname = String[],

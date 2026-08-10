@@ -1,9 +1,9 @@
 """
-    _TestUtils.buildEmptyStaysDataFrame()::DataFrame
+    _TestUtils._buildEmptyStaysDataFrame()::DataFrame
 
 Build an empty stays input DataFrame with the expected columns and column types.
 """
-function _TestUtils.buildEmptyStaysDataFrame()::DataFrame
+function _TestUtils._buildEmptyStaysDataFrame()::DataFrame
     return DataFrame(
         patient_ref = String[],
         firstname = String[],
