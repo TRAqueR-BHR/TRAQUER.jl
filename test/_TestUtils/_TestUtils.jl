@@ -3,17 +3,26 @@ Resources for used in tests such as helper functions, test data, and utilities t
 state between tests.
 """
 module _TestUtils
-    using Dates, LibPQ, Random, UUIDs, TimeZones
-    using TRAQUER.TRAQUERUtil
-    using TRAQUER.Controller.PatientCtrl
-    using TRAQUER.Controller.UnitCtrl
-    using TRAQUER.Controller.StayCtrl
+    using DataFrames
+    using Dates
+    using Faker
+    using LibPQ
+    using PostgresORM
+    using Random
+    using TimeZones
+    using UUIDs
     using TRAQUER.Controller.InfectiousStatusCtrl
     using TRAQUER.Controller.MasterKeyCtrl
-    using TRAQUER.Model
-    using PostgresORM
+    using TRAQUER.Controller.PatientCtrl
+    using TRAQUER.Controller.StayCtrl
+    using TRAQUER.Controller.UnitCtrl
+    using TRAQUER.Enum.AnalysisRequestType
+    using TRAQUER.Enum.AnalysisResultValueType
     using TRAQUER.Enum.InfectiousAgentCategory
     using TRAQUER.Enum.InfectiousStatusType
+    using TRAQUER.Enum.SampleMaterialType
+    using TRAQUER.Model
+    using TRAQUER.TRAQUERUtil
 
     include("__def.jl")
     include("__imp.jl")
