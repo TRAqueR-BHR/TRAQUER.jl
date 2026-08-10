@@ -1,5 +1,12 @@
 module TRAQUER
 
+# Disable precompilation so that we dont get all the warning for the methods redefinition
+# (eg. `ConfParser.parse_line`). Also, precompilation is not needed because in dev we are
+# always changing code thus retriggering the precompilation ; in prod it would save us a
+# a bit of time but not much.
+# Reminder: Not precompiling the project module does not prevent precompiling the dependencies
+__precompile__(false)
+
 """
   greet()
 
