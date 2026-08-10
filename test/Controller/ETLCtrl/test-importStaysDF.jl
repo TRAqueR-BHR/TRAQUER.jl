@@ -10,3 +10,14 @@ include("__prerequisite.jl")
 
 
 end
+
+
+@testset "Test ETLCtrl.importStaysDF with random data" begin
+
+    # This test consist
+    namedTuple = _TestUtils.buildInputDataFrames(nbPatients = 20)
+
+    ETLCtrl.importStaysDF(namedTuple.stays, _TestUtils.getDefaultEncryptionStr())
+
+
+end
