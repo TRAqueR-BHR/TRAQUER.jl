@@ -3,16 +3,13 @@ include("__prerequisite.jl")
 using Random
 
 function confirm_reset_database()
-    confirmation_code = string(rand(Random.default_rng(), 100000:999999))
+    confirmation_code = string(rand(Random.default_rng(), 1000:9999))
 
     println("============================================================")
     println("WARNING: DO NOT RUN THIS SCRIPT FROM A VS CODE JULIA SESSION")
     println("Use a terminal or a manually started Julia REPL instead.")
     println("============================================================")
-    println()
-    println("Database reset will continue in 5 seconds.")
-    println("Press Ctrl+C now to abort.")
-    sleep(5)
+
     println()
     println("Security confirmation: this will reset the database.")
     println("Type this code to continue: $(confirmation_code)")
@@ -31,6 +28,12 @@ function confirm_reset_database()
     if user_input != confirmation_code
         error("Confirmation failed. Database reset aborted.")
     end
+
+    # Give the user a few seconds to abort the script before proceeding with the database reset.
+    println()
+    println("Database reset will continue in 5 seconds.")
+    println("Press Ctrl+C now to abort.")
+    sleep(5)
 
     return nothing
 end
