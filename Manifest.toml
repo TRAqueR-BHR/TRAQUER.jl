@@ -2,7 +2,7 @@
 
 julia_version = "1.10.7"
 manifest_format = "2.0"
-project_hash = "d62c89dc0b2b3bb625dbc450da8598ba4d90b7c6"
+project_hash = "eb8fb1caa66df92cf5434648991cfdea8d3c2018"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "ScopedValues", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -308,6 +308,12 @@ version = "1.2.3"
 git-tree-sha1 = "d6de2c735a8bffce9bc481942dfa453cc815357e"
 uuid = "5207ad80-27db-4d23-8732-fa0bd339ea89"
 version = "0.1.0"
+
+[[deps.Faker]]
+deps = ["Dates", "Random", "YAML"]
+git-tree-sha1 = "802e259ac5404ad9e143b43ff9dccc2aa09838e3"
+uuid = "0efc519c-db33-5916-ab87-703215c3906f"
+version = "0.3.5"
 
 [[deps.FilePathsBase]]
 deps = ["Compat", "Dates"]
@@ -1146,6 +1152,12 @@ deps = ["EzXML", "IterTools", "OrderedCollections"]
 git-tree-sha1 = "d9a3faf078210e477b291c79117676fca54da9dd"
 uuid = "228000da-037f-5747-90a9-8195ccbf91a5"
 version = "0.4.1"
+
+[[deps.YAML]]
+deps = ["Base64", "Dates", "Printf", "StringEncodings"]
+git-tree-sha1 = "a1c0c7585346251353cddede21f180b96388c403"
+uuid = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
+version = "0.4.16"
 
 [[deps.ZipArchives]]
 deps = ["ArgCheck", "CodecInflate64", "CodecZlib", "InputBuffers", "PrecompileTools", "TranscodingStreams", "Zlib_jll"]

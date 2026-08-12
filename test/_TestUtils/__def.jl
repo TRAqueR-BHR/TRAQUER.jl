@@ -1,3 +1,16 @@
+function _buildEmptyAnalysesDataFrame end
+function _buildEmptyStaysDataFrame end
+function buildInputDataFrames end
+function buildRandomPatientBirthdate end
+function buildRandomPatientFirstname end
+function buildRandomPatientLastname end
+function buildRandomAnalysisRef end
+function buildRandomAnalysisDateTime end
+function _buildRandomAnalysisDateTimeOutsideStays end
+function buildRandomUnitNames end
+function buildRandomHospitalizationsDateTimes end
+function buildRandomPatientRef end
+function buildRandomStaysDateTimes end
 function createDummyCarrierInfectiousStatus end
 function createDummyHistoryOfACarrierPatient end
 function createDummyPatient end

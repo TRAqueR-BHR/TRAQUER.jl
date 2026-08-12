@@ -1,7 +1,7 @@
 name = "TRAQUER"
 uuid = "a4b9e496-2cf0-4ec7-bb30-a304f27207c3"
 authors = ["Vincent Laugier <vincent.laugier@gmail.com>"]
-version = "0.5.1"
+version = "0.5.2"
 
 [deps]
 AWS = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
@@ -13,6 +13,7 @@ DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 EzXML = "8f5d6c58-4d21-5cfd-889c-e3ad7ee6a615"
+Faker = "0efc519c-db33-5916-ab87-703215c3906f"
 Glob = "c27321d9-0574-5035-807b-f59d2c89b15c"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 IterTools = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
